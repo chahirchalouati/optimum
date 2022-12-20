@@ -1,0 +1,72 @@
+server:
+  port: 7005
+spring:
+  application:
+    name: post-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+  datasource:
+    url: jdbc:mysql://localhost:3306/test_post?createDatabaseIfNotExist=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+        generate_statistics: false
+        order_inserts: true
+        jdbc:
+          batch_size: 50
+        cache:
+          use_second_level_cache: false
+          use_query_cache: false
+  sql:
+    init:
+      continue-on-error: true
+      platform: MySQL
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000
+          jwk-set-uri: http://auth-server:9000/oauth2/jwks
+      client:
+        registration:
+          post-client-oidc:
+            provider: spring
+            client-id: post-client
+            client-secret: secret
+            authorization-grant-type: client_credentials
+            scope: openid
+            client-name: post-client-oidc
+          post-client-authorization-code:
+            provider: spring
+            client-id: post-client
+            client-secret: secret
+            authorization-grant-type: client_credentials
+            redirect-uri: "http://127.0.0.1:7005/authorized"
+            scope: post.read
+            client-name: post-client-authorization-code
+        provider:
+          spring:
+            issuer-uri: http://auth-server:9000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        cloud:
+          gateway:
+            filter: TRACE

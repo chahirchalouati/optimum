@@ -1,0 +1,126 @@
+version: '3.3'
+services:
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-db:/var/lib/mysql
+    networks:
+      - l_net
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbit-conf:/var/lib/rabbitmq/
+      - rabbit-log:/var/log/rabbitmq
+    networks:
+      - l_net
+
+  cassandra:
+    build:
+      context: cassandra
+      dockerfile: .DockerFile
+    container_name: cassandra-container
+    ports:
+      - "9042:9042"
+      - "9043:7070"
+    volumes:
+      - cassandra-db:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=microservices
+    networks:
+      - l_net
+
+  mongo:
+    image: mongo:5
+    container_name: mongo-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-db:/var/lib/mongo
+    networks:
+      - l_net
+
+  prometheus:
+    container_name: prometheus
+    image: 'prom/prometheus:v2.14.0'
+    ports:
+      - '9090:9090'
+    command: '--config.file=/etc/prometheus/config.yml'
+    volumes:
+      - './prometheus.yml:/etc/prometheus/config.yml'
+    networks:
+      - l_net
+
+  grafana:
+    container_name: grafana
+    image: 'grafana/grafana:6.5.0'
+    restart: "no"
+    volumes:
+      - /grafana/provisioning/dashboards/local.yml:/conf/provisioning/dashboards/sample.yml
+      - /grafana/dashboards/:/var/lib/grafana/dashboards/
+    ports:
+      - '3000:3000'
+    networks:
+      - l_net
+
+#  jmeter:
+#    build:
+#      context: jmeter
+#      dockerfile: .DockerFile
+#    container_name: jmeter
+#    networks:
+#      - l_net
+#
+#  keycloak:
+#    container_name: keycloak-container
+#    image: jboss/keycloak:4.8.3.Final
+#    restart: "no"
+#    build:
+#      context: .
+#    command:
+#      - "-b"
+#      - "0.0.0.0"
+#      - "-Dkeycloak.migration.action=import"
+#      - "-Dkeycloak.migration.provider=dir"
+#      - "-Dkeycloak.migration.dir=/config/"
+#      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
+#    volumes:
+#      - ./config:/config/
+#    environment:
+#      - KEYCLOAK_USER=admin
+#      - KEYCLOAK_PASSWORD=admin
+#      - DB_VENDOR=mysql
+#      - DB_USER=root
+#      - DB_PASSWORD=root
+#      - DB_ADDR=mysql-db
+#      - DB_PORT=3306
+#      - DB_DATABASE=keycloakdb
+#    ports:
+#      - "8180:8080"
+#    depends_on:
+#      - mysql-db
+#    networks:
+#      - l_net
+
+
+networks:
+  l_net:
+    driver: bridge
+
+volumes:
+  mysql-db:
+  cassandra-db:
+  mongo-db:
+  elasticsearch-db:
+  rabbit-log:
+  rabbit-conf:

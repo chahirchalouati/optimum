@@ -1,0 +1,123 @@
+version: '3.3'
+services:
+  configuration-service:
+    build:
+      context: ../../configuration-service/
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    depends_on:
+      - cassandra
+    ports:
+      - '8888:8888'
+    networks:
+      - l_net
+
+  audit-service:
+    build:
+      context: ../../audit-service/
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.config.activate.on-profile":"docker"
+      }'
+    depends_on:
+      - mongo
+      - configuration-service
+      - authentication-service
+    ports:
+      - '7003:7003'
+    networks:
+      - l_net
+
+  authentication-service:
+    build:
+      context: ../../authentication-service/
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.config.activate.on-profile":"docker"
+      }'
+    depends_on:
+      - cassandra
+      - configuration-service
+    ports:
+      - '9000:9000'
+    networks:
+      - l_net
+
+  post-service:
+    build:
+      context: ../../post-service/
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.config.activate.on-profile":"docker"
+      }'
+    depends_on:
+      - mysql-db
+      - configuration-service
+      - authentication-service
+    ports:
+      - '7005:7005'
+    networks:
+      - l_net
+
+  proxy-service:
+    build:
+      context: ../../proxy-service/
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.config.activate.on-profile":"docker",
+        "spring.config.activate.on-profile":"docker"
+      }'
+    depends_on:
+      - configuration-service
+      - authentication-service
+    ports:
+      - '9999:9999'
+    networks:
+      - l_net
+  notification-service:
+    build:
+      context: ../../notification-service/
+      dockerfile: Dockerfile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.config.activate.on-profile":"docker"
+      }'
+    depends_on:
+      - configuration-service
+      - authentication-service
+    ports:
+      - '9999:9999'
+    networks:
+      - l_net

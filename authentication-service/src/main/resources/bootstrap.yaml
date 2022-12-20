@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: authentication-service
+  cloud:
+    config:
+      uri: http://localhost:8888
+  main:
+    allow-bean-definition-overriding: true
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+
+

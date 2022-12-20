@@ -1,0 +1,63 @@
+scrape_configs:
+
+  - job_name: 'post-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'post-service:7005' ]
+
+  - job_name: 'configuration-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'configuration-service:8888' ]
+
+  - job_name: 'authentication-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'authentication-service:9000' ]
+
+  - job_name: 'order-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'order-service:7001' ]
+
+  - job_name: 'proxy-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'proxy-service:9999' ]
+
+  - job_name: 'audit-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'audit-service:7003' ]
+
+  - job_name: 'profile-service'
+    scrape_timeout: 5s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'profile-service:7008' ]
+
+  - job_name: 'cassandra'
+    scrape_interval: 15s
+    static_configs:
+      - targets: [ 'cassandra:7070' ]
+
+  - job_name: 'mysql-db'
+    scrape_interval: 15s
+    static_configs:
+      - targets: [ 'mysql-db:3306' ]
+
+  - job_name: 'mongo'
+    scrape_interval: 15s
+    static_configs:
+      - targets: [ 'mongo:27017' ]
+
+  - job_name: 'rabbitmq'
+    scrape_interval: 15s
+    static_configs:
+      - targets: [ 'rabbitmq:5672' ,'rabbitmq:15672' ]
