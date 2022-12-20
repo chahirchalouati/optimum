@@ -1,24 +1,14 @@
-#--------- GitLab Agent CI/CD Tunnel configuration
-# Set KUBE_CONTEXT to use with the GitLab Kubernetes Agent's CI/CD tunnel. See
-# https://docs.gitlab.com/ee/user/clusters/agent/ci_cd_tunnel.html.
-#-----------------------------------
-# This will get access of your K8s cluster from GitLab Agent using its service account.
 variables:
-# KUBE_CONTEXT: usernameorgroupname/agentconfigprojectname:agentname
-KUBE_CONTEXT: chahirchalouati/kubernetes-cluster:microservices
-# Set K8s context of GitLab Agent
 .kube-context:
   before_script:
     - if [ -n "$KUBE_CONTEXT" ]; then kubectl config use-context "$KUBE_CONTEXT"; fi
-# Deploy application on K8s cluster using kubectl
 deploy:
   extends: [ .kube-context ]
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH # CI will run when any new commit is made to default branch (main)
-image:
-  name: bitnami/kubectl:latest
-  entrypoint: [ "" ]
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: [""]
   script:
-    - ls
-    - kubectl apply -f $CI_PROJECT_DIR/k8s/. # Directory where yamls are placed in repo
-    - kubectl get pods -n sampleapp
+    - kubectl config get-contexts
+    - kubectl config use-context gitlab.com/chahirchalouati/agent-configurations:microservices
