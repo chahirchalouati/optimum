@@ -20,6 +20,13 @@ import static org.springframework.security.oauth2.core.ClientAuthenticationMetho
 public class ClientChangeLog {
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @NotNull
+    private static String getRedirectUri(String ip, int port, String clientName, boolean isOidc) {
+        if (isOidc)
+            return "http://%s:%d/login/oauth2/code/%s-oidc".formatted(ip, port, clientName);
+        return "http://%s:%d/login/oauth2/code/%s".formatted(ip, port, clientName);
+    }
+
     @ChangeSet(order = "001", id = "save_post_client", author = "@chahir_chalouati")
     public void savePostClient(MongoClientRepository clientRepository) {
         final var redirectUris = Set.of(
@@ -47,7 +54,7 @@ public class ClientChangeLog {
                 .setClientId("proxy-client")
                 .setClientSecret(passwordEncoder.encode("secret"))
                 .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
-                .setAuthorizationGrantTypes(Set.of(AuthorizationGrantType.AUTHORIZATION_CODE, AuthorizationGrantType.REFRESH_TOKEN))
+                .setAuthorizationGrantTypes(Set.of(AuthorizationGrantType.AUTHORIZATION_CODE, AuthorizationGrantType.REFRESH_TOKEN, CLIENT_CREDENTIALS))
                 .setRedirectUris(redirectUris)
                 .setScopes(scopes);
         clientRepository.save(client);
@@ -97,10 +104,19 @@ public class ClientChangeLog {
         clientRepository.save(client);
     }
 
-    @NotNull
-    private static String getRedirectUri(String ip, int port, String clientName, boolean isOidc) {
-        if (isOidc)
-            return "http://%s:%d/login/oauth2/code/%s-oidc".formatted(ip, port, clientName);
-        return "http://%s:%d/login/oauth2/code/%s".formatted(ip, port, clientName);
+    @ChangeSet(order = "004", id = "save_audit_client", author = "@chahir_chalouati")
+    public void saveAuditClient(MongoClientRepository clientRepository) {
+        final var redirectUris = Set.of(
+                getRedirectUri("127.0.0.1", 7003, "audit-client", false),
+                "http://127.0.0.1:7003/authorized");
+        final var scopes = Set.of(DefaultScopes.OPENID);
+        Client client = new Client()
+                .setClientId("audit-client")
+                .setClientSecret(passwordEncoder.encode("secret"))
+                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
+                .setAuthorizationGrantTypes(Set.of(CLIENT_CREDENTIALS))
+                .setRedirectUris(redirectUris)
+                .setScopes(scopes);
+        clientRepository.save(client);
     }
 }

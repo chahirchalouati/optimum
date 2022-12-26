@@ -22,14 +22,13 @@ public class BaseEntity {
     private String createdBy;
 
     private String modifiedBy;
+    @CreatedDate
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    private LocalDateTime modifiedAt;
 
     @PostConstruct
     void initAuditFields() {
 
     }
-
-    @CreatedDate
-    private LocalDateTime createdAt;
-    @LastModifiedDate
-    private LocalDateTime modifiedAt;
 }

@@ -53,44 +53,14 @@ public class User implements UserDetails {
         return this.password;
     }
 
+    public User setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
     @Override
     public String getUsername() {
         return this.username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.isAccountNonExpired;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.isAccountNonLocked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.isCredentialsNonExpired;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.isEnabled;
-    }
-
-    public User setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public User setFirstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public User setLastName(String lastName) {
-        this.lastName = lastName;
-        return this;
     }
 
     public User setUsername(String username) {
@@ -98,19 +68,9 @@ public class User implements UserDetails {
         return this;
     }
 
-    public User setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public User setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public User setRoles(Set<Role> roles) {
-        this.roles = roles;
-        return this;
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.isAccountNonExpired;
     }
 
     public User setAccountNonExpired(boolean accountNonExpired) {
@@ -118,14 +78,9 @@ public class User implements UserDetails {
         return this;
     }
 
-    public User setEnabled(boolean enabled) {
-        isEnabled = enabled;
-        return this;
-    }
-
-    public User setCredentialsNonExpired(boolean credentialsNonExpired) {
-        isCredentialsNonExpired = credentialsNonExpired;
-        return this;
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isAccountNonLocked;
     }
 
     public User setAccountNonLocked(boolean accountNonLocked) {
@@ -133,23 +88,68 @@ public class User implements UserDetails {
         return this;
     }
 
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.isCredentialsNonExpired;
+    }
+
+    public User setCredentialsNonExpired(boolean credentialsNonExpired) {
+        isCredentialsNonExpired = credentialsNonExpired;
+        return this;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.isEnabled;
+    }
+
+    public User setEnabled(boolean enabled) {
+        isEnabled = enabled;
+        return this;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public User setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public User setFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public User setLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public User setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public User setRoles(Set<Role> roles) {
+        this.roles = roles;
+        return this;
     }
 }

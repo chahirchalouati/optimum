@@ -14,7 +14,7 @@ public class CorsCustomizer {
         http.cors(c -> {
             CorsConfigurationSource source = s -> {
                 CorsConfiguration cc = new CorsConfiguration();
-                cc.setAllowCredentials(true);
+                cc.setAllowCredentials(false);
                 cc.setAllowedOriginPatterns(List.of("*")); // bad practice
                 cc.setAllowedHeaders(List.of("*"));
                 cc.setAllowedMethods(List.of("*"));
