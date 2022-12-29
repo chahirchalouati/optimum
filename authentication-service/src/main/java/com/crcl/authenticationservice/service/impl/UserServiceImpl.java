@@ -5,6 +5,7 @@ import com.crcl.authenticationservice.dto.UserDto;
 import com.crcl.authenticationservice.mappers.UserMapper;
 import com.crcl.authenticationservice.repository.UserRepository;
 import com.crcl.authenticationservice.service.UserService;
+import com.crcl.authenticationservice.utils.RoleUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ public class UserServiceImpl implements UserService {
     public UserDto save(UserDto userDto) {
         User user = this.userMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRoles(RoleUtils.getDefaultUserRoles());
         return userMapper.toDto(userRepository.save(user));
     }
 
