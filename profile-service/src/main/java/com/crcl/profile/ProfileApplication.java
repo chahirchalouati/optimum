@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @ConfigurationPropertiesScan("com.crcl.profile.configuration.*")
 @SpringBootApplication
-public class ProfileService {
+public class ProfileApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ProfileService.class, args);
+        SpringApplication.run(ProfileApplication.class, args);
     }
 
 }

@@ -29,6 +29,8 @@ export const environment = {
         PROFILE_POST: "profile/profiles",
         PROFILE_PUT: "profile/profiles/:id",
         PROFILE_DELETE: "profile/profiles/:id",
+        PROFILE_GET_USER: "profile/profiles"
+
       },
       post: {
         POST_GET_PAGE: "post/posts",

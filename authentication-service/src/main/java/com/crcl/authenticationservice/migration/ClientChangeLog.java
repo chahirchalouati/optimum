@@ -119,4 +119,20 @@ public class ClientChangeLog {
                 .setScopes(scopes);
         clientRepository.save(client);
     }
+
+    @ChangeSet(order = "005", id = "save_profile_client", author = "@chahir_chalouati")
+    public void saveProfileClient(MongoClientRepository clientRepository) {
+        final var redirectUris = Set.of(
+                getRedirectUri("127.0.0.1", 7009, "profile-client", false),
+                "http://127.0.0.1:7009/authorized");
+        final var scopes = Set.of(DefaultScopes.OPENID);
+        Client client = new Client()
+                .setClientId("profile-client")
+                .setClientSecret(passwordEncoder.encode("secret"))
+                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
+                .setAuthorizationGrantTypes(Set.of(CLIENT_CREDENTIALS))
+                .setRedirectUris(redirectUris)
+                .setScopes(scopes);
+        clientRepository.save(client);
+    }
 }

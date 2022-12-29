@@ -8,6 +8,14 @@ import GenericCrud from "../shared/domain/GenericCrud";
 import User from '../shared/domain/User';
 import {Pageable} from "../shared/domain/Pageable";
 
+export interface UserInfo {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  roles: string[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -46,6 +54,7 @@ export class AuthenticationService implements GenericCrud<User> {
         return {isAuthenticated: isTokenPresent, token};
       }));
   }
+
 
   isAuthenticated() {
     return !!this.storageService.getItem(TOKEN_STORE_KEY);
