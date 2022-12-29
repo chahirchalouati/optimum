@@ -1,7 +1,10 @@
 package com.crcl.authenticationservice.domain;
 
+import com.crcl.authenticationservice.annotation.UniqueEmail;
+import com.crcl.authenticationservice.annotation.UniqueUserName;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,8 +30,11 @@ public class User implements UserDetails {
     @NotBlank
     private String lastName;
     @NotBlank
+    @UniqueUserName
     private String username;
     @Email
+    @UniqueEmail
+    @Indexed(unique = true)
     private String email;
     @NotBlank
     private String password;

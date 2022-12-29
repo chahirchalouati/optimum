@@ -1,1 +1,34 @@
-<p>home works!</p>
+<div *ngIf="(audits | async) as page" class="mat-elevation-z8">
+  <table #table [dataSource]="page.content" mat-table>
+
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell> No.</th>
+      <td *matCellDef="let element" mat-cell><input (change)="element.selected = ! element.selected"
+                                                    type="checkbox"> {{element.id}}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th *matHeaderCellDef mat-header-cell> title</th>
+      <td *matCellDef="let element" mat-cell> {{element.title}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="publisher">
+      <th *matHeaderCellDef mat-header-cell> publisher</th>
+      <td *matCellDef="let element" mat-cell> {{element.publisher}} </td>
+    </ng-container>
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+  </table>
+
+  <mat-paginator
+    (page)="getServerData($event)"
+    [length]="page.totalElements"
+    [pageSizeOptions]="[5, 10, 20]"
+    [pageSize]="page.size"
+    aria-label="Select page of periodic elements"
+    showFirstLastButtons>
+  </mat-paginator>
+  {{getValue(table.dataSource) | json}}
+</div>

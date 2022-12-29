@@ -24,6 +24,8 @@ export namespace Pageable {
     first: boolean;
     last: boolean;
     numberOfElements: number;
+    totalElements: number;
+    totalPages: number;
     empty: boolean;
 
   }
@@ -35,6 +37,29 @@ export namespace Pageable {
   export interface PageRequest {
     page?: number,
     size?: number,
-    sort?: string[] | string
+    sort?: string[]
   }
+
+  export type Direction = "DESC" | "ASC";
+
+  export class Sorted {
+    private readonly field: string;
+    private direction: Direction;
+
+    private constructor(field: string, direction: Pageable.Direction) {
+      this.field = field;
+      this.direction = direction;
+    }
+
+    public static with(field: string, direction: Direction) {
+      return new Sorted(field, direction).param();
+    }
+
+    private param(): Array<string> {
+      return [`sort=${this.field}`, `${this.field}dir=${this.direction.toLowerCase()}`];
+    }
+  }
+}
+
+export class Sorted {
 }

@@ -33,17 +33,17 @@ public class RoleController {
     }
 
     @PostMapping
-    public ResponseEntity<RoleDto> save(@Valid RoleDto roleDto) {
+    public ResponseEntity<RoleDto> save(@Valid @RequestBody RoleDto roleDto) {
         return ResponseEntity.ok(this.roleService.save(roleDto));
     }
 
     @PostMapping("/all")
-    public ResponseEntity<List<RoleDto>> save(@Valid List<RoleDto> entities) {
+    public ResponseEntity<List<RoleDto>> save(@Valid @RequestBody List<RoleDto> entities) {
         return ResponseEntity.ok(this.roleService.save(entities));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleDto> update(@Valid RoleDto roleDto, String id) {
+    public ResponseEntity<RoleDto> update(@Valid @RequestBody RoleDto roleDto, String id) {
         return ResponseEntity.ok(this.roleService.update(roleDto, id));
     }
 

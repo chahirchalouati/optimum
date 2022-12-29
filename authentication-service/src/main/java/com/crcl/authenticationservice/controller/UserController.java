@@ -33,17 +33,17 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> save(@Valid UserDto userDto) {
+    public ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(this.userService.save(userDto));
     }
 
     @PostMapping("/all")
-    public ResponseEntity<List<UserDto>> save(@Valid List<UserDto> entities) {
+    public ResponseEntity<List<UserDto>> save(@Valid @RequestBody List<UserDto> entities) {
         return ResponseEntity.ok(this.userService.save(entities));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> update(@Valid UserDto userDto, String id) {
+    public ResponseEntity<UserDto> update(@Valid @RequestBody UserDto userDto, String id) {
         return ResponseEntity.ok(this.userService.update(userDto, id));
     }
 

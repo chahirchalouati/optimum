@@ -33,17 +33,17 @@ public class PermissionController {
     }
 
     @PostMapping
-    public ResponseEntity<PermissionDto> save(@Valid PermissionDto permissionDto) {
+    public ResponseEntity<PermissionDto> save(@Valid @RequestBody PermissionDto permissionDto) {
         return ResponseEntity.ok(this.permissionService.save(permissionDto));
     }
 
     @PostMapping("/all")
-    public ResponseEntity<List<PermissionDto>> save(@Valid List<PermissionDto> entities) {
+    public ResponseEntity<List<PermissionDto>> save(@Valid @RequestBody List<PermissionDto> entities) {
         return ResponseEntity.ok(this.permissionService.save(entities));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PermissionDto> update(@Valid PermissionDto permissionDto, String id) {
+    public ResponseEntity<PermissionDto> update(@Valid @RequestBody PermissionDto permissionDto, String id) {
         return ResponseEntity.ok(this.permissionService.update(permissionDto, id));
     }
 

@@ -9,11 +9,9 @@ export default interface GenericCrud<T extends Selectable> {
 
   getId(id: string | number): Observable<Page<T>>;
 
-  post(paylaod: T): Observable<T>;
+  post(payload: T): Observable<T>;
 
-  put(paylaod: T, id: string | number): Observable<T>;
+  put(payload: T, id: string | number): Observable<T>;
 
-  delete(paylaod: T): Observable<void>;
-
-  delete(id: string | number): Observable<void>;
+  delete(id: string | number): Observable<T>;
 }

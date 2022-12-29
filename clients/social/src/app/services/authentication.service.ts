@@ -4,11 +4,14 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import Token, {CLIENT_ID, CLIENT_SECRET, CODE, GRANT_TYPE, REDIRECT_URI, TOKEN_STORE_KEY} from "../shared/domain/Token";
 import {StorageService} from "./storage.service";
 import {environment} from "../../environment/environment";
+import GenericCrud from "../shared/domain/GenericCrud";
+import User from '../shared/domain/User';
+import {Pageable} from "../shared/domain/Pageable";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthenticationService implements GenericCrud<User> {
 
   constructor(private httpClient: HttpClient, private storageService: StorageService) {
   }
@@ -47,4 +50,25 @@ export class AuthenticationService {
   isAuthenticated() {
     return !!this.storageService.getItem(TOKEN_STORE_KEY);
   }
+
+  get(pageRequest: Pageable.PageRequest): Observable<Pageable.Page<User>> {
+    return this.httpClient.get<Pageable.Page<User>>(environment.api.user.USER_GET_PAGE, {params: {...pageRequest}});
+  }
+
+  getId(id: string | number): Observable<Pageable.Page<User>> {
+    return this.httpClient.get<Pageable.Page<User>>(environment.api.user.USER_GET_BY_ID, {params: {id}});
+  }
+
+  post(payload: User): Observable<User> {
+    return this.httpClient.get<User>(environment.api.user.USER_POST);
+  }
+
+  put(payload: User, id: string | number): Observable<User> {
+    return this.httpClient.put<User>(environment.api.user.USER_PUT, payload, {params: {id}});
+  }
+
+  delete(id: string | number): Observable<User> {
+    return this.httpClient.delete<User>(environment.api.user.USER_DELETE, {params: {id}});
+  }
+
 }

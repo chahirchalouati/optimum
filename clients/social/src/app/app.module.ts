@@ -9,6 +9,10 @@ import {AuthorizationComponent} from './pages/authorization/authorization.compon
 import {HomeComponent} from './pages/home/home.component';
 import {ApiInterceptor} from "./shared/interceptors/api.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {MatListModule} from "@angular/material/list";
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NoopAnimationsModule,
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [
     {
