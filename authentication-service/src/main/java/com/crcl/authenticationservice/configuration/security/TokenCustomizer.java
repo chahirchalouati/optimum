@@ -8,24 +8,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.ACCESS_TOKEN;
+
 public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext> {
 
-    private final Function<Set<Role>, List<String>> mapRoles = roles -> roles.stream()
-            .map(Role::getName)
-            .collect(Collectors.toList());
-
     @Override
-
     public void customize(JwtEncodingContext context) {
-        Authentication principal = context.getPrincipal();
-        if (Objects.equals(context.getTokenType().getValue(), "access_token") && principal instanceof UsernamePasswordAuthenticationToken) {
+        final Authentication principal = context.getPrincipal();
+        if (Objects.equals(context.getTokenType().getValue(), ACCESS_TOKEN)
+                && principal instanceof UsernamePasswordAuthenticationToken) {
             final User user = (User) principal.getPrincipal();
             context.getClaims()
                     .claim("email", user.getEmail())

@@ -26,38 +26,10 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.UUID;
-
 @Configuration
 @AllArgsConstructor
 public class AuthorizationServerConfig {
     private final CorsCustomizer corsCustomizer;
-
-    private static RSAKey generateRsa() {
-        KeyPair keyPair = generateRsaKey();
-        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        return new RSAKey.Builder(publicKey)
-                .privateKey(privateKey)
-                .keyID(UUID.randomUUID().toString())
-                .build();
-    }
-
-    private static KeyPair generateRsaKey() {
-        KeyPair keyPair;
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            keyPair = keyPairGenerator.generateKeyPair();
-        } catch (Exception ex) {
-            throw new IllegalStateException(ex);
-        }
-        return keyPair;
-    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -79,10 +51,13 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public RegisteredClientRepository registeredClientRepository(MongoClientRepository mongoClientRepository,
-                                                                 ClientMapper clientMapper,
-                                                                 ClientSettingsEnhancer clientSettingsEnhancer) {
-        return new MongoRegisteredClientRepository(mongoClientRepository, clientMapper, clientSettingsEnhancer);
+    public RegisteredClientRepository registeredClientRepository(final MongoClientRepository mongoClientRepository,
+                                                                 final ClientMapper clientMapper,
+                                                                 final ClientSettingsEnhancer clientSettingsEnhancer) {
+        return new MongoRegisteredClientRepository(
+                mongoClientRepository,
+                clientMapper,
+                clientSettingsEnhancer);
     }
 
     @Bean
@@ -104,8 +79,8 @@ public class AuthorizationServerConfig {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
-        RSAKey rsaKey = generateRsa();
-        JWKSet jwkSet = new JWKSet(rsaKey);
+        final RSAKey rsaKey = KeysUtils.generateRsa();
+        final JWKSet jwkSet = new JWKSet(rsaKey);
         return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 
