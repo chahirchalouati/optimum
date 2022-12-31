@@ -80,4 +80,7 @@ export class AuthenticationService implements GenericCrud<User> {
     return this.httpClient.delete<User>(environment.api.user.USER_DELETE, {params: {id}});
   }
 
+  logOut() {
+
+  }
 }

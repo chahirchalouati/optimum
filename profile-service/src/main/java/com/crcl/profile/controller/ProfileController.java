@@ -19,13 +19,18 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
+    public ResponseEntity<List<ProfileDto>> findAll() {
+        return ResponseEntity.ok(this.profileService.findAll());
+    }
+
+    @GetMapping("/example")
     public ResponseEntity<Page<ProfileDto>> findAll(ProfileDto pageRequest, Pageable pageable) {
         return ResponseEntity.ok(this.profileService.findAll(pageRequest, pageable));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<ProfileDto>> findAll() {
-        return ResponseEntity.ok(this.profileService.findAll());
+    @GetMapping("/example/one")
+    public ResponseEntity<ProfileDto> findOne(ProfileDto pageRequest) {
+        return ResponseEntity.ok(this.profileService.findOne(pageRequest));
     }
 
     @GetMapping("/{id}")

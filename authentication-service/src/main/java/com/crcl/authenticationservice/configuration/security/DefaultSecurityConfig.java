@@ -10,8 +10,6 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @AllArgsConstructor
 public class DefaultSecurityConfig {
@@ -24,9 +22,10 @@ public class DefaultSecurityConfig {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
+                .antMatchers("/idp/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
-                .formLogin(withDefaults());
+                .formLogin(fm -> fm.loginPage("/idp/login"));
         http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).apply(authorizationServerConfigurer);
 
         return http.build();

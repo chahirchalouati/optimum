@@ -82,4 +82,11 @@ public class ProfileServiceImpl implements ProfileService {
     public Page<ProfileDto> findAll(ProfileDto pageRequest, Pageable pageable) {
         return this.profileRepository.findAll(Example.of(profileMapper.toEntity(pageRequest)), pageable).map(profileMapper::toDto);
     }
+
+    @Override
+    public ProfileDto findOne(ProfileDto pageRequest) {
+        return this.profileRepository.findOne(Example.of(profileMapper.toEntity(pageRequest)))
+                .map(profileMapper::toDto)
+                .orElse(null);
+    }
 }

@@ -68,9 +68,10 @@ public class AuthorizationServerConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
         corsCustomizer.corsCustomizer(http);
         return http
-                .formLogin()
+                .formLogin().loginPage("/idp/login").failureForwardUrl("/idp/login?error=true")
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .build();

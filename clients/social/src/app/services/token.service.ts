@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import Token, {TOKEN_STORE_KEY} from "../shared/domain/Token";
-import jwtDecode from "jwt-decode";
+import jwtDecode, {JwtPayload} from "jwt-decode";
 import {StorageService} from "./storage.service";
 
 @Injectable({
@@ -18,9 +18,21 @@ export class TokenService {
 
   getDecodedAccessToken(token: string): any {
     try {
-      return jwtDecode(token);
+      return jwtDecode<JwtPayload>(token);
     } catch (Error) {
       return null;
     }
+  }
+
+  clear(): void {
+    this.storageService.removeItem(TOKEN_STORE_KEY)
+  }
+
+  tokenExists(): boolean {
+    return true
+  }
+
+  isTokenExpired() {
+    return false;
   }
 }

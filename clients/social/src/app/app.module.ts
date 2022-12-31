@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {ReactiveFormsModule} from "@angular/forms";
@@ -9,26 +8,24 @@ import {AuthorizationComponent} from './pages/authorization/authorization.compon
 import {HomeComponent} from './pages/home/home.component';
 import {ApiInterceptor} from "./shared/interceptors/api.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {MatListModule} from "@angular/material/list";
-import {MatTableModule} from "@angular/material/table";
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NavbarComponent} from './components/navbar/navbar.component';
+import {SidebarComponent} from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthorizationComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    SidebarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NoopAnimationsModule,
-    MatListModule,
-    MatTableModule,
-    MatPaginatorModule
+    BrowserAnimationsModule,
   ],
   providers: [
     {

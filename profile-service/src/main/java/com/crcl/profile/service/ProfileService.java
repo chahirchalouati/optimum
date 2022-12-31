@@ -10,4 +10,6 @@ public interface ProfileService extends GenericService<ProfileDto, String> {
     ProfileDto findByUsername(String username);
 
     Page<ProfileDto> findAll(ProfileDto pageRequest, Pageable pageable);
+
+    ProfileDto findOne(ProfileDto pageRequest);
 }
