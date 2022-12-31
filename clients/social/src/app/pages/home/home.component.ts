@@ -14,6 +14,7 @@ import {TokenService} from "../../services/token.service";
 })
 export class HomeComponent implements OnInit {
   audits!: Observable<Pageable.Page<Audit>>;
+  isCollapsed: boolean = false;
 
   constructor(
     private auditService: AuditService,

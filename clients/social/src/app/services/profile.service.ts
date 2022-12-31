@@ -35,7 +35,7 @@ export class ProfileService implements GenericCrud<Profile> {
     return this.httpClient.delete<Profile>(environment.api.profile.PROFILE_DELETE, {params: {id}});
   }
 
-  getUserProfile(username: string): Observable<Pageable.Page<Profile>> {
-    return this.httpClient.get<Pageable.Page<Profile>>(environment.api.profile.PROFILE_GET_USER, {params: {username: username}});
+  getUserProfile(username: string): Observable<Profile> {
+    return this.httpClient.get<Profile>(environment.api.profile.PROFILE_GET_USER, {params: {username: username}});
   }
 }

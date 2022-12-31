@@ -43,7 +43,7 @@ export namespace Pageable {
   export type Direction = "DESC" | "ASC";
 
   export class Sorted {
-    private readonly field: string;
+    private field: string;
     private direction: Direction;
 
     private constructor(field: string, direction: Pageable.Direction) {

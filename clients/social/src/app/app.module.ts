@@ -8,24 +8,18 @@ import {AuthorizationComponent} from './pages/authorization/authorization.compon
 import {HomeComponent} from './pages/home/home.component';
 import {ApiInterceptor} from "./shared/interceptors/api.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {SidebarComponent} from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthorizationComponent,
     HomeComponent,
-    NavbarComponent,
-    SidebarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
     {

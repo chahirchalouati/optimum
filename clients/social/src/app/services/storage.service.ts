@@ -4,22 +4,33 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
-  setItem<T>(key: string, value: T): T {
-    localStorage.setItem(key, JSON.stringify(value));
-    return value;
+
+  with(kind: "localStorage" | "sessionStorage") {
+    return this.StorageImp(kind);
   }
 
-  getItem<T>(key: string): T {
-    const item = localStorage.getItem(key);
-    return !!item ? JSON.parse(item) as T : null as T;
-  }
+  StorageImp(kind: "localStorage" | "sessionStorage") {
+    return class {
+      private static storage: Storage = kind === "localStorage" ? localStorage : sessionStorage;
 
-  removeItem(key: string) {
-    localStorage.removeItem(key);
+      static setItem<T>(key: string, value: T): T {
+        this.storage.setItem(key, JSON.stringify(value));
+        return value;
+      }
 
-  }
+      static getItem<T>(key: string): T {
+        const item = this.storage.getItem(key);
+        return !!item ? JSON.parse(item) as T : null as T;
+      }
 
-  clear() {
-    return localStorage.clear();
+      static removeItem(key: string) {
+        this.storage.removeItem(key);
+
+      }
+
+      static clear() {
+        return this.storage.clear();
+      }
+    }
   }
 }
