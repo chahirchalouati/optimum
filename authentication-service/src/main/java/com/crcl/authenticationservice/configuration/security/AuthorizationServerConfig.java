@@ -71,7 +71,8 @@ public class AuthorizationServerConfig {
 
         corsCustomizer.corsCustomizer(http);
         return http
-                .formLogin().loginPage("/idp/login").failureForwardUrl("/idp/login?error=true")
+                .formLogin().loginPage("/idp/login")
+                .failureForwardUrl("/idp/login?error=true")
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .build();
