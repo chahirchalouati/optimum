@@ -8,12 +8,14 @@ import {AuthorizationComponent} from './pages/authorization/authorization.compon
 import {HomeComponent} from './pages/home/home.component';
 import {ApiInterceptor} from "./shared/interceptors/api.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
+import {ErrorComponent} from './pages/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthorizationComponent,
     HomeComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,6 @@ package com.crcl.authenticationservice.dto;
 
 import com.crcl.authenticationservice.annotation.UniqueEmail;
 import com.crcl.authenticationservice.annotation.UniqueUserName;
-import com.crcl.authenticationservice.domain.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -28,7 +27,7 @@ public class UserDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Set<Role> roles = new HashSet<>();
+    private Set<RoleDto> roles = new HashSet<>();
     @JsonIgnore
     private boolean isAccountNonExpired = true;
     @JsonIgnore

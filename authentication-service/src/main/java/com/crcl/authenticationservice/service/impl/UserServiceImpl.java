@@ -75,4 +75,11 @@ public class UserServiceImpl implements UserService {
                 .map(userMapper::toDto)
                 .orElse(null);
     }
+
+    @Override
+    public UserDto findByUsername(String username) {
+        return userRepository.findByUsernameAllIgnoreCase(username)
+                .map(userMapper::toDto)
+                .orElse(null);
+    }
 }

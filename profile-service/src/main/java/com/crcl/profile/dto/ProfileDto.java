@@ -1,17 +1,23 @@
 package com.crcl.profile.dto;
 
+import com.crcl.profile.annotation.UniqueEmail;
+import com.crcl.profile.annotation.UniqueUserName;
+import com.crcl.profile.domain.UserDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.data.mongodb.core.index.IndexDirection;
-import org.springframework.data.mongodb.core.index.Indexed;
 
 @Data
 @Accessors(chain = true)
 public class ProfileDto {
-    @Indexed(unique = true, background = true, direction = IndexDirection.DESCENDING)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @UniqueUserName
     private String username;
-    @Indexed(unique = true, background = true, direction = IndexDirection.DESCENDING)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @UniqueEmail
     private String email;
     private String avatar;
     private String backgroundImage;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private UserDto user;
 }

@@ -7,4 +7,8 @@ import java.util.Optional;
 
 public interface ProfileRepository extends MongoRepository<Profile, String> {
     Optional<Profile> findByUsername(String username);
+
+    boolean existsByEmailIgnoreCase(String email);
+
+    boolean existsByUsernameIgnoreCase(String username);
 }

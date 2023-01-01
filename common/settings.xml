@@ -28,9 +28,9 @@
 
     <servers>
         <server>
-            <id>${repo.id}</id>
-            <username>${repo.login}</username>
-            <password>${repo.pwd}</password>
+            <id>github</id>
+            <username>chahirchalouati</username>
+            <password>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</password>
         </server>
     </servers>
 

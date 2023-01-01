@@ -5,7 +5,6 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {TokenService} from "../../services/token.service";
 import {ObjectsUtils} from "../../utils/ObjectsUtils";
-import isEmpty = ObjectsUtils.isEmpty;
 import isNotEmpty = ObjectsUtils.isNotEmpty;
 
 @Component({
@@ -27,14 +26,14 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.subscribe(
       params => {
         const code = params['code'] as string;
-        const isAuthenticated = params['isAuthenticated'] as boolean;
-        if (isEmpty(code) && isEmpty(isAuthenticated)) {
-          this.authenticationService.getAuthorizationCode();
-        }
-        if (isNotEmpty(code) && isEmpty(isAuthenticated)) {
+        if (isNotEmpty(code)) {
           this.authenticateSubscription = this.authenticationService.authenticate(code).subscribe(
             isAuthenticated => {
-              this.router.navigate([''], {queryParams: {isAuthenticated}})
+              if (isAuthenticated) {
+                this.router.navigate(['']);
+              } else {
+                this.router.navigate(['error']);
+              }
             }
           )
         }

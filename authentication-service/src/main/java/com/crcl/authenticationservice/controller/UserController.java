@@ -32,6 +32,11 @@ public class UserController {
         return ResponseEntity.ok(this.userService.findById(id));
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDto> findByUsername(@PathVariable String username) {
+        return ResponseEntity.ok(this.userService.findByUsername(username));
+    }
+
     @PostMapping
     public ResponseEntity<UserDto> save(@Valid @RequestBody UserDto userDto) {
         return ResponseEntity.ok(this.userService.save(userDto));

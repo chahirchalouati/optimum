@@ -1,6 +1,8 @@
 package com.crcl.profile.service.impl;
 
+import com.crcl.profile.client.IdpClient;
 import com.crcl.profile.domain.Profile;
+import com.crcl.profile.domain.UserDto;
 import com.crcl.profile.dto.ProfileDto;
 import com.crcl.profile.mappers.ProfileMapper;
 import com.crcl.profile.repository.ProfileRepository;
@@ -20,6 +22,7 @@ import java.util.List;
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository profileRepository;
     private final ProfileMapper profileMapper;
+    private final IdpClient idpClient;
 
     @Override
     public ProfileDto save(ProfileDto profileDto) {
@@ -29,7 +32,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public List<ProfileDto> save(List<ProfileDto> entities) {
-        return entities.stream().map(this::save).toList();
+        return entities.stream()
+                .map(this::save).toList();
     }
 
     @Override
@@ -52,8 +56,7 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public List<ProfileDto> findAll() {
         return profileRepository.findAll().stream()
-                .map(profileMapper::toDto)
-                .toList();
+                .map(profileMapper::toDto).toList();
     }
 
     @Override
@@ -73,14 +76,23 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto findByUsername(String username) {
+        UserDto user;
+        try {
+            user = idpClient.findByUsername(username);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return profileRepository.findByUsername(username)
                 .map(profileMapper::toDto)
+                .map(profileDto -> profileDto.setUser(user))
                 .orElse(null);
     }
 
     @Override
     public Page<ProfileDto> findAll(ProfileDto pageRequest, Pageable pageable) {
-        return this.profileRepository.findAll(Example.of(profileMapper.toEntity(pageRequest)), pageable).map(profileMapper::toDto);
+        return this.profileRepository.findAll(Example.of(profileMapper.toEntity(pageRequest)), pageable)
+                .map(profileMapper::toDto);
     }
 
     @Override

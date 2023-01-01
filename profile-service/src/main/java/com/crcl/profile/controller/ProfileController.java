@@ -38,7 +38,7 @@ public class ProfileController {
         return ResponseEntity.ok(this.profileService.findById(id));
     }
 
-    @GetMapping("/profile/{username}")
+    @GetMapping("/profile/username/{username}")
     public ResponseEntity<ProfileDto> findByUsername(@PathVariable String username) {
         return ResponseEntity.ok(this.profileService.findByUsername(username));
     }

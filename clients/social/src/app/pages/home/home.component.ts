@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AuditService} from "../../services/audit.service";
-import {Pageable} from "../../shared/domain/Pageable";
-import Audit from "../../shared/domain/Audit";
-import {Observable} from "rxjs";
-import {CdkTableDataSourceInput} from "@angular/cdk/table";
+import {EMPTY, Observable} from "rxjs";
 import {ProfileService} from "../../services/profile.service";
 import {TokenService} from "../../services/token.service";
+import Profile from 'src/app/shared/domain/Profile';
 
 @Component({
   selector: 'app-home',
@@ -13,26 +11,14 @@ import {TokenService} from "../../services/token.service";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  audits!: Observable<Pageable.Page<Audit>>;
-  isCollapsed: boolean = false;
+  profile$: Observable<Profile> = EMPTY;
+  userInfo: any = this.tokenService.getUserInfo();
 
-  constructor(
-    private auditService: AuditService,
-    private profileService: ProfileService,
-    private tokenService: TokenService,
-  ) {
+  constructor(private auditService: AuditService, private profileService: ProfileService, private tokenService: TokenService) {
   }
 
   ngOnInit(): void {
-    this.audits = this.auditService.get({page: 0, size: 100, sort: ["title,desc"]});
-    const userInfo = this.tokenService.getUserInfo();
-    this.profileService.getUserProfile(userInfo.username).subscribe(value => {
-      console.log(value)
-    })
+    this.profile$ = this.profileService.getUserProfile(this.userInfo.username);
   }
 
-  getValue(dataSource: CdkTableDataSourceInput<unknown>) {
-    const data = dataSource as Array<Audit>
-    return data.map(value => value.selected)
-  }
 }

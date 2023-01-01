@@ -1,4 +1,44 @@
-ul {
-  list-style: none;
+.nav-bar {
+  padding: 0 2vw;
+  height: 4rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background-color: purple;
 
+  .logo {
+    text-transform: uppercase;
+  }
+
+  .user-profile {
+    height: 100%;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: gray;
+
+    .avatar {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      img {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    .username {
+    }
+  }
 }

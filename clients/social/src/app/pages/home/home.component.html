@@ -1,14 +1,9 @@
-<div class="row">
-  <div class="col-xs-12 col-12 col-md-4 form-group mb-3">
-    <input bsDatepicker
-           class="form-control"
-           placeholder="Datepicker"
-           type="text">
+<nav class="nav-bar">
+  <div class="logo">SOCIAL</div>
+  <div class="user-profile">
+    <div *ngIf="(profile$ | async) as profile" class="avatar">
+      <img [alt]="profile.avatar" [src]="profile.avatar" [srcset]="profile.avatar">
+      <div class="username">{{profile.user.getFullName}}</div>
+    </div>
   </div>
-  <div class="col-xs-12 col-12 col-md-4 form-group mb-3">
-    <input bsDaterangepicker
-           class="form-control"
-           placeholder="Daterangepicker"
-           type="text">
-  </div>
-</div>
+</nav>

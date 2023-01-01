@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./pages/home/home.component";
 import {AuthenticationGuard} from "./shared/gaurds/authentication.guard";
 import {AuthorizationComponent} from "./pages/authorization/authorization.component";
+import {ErrorComponent} from "./pages/error/error.component";
 
 const routes: Routes = [
   {
@@ -13,8 +14,11 @@ const routes: Routes = [
   {
     path: 'authorized',
     component: AuthorizationComponent,
+  },
+  {
+    path: 'error',
+    component: ErrorComponent,
   }
-
 ];
 
 @NgModule({

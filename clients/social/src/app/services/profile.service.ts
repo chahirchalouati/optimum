@@ -36,6 +36,6 @@ export class ProfileService implements GenericCrud<Profile> {
   }
 
   getUserProfile(username: string): Observable<Profile> {
-    return this.httpClient.get<Profile>(environment.api.profile.PROFILE_GET_USER, {params: {username: username}});
+    return this.httpClient.get<Profile>(`${environment.api.profile.PROFILE_GET_USER}/${username}`, {params: {username: username}});
   }
 }
