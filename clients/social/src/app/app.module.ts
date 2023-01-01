@@ -9,6 +9,10 @@ import {HomeComponent} from './pages/home/home.component';
 import {ApiInterceptor} from "./shared/interceptors/api.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {ErrorComponent} from './pages/error/error.component';
+import {NgIconsModule} from "@ng-icons/core";
+import {heroUsers} from '@ng-icons/heroicons/outline';
+import { IconComponent } from './components/icon/icon.component';
+import { NoSanitizePipe } from './shared/pipes/no-sanitize.pipe';
 
 @NgModule({
   declarations: [
@@ -16,12 +20,15 @@ import {ErrorComponent} from './pages/error/error.component';
     AuthorizationComponent,
     HomeComponent,
     ErrorComponent,
+    IconComponent,
+    NoSanitizePipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgIconsModule.withIcons({heroUsers}),
   ],
   providers: [
     {

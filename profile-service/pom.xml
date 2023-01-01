@@ -11,8 +11,8 @@
     <groupId>com.crcl</groupId>
     <artifactId>profile-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notification</name>
-    <description>notification</description>
+    <name>profile-service</name>
+    <description>profile-service</description>
 
     <properties>
         <java.version>17</java.version>

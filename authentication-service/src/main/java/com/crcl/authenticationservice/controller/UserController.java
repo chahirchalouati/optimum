@@ -56,6 +56,5 @@ public class UserController {
     public ResponseEntity<?> deleteById(@PathVariable String id) {
         this.userService.deleteById(id);
         return ResponseEntity.accepted().build();
-
     }
 }

@@ -1,6 +1,19 @@
 version: '3.3'
 services:
-
+  minio:
+    image: minio/minio
+    container_name: minio
+    command: server --console-address ":9001" /export
+    ports:
+      - "47017:9000"
+      - "47018:9001"
+    environment:
+      MINIO_ROOT_USER: myaccesskey
+      MINIO_ROOT_PASSWORD: mysecretkey
+    volumes:
+      - "./data:/export"
+    networks:
+      - l_net
   mysql-db:
     image: mysql:8
     container_name: mysql-container

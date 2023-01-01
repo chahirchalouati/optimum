@@ -48,6 +48,7 @@ export const environment = {
       }
 
     },
-    proxyUrl: "http://localhost:9999"
+    proxyUrl: "http://localhost:9999",
+    logo: "SOCIAL APP"
   }
 ;

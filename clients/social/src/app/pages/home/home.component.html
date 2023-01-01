@@ -1,9 +1,18 @@
 <nav class="nav-bar">
-  <div class="logo">SOCIAL</div>
+  <div class="logo">{{logo}}</div>
   <div class="user-profile">
     <div *ngIf="(profile$ | async) as profile" class="avatar">
       <img [alt]="profile.avatar" [src]="profile.avatar" [srcset]="profile.avatar">
-      <div class="username">{{profile.user.getFullName}}</div>
+      <span class="username">{{profile.user.firstName + " " + profile.user.lastName}}</span>
     </div>
+    <app-icon [icon]="'heroMessage'" [rounded]="'full'" [size]="30"></app-icon>
+    <app-icon [icon]="'heroBell'" [rounded]="'full'" [size]="30"></app-icon>
+    <app-icon [icon]="'heroSettings'" [rounded]="'full'" [size]="30"></app-icon>
+    <app-icon [icon]="'heroMoon'" [rounded]="'full'" [size]="30"></app-icon>
   </div>
 </nav>
+<div class="posts">
+  <div *ngFor="let post of (posts$ | async)?.content" class="post">
+    {{post.selected}}
+  </div>
+</div>
