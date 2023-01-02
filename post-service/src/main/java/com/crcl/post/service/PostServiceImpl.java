@@ -1,6 +1,8 @@
 package com.crcl.post.service;
 
+import com.crcl.post.client.StorageClient;
 import com.crcl.post.domain.Post;
+import com.crcl.post.domain.PostFormDto;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
@@ -18,6 +20,7 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostMapper postMapper;
+    private final StorageClient storageClient;
 
     @Override
     public PostDto save(PostDto userDto) {
@@ -67,5 +70,11 @@ public class PostServiceImpl implements PostService {
                 .map(postRepository::save)
                 .map(postMapper::toDto)
                 .orElse(null);
+    }
+
+    @Override
+    public PostDto save(PostFormDto postFormDto) {
+
+        return null;
     }
 }
