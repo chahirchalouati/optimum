@@ -8,10 +8,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableFeignClients
 @ConfigurationPropertiesScan("com.crcl.notification.configuration.*")
 @SpringBootApplication
-public class NotificationService {
+public class NotificationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(NotificationService.class, args);
+        SpringApplication.run(NotificationApplication.class, args);
     }
 
 }

@@ -11,7 +11,7 @@ services:
       MINIO_ROOT_USER: myaccesskey
       MINIO_ROOT_PASSWORD: mysecretkey
     volumes:
-      - "./data:/export"
+      - minio:/export
     networks:
       - l_net
   mysql-db:
@@ -38,20 +38,20 @@ services:
     networks:
       - l_net
 
-  cassandra:
-    build:
-      context: cassandra
-      dockerfile: .DockerFile
-    container_name: cassandra-container
-    ports:
-      - "9042:9042"
-      - "9043:7070"
-    volumes:
-      - cassandra-db:/var/lib/cassandra
-    environment:
-      - CASSANDRA_CLUSTER_NAME=microservices
-    networks:
-      - l_net
+  #  cassandra:
+  #    build:
+  #      context: cassandra
+  #      dockerfile: .DockerFile
+  #    container_name: cassandra-container
+  #    ports:
+  #      - "9042:9042"
+  #      - "9043:7070"
+  #    volumes:
+  #      - cassandra-db:/var/lib/cassandra
+  #    environment:
+  #      - CASSANDRA_CLUSTER_NAME=microservices
+  #    networks:
+  #      - l_net
 
   mongo:
     image: mongo:5
@@ -134,6 +134,7 @@ volumes:
   mysql-db:
   cassandra-db:
   mongo-db:
+  minio:
   elasticsearch-db:
   rabbit-log:
   rabbit-conf:

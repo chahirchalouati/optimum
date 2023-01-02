@@ -6,10 +6,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan("com.crcl.authenticationservice.configuration.*")
-public class AuthenticationService {
+public class AuthenticationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuthenticationService.class, args);
+        SpringApplication.run(AuthenticationApplication.class, args);
     }
 
 }

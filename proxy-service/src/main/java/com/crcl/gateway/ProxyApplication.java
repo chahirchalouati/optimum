@@ -1,14 +1,12 @@
-package com.crcl.audit;
+package com.crcl.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AuditService {
-
+public class ProxyApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AuditService.class, args);
+        SpringApplication.run(ProxyApplication.class, args);
     }
-
 
 }
