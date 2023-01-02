@@ -8,12 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 public class PrincipalResolver implements EvaluationContextExtension {
-//    public String getPrincipal() {
-//        SecurityContext securityContext = SecurityContextHolder.getContext();
-//        JwtAuthenticationToken authentication = (JwtAuthenticationToken) securityContext.getAuthentication();
-//        var user = (UserDetails) authentication.getPrincipal();
-//        return nonNull(user) ? user.getUsername() : null;
-//    }
 
     @Override
     public @NotNull String getExtensionId() {

@@ -1,18 +1,26 @@
-package com.crcl.post.service;
+package com.crcl.post.service.impl;
 
 import com.crcl.post.client.StorageClient;
+import com.crcl.post.domain.Attachment;
 import com.crcl.post.domain.Post;
-import com.crcl.post.domain.PostFormDto;
+import com.crcl.post.dto.FileUploadResponse;
 import com.crcl.post.dto.PostDto;
+import com.crcl.post.dto.PostFormDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
+import com.crcl.post.service.PostService;
+import com.crcl.post.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -21,6 +29,19 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final PostMapper postMapper;
     private final StorageClient storageClient;
+    private final UserService userService;
+
+    @NotNull
+    private static Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
+        return responses.stream()
+                .map(fileUploadResponse -> new Attachment()
+                        .setName(fileUploadResponse.getName())
+                        .setLink(fileUploadResponse.getLink())
+                        .setBucket(fileUploadResponse.getBucket())
+                        .setEtag(fileUploadResponse.getEtag())
+                        .setVersion(fileUploadResponse.getVersion()))
+                .collect(Collectors.toSet());
+    }
 
     @Override
     public PostDto save(PostDto userDto) {
@@ -47,7 +68,6 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(id).map(postMapper::toDto).orElse(null);
     }
 
-
     @Override
     public List<PostDto> findAll() {
         return postRepository.findAll().stream().map(postMapper::toDto).toList();
@@ -65,13 +85,14 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto save(PostFormDto postFormDto) {
-        try {
-            var files = postFormDto.getFiles().stream().toList();
-            this.storageClient.saveAll(files);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
+        final List<MultipartFile> files = postFormDto.getFiles().stream().toList();
+        final List<FileUploadResponse> responses = this.storageClient.saveAll(files);
 
-        return null;
+        final Post post = new Post()
+                .setAttachments(getAttachments(responses))
+                .setContent(postFormDto.getContent())
+                .setUsername(userService.getCurrentUser().getUsername());
+        final Post save = postRepository.save(post);
+        return postMapper.toDto(save);
     }
 }

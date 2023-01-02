@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 
 @Data
-public class FileUploadResponse {
+public class AttachmentDto {
     private String etag;
     private String name;
     private String bucket;
@@ -14,8 +14,4 @@ public class FileUploadResponse {
     @Getter(AccessLevel.NONE)
     @JsonIgnore
     private String link;
-
-    public String getLink() {
-        return this.name.concat("/").concat(this.etag);
-    }
 }

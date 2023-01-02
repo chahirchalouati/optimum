@@ -1,7 +1,7 @@
 package com.crcl.post.controller;
 
-import com.crcl.post.domain.PostFormDto;
 import com.crcl.post.dto.PostDto;
+import com.crcl.post.dto.PostFormDto;
 import com.crcl.post.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -4,13 +4,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
+import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,23 +16,14 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
+@Accessors(chain = true)
 public class Post extends BaseEntity {
-
     private String username;
-    @OneToMany
+    @Lob
+    private String content;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     @ToString.Exclude
-    private Set<Like> likes = new HashSet<>();
+    private Set<Attachment> attachments = new HashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Post post = (Post) o;
-        return getId() != null && Objects.equals(getId(), post.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

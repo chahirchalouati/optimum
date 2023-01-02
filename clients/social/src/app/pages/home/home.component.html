@@ -13,6 +13,7 @@
 </nav>
 <div class="posts">
   <div *ngFor="let post of (posts$ | async)?.content" class="post">
-    {{post.selected}}
+    <img [src]="post.attachments[0].name  | src: post.attachments[0].etag | async ">
+    {{post.content}}
   </div>
 </div>

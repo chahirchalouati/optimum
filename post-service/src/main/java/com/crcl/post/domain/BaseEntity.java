@@ -1,11 +1,14 @@
 package com.crcl.post.domain;
 
+import com.crcl.post.annotation.DeletedBy;
+import com.crcl.post.validators.annotation.ModifiedBy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -26,10 +29,13 @@ public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @CreatedBy
     private String createdBy;
-
+    @ModifiedBy
     private String modifiedBy;
+    @DeletedBy
+    private String deletedBy;
+
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

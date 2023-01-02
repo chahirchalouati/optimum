@@ -30,4 +30,8 @@ export class HomeComponent implements OnInit {
     this.profile$ = this.profileService.getUserProfile(this.userInfo.username);
     this.posts$ = this.postService.get({});
   }
+
+  getImageSrc(post: Post) {
+    return "http://auth-server:9999/storage/files/" + post.attachments[0].name.concat("/").concat(post.attachments[0].etag)
+  }
 }

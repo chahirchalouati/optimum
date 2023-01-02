@@ -14,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@FeignClient(name = "${client.storage.name}", url = "${client.storage.url}", configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
+@FeignClient(name = "${client.storage.name}",
+        url = "${client.storage.url}",
+        configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
 public interface StorageClient {
 
     @GetMapping("/files/{objectName}/{tag}")

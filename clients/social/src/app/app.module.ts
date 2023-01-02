@@ -13,6 +13,7 @@ import {NgIconsModule} from "@ng-icons/core";
 import {heroUsers} from '@ng-icons/heroicons/outline';
 import {IconComponent} from './components/icon/icon.component';
 import {NoSanitizePipe} from './shared/pipes/no-sanitize.pipe';
+import {SrcPipe} from "./shared/pipes/src.pipe";
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {NoSanitizePipe} from './shared/pipes/no-sanitize.pipe';
     ErrorComponent,
     IconComponent,
     NoSanitizePipe,
+    SrcPipe,
   ],
   imports: [
     BrowserModule,

@@ -45,6 +45,10 @@ export const environment = {
         COMMENT_POST: "comment/comments",
         COMMENT_PUT: "comment/comments/:id",
         COMMENT_DELETE: "comment/comments/:id",
+      },
+      file: {
+        FILES_GET_ONE: "storage/files"
+
       }
 
     },
