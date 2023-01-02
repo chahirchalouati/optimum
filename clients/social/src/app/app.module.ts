@@ -11,8 +11,8 @@ import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {ErrorComponent} from './pages/error/error.component';
 import {NgIconsModule} from "@ng-icons/core";
 import {heroUsers} from '@ng-icons/heroicons/outline';
-import { IconComponent } from './components/icon/icon.component';
-import { NoSanitizePipe } from './shared/pipes/no-sanitize.pipe';
+import {IconComponent} from './components/icon/icon.component';
+import {NoSanitizePipe} from './shared/pipes/no-sanitize.pipe';
 
 @NgModule({
   declarations: [

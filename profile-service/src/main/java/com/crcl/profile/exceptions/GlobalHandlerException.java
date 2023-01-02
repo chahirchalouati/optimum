@@ -23,7 +23,7 @@ import static java.util.Objects.nonNull;
 
 @ControllerAdvice
 public class GlobalHandlerException {
-    
+
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> badRequestResponse(MethodArgumentNotValidException exception) {
         final Map<String, String> errorsMap = exception.getBindingResult().getFieldErrors()

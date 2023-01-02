@@ -9,4 +9,6 @@ public class MinioProps {
     private String accessKey;
     private String secretKey;
     private String url;
+    private String defaultBucketName;
+    private String defaultFolder;
 }

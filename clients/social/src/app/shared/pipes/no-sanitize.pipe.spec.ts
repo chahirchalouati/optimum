@@ -1,4 +1,4 @@
-import { NoSanitizePipe } from './no-sanitize.pipe';
+import {NoSanitizePipe} from './no-sanitize.pipe';
 
 describe('NoSanitizePipe', () => {
   it('create an instance', () => {

@@ -14,8 +14,11 @@ spring:
     multipart:
       max-file-size: 1000MB
       max-request-size: 1000MB
+      location: ${java.io.tmpdir}
+      enabled: true
 minio:
   access-key: myaccesskey
   url: http://localhost:47017
   secret-key: mysecretkey
-  bucket: storage
+  defaultBucketName: storage
+  defaultFolder: default
