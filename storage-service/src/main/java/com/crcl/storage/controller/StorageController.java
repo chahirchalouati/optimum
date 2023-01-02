@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URLConnection;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -29,15 +30,15 @@ public class StorageController {
                 .body(resource);
     }
 
-    @PostMapping()
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@RequestParam("file") MultipartFile multipartFile) {
         final var response = storageService.save(multipartFile);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/all")
-    public ResponseEntity<?> saveAll(@RequestParam("files") MultipartFile[] multipartFile) {
-        final var responses = storageService.saveAll(multipartFile);
+    @PostMapping(value = "/all", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> saveAll(@RequestParam("files") List<MultipartFile> multipartFiles) {
+        final var responses = storageService.saveAll(multipartFiles);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 }

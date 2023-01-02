@@ -44,36 +44,33 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto findById(Long id) {
-        return postRepository.findById(id)
-                .map(postMapper::toDto)
-                .orElse(null);
+        return postRepository.findById(id).map(postMapper::toDto).orElse(null);
     }
 
 
     @Override
     public List<PostDto> findAll() {
-        return postRepository.findAll().stream()
-                .map(postMapper::toDto)
-                .toList();
+        return postRepository.findAll().stream().map(postMapper::toDto).toList();
     }
 
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
-        return postRepository.findByLoggedUser(pageable)
-                .map(postMapper::toDto);
+        return postRepository.findByLoggedUser(pageable).map(postMapper::toDto);
     }
 
     @Override
     public PostDto update(PostDto userDto, Long id) {
-        return postRepository.findById(id)
-                .map(user -> postMapper.toEntity(userDto))
-                .map(postRepository::save)
-                .map(postMapper::toDto)
-                .orElse(null);
+        return postRepository.findById(id).map(user -> postMapper.toEntity(userDto)).map(postRepository::save).map(postMapper::toDto).orElse(null);
     }
 
     @Override
     public PostDto save(PostFormDto postFormDto) {
+        try {
+            var files = postFormDto.getFiles().stream().toList();
+            this.storageClient.saveAll(files);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
 
         return null;
     }

@@ -13,7 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -57,9 +57,8 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    @SneakyThrows
-    public List<FileUploadResponse> saveAll(MultipartFile[] multipartFiles) {
-        return Arrays.stream(multipartFiles)
+    public List<FileUploadResponse> saveAll(Collection<MultipartFile> multipartFiles) {
+        return multipartFiles.stream()
                 .map(this::save)
                 .toList();
     }
