@@ -17,6 +17,7 @@
 6.  [x] audit-service
 7.  [x] notification-service
 8.  [x] profile-service
+9.  [x] storage-service
 
 ### SETUP
 

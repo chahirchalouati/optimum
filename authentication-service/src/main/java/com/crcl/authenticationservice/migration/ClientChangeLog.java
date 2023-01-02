@@ -138,9 +138,7 @@ public class ClientChangeLog {
 
     @ChangeSet(order = "006", id = "save_storage_client", author = "@chahir_chalouati")
     public void saveStorageClient(MongoClientRepository clientRepository) {
-        final var redirectUris = Set.of(
-                getRedirectUri("127.0.0.1", 7010, "storage-client", false),
-                "http://127.0.0.1:7009/authorized");
+        final var redirectUris = Set.of(getRedirectUri("127.0.0.1", 7010, "storage-client", false), "http://127.0.0.1:7010/authorized");
         final var scopes = Set.of(DefaultScopes.OPENID);
         Client client = new Client()
                 .setClientId("storage-client")
