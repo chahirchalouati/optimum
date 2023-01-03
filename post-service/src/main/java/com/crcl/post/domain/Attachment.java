@@ -22,6 +22,8 @@ public class Attachment extends BaseEntity {
     private String name;
     private String bucket;
     private String version;
+    private String contentType;
+    private String username;
     @Getter(AccessLevel.NONE)
     @JsonIgnore
     private String link;

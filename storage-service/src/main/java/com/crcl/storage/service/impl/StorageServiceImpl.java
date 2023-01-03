@@ -49,6 +49,7 @@ public class StorageServiceImpl implements StorageService {
         final var response = minioClient.putObject(putObjectArgs);
 
         return FileUploadResponse.builder()
+                .contentType(multipartFile.getContentType())
                 .bucket(minioProps.getDefaultBucketName())
                 .etag(response.etag())
                 .name(response.object())

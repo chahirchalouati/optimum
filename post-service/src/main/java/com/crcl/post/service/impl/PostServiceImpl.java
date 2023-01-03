@@ -31,18 +31,6 @@ public class PostServiceImpl implements PostService {
     private final StorageClient storageClient;
     private final UserService userService;
 
-    @NotNull
-    private static Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
-        return responses.stream()
-                .map(fileUploadResponse -> new Attachment()
-                        .setName(fileUploadResponse.getName())
-                        .setLink(fileUploadResponse.getLink())
-                        .setBucket(fileUploadResponse.getBucket())
-                        .setEtag(fileUploadResponse.getEtag())
-                        .setVersion(fileUploadResponse.getVersion()))
-                .collect(Collectors.toSet());
-    }
-
     @Override
     public PostDto save(PostDto userDto) {
         Post user = this.postMapper.toEntity(userDto);
@@ -60,39 +48,60 @@ public class PostServiceImpl implements PostService {
             postRepository.save(user);
             log.info("user with id %s was disabled".formatted(user.getId()));
         });
-
     }
 
     @Override
     public PostDto findById(Long id) {
-        return postRepository.findById(id).map(postMapper::toDto).orElse(null);
+        return postRepository.findById(id)
+                .map(postMapper::toDto)
+                .orElse(null);
     }
 
     @Override
     public List<PostDto> findAll() {
-        return postRepository.findAll().stream().map(postMapper::toDto).toList();
+        return postRepository.findAll().stream()
+                .map(postMapper::toDto)
+                .toList();
     }
 
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
-        return postRepository.findByLoggedUser(pageable).map(postMapper::toDto);
+        return postRepository.findByLoggedUser(pageable)
+                .map(postMapper::toDto);
     }
 
     @Override
     public PostDto update(PostDto userDto, Long id) {
-        return postRepository.findById(id).map(user -> postMapper.toEntity(userDto)).map(postRepository::save).map(postMapper::toDto).orElse(null);
+        return postRepository.findById(id)
+                .map(user -> postMapper.toEntity(userDto))
+                .map(postRepository::save)
+                .map(postMapper::toDto)
+                .orElse(null);
     }
 
     @Override
     public PostDto save(PostFormDto postFormDto) {
         final List<MultipartFile> files = postFormDto.getFiles().stream().toList();
         final List<FileUploadResponse> responses = this.storageClient.saveAll(files);
-
         final Post post = new Post()
                 .setAttachments(getAttachments(responses))
                 .setContent(postFormDto.getContent())
                 .setUsername(userService.getCurrentUser().getUsername());
         final Post save = postRepository.save(post);
         return postMapper.toDto(save);
+    }
+
+    @NotNull
+    private Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
+        return responses.stream()
+                .map(response -> new Attachment()
+                        .setUsername(userService.getCurrentUser().getUsername())
+                        .setContentType(response.getContentType())
+                        .setName(response.getName())
+                        .setLink(response.getLink())
+                        .setBucket(response.getBucket())
+                        .setEtag(response.getEtag())
+                        .setVersion(response.getVersion()))
+                .collect(Collectors.toSet());
     }
 }
