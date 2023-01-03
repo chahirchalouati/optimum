@@ -46,23 +46,29 @@ export class TokenService implements ITokenService {
   }
 
   isAuthenticated(): boolean {
-    const expiresIn = this.get()?.expires_in;
-    return expiresIn ? this.isExpired(expiresIn) : false;
-  }
-
-  isExpired(expires_in: number): boolean {
-    return (expires_in ?? 0) < Date.now() / 1000;
+    const expiresIn = this.get()?.access_token;
+    return expiresIn ? this.isTokenExpired(expiresIn) : false;
   }
 
   save(token: Token): boolean {
+    this.store.removeItem(TOKEN_STORE_KEY);
     return !!this.store.setItem(TOKEN_STORE_KEY, token);
-  }
-
-  hasValidRefreshToken() {
-    return this.getDecodedAccessToken(this.get()?.refresh_token)?.exp ?? 0 < Date.now() / 1000;
   }
 
   clear(): void {
     this.store.removeItem(TOKEN_STORE_KEY)
+  }
+
+  isExpired(token: number): boolean {
+    return false;
+  }
+
+  tokenExists(): boolean {
+    return !!this.get();
+  }
+
+  private isTokenExpired(token: string) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return expiry * 1000 > Date.now();
   }
 }

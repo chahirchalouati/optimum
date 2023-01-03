@@ -14,6 +14,7 @@ import isNotEmpty = ObjectsUtils.isNotEmpty;
 })
 export class AuthorizationComponent implements OnInit, OnDestroy {
   authenticateSubscription!: Subscription;
+  hasCode: boolean = false;
 
   constructor(private httpClient: HttpClient,
               private activatedRoute: ActivatedRoute,
@@ -25,17 +26,30 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(
       params => {
+        if (this.tokenService.isAuthenticated()) {
+          this.router.navigate(['/home']);
+          return;
+        }
         const code = params['code'] as string;
         if (isNotEmpty(code)) {
+          this.hasCode = true;
           this.authenticateSubscription = this.authenticationService.authenticate(code).subscribe(
             isAuthenticated => {
               if (isAuthenticated) {
-                this.router.navigate(['']);
+                this.router.navigate(['/home']);
               } else {
                 this.router.navigate(['error']);
               }
+            },
+            () => {
+              if (this.tokenService.tokenExists()) {
+                this.tokenService.clear()
+                this.router.navigate(['']);
+              }
             }
           )
+        } else {
+          this.authenticationService.getAuthorizationCode();
         }
       }
     )
