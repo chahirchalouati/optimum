@@ -1,9 +1,6 @@
 package com.crcl.authentication.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,15 +10,16 @@ import org.springframework.security.oauth2.server.authorization.config.ClientSet
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Collections;
 
 
 @Document(collection = "clients")
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 public class Client {
     @Id
@@ -31,10 +29,10 @@ public class Client {
     private String clientSecret;
     private Instant clientSecretExpiresAt;
     private String clientName;
-    private Set<ClientAuthenticationMethod> clientAuthenticationMethods = new HashSet<>();
-    private Set<AuthorizationGrantType> authorizationGrantTypes = new HashSet<>();
-    private Set<String> redirectUris = new HashSet<>();
-    private Set<String> scopes = new HashSet<>();
+    private Collection<ClientAuthenticationMethod> clientAuthenticationMethods = Collections.emptyList();
+    private Collection<AuthorizationGrantType> authorizationGrantTypes = Collections.emptyList();
+    private Collection<String> redirectUris = Collections.emptyList();
+    private Collection<String> scopes = Collections.emptyList();
     private ClientSettings clientSettings;
     private TokenSettings tokenSettings;
 

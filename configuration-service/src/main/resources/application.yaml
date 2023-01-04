@@ -13,7 +13,7 @@ logging:
         cloud:
           gateway:
             filter: TRACE
-
+---
 spring:
   cloud:
     config:
@@ -23,4 +23,13 @@ spring:
           default-label: master
           force-pull: true
           refresh-rate: 5
+      profile: docker,prod
 
+---
+spring:
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file://${user.home}/IdeaProjects/configurations
+      profile: dev
