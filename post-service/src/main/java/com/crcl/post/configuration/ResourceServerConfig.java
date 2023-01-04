@@ -1,6 +1,7 @@
 package com.crcl.post.configuration;
 
 import com.crcl.common.properties.EndpointsUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.spel.spi.EvaluationContextExtension;
@@ -11,7 +12,11 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @Configuration
+@AllArgsConstructor
 public class ResourceServerConfig {
+
+    private final CorsCustomizer corsCustomizer;
+
     @Bean
     public EvaluationContextExtension evaluationContextExtension() {
         return new PrincipalResolver();
@@ -19,7 +24,13 @@ public class ResourceServerConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(authorize -> authorize.antMatchers(EndpointsUtils.Excludable.END_POINT_ACTUATOR).permitAll().anyRequest().authenticated()).oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+
+        corsCustomizer.corsCustomizer(http);
+        http.authorizeHttpRequests(authorize -> authorize
+                        .antMatchers(EndpointsUtils.Excludable.END_POINT_ACTUATOR).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
     }
 }

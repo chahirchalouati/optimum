@@ -11,5 +11,7 @@ import java.util.Map;
 public class SecurityProps {
     private String issuer;
     private String clientIp;
+    private String loginPage;
+    private String failureForwardUrl;
     private Map<String, ClientsProps> clientsProps = new HashMap<>();
 }

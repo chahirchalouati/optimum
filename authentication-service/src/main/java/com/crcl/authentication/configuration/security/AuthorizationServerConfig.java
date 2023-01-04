@@ -1,5 +1,6 @@
 package com.crcl.authentication.configuration.security;
 
+import com.crcl.authentication.configuration.props.SecurityProps;
 import com.crcl.authentication.configuration.web.CorsCustomizer;
 import com.crcl.authentication.mappers.ClientMapper;
 import com.crcl.authentication.repository.MongoClientRepository;
@@ -30,6 +31,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class AuthorizationServerConfig {
     private final CorsCustomizer corsCustomizer;
+    private final SecurityProps securityProps;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,8 +45,8 @@ public class AuthorizationServerConfig {
 
         corsCustomizer.corsCustomizer(http);
         return http
-                .formLogin().loginPage("/idp/login")
-                .failureForwardUrl("/idp/login?error=true")
+                .formLogin().loginPage(securityProps.getLoginPage())
+                .failureForwardUrl(securityProps.getFailureForwardUrl())
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .build();
@@ -63,7 +65,7 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-                .issuer("http://auth-server:9000")
+                .issuer(securityProps.getIssuer())
                 .build();
     }
 
