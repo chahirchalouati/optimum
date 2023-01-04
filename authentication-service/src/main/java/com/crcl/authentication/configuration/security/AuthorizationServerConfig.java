@@ -42,7 +42,6 @@ public class AuthorizationServerConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-
         corsCustomizer.corsCustomizer(http);
         return http
                 .formLogin().loginPage(securityProps.getLoginPage())

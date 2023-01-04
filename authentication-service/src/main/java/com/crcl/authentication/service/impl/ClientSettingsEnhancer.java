@@ -2,6 +2,7 @@ package com.crcl.authentication.service.impl;
 
 import com.crcl.authentication.configuration.props.SecurityProps;
 import com.crcl.authentication.domain.Client;
+import com.crcl.common.utils.ObjectUtils;
 import com.crcl.common.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +32,11 @@ public class ClientSettingsEnhancer implements Enhancer<Client> {
                 .accessTokenTimeToLive(accessTokenTimeToLive)
                 .refreshTokenTimeToLive(refreshTokenTimeToLive)
                 .build();
-        client.setTokenSettings(tokenSettings);
-
+        ObjectUtils.setIfNotNull(clientsProps.getName(), client::setClientId);
+        ObjectUtils.setIfNotNull(tokenSettings, client::setTokenSettings);
+        log.info(client.toString());
         return client;
     }
+
+
 }

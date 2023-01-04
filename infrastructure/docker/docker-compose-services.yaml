@@ -98,26 +98,26 @@ services:
       - '9999:9999'
     networks:
       - l_net
-  notification-service:
-    build:
-      context: ../../notification-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.cloud.config.uri": "http://configuration-service:8888",
-         "spring.profiles.active":"docker"
-      }'
-    depends_on:
-      - configuration-service
-      - authentication-service
-    ports:
-      - '7008:7008'
-    networks:
-      - l_net
+  #  notification-service:
+  #    build:
+  #      context: ../../notification-service/
+  #      dockerfile: DockerFile
+  #      args:
+  #        USER_NAME: chahirchaloauti
+  #        PASSWORD: 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
+  #        ID: github
+  #    environment:
+  #      SPRING_APPLICATION_JSON: '{
+  #        "spring.cloud.config.uri": "http://configuration-service:8888",
+  #         "spring.profiles.active":"docker"
+  #      }'
+  #    depends_on:
+  #      - configuration-service
+  #      - authentication-service
+  #    ports:
+  #      - '7008:7008'
+  #    networks:
+  #      - l_net
   storage-service:
     build:
       context: ../../storage-service/

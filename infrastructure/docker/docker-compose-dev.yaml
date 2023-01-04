@@ -38,7 +38,7 @@ services:
     networks:
       - l_net
   mongo:
-    image: mongo:5
+    image: mongo:6.0.2
     container_name: mongo-container
     ports:
       - "27017:27017"
