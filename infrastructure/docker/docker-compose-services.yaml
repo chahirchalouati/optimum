@@ -88,7 +88,6 @@ services:
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
-        "spring.config.activate.on-profile":"docker",
         "spring.config.activate.on-profile":"docker"
       }'
     depends_on:
@@ -115,7 +114,7 @@ services:
       - configuration-service
       - authentication-service
     ports:
-      - '9999:9999'
+      - '7008:7008'
     networks:
       - l_net
   storage-service:
@@ -134,6 +133,7 @@ services:
     depends_on:
       - configuration-service
       - authentication-service
+      - minio
     ports:
       - '7010:7010'
     networks:
@@ -147,6 +147,6 @@ services:
       - "4200:4200"
       - '49153:49153'
     volumes:
-      - .:/app
+      - ../../clients/social:/app
       - nodemodules:/app/node_modules
 
