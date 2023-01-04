@@ -21,7 +21,7 @@ public class ClientSettingsEnhancer implements Enhancer<Client> {
 
     @Override
     public Client enhance(final Client client) {
-        final var clientsProps = securityProps.getClientsProps()
+        final var clientsProps = securityProps.getRegistrationHashMap()
                 .get(client.getClientId());
         if (isNull(clientsProps))
             return client;
@@ -32,9 +32,8 @@ public class ClientSettingsEnhancer implements Enhancer<Client> {
                 .accessTokenTimeToLive(accessTokenTimeToLive)
                 .refreshTokenTimeToLive(refreshTokenTimeToLive)
                 .build();
-        ObjectUtils.setIfNotNull(clientsProps.getName(), client::setClientId);
+        ObjectUtils.setIfNotNull(clientsProps.getId(), client::setClientId);
         ObjectUtils.setIfNotNull(tokenSettings, client::setTokenSettings);
-        log.info(client.toString());
         return client;
     }
 

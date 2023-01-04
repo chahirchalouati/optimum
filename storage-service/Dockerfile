@@ -5,7 +5,7 @@ COPY settings.xml /
 ARG USER_NAME=username
 ARG PASSWORD=password
 ARG ID=id
-RUN mvn -f /pom.xml  \
+RUN --mount=type=cache,target=/root/.m2 mvn -f  /pom.xml  \
     -s /settings.xml  \
     -Drepo.id=${ID}  \
     -Drepo.login=${USER_NAME}  \
