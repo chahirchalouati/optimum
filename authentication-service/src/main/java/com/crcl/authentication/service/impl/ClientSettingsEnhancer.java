@@ -1,6 +1,6 @@
 package com.crcl.authentication.service.impl;
 
-import com.crcl.authentication.configuration.props.SecurityProps;
+import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.domain.Client;
 import com.crcl.common.utils.ObjectUtils;
 import com.crcl.common.utils.generic.Enhancer;
@@ -17,11 +17,11 @@ import static java.util.Objects.isNull;
 @AllArgsConstructor
 @Slf4j
 public class ClientSettingsEnhancer implements Enhancer<Client> {
-    private final SecurityProps securityProps;
+    private final SecurityProperties securityProperties;
 
     @Override
     public Client enhance(final Client client) {
-        final var clientsProps = securityProps.getRegistrationHashMap()
+        final var clientsProps = securityProperties.getRegistrationHashMap()
                 .get(client.getClientId());
         if (isNull(clientsProps))
             return client;

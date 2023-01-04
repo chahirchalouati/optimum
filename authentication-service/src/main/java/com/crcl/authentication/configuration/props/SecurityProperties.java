@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Data
 @ConfigurationProperties(prefix = "security", ignoreUnknownFields = false)
-public class SecurityProps {
+public class SecurityProperties {
     private String issuer;
     private String clientIp;
     private String loginPage;
