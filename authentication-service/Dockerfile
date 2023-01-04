@@ -16,3 +16,4 @@ FROM eclipse-temurin:17-alpine
 COPY --from=build /target/*.jar /usr/local/lib/app.jar
 EXPOSE 9000
 ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar"]
+

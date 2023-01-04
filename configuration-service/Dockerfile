@@ -14,5 +14,6 @@ RUN mvn -f /pom.xml  \
 
 FROM eclipse-temurin:17-alpine
 COPY --from=build /target/*.jar /usr/local/lib/app.jar
-EXPOSE 7003
+EXPOSE 8888
 ENTRYPOINT ["java","-jar","/usr/local/lib/app.jar"]
+
