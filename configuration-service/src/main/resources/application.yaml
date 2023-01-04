@@ -19,7 +19,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/chahirchalouati/microservices-configurations
+          uri: https://github.com/chahirchalouati/microservices-configurations.git
           default-label: master
           force-pull: true
           refresh-rate: 5
