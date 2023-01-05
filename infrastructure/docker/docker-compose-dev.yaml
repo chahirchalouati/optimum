@@ -40,6 +40,11 @@ services:
   mongo:
     image: mongo:6.0.2
     container_name: mongo-container
+    healthcheck:
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin --quiet | grep 1
+      interval: 10s
+      timeout: 10s
+      retries: 3
     ports:
       - "27017:27017"
     volumes:

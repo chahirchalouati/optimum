@@ -36,7 +36,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
           this.authenticateSubscription = this.authenticationService.authenticate(code).subscribe(
             isAuthenticated => {
               if (isAuthenticated) {
-                this.router.navigate(['/home']);
+                this.router.navigate(['']);
               } else {
                 this.router.navigate(['error']);
               }

@@ -7,4 +7,4 @@ RUN npm install --silent
 
 EXPOSE 4200 49153
 
-CMD ["npm", "run", "docker-start"]
+ENTRYPOINT ["npm", "run", "docker-start"]

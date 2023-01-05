@@ -6,10 +6,9 @@ spring:
       uri: http://localhost:8888
   main:
     allow-bean-definition-overriding: true
-logging:
-  level:
-    org:
-      springframework:
-        security: info
-
-
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        security: trace
+#        web: debug

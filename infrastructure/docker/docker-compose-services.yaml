@@ -8,6 +8,10 @@ services:
         USER_NAME: chahirchaloauti
         PASSWORD: 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
         ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.profiles.active":"docker"
+      }'
     ports:
       - '8888:8888'
     networks:
@@ -144,10 +148,15 @@ services:
       context: ../../clients/social/
       dockerfile: DockerFile
     container_name: client
+    environment:
+      - OAUTH_CALLBACK_URL=http://social-service:4200/authorized
+      - OAUTH_AUTHORIZE_URL=http://authentication-service:9000/oauth2/authorize
+      - PROXY_URL=http://proxy-service:9999
     ports:
       - "4200:4200"
       - '49153:49153'
     volumes:
       - ../../clients/social:/app
       - nodemodules:/app/node_modules
-
+    networks:
+      - l_net

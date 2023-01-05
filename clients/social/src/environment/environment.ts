@@ -52,7 +52,7 @@ export const environment = {
       }
 
     },
-    proxyUrl: "http://127.0.0.1:9999",
+    proxyUrl: "http://proxy-service:9999",
     logo: "SOCIAL APP"
   }
 ;

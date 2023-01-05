@@ -11,9 +11,10 @@
     <app-icon [icon]="'heroMoon'" [rounded]="'full'" [size]="30"></app-icon>
   </div>
 </nav>
+<app-form-create-post></app-form-create-post>
 <div class="posts">
   <div *ngFor="let post of (posts$ | async)?.content" class="post">
-    <img [src]="post.attachments[0].name  | src: post.attachments[0].etag | async ">
-    {{post.content}}
+    <app-view-card-post [post]="post">
+    </app-view-card-post>
   </div>
 </div>

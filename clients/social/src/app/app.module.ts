@@ -14,6 +14,8 @@ import {heroUsers} from '@ng-icons/heroicons/outline';
 import {IconComponent} from './components/icon/icon.component';
 import {NoSanitizePipe} from './shared/pipes/no-sanitize.pipe';
 import {SrcPipe} from "./shared/pipes/src.pipe";
+import { FormCreatePostComponent } from './components/form-create-post/form-create-post.component';
+import { ViewCardPostComponent } from './components/view-card-post/view-card-post.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import {SrcPipe} from "./shared/pipes/src.pipe";
     IconComponent,
     NoSanitizePipe,
     SrcPipe,
+    FormCreatePostComponent,
+    ViewCardPostComponent,
   ],
   imports: [
     BrowserModule,
