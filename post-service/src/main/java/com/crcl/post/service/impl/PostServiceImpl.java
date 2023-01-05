@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,7 +41,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostDto> save(List<PostDto> entities) {
-        return entities.stream().map(this::save).toList();
+        return entities.stream()
+                .map(this::save)
+                .toList();
     }
 
     @Override
@@ -66,6 +70,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
+        if (!pageable.getSort().isSorted()) {
+            pageable = PageRequest.of(pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.Direction.DESC,
+                    "createdAt");
+        }
         return postRepository.findByLoggedUser(pageable)
                 .map(postMapper::toDto);
     }
