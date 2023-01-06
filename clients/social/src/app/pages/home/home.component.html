@@ -1,20 +1,24 @@
-<nav class="nav-bar">
-  <div class="logo">{{logo}}</div>
-  <div class="user-profile">
-    <div *ngIf="(profile$ | async) as profile" class="avatar">
-      <img [alt]="profile.avatar" [src]="profile.avatar" [srcset]="profile.avatar">
-      <span class="username">{{profile.user.firstName + " " + profile.user.lastName}}</span>
-    </div>
-    <app-icon [icon]="'heroMessage'" [rounded]="'full'" [size]="30"></app-icon>
-    <app-icon [icon]="'heroBell'" [rounded]="'full'" [size]="30"></app-icon>
-    <app-icon [icon]="'heroSettings'" [rounded]="'full'" [size]="30"></app-icon>
-    <app-icon [icon]="'heroMoon'" [rounded]="'full'" [size]="30"></app-icon>
-  </div>
-</nav>
-<app-form-create-post></app-form-create-post>
-<div class="posts">
-  <div *ngFor="let post of (posts$ | async)?.content" class="post">
-    <app-view-card-post [post]="post">
-    </app-view-card-post>
-  </div>
-</div>
+<!-- navigation bar -->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button (click)="sidenav.toggle()" mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>Dashboard</h1>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- side navigation -->
+<mat-sidenav-container>
+  <mat-sidenav #sidenav [mode]="'over'">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/home">Home</a>
+      <a mat-list-item routerLink="/about">About</a>
+      <a mat-list-item routerLink="/services">Services</a>
+      <a mat-list-item routerLink="/contact">Contact</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- main content goes here -->
+  </mat-sidenav-content>
+</mat-sidenav-container>

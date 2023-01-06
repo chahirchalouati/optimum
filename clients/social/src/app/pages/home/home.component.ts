@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   profile$: Observable<Profile> = EMPTY;
   posts$: Observable<Pageable.Page<Post>> = EMPTY;
   userInfo: any = this.tokenService.getUserInfo();
-  logo: string = environment.logo;
+  logo: string = environment.appName;
 
   constructor(private auditService: AuditService,
               private profileService: ProfileService,
