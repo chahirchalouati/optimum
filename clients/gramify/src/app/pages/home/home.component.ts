@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   posts$: Observable<Pageable.Page<Post>> = EMPTY;
   userInfo: any = this.tokenService.getUserInfo();
   logo: string = environment.logoImage;
+  contentMargin: number = 0;
 
   constructor(private auditService: AuditService,
               private profileService: ProfileService,
@@ -29,5 +30,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.profile$ = this.profileService.getUserProfile(this.userInfo.username);
     this.posts$ = this.postService.get({});
+  }
+
+  setContentMargin($event: number) {
+    this.contentMargin = $event;
   }
 }

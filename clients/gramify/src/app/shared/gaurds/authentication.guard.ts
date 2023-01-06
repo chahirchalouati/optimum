@@ -12,11 +12,10 @@ type GuardType = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | bo
 export class AuthenticationGuard implements CanActivate {
   constructor(private tokenService: TokenService,
               private authenticationService: AuthenticationService,
-              private readonly router: Router) {
+              private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): GuardType {
-    console.log(this.tokenService.isAuthenticated())
     if (!this.tokenService.isAuthenticated()) {
       this.tokenService.clear();
       this.authenticationService.getAuthorizationCode();

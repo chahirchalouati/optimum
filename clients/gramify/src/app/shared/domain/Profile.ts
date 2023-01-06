@@ -1,5 +1,7 @@
 import {Pageable} from "./Pageable";
+import {ObjectsUtils} from "../../utils/ObjectsUtils";
 import Selectable = Pageable.Selectable;
+import isNotEmpty = ObjectsUtils.isNotEmpty;
 
 export default interface Profile extends Selectable {
   avatar: string;
@@ -31,7 +33,8 @@ export class User {
   }
 
   get getFullName() {
-    return this.firstName + " " + this.lastName;
+    const fullName = this.firstName + " " + this.lastName;
+    return isNotEmpty(fullName) ? fullName : '';
   }
 }
 
