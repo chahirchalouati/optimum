@@ -2,8 +2,8 @@ package com.crcl.authentication.dto;
 
 import com.crcl.authentication.annotation.UniqueEmail;
 import com.crcl.authentication.annotation.UniqueUserName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.crcl.authentication.views.UserView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -14,26 +14,27 @@ import java.util.Set;
 @Data
 public class UserDto {
     @NotBlank
+    @JsonView(value = UserView.UserResponseView.class)
     private String firstName;
     @NotBlank
+    @JsonView(value = UserView.UserResponseView.class)
     private String lastName;
     @NotBlank
     @UniqueUserName
+    @JsonView(value = UserView.UserResponseView.class)
     private String username;
     @Email
     @UniqueEmail
+    @JsonView(value = UserView.UserResponseView.class)
     private String email;
     @NotBlank
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonView(value = UserView.CreateUserView.class)
     private String password;
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonView(value = UserView.UserResponseView.class)
     private Set<RoleDto> roles = new HashSet<>();
-    @JsonIgnore
+
     private boolean isAccountNonExpired = true;
-    @JsonIgnore
     private boolean isEnabled = true;
-    @JsonIgnore
     private boolean isCredentialsNonExpired = true;
-    @JsonIgnore
     private boolean isAccountNonLocked = true;
 }
