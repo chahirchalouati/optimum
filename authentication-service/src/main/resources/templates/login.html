@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Spring Security Example</title>
+    <title>Login</title>
     <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
           integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" rel="stylesheet">
     <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
@@ -44,6 +44,14 @@
                  style="margin-right: 5px;"
                  width="24"/>
             Sign in with Github
+        </a>
+        <a class="btn btn-light btn-block bg-white" role="link" style="text-transform: none;"
+           th:href="@{/idp/register}">
+            <img alt="Sign in with GitHub"
+                 src="https://img.icons8.com/ios-glyphs/512/sign-up.png"
+                 style="margin-right: 5px;"
+                 width="24"/>
+            Sign Up
         </a>
     </form>
 </div>

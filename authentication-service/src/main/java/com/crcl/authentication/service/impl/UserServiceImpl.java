@@ -1,10 +1,13 @@
 package com.crcl.authentication.service.impl;
 
+import com.crcl.authentication.clients.SrvStorageClient;
 import com.crcl.authentication.domain.User;
+import com.crcl.authentication.dto.CreateUserRequest;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.authentication.mappers.UserMapper;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.service.UserService;
+import com.crcl.authentication.utils.ProfileUtils;
 import com.crcl.authentication.utils.RoleUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static java.util.Objects.nonNull;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -22,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SrvStorageClient srvStorageClient;
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -81,5 +87,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsernameAllIgnoreCase(username)
                 .map(userMapper::toDto)
                 .orElse(null);
+    }
+
+    @Override
+    public UserDto save(CreateUserRequest request) {
+        final var user = userMapper.toEntity(request);
+        if (nonNull(request.getAvatar())) {
+            this.addUserAvatar(request, user);
+        }
+        return userMapper.toDto(user);
+    }
+
+    private void addUserAvatar(CreateUserRequest request, User user) {
+        try {
+            var fileSaveResponse = this.srvStorageClient.save(request.getAvatar());
+            user.setAvatar(fileSaveResponse.getLink());
+        } catch (Exception e) {
+            log.error("An error occurred while saving avatar for user: {}", user.getUsername(), e);
+            user.setAvatar(ProfileUtils.getAvatar(user));
+        }
+
     }
 }

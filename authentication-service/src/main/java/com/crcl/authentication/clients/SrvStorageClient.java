@@ -1,7 +1,7 @@
 package com.crcl.authentication.clients;
 
 import com.crcl.authentication.configuration.clients.FeignFormConfig;
-import com.crcl.authentication.configuration.clients.OAuthFeignConfig;
+import com.crcl.authentication.configuration.clients.SrvOauth2ClientConfig;
 import com.crcl.common.dto.responses.FileUploadResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.ByteArrayResource;
@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 // TODO: 1/8/2023 add resiliency
-@FeignClient(name = "${client.storage.name}",
+@FeignClient(name = "${client.srvStorage.name}",
         url = "${client.storage.url}",
-        configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
-public interface StorageClient {
+        configuration = {SrvOauth2ClientConfig.class, FeignFormConfig.class})
+public interface SrvStorageClient {
 
     @GetMapping("/files/{objectName}/{tag}")
     ByteArrayResource getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag);

@@ -32,6 +32,7 @@ public class DefaultSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .antMatchers("/idp/login/**").permitAll()
+                .antMatchers("/idp/register/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin(fm -> fm.loginPage("/idp/login"));

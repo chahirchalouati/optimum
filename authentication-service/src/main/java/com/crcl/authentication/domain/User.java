@@ -38,6 +38,11 @@ public class User implements UserDetails {
     private String email;
     @NotBlank
     private String password;
+    @NotBlank
+    private String avatar;
+    @NotBlank
+    @Getter
+    private Gender gender;
     @Getter
     private Set<Role> roles = new HashSet<>();
     private boolean isAccountNonExpired = true;

@@ -2,6 +2,7 @@ package com.crcl.authentication.migration;
 
 import com.crcl.authentication.domain.Client;
 import com.crcl.authentication.service.MigrationHelper;
+import com.crcl.authentication.utils.AppClientScopes;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -35,5 +36,18 @@ public class ClientChangeLog {
                             .setScopes(registration.getScopes());
                     migrationHelper.getClientRepository().save(client);
                 });
+    }
+
+    @ChangeSet(order = "002", id = "save_system_clients", author = "@chahir_chalouati")
+    public void saveSystemClient(final MigrationHelper migrationHelper) {
+        final Client client = new Client()
+                .setId("SYSTEM")
+                .setClientId("SYSTEM")
+                .setClientSecret(migrationHelper.getPasswordEncoder().encode("SYSTEM"))
+                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
+                .setAuthorizationGrantTypes(Set.of(AuthorizationGrantType.CLIENT_CREDENTIALS))
+                .setRedirectUris(Set.of())
+                .setScopes(AppClientScopes.UI_SCOPES);
+        migrationHelper.getClientRepository().save(client);
     }
 }

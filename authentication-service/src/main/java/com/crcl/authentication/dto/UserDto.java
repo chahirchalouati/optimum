@@ -32,6 +32,9 @@ public class UserDto {
     private String password;
     @JsonView(value = UserView.UserResponseView.class)
     private Set<RoleDto> roles = new HashSet<>();
+    @NotBlank
+    @JsonView(value = UserView.UserResponseView.class)
+    private String gender;
 
     private boolean isAccountNonExpired = true;
     private boolean isEnabled = true;

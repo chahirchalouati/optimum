@@ -7,3 +7,9 @@ export interface User {
     avatar: string;
     backgroundImage: string;
 }
+
+export interface Profile {
+    theme: 'black' | 'light';
+    location: string;
+
+}
