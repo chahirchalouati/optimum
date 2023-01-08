@@ -4,7 +4,9 @@ import com.crcl.authentication.configuration.clients.interceptors.Oauth2TokenInt
 import com.crcl.authentication.configuration.clients.interceptors.ServiceOauth2TokenInterceptorHelper;
 import com.crcl.authentication.repository.MongoClientRepository;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
 public class SrvOauth2ClientConfig {
     @Bean
     public ServiceOauth2TokenInterceptorHelper serviceOauth2TokenInterceptorHelper(MongoClientRepository mongoClientRepository, Oauth2TokenInterceptorHelper oauth2TokenInterceptorHelper) {

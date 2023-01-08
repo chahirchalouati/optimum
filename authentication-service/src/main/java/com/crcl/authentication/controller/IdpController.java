@@ -3,6 +3,8 @@ package com.crcl.authentication.controller;
 import com.crcl.authentication.dto.CreateUserRequest;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.authentication.service.UserService;
+import com.crcl.authentication.views.UserView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,7 @@ public class IdpController {
     }
 
     @PostMapping("/register/rest")
+    @JsonView(UserView.UserResponseView.class)
     public @ResponseBody ResponseEntity restRegisterPage(@ModelAttribute @Valid CreateUserRequest request) {
         UserDto save = userService.save(request);
         return ResponseEntity.ok(save);

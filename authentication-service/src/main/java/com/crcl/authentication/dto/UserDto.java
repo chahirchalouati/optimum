@@ -35,6 +35,8 @@ public class UserDto {
     @NotBlank
     @JsonView(value = UserView.UserResponseView.class)
     private String gender;
+    @JsonView(value = UserView.UserResponseView.class)
+    private String avatar;
 
     private boolean isAccountNonExpired = true;
     private boolean isEnabled = true;

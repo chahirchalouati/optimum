@@ -6,7 +6,7 @@ services:
       dockerfile: DockerFile
       args:
         USER_NAME: chahirchaloauti
-        PASSWORD: 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
+        PASSWORD: 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
         ID: github
     environment:
       SPRING_APPLICATION_JSON: '{
@@ -23,7 +23,7 @@ services:
       dockerfile: DockerFile
       args:
         USER_NAME: chahirchaloauti
-        PASSWORD: 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
+        PASSWORD: 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
         ID: github
     environment:
       SPRING_APPLICATION_JSON: '{
@@ -45,7 +45,7 @@ services:
       dockerfile: DockerFile
       args:
         USER_NAME: chahirchaloauti
-        PASSWORD: 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
+        PASSWORD: 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
         ID: github
     environment:
       SPRING_APPLICATION_JSON: '{
@@ -66,7 +66,7 @@ services:
       dockerfile: DockerFile
       args:
         USER_NAME: chahirchaloauti
-        PASSWORD: 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
+        PASSWORD: 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
         ID: github
     environment:
       SPRING_APPLICATION_JSON: '{
@@ -88,7 +88,7 @@ services:
       dockerfile: DockerFile
       args:
         USER_NAME: chahirchaloauti
-        PASSWORD: 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
+        PASSWORD: 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
         ID: github
     environment:
       SPRING_APPLICATION_JSON: '{
@@ -108,7 +108,7 @@ services:
   #      dockerfile: DockerFile
   #      args:
   #        USER_NAME: chahirchaloauti
-  #        PASSWORD: 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
+  #        PASSWORD: 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
   #        ID: github
   #    environment:
   #      SPRING_APPLICATION_JSON: '{
@@ -128,7 +128,7 @@ services:
       dockerfile: DockerFile
       args:
         USER_NAME: chahirchaloauti
-        PASSWORD: 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
+        PASSWORD: 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
         ID: github
     environment:
       SPRING_APPLICATION_JSON: '{

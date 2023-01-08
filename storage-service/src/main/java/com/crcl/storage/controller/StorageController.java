@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class StorageController {
     private final StorageService storageService;
 
-    @GetMapping("/{objectName}/{tag}")
+    @GetMapping("/{tag}/{objectName}")
     public ResponseEntity<?> getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag) {
         final var resource = storageService.getResource(objectName, tag);
         return ResponseEntity.ok()

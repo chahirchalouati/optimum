@@ -41,7 +41,6 @@ public class User implements UserDetails {
     @NotBlank
     private String avatar;
     @NotBlank
-    @Getter
     private Gender gender;
     @Getter
     private Set<Role> roles = new HashSet<>();
@@ -161,6 +160,24 @@ public class User implements UserDetails {
 
     public User setRoles(Set<Role> roles) {
         this.roles = roles;
+        return this;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public User setAvatar(String avatar) {
+        this.avatar = avatar;
+        return this;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public User setGender(Gender gender) {
+        this.gender = gender;
         return this;
     }
 }

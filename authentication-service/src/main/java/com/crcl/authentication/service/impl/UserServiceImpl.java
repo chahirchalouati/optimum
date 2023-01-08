@@ -91,16 +91,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(CreateUserRequest request) {
-        final var user = userMapper.toEntity(request);
-        if (nonNull(request.getAvatar())) {
+        final User user = userMapper.toEntity(request);
+        if (nonNull(request.getAvatarFile())) {
             this.addUserAvatar(request, user);
         }
-        return userMapper.toDto(user);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRoles(RoleUtils.getDefaultUserRoles());
+        return userMapper.toDto(this.userRepository.save(user));
     }
 
     private void addUserAvatar(CreateUserRequest request, User user) {
         try {
-            var fileSaveResponse = this.srvStorageClient.save(request.getAvatar());
+            var fileSaveResponse = this.srvStorageClient.save(request.getAvatarFile());
             user.setAvatar(fileSaveResponse.getLink());
         } catch (Exception e) {
             log.error("An error occurred while saving avatar for user: {}", user.getUsername(), e);

@@ -7,6 +7,7 @@ import com.crcl.authentication.exceptions.RoleNotFoundException;
 import com.crcl.authentication.repository.RoleRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.DefaultRoles;
+import com.crcl.authentication.utils.ProfileUtils;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,6 +40,7 @@ public class UsersChangeLog {
                     .setUsername("admin")
                     .setFirstName("admin")
                     .setLastName("admin")
+                    .setAvatar(ProfileUtils.DEFAULT_MALE_AVATAR)
                     .setRoles(Set.of(role))
                     .setPassword(passwordEncoder.encode("admin"));
 

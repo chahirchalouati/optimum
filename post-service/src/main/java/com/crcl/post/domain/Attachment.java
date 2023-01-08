@@ -45,6 +45,6 @@ public class Attachment extends BaseEntity {
     }
 
     public String getLink() {
-        return this.name.concat("/").concat(this.etag);
+        return this.etag.concat("/").concat(this.name);
     }
 }

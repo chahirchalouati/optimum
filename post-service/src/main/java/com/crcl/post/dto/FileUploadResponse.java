@@ -17,6 +17,6 @@ public class FileUploadResponse {
     private String link;
 
     public String getLink() {
-        return this.name.concat("/").concat(this.etag);
+        return this.etag.concat("/").concat(this.name);
     }
 }
