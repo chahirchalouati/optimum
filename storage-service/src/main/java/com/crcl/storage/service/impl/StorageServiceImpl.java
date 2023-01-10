@@ -18,7 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -40,12 +41,15 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-
     @SneakyThrows
     public FileUploadResponse save(MultipartFile multipartFile) {
         final var inputStream = multipartFile.getInputStream();
+        final var params = getOwner()
+                .map(owner -> Map.of(owner.getFirst(), owner.getSecond()))
+                .orElse(Map.of());
         final var putObjectArgs = PutObjectArgs.builder()
                 .bucket(BUCKET_NAME)
+                .extraQueryParams(params)
                 .object(multipartFile.getOriginalFilename())
                 .stream(inputStream, multipartFile.getSize(), -1)
                 .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -68,16 +72,14 @@ public class StorageServiceImpl implements StorageService {
                 .toList();
     }
 
-    private Pair<String, String> getOwner() {
-        String username = null;
+    private Optional<Pair<String, String>> getOwner() {
         final var authentication = SecurityContextHolder
                 .getContext()
                 .getAuthentication();
-        if (authentication != null) {
-            if (authentication instanceof JwtAuthenticationToken authenticationToken) {
-                username = authenticationToken.getToken().getClaim("username");
-            }
+        if (authentication instanceof JwtAuthenticationToken authenticationToken) {
+            String username = authenticationToken.getToken().getClaim("username");
+            return Optional.of(Pair.of("owner", username));
         }
-        return Objects.nonNull(username) ? Pair.of("owner", username) : null;
+        return Optional.empty();
     }
 }
