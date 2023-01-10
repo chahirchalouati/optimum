@@ -1,0 +1,128 @@
+spring:
+  data:
+    mongodb:
+      database: test_dev
+      host: localhost
+      port: 27017
+      authentication-database: admin
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://auth-server:9000
+          jwk-set-uri: http://auth-server:9000/oauth2/jwks
+mongock:
+  change-logs-scan-package: com.crcl.authentication.migration
+security:
+  clientIp: 127.0.0.1
+  issuer: http://auth-server:9000
+  loginPage: /idp/login
+  failureForwardUrl: /idp/login?error=true
+  registrations:
+    notification-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: notification-service
+      uris:
+        - http://127.0.0.1:7008
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    post-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: post-service
+      uris:
+        - http://127.0.0.1:7005
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    configuration-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: configuration-service
+      uris:
+        - http://127.0.0.1:8888
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    order-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: order-service
+      uris:
+        - http://127.0.0.1:7001
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    authentication-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: authentication-service
+      uris:
+        - http://127.0.0.1:9000
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    audit-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: audit-service
+      uris:
+        - http://127.0.0.1:7003
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    profile-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: profile-service
+      uris:
+        - http://127.0.0.1:7009
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    storage-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: storage-service
+      uris:
+        - http://127.0.0.1:7010
+      scopes:
+        - openid
+      grantTypes:
+        - client_credentials
+    ui-service:
+      refresh-token-access-time-to-leave: 8000
+      token-access-time-to-leave: 8000
+      id: ui-service
+      uris:
+        - http://127.0.0.1:4200
+      scopes:
+        - openid
+      grantTypes:
+        - authorization_code
+        - client_credentials
+client:
+  idp:
+    url: http://localhost:9999/idp
+    name: idp
+  storage:
+    url: http://localhost:9999/storage
+    name: storage
+  srvStorage:
+    url: http://localhost:9999/storage
+    name: storage
+  profile:
+    url: http://localhost:9999/profile
+    name: profile
+  srvProfile:
+    url: http://localhost:9999/profile
+    name: profile

@@ -3,6 +3,7 @@ package com.crcl.authentication.dto;
 import com.crcl.authentication.annotation.UniqueEmail;
 import com.crcl.authentication.annotation.UniqueUserName;
 import com.crcl.authentication.views.UserView;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
 
@@ -42,4 +43,14 @@ public class UserDto {
     private boolean isEnabled = true;
     private boolean isCredentialsNonExpired = true;
     private boolean isAccountNonLocked = true;
+
+    @JsonIgnore
+    public boolean isAdmin() {
+        return this.roles.stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    }
+
+    @JsonIgnore
+    public boolean isSuperAdmin() {
+        return this.roles.stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    }
 }

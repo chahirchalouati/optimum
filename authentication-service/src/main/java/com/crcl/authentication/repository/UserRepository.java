@@ -6,7 +6,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
-public interface UserRepository extends MongoRepository<User, String> {
+public interface UserRepository extends MongoRepository<User, String>, CustomUserRepository {
     Optional<User> findByUsernameAllIgnoreCase(@NonNull String username);
 
     boolean existsByEmailIgnoreCase(String email);

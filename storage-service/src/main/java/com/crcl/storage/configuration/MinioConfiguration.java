@@ -1,17 +1,19 @@
 package com.crcl.storage.configuration;
 
+import com.crcl.storage.configuration.properties.MinioProperties;
 import io.minio.MinioClient;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MinioConfiguration {
     @Bean
-    public MinioClient minioClient(MinioProps minioProps) {
+    @SneakyThrows
+    public MinioClient minioClient(MinioProperties minioProperties) {
         return MinioClient.builder()
-                .credentials(minioProps.getAccessKey(), minioProps.getSecretKey())
-                .endpoint(minioProps.getUrl())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .endpoint(minioProperties.getUrl())
                 .build();
     }
-
 }

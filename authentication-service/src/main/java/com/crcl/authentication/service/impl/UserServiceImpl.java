@@ -4,6 +4,7 @@ import com.crcl.authentication.clients.SrvStorageClient;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.CreateUserRequest;
 import com.crcl.authentication.dto.UserDto;
+import com.crcl.authentication.helpers.AuthenticationHelper;
 import com.crcl.authentication.mappers.UserMapper;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.service.UserService;
@@ -25,6 +26,7 @@ import static java.util.Objects.nonNull;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+    private final AuthenticationHelper authenticationHelper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final SrvStorageClient srvStorageClient;
@@ -39,7 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> save(List<UserDto> entities) {
-        return entities.stream().map(this::save).toList();
+        return entities.stream()
+                .map(this::save)
+                .toList();
     }
 
     @Override
@@ -62,15 +66,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> findAll() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toDto)
-                .toList();
+        return userRepository.getAll(authenticationHelper.getCurrent());
     }
+
 
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
-        return userRepository.findAll(pageable)
-                .map(userMapper::toDto);
+        return userRepository.getAll(pageable, authenticationHelper.getCurrent());
     }
 
     @Override
@@ -92,22 +94,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(CreateUserRequest request) {
         final User user = userMapper.toEntity(request);
-        if (nonNull(request.getAvatarFile())) {
-            this.addUserAvatar(request, user);
-        }
+        this.addUserAvatar(request, user);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRoles(RoleUtils.getDefaultUserRoles());
         return userMapper.toDto(this.userRepository.save(user));
     }
 
+
     private void addUserAvatar(CreateUserRequest request, User user) {
         try {
-            var fileSaveResponse = this.srvStorageClient.save(request.getAvatarFile());
-            user.setAvatar(fileSaveResponse.getLink());
+            if (nonNull(request.getAvatarFile())) {
+                final var fileSaveResponse = this.srvStorageClient.save(request.getAvatarFile());
+                user.setAvatar(fileSaveResponse.getLink());
+            }
         } catch (Exception e) {
             log.error("An error occurred while saving avatar for user: {}", user.getUsername(), e);
             user.setAvatar(ProfileUtils.getAvatar(user));
         }
-
     }
 }

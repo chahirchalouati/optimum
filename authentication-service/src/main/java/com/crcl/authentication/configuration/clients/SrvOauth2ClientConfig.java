@@ -9,7 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SrvOauth2ClientConfig {
     @Bean
-    public ServiceOauth2TokenInterceptorHelper serviceOauth2TokenInterceptorHelper(MongoClientRepository mongoClientRepository, Oauth2TokenInterceptorHelper oauth2TokenInterceptorHelper) {
+    public ServiceOauth2TokenInterceptorHelper serviceOauth2TokenInterceptorHelper(MongoClientRepository mongoClientRepository,
+                                                                                   Oauth2TokenInterceptorHelper oauth2TokenInterceptorHelper) {
         return new ServiceOauth2TokenInterceptorHelper(mongoClientRepository, oauth2TokenInterceptorHelper);
     }
 

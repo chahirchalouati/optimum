@@ -49,6 +49,13 @@ public class User implements UserDetails {
     private boolean isCredentialsNonExpired = true;
     private boolean isAccountNonLocked = true;
 
+    public boolean isAdmin() {
+        return this.roles.stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    }
+
+    public boolean isSuperAdmin() {
+        return this.roles.stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
