@@ -1,16 +1,16 @@
 package com.crcl.storage.configuration;
 
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
 
 import java.util.List;
 
 @Component
 public class CorsCustomizer {
 
-    public void corsCustomizer(HttpSecurity http) throws Exception {
+    public void corsCustomizer(ServerHttpSecurity http) {
         http.cors(c -> {
             CorsConfigurationSource source = s -> {
                 CorsConfiguration cc = new CorsConfiguration();
@@ -20,7 +20,6 @@ public class CorsCustomizer {
                 cc.setAllowedMethods(List.of("*"));
                 return cc;
             };
-
             c.configurationSource(source);
         });
     }

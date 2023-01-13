@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
 import java.net.URLConnection;
 import java.util.List;
@@ -20,14 +21,14 @@ public class StorageController {
     private final StorageService storageService;
 
     @GetMapping("/{tag}/{objectName}")
-    public ResponseEntity<?> getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag) {
-        final var resource = storageService.getResource(objectName, tag);
-        return ResponseEntity.ok()
-                .contentType(MediaType.valueOf(URLConnection.guessContentTypeFromName(objectName)))
-                .cacheControl(CacheControl.maxAge(1, TimeUnit.DAYS).cachePrivate().proxyRevalidate())
-                .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(resource.contentLength()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"%s\"".formatted(objectName))
-                .body(resource);
+    public Mono<ResponseEntity<?>> getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag) {
+        return storageService.getResource(objectName, tag)
+                .map(byteArrayResource -> ResponseEntity.ok()
+                        .contentType(MediaType.valueOf(URLConnection.guessContentTypeFromName(objectName)))
+                        .cacheControl(CacheControl.maxAge(1, TimeUnit.DAYS).cachePrivate().proxyRevalidate())
+                        .header(HttpHeaders.CONTENT_LENGTH, String.valueOf(byteArrayResource.contentLength()))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"%s\"".formatted(objectName))
+                        .body(byteArrayResource));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

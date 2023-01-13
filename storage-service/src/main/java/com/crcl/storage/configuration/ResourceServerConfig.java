@@ -1,26 +1,28 @@
 package com.crcl.storage.configuration;
 
-import com.crcl.common.properties.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
-@EnableWebSecurity
+@EnableWebFluxSecurity
 @AllArgsConstructor
 public class ResourceServerConfig {
+    private static final String ACTUATOR_ENDPOINT_PATTERN = "/actuator/*";
     private final CorsCustomizer corsCustomizer;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
         corsCustomizer.corsCustomizer(http);
-        http.authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(EndpointsUtils.Excludable.END_POINT_ACTUATOR).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+        http.csrf().disable()
+                .authorizeExchange()
+                .pathMatchers(ACTUATOR_ENDPOINT_PATTERN).permitAll()
+                .pathMatchers("/files/**").permitAll()
+                .anyExchange().authenticated()
+                .and()
+                .oauth2ResourceServer()
+                .jwt();
         return http.build();
     }
 }

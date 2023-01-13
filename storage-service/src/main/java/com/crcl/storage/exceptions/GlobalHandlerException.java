@@ -3,6 +3,7 @@ package com.crcl.storage.exceptions;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.minio.errors.ErrorResponseException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -13,6 +14,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -47,6 +50,17 @@ public class GlobalHandlerException {
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> notFoundException(NotFoundException exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler({WebClientResponseException.InternalServerError.class,
+            ErrorResponseException.class,
+            HttpServerErrorException.InternalServerError.class})
+    public ResponseEntity<?> notFoundException(HttpServerErrorException.InternalServerError exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
 
