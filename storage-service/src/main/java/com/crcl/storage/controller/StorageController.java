@@ -4,12 +4,12 @@ import com.crcl.storage.service.StorageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URLConnection;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -32,14 +32,12 @@ public class StorageController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> save(@RequestParam("file") MultipartFile multipartFile) {
-        final var response = storageService.save(multipartFile);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public Mono<ResponseEntity<?>> save(@RequestPart("file") Mono<FilePart> multipartFile) {
+        return Mono.just(new ResponseEntity<>(storageService.save(multipartFile), HttpStatus.OK));
     }
 
     @PostMapping(value = "/all", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> saveAll(@RequestParam("files") List<MultipartFile> multipartFiles) {
-        final var responses = storageService.saveAll(multipartFiles);
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+    public Mono<ResponseEntity<?>> saveAll(@RequestPart("file") Flux<FilePart> multipartFiles) {
+        return Mono.just(new ResponseEntity<>(storageService.saveAll(multipartFiles), HttpStatus.OK));
     }
 }

@@ -2,16 +2,14 @@ package com.crcl.storage.service;
 
 import com.crcl.storage.dto.FileUploadResponse;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.codec.multipart.FilePart;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.Collection;
 
 public interface StorageService {
     Mono<ByteArrayResource> getResource(String objectName, String eTag);
 
-    Mono<FileUploadResponse> save(MultipartFile multipartFile);
+    Mono<FileUploadResponse> save(Mono<FilePart> filePartMono);
 
-    Flux<FileUploadResponse> saveAll(Collection<MultipartFile> multipartFiles);
+    Flux<FileUploadResponse> saveAll(Flux<FilePart> filePartFlux);
 }

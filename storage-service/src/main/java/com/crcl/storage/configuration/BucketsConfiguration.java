@@ -17,6 +17,7 @@ public class BucketsConfiguration {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
 
+
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReadyEvent() {
         minioProperties.getBuckets().forEach(

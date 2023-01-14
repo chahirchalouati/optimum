@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -58,8 +59,8 @@ public class GlobalHandlerException {
     @ExceptionHandler({WebClientResponseException.InternalServerError.class,
             ErrorResponseException.class,
             HttpServerErrorException.InternalServerError.class})
-    public ResponseEntity<?> notFoundException(HttpServerErrorException.InternalServerError exception) {
-        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    public Mono<ResponseEntity<?>> notFoundException(Exception exception) {
+        return Mono.just(new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR));
     }
 
 }

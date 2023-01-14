@@ -16,5 +16,6 @@ public class FileRecord {
     private String bucket;
     private String tag;
     private String version;
+    private String type;
 
 }

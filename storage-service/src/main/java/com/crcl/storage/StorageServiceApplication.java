@@ -6,10 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @ConfigurationPropertiesScan("com.crcl.storage.configuration")
 @SpringBootApplication
-public class ReactiveStorageServiceApplication {
-
+public class StorageServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ReactiveStorageServiceApplication.class, args);
+        SpringApplication.run(StorageServiceApplication.class, args);
     }
 
 }
