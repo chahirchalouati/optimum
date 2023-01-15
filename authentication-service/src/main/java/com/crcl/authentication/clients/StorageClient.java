@@ -20,7 +20,7 @@ import java.util.List;
         configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
 public interface StorageClient {
 
-    @GetMapping("/files/{objectName}/{tag}")
+    @GetMapping("/files/{tag}/{objectName}")
     ByteArrayResource getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag);
 
     @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

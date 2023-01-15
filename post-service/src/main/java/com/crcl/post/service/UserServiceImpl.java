@@ -1,6 +1,6 @@
 package com.crcl.post.service;
 
-import com.crcl.post.client.IdpClient;
+import com.crcl.post.clients.IdpClient;
 import com.crcl.post.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;

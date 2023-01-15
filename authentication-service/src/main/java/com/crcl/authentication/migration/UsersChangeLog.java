@@ -1,5 +1,6 @@
 package com.crcl.authentication.migration;
 
+import com.crcl.authentication.domain.Gender;
 import com.crcl.authentication.domain.Permission;
 import com.crcl.authentication.domain.Role;
 import com.crcl.authentication.domain.User;
@@ -36,6 +37,7 @@ public class UsersChangeLog {
             final Set<Permission> permissions = Set.of();
             role.setPermissions(permissions);
             return new User()
+                    .setGender(Gender.MALE)
                     .setEmail("super_admin@mail.com")
                     .setUsername("admin")
                     .setFirstName("admin")

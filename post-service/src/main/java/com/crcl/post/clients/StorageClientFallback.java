@@ -1,4 +1,4 @@
-package com.crcl.post.client;
+package com.crcl.post.clients;
 
 public class StorageClientFallback {
 }

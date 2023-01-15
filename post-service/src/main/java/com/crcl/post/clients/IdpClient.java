@@ -1,4 +1,4 @@
-package com.crcl.post.client;
+package com.crcl.post.clients;
 
 import com.crcl.post.configuration.OAuthFeignConfig;
 import com.crcl.post.dto.UserDto;

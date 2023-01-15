@@ -1,6 +1,6 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.post.client.StorageClient;
+import com.crcl.post.clients.StorageClient;
 import com.crcl.post.domain.Attachment;
 import com.crcl.post.domain.Post;
 import com.crcl.post.dto.FileUploadResponse;

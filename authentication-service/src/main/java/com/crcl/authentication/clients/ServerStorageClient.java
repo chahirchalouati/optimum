@@ -20,7 +20,7 @@ import java.util.List;
         configuration = {SrvOauth2ClientConfig.class, FeignFormConfig.class})
 public interface ServerStorageClient {
 
-    @GetMapping("/files/{objectName}/{tag}")
+    @GetMapping("/files/{tag}/{objectName}")
     ByteArrayResource getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag);
 
     @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
