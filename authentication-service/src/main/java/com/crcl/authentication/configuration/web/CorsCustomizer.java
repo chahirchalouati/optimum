@@ -11,7 +11,7 @@ import java.util.List;
 public class CorsCustomizer {
 
     public void corsCustomizer(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors(c -> {
+        httpSecurity.cors(corsConfigurer -> {
             CorsConfigurationSource source = s -> {
                 CorsConfiguration cc = new CorsConfiguration();
                 cc.setAllowCredentials(true);
@@ -21,7 +21,7 @@ public class CorsCustomizer {
                 return cc;
             };
 
-            c.configurationSource(source);
+            corsConfigurer.configurationSource(source);
         });
     }
 }
