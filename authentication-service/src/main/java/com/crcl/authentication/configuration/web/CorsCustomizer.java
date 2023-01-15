@@ -13,12 +13,12 @@ public class CorsCustomizer {
     public void corsCustomizer(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors(corsConfigurer -> {
             CorsConfigurationSource source = s -> {
-                CorsConfiguration cc = new CorsConfiguration();
-                cc.setAllowCredentials(true);
-                cc.setAllowedOriginPatterns(List.of("*")); // bad practice
-                cc.setAllowedHeaders(List.of("*"));
-                cc.setAllowedMethods(List.of("*"));
-                return cc;
+                CorsConfiguration corsConfiguration = new CorsConfiguration();
+                corsConfiguration.setAllowCredentials(true);
+                corsConfiguration.setAllowedOriginPatterns(List.of("*")); // bad practice
+                corsConfiguration.setAllowedHeaders(List.of("*"));
+                corsConfiguration.setAllowedMethods(List.of("*"));
+                return corsConfiguration;
             };
 
             corsConfigurer.configurationSource(source);
