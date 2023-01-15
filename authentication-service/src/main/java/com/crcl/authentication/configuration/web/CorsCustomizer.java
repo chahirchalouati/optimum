@@ -10,8 +10,8 @@ import java.util.List;
 @Component
 public class CorsCustomizer {
 
-    public void corsCustomizer(HttpSecurity http) throws Exception {
-        http.cors(c -> {
+    public void corsCustomizer(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors(c -> {
             CorsConfigurationSource source = s -> {
                 CorsConfiguration cc = new CorsConfiguration();
                 cc.setAllowCredentials(true);
