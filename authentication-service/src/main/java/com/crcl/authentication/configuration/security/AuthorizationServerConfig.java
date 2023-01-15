@@ -43,9 +43,10 @@ public class AuthorizationServerConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        corsCustomizer.corsCustomizer(http);
+        this.corsCustomizer.corsCustomizer(http);
         return http
-                .formLogin().loginPage(securityProperties.getLoginPage())
+                .formLogin()
+                .loginPage(securityProperties.getLoginPage())
                 .failureForwardUrl(securityProperties.getFailureForwardUrl())
                 .and()
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
@@ -53,13 +54,8 @@ public class AuthorizationServerConfig {
     }
 
     @Bean
-    public RegisteredClientRepository registeredClientRepository(final MongoClientRepository mongoClientRepository,
-                                                                 final ClientMapper clientMapper,
-                                                                 final ClientSettingsEnhancer clientSettingsEnhancer) {
-        return new MongoRegisteredClientRepository(
-                mongoClientRepository,
-                clientMapper,
-                clientSettingsEnhancer);
+    public RegisteredClientRepository registeredClientRepository(final MongoClientRepository mongoClientRepository, final ClientMapper clientMapper, final ClientSettingsEnhancer clientSettingsEnhancer) {
+        return new MongoRegisteredClientRepository(mongoClientRepository, clientMapper, clientSettingsEnhancer);
     }
 
     @Bean
