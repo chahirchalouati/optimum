@@ -52,6 +52,7 @@ export class TokenService implements ITokenService {
 
   save(token: Token): boolean {
     this.store.removeItem(TOKEN_STORE_KEY);
+    console.log(token.access_token)
     return !!this.store.setItem(TOKEN_STORE_KEY, token);
   }
 

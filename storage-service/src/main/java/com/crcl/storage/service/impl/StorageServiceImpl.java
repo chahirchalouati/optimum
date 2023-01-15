@@ -1,6 +1,5 @@
 package com.crcl.storage.service.impl;
 
-import com.crcl.storage.configuration.properties.MinioProperties;
 import com.crcl.storage.domain.FileRecord;
 import com.crcl.storage.dto.FileUploadResponse;
 import com.crcl.storage.exceptions.CreateRecordException;
@@ -15,8 +14,6 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.http.codec.multipart.Part;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -32,7 +29,6 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
-    private final MinioProperties minioProperties;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
 
@@ -52,11 +48,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     @SneakyThrows(Exception.class)
     public Mono<FileUploadResponse> save(Mono<FilePart> particle) {
-
         return convert(particle)
-                .doOnNext(va -> ReactiveSecurityContextHolder.getContext()
-                        .map(SecurityContext::getAuthentication)
-                        .doOnNext(System.out::println))
                 .zipWith(particle)
                 .map(
                         mapToStoreRequest()
