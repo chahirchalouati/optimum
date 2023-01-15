@@ -30,7 +30,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @AllArgsConstructor
-public class AuthorizationServerConfig {
+public class AuthorizationServerConfiguration {
     private final CorsCustomizer corsCustomizer;
     private final SecurityProperties securityProperties;
 
@@ -41,10 +41,10 @@ public class AuthorizationServerConfig {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain securityASFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        this.corsCustomizer.corsCustomizer(http);
-        return http
+    public SecurityFilterChain securityASFilterChain(HttpSecurity httpSecurity) throws Exception {
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
+        this.corsCustomizer.corsCustomizer(httpSecurity);
+        return httpSecurity
                 .formLogin()
                 .loginPage(securityProperties.getLoginPage())
                 .failureForwardUrl(securityProperties.getFailureForwardUrl())
