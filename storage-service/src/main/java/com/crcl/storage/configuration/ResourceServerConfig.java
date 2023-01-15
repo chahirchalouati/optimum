@@ -2,10 +2,12 @@ package com.crcl.storage.configuration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+@Configuration
 @EnableWebFluxSecurity
 @AllArgsConstructor
 public class ResourceServerConfig {
@@ -18,7 +20,7 @@ public class ResourceServerConfig {
         http.csrf().disable()
                 .authorizeExchange()
                 .pathMatchers(ACTUATOR_ENDPOINT_PATTERN).permitAll()
-                .pathMatchers("/files/**").permitAll()
+//                .pathMatchers("/files/**").permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .oauth2ResourceServer()

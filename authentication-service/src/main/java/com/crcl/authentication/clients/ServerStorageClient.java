@@ -18,7 +18,7 @@ import java.util.List;
 @FeignClient(name = "${client.srvStorage.name}",
         url = "${client.storage.url}",
         configuration = {SrvOauth2ClientConfig.class, FeignFormConfig.class})
-public interface SrvStorageClient {
+public interface ServerStorageClient {
 
     @GetMapping("/files/{objectName}/{tag}")
     ByteArrayResource getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag);

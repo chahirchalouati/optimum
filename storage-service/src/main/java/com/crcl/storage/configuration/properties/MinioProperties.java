@@ -12,5 +12,7 @@ public class MinioProperties {
     private String accessKey;
     private String secretKey;
     private String url;
+    private String region;
+    private String baseurl;
     private List<BucketProperties> buckets = new ArrayList<>();
 }

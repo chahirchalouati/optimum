@@ -1,6 +1,6 @@
 package com.crcl.authentication.service.impl;
 
-import com.crcl.authentication.clients.SrvStorageClient;
+import com.crcl.authentication.clients.ServerStorageClient;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.CreateUserRequest;
 import com.crcl.authentication.dto.UserDto;
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationHelper authenticationHelper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final SrvStorageClient srvStorageClient;
+    private final ServerStorageClient serverStorageClient;
 
     @Override
     public UserDto save(UserDto userDto) {
@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> save(List<UserDto> entities) {
         return entities.stream()
-                .map(this::save)
-                .toList();
+                .map(this::save).toList();
     }
 
     @Override
@@ -59,8 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findById(String id) {
         return userRepository.findById(id)
-                .map(userMapper::toDto)
-                .orElse(null);
+                .map(userMapper::toDto).orElse(null);
     }
 
 
@@ -80,15 +78,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .map(user -> userMapper.toEntity(userDto))
                 .map(userRepository::save)
-                .map(userMapper::toDto)
-                .orElse(null);
+                .map(userMapper::toDto).orElse(null);
     }
 
     @Override
     public UserDto findByUsername(String username) {
         return userRepository.findByUsernameAllIgnoreCase(username)
-                .map(userMapper::toDto)
-                .orElse(null);
+                .map(userMapper::toDto).orElse(null);
     }
 
     @Override
@@ -104,7 +100,7 @@ public class UserServiceImpl implements UserService {
     private void addUserAvatar(CreateUserRequest request, User user) {
         try {
             if (nonNull(request.getAvatarFile())) {
-                final var fileSaveResponse = this.srvStorageClient.save(request.getAvatarFile());
+                final var fileSaveResponse = this.serverStorageClient.save(request.getAvatarFile());
                 user.setAvatar(fileSaveResponse.getLink());
             }
         } catch (Exception e) {
