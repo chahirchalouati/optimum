@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Order {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

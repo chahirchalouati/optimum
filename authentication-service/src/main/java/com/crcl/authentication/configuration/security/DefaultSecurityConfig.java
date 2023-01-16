@@ -37,7 +37,8 @@ public class DefaultSecurityConfig {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin(fm -> fm.loginPage("/idp/login"));
-        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).apply(authorizationServerConfigurer);
+        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .apply(authorizationServerConfigurer);
 
         return http.build();
     }

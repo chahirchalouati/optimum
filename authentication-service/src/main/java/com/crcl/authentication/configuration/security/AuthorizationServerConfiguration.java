@@ -5,10 +5,9 @@ import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.configuration.web.CorsCustomizer;
 import com.crcl.authentication.mappers.ClientMapper;
 import com.crcl.authentication.repository.MongoClientRepository;
+import com.crcl.authentication.repository.MongoOAuth2AuthorizationRepository;
 import com.crcl.authentication.repository.MongoRegisteredClientRepository;
 import com.crcl.authentication.service.impl.ClientSettingsEnhancer;
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.AllArgsConstructor;
@@ -22,6 +21,7 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
@@ -34,6 +34,7 @@ public class AuthorizationServerConfiguration {
     private final CorsCustomizer corsCustomizer;
     private final SecurityProperties securityProperties;
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -44,13 +45,7 @@ public class AuthorizationServerConfiguration {
     public SecurityFilterChain securityASFilterChain(HttpSecurity httpSecurity) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
         this.corsCustomizer.corsCustomizer(httpSecurity);
-        return httpSecurity
-                .formLogin()
-                .loginPage(securityProperties.getLoginPage())
-                .failureForwardUrl(securityProperties.getFailureForwardUrl())
-                .and()
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .build();
+        return httpSecurity.formLogin().loginPage(securityProperties.getLoginPage()).failureForwardUrl(securityProperties.getFailureForwardUrl()).and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).build();
     }
 
     @Bean
@@ -60,9 +55,7 @@ public class AuthorizationServerConfiguration {
 
     @Bean
     public ProviderSettings providerSettings() {
-        return ProviderSettings.builder()
-                .issuer(securityProperties.getIssuer())
-                .build();
+        return ProviderSettings.builder().issuer(securityProperties.getIssuer()).build();
     }
 
     @Bean
@@ -71,15 +64,14 @@ public class AuthorizationServerConfiguration {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    public OAuth2AuthorizationService authorizationService(MongoOAuth2AuthorizationRepository mongoOAuth2AuthorizationRepository,
+                                                           RegisteredClientRepository registeredClientRepository) {
+        return new MongoOAuth2AuthorizationService(registeredClientRepository, mongoOAuth2AuthorizationRepository);
     }
 
     @Bean
-    public JWKSource<SecurityContext> jwkSource() {
-        final RSAKey rsaKey = KeysUtils.generateRsa();
-        final JWKSet jwkSet = new JWKSet(rsaKey);
-        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
 }

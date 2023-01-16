@@ -10,9 +10,9 @@ spring:
   jackson:
     mapper:
       default-view-inclusion: true
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        security: trace
-#        web: debug
+logging:
+  level:
+    org:
+      springframework:
+        security: trace
+        web: debug
