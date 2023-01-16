@@ -53,6 +53,8 @@ public class MongoOAuth2AuthorizationService implements OAuth2AuthorizationServi
 
     @Override
     public void save(OAuth2Authorization authorization) {
+        OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
+        String tokenValue = accessToken.getToken().getTokenValue();
         mongoOAuth2AuthorizationRepository.save(authorization);
     }
 

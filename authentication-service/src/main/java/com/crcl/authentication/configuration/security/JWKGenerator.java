@@ -49,7 +49,7 @@ public class JWKGenerator {
                     .privateKey(privateKey)
                     .keyID(UUID.randomUUID()
                             .toString()).build();
-            rsaKeyRepository.save(new Key().setValid(true).setKey(rsaKey.toJSONObject()));
+            rsaKeyRepository.save(new Key().setValid(true).setValue(rsaKey.toJSONObject()));
 
         }
     }
@@ -60,7 +60,7 @@ public class JWKGenerator {
         var rsaKey = rsaKeyRepository.findOne(Example.of(new Key().setValid(true)))
                 .map(key -> {
                     try {
-                        return RSAKey.parse(key.getKey());
+                        return RSAKey.parse(key.getValue());
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }

@@ -5,7 +5,6 @@ import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.configuration.web.CorsCustomizer;
 import com.crcl.authentication.mappers.ClientMapper;
 import com.crcl.authentication.repository.MongoClientRepository;
-import com.crcl.authentication.repository.MongoOAuth2AuthorizationRepository;
 import com.crcl.authentication.repository.MongoRegisteredClientRepository;
 import com.crcl.authentication.service.impl.ClientSettingsEnhancer;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -21,7 +20,6 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
@@ -63,11 +61,11 @@ public class AuthorizationServerConfiguration {
         return new TokenCustomizer(profileClient);
     }
 
-    @Bean
-    public OAuth2AuthorizationService authorizationService(MongoOAuth2AuthorizationRepository mongoOAuth2AuthorizationRepository,
-                                                           RegisteredClientRepository registeredClientRepository) {
-        return new MongoOAuth2AuthorizationService(registeredClientRepository, mongoOAuth2AuthorizationRepository);
-    }
+//    @Bean
+//    public OAuth2AuthorizationService authorizationService(MongoOAuth2AuthorizationRepository mongoOAuth2AuthorizationRepository,
+//                                                           RegisteredClientRepository registeredClientRepository) {
+//        return new MongoOAuth2AuthorizationService(registeredClientRepository, mongoOAuth2AuthorizationRepository);
+//    }
 
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
