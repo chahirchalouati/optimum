@@ -75,7 +75,7 @@ services:
       - /grafana/provisioning/dashboards/local.yml:/conf/provisioning/dashboards/sample.yml
       - /grafana/dashboards/:/var/lib/grafana/dashboards/
     ports:
-      - '3000:3000'
+      - '3001:3000'
     networks:
       - l_net
 
