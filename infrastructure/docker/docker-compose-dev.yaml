@@ -1,13 +1,6 @@
 version: '3.3'
 services:
-  #  jmeter:
-  #    image: justb4/jmeter
-  #    ports:
-  #      - "1099:1099"
-  #    volumes:
-  #      - "/host/directory:/jmeter"
-  #    environment:
-  #      - DISPLAY=:0
+
   minio:
     image: minio/minio
     container_name: minio
@@ -23,6 +16,7 @@ services:
       - minio:/export
     networks:
       - l_net
+
   mysql-db:
     image: mysql:8
     container_name: mysql-container
@@ -46,6 +40,7 @@ services:
       - rabbit-log:/var/log/rabbitmq
     networks:
       - l_net
+
   mongo:
     image: mongo:6.0.2
     container_name: mongo-container
