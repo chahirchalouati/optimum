@@ -36,7 +36,7 @@ public class StorageServiceImpl implements StorageService {
         return response -> new FileRecord()
                 .setTag(response.etag())
                 .setName(response.object())
-                .setTag(response.etag())
+                .setBucket(response.bucket())
                 .setVersion(response.versionId());
     }
 

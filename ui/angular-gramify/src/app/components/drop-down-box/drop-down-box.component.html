@@ -1,0 +1,4 @@
+<div *ngIf="!show && showDefaultMessage" class="drop-menu-message">No recent searches</div>
+<div [class.drop-menu-active]="show" class="drop-menu">
+  <ng-content></ng-content>
+</div>

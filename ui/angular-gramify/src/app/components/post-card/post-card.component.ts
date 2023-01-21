@@ -8,4 +8,5 @@ import Post from "../../shared/domain/Post";
 })
 export class PostCardComponent {
   @Input() post!: Post;
+
 }

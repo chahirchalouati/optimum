@@ -1,0 +1,30 @@
+@import "variables";
+
+.drop-menu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 100%;
+  height: max-content;
+  background: white;
+  display: none;
+  box-shadow: 2px 2px 0 $primary-shadow-color;
+  border-radius: 5px;
+}
+
+.drop-menu-active {
+  @extend .drop-menu;
+  display: flex;
+}
+
+.drop-menu-message {
+  @extend .drop-menu;
+  transition: linear 0.2s;
+  display: flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  color: $secondary-text-light-color;
+  font-size: small;
+}
+

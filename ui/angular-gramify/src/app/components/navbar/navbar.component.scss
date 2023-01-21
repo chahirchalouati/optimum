@@ -1,0 +1,46 @@
+@import "variables";
+
+.nav-bar {
+  width: 100%;
+  background: white;
+  box-shadow: 2px 2px 2px $primary-shadow-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: .5vh 2vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+
+  .nav-logo {
+    font-weight: bolder;
+    color: $primary-color;
+    font-size: larger;
+    text-shadow: 1px 1px 1px $primary-color;
+    font-family: 'Telex', sans-serif !important;
+    letter-spacing: 3px;
+  }
+
+  .nav-search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    position: relative;
+  }
+
+  .nav-user-action {
+    width: 135px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.icon-round {
+  border-radius: 50%;
+  border: 1px solid black;
+}

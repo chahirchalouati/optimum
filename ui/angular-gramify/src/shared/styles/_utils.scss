@@ -1,0 +1,48 @@
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.relative {
+  position: relative;
+}
+
+.left {
+  left: 0;
+  height: 100vh;
+}
+
+.right {
+  right: 0;
+  height: 100vh;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.shadow-effect {
+  transition: linear 0.1s;
+  filter: brightness(80%);
+  transform: scale(0.98);
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.main {
+  height: max-content;
+  width: 700px;
+  margin: 0 auto;
+
+}

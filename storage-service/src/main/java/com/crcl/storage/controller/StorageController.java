@@ -37,7 +37,7 @@ public class StorageController {
     }
 
     @PostMapping(value = "/all", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Mono<ResponseEntity<?>> saveAll(@RequestPart("file") Flux<FilePart> multipartFiles) {
+    public Mono<ResponseEntity<?>> saveAll(@RequestPart("files") Flux<FilePart> multipartFiles) {
         return Mono.just(new ResponseEntity<>(storageService.saveAll(multipartFiles), HttpStatus.OK));
     }
 }
