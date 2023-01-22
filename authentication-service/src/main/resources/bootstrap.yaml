@@ -17,4 +17,4 @@ logging:
         security: info
         web: info
         data:
-          mongodb: trace
+          mongodb: info
