@@ -8,6 +8,7 @@ import com.crcl.authentication.repository.FriendShipRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.service.FriendShipService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,12 @@ public class FriendShipServiceImpl implements FriendShipService {
 
     @Override
     public FriendShipDto create(String owner, String newFriend) {
+
+        Pair<Boolean, FriendShip> existsPair = this.friendShipRepository.hasFriendShip(owner, newFriend);
+        if (existsPair.getFirst()) {
+            return friendShipMapper.toDto(existsPair.getSecond());
+        }
+
         final var ownerEntity = userRepository.findByUsernameAllIgnoreCase(owner)
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(owner)));
         final var newFriendEntity = userRepository.findByUsernameAllIgnoreCase(newFriend)

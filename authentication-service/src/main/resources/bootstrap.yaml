@@ -16,3 +16,5 @@ logging:
       springframework:
         security: info
         web: info
+        data:
+          mongodb: trace
