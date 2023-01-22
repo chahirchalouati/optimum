@@ -41,7 +41,6 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
         );
 
         Query query = Query.query(criteria);
-
         FriendShip friendShip = this.mongoTemplate.findOne(query, FriendShip.class);
         return Pair.of(Objects.nonNull(friendShip), Optional.ofNullable(friendShip).orElse(new FriendShip()));
     }
