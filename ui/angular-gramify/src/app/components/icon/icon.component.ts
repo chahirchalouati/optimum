@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {icons} from "../../utils/IconUtils";
+import {icons, IconType} from "../../utils/IconUtils";
 
 @Component({
   selector: 'app-icon',
@@ -7,8 +7,8 @@ import {icons} from "../../utils/IconUtils";
   styleUrls: ['./icon.component.scss']
 })
 export class IconComponent implements OnInit {
-  @Input() type: 'flat' | 'rounded' | 'none' = "none";
-  @Input() name!: keyof typeof icons;
+  @Input() type: 'flat' | 'rounded' | 'none' | "card" = "none";
+  @Input() name!: IconType;
   @Input() size: number = 30;
   svg: string = '';
 

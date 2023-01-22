@@ -10,10 +10,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ProfileDto {
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @UniqueUserName
     private String username;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @UniqueEmail
     private String email;
     private String avatar;

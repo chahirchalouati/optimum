@@ -26,7 +26,7 @@ export class FileService {
 
   get(name: string, etag: string): Observable<SafeUrl> {
     const options = {responseType: 'blob' as 'json'};
-    return this.httpClient.get<Blob>(environment.api.file.FILES_GET_ONE + "/" + name + "/" + etag, options)
+    return this.httpClient.get<Blob>(environment.api.file.FILES_GET_ONE + "/" + etag + "/" + name, options)
       .pipe(
         map(e => URL.createObjectURL(new Blob([e]))),
         map(e => this.domSanitizer.bypassSecurityTrustUrl(e))

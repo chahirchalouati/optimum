@@ -26,6 +26,15 @@ span {
   border: 1px solid black;
 }
 
+.card {
+  @extend .rounded;
+  background: transparent;
+
+  &:hover {
+    background: #F2F2F2;
+  }
+}
+
 .none {
   border-radius: 0;
   background: transparent;

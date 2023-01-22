@@ -1,0 +1,73 @@
+@import "utils";
+@import "variables";
+
+.card {
+  margin: 1rem auto;
+  width: 600px;
+  height: 600px;
+  border-radius: 5px;
+  box-shadow: 0 0 3px $secondary-shadow-color;
+  background: white;
+  @extend .column;
+
+  .card-header {
+    padding: 0.3rem;
+    @extend .row;
+    justify-content: space-between;
+
+    .card-header__details {
+      @extend .row;
+      padding: 0.2rem 0.3rem;
+
+      .card-header__details {
+        padding: 0.1rem .3rem;
+      }
+
+      .card-header__details__userInfo {
+        @extend .column;
+        @extend .card-header__details;
+        align-items: center;
+
+        .username {
+          text-transform: capitalize;
+
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .card-header__details_postInfo {
+        @extend .row;
+        @extend .card-header__details;
+        align-items: center;
+        justify-content: center;
+        font-size: small;
+      }
+    }
+
+    .card-header__actions {
+      @extend .row;
+    }
+  }
+
+  .card-body {
+    width: 100%;
+
+    p {
+      padding: 0.3rem 0.5rem;
+      font-size: small;
+    }
+
+    img, video {
+      width: 100%;
+      height: 400px;
+      object-position: center;
+      object-fit: cover;
+    }
+  }
+
+  .card-footer {
+  }
+}

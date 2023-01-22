@@ -21,6 +21,8 @@
     text-shadow: 1px 1px 1px $primary-color;
     font-family: 'Telex', sans-serif !important;
     letter-spacing: 3px;
+    flex: 1;
+    justify-content: flex-start;
   }
 
   .nav-search {
@@ -29,6 +31,7 @@
     align-items: center;
     justify-content: space-evenly;
     position: relative;
+    flex: 1;
   }
 
   .nav-user-action {
@@ -36,7 +39,12 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+    flex: 1;
+
+    .nav-user-action__item {
+      margin: 0 0.1rem;
+    }
   }
 }
 

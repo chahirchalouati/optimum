@@ -1,5 +1,6 @@
 package com.crcl.authentication.service.impl;
 
+import com.crcl.authentication.clients.ProfileClient;
 import com.crcl.authentication.clients.ServerStorageClient;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.CreateUserRequest;
@@ -17,7 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.util.Objects.nonNull;
 
@@ -26,6 +30,7 @@ import static java.util.Objects.nonNull;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+    private final ProfileClient profileClient;
     private final AuthenticationHelper authenticationHelper;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -94,6 +99,13 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRoles(RoleUtils.getDefaultUserRoles());
         return userMapper.toDto(this.userRepository.save(user));
+    }
+
+    @Override
+    public Set<UserDto> findByUserNames(Set<String> userNames) {
+        List<User> users = this.userRepository.findByUsernameIn(userNames);
+        this.profileClient.findByUsernames(new ArrayList<>(userNames));
+        return new HashSet<>(userMapper.mapToDto(users));
     }
 
 

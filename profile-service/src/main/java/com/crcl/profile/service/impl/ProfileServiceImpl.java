@@ -101,4 +101,10 @@ public class ProfileServiceImpl implements ProfileService {
                 .map(profileMapper::toDto)
                 .orElse(null);
     }
+
+    @Override
+    public List<ProfileDto> findByUsernames(List<String> usernames) {
+        List<Profile> profiles = this.profileRepository.findByUsernameIn(usernames);
+        return profileMapper.mapToDto(profiles);
+    }
 }

@@ -21,6 +21,7 @@ import {SrcPipe} from "./shared/pipes/src.pipe";
 import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { TruncatePipe } from './shared/pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     AvatarComponent,
     ClickOutsideDirective,
     PostCardComponent,
-    SideBarComponent
+    SideBarComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,

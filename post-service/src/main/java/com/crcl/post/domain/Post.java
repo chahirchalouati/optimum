@@ -21,9 +21,16 @@ public class Post extends BaseEntity {
     private String username;
     @Lob
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    private Visibility visibility = Visibility.PRIVATE;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
     @ToString.Exclude
     private Set<Attachment> attachments = new HashSet<>();
 
+    public enum Visibility {
+        PUBLIC, FRIEND, PRIVATE
+    }
 }

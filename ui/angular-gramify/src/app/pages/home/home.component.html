@@ -2,11 +2,8 @@
 <div class="row relative">
   <app-sidebar class="fixed left"></app-sidebar>
   <main class="main">
-    <app-post-card *ngFor="let post of (posts$ | async)?.content" [post]="post">
-      
-    </app-post-card>
-
+    <app-post-card *ngFor="let post of (posts$ | async)?.content"
+                   [post]="post"></app-post-card>
   </main>
   <app-sidebar class="fixed right"></app-sidebar>
-
 </div>

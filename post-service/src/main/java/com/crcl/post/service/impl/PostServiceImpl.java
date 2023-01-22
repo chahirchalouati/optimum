@@ -1,11 +1,13 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.post.clients.ProfileClient;
 import com.crcl.post.clients.StorageClient;
 import com.crcl.post.domain.Attachment;
 import com.crcl.post.domain.Post;
 import com.crcl.post.dto.FileUploadResponse;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.dto.PostFormDto;
+import com.crcl.post.dto.ProfileDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.service.PostService;
@@ -21,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +36,18 @@ public class PostServiceImpl implements PostService {
     private final PostMapper postMapper;
     private final StorageClient storageClient;
     private final UserService userService;
+    private final ProfileClient profileClient;
+
+    private static Function<PostDto, PostDto> enhanceWith(List<ProfileDto> profiles) {
+        return postDto -> {
+            ProfileDto profile = profiles.stream()
+                    .filter(profileDto -> Objects.equals(profileDto.getUsername(), postDto.getUsername()))
+                    .findFirst()
+                    .orElse(null);
+            postDto.setOwner(profile);
+            return postDto;
+        };
+    }
 
     @Override
     public PostDto save(PostDto userDto) {
@@ -76,8 +92,15 @@ public class PostServiceImpl implements PostService {
                     Sort.Direction.DESC,
                     "createdAt");
         }
-        return postRepository.findByLoggedUser(pageable)
-                .map(postMapper::toDto);
+        Page<Post> posts = postRepository.findByLoggedUser(pageable);
+        Set<String> usersNames = posts.getContent().stream()
+                .map(Post::getUsername)
+                .collect(Collectors.toSet());
+        List<ProfileDto> profiles = this.profileClient.findByUsernames(usersNames);
+
+        return posts
+                .map(postMapper::toDto)
+                .map(enhanceWith(profiles));
     }
 
     @Override
@@ -96,6 +119,7 @@ public class PostServiceImpl implements PostService {
         final Post post = new Post()
                 .setAttachments(getAttachments(responses))
                 .setContent(postFormDto.getContent())
+                .setVisibility(postFormDto.getVisibility())
                 .setUsername(userService.getCurrentUser().getUsername());
         final Post save = postRepository.save(post);
         return postMapper.toDto(save);

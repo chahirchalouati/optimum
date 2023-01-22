@@ -36,7 +36,6 @@ public class PostController {
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@ModelAttribute PostFormDto postFormDto) {
-        postFormDto.getFiles().forEach(System.out::println);
         return ResponseEntity.ok(this.postService.save(postFormDto));
     }
 

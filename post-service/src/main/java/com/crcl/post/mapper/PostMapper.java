@@ -8,5 +8,4 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public interface PostMapper extends GenericMapper<Post, PostDto> {
-
 }

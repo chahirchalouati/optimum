@@ -12,16 +12,16 @@
   </div>
 
   <div class="nav-user-action">
-    <app-icon (click)="alert($event)"
-              [name]="'message'"
+    <app-icon (click)="alert($event)" [name]="'message'"
               [size]="40"
-              [type]="'rounded'"></app-icon>
-    <app-icon (click)="alert($event)"
-              [name]="'bell'"
+              [type]="'rounded'"
+              class="nav-user-action__item"></app-icon>
+    <app-icon (click)="alert($event)" [name]="'bell'"
               [size]="40"
-              [type]="'rounded'"></app-icon>
-    <app-avatar [img]="(profile$ | async)?.avatar"
-                [shape]="'rounded'"
-                [size]="40"></app-avatar>
+              [type]="'rounded'"
+              class="nav-user-action__item"></app-icon>
+    <app-avatar [img]="(profile$ | async)?.avatar" [shape]="'rounded'"
+                [size]="40"
+                class="nav-user-action__item"></app-avatar>
   </div>
 </nav>

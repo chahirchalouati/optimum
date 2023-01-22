@@ -1,1 +1,32 @@
-<p>post-card works!</p>
+<div class="card">
+  <div class="card-header">
+    <div class="card-header__details">
+      <app-avatar [img]="post.owner?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
+      <div class="card-header__details__userInfo">
+        <h5 class="username">{{post.owner?.username}}</h5>
+        <span class="card-header__details_postInfo">
+            <small class="createdAt">{{getDate(post.createdAt)}}</small>
+          <app-icon
+            [name]="getVisibilityIcon(post.visibility)"
+            [size]="10"
+            [type]="'none'"
+            style="margin-left: 3px"></app-icon>
+        </span>
+
+      </div>
+    </div>
+    <div class="card-header__actions">
+      <app-icon [name]="'dotsHorizontal'" [size]="40"
+                [type]="'card'"></app-icon>
+      <app-icon *ngIf="true" [name]="'close'" [size]="40"
+                [type]="'card'"></app-icon>
+    </div>
+  </div>
+  <div class="card-body">
+    <p class="card-body__content">{{post.content | truncate:[200, '...']}}</p>
+    <p *ngIf="post.content.length > 200" class="card-body__content">show more</p>
+    <!--    show only image fro now-->
+    <img [src]="post.attachments[0].name | src: post.attachments[0].etag | async"/>
+  </div>
+  <div class="card-footer"></div>
+</div>

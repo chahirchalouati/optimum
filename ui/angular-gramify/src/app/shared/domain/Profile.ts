@@ -4,6 +4,8 @@ import Selectable = Pageable.Selectable;
 import isNotEmpty = ObjectsUtils.isNotEmpty;
 
 export default interface Profile extends Selectable {
+  username: string;
+  email: string;
   avatar: string;
   backgroundImage: string;
   user: User;

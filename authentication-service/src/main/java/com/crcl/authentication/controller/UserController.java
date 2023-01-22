@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/users")
@@ -35,6 +36,12 @@ public class UserController {
     @JsonView(UserView.UserResponseView.class)
     public ResponseEntity<List<UserDto>> findAll() {
         return ResponseEntity.ok(this.userService.findAll());
+    }
+
+    @GetMapping("/usernames")
+    @JsonView(UserView.UserResponseView.class)
+    public ResponseEntity<Set<UserDto>> findByUserNames(@RequestParam("usernames") Set<String> userNames) {
+        return ResponseEntity.ok(this.userService.findByUserNames(userNames));
     }
 
     @GetMapping("/{id}")

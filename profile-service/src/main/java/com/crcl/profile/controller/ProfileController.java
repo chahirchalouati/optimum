@@ -43,6 +43,11 @@ public class ProfileController {
         return ResponseEntity.ok(this.profileService.findByUsername(username));
     }
 
+    @GetMapping("/profile/usernames")
+    public ResponseEntity<List<ProfileDto>> findByUserNames(@RequestParam List<String> usernames) {
+        return ResponseEntity.ok(this.profileService.findByUsernames(usernames));
+    }
+
     @PostMapping
     public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto roleDto) {
         return ResponseEntity.ok(this.profileService.save(roleDto));
