@@ -4,7 +4,7 @@
 .card {
   margin: 1rem auto;
   width: 600px;
-  height: 600px;
+  min-height: 600px;
   border-radius: 5px;
   box-shadow: 0 0 3px $secondary-shadow-color;
   background: white;
@@ -66,8 +66,34 @@
       object-position: center;
       object-fit: cover;
     }
+
+    .card-body__content__more {
+      cursor: pointer;
+    }
   }
 
   .card-footer {
+    min-height: 3rem;
+    @extend .column;
+    padding: .3rem;
+
+
+    .card-footer-header {
+      @extend .column;
+
+      .card-footer-header__details {
+        @extend .row;
+        justify-content: space-between;
+        padding: 0.1rem 0;
+        text-transform: capitalize;
+      }
+
+      .card-footer-header__actions {
+        @extend .row;
+        justify-content: space-evenly;
+        border-top: 1px solid $secondary-shadow-color;
+        padding: 0.5rem 0 0 0;
+      }
+    }
   }
 }

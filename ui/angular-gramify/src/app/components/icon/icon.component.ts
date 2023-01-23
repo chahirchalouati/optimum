@@ -10,6 +10,9 @@ export class IconComponent implements OnInit {
   @Input() type: 'flat' | 'rounded' | 'none' | "card" = "none";
   @Input() name!: IconType;
   @Input() size: number = 30;
+  @Input() iconSize: number = 20;
+  @Input() toolTipText: string = '';
+  @Input() toolTipActive: boolean = false;
   svg: string = '';
 
   ngOnInit(): void {

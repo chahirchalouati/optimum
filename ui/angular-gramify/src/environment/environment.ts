@@ -1,6 +1,7 @@
 export type NavItem = { name: string, link: string };
 
 export interface Environment {
+  maxContentSize: number;
   production: boolean;
   oauthCallbackUrl: string;
   oauthAuthorizeUrl: string;
@@ -56,6 +57,7 @@ export interface Environment {
 }
 
 export const environment: Environment = {
+    maxContentSize: 200,
     production: false,
     oauthCallbackUrl: "http://127.0.0.1:4200/authorized",
     oauthAuthorizeUrl: "http://auth-server:9000/oauth2/authorize",

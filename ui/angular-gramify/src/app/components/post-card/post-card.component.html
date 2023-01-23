@@ -18,15 +18,52 @@
     <div class="card-header__actions">
       <app-icon [name]="'dotsHorizontal'" [size]="40"
                 [type]="'card'"></app-icon>
-      <app-icon *ngIf="true" [name]="'close'" [size]="40"
-                [type]="'card'"></app-icon>
+      <app-icon *ngIf="true" [name]="'close'"
+                [size]="40"
+                [toolTipActive]="true"
+                [type]="'card'"
+                toolTipText="close"></app-icon>
     </div>
   </div>
   <div class="card-body">
-    <p class="card-body__content">{{post.content | truncate:[200, '...']}}</p>
-    <p *ngIf="post.content.length > 200" class="card-body__content">show more</p>
+    <p *ngIf="!shouldShowMore" class="card-body__content">{{post.content | truncate:[200, '...']}}</p>
+    <p *ngIf="shouldShowMore" class="card-body__content">{{post.content}}</p>
+    <p (click)="shouldShowMore=true" *ngIf="!shouldShowMore" class="card-body__content__more">show more</p>
+    <p (click)="shouldShowMore=false" *ngIf="shouldShowMore" class="card-body__content__more">show less</p>
     <!--    show only image fro now-->
     <img [src]="post.attachments[0].name | src: post.attachments[0].etag | async"/>
   </div>
-  <div class="card-footer"></div>
+  <div class="card-footer">
+    <div class="card-footer-header">
+      <div class="card-footer-header__details">
+        <div class="card-footer-header__details__reactions"></div>
+        <div class="card-footer-header__details__share"><small>share 1220k</small></div>
+      </div>
+      <div class="card-footer-header__actions">
+        <app-icon [iconSize]="25"
+                  [name]="'like'"
+                  [size]="30"
+                  [toolTipActive]="true"
+                  [toolTipText]="'like'"
+                  [type]="'none'"></app-icon>
+        <app-icon *ngIf="true"
+                  [iconSize]="25"
+                  [name]="'comment'"
+                  [size]="30"
+                  [toolTipActive]="true"
+                  [toolTipText]="'comment'"
+                  [type]="'none'"></app-icon>
+        <app-icon *ngIf="true"
+                  [iconSize]="25"
+                  [name]="'share'"
+                  [size]="30"
+                  [toolTipActive]="true"
+                  [toolTipText]="'share'"
+                  [type]="'none'"></app-icon>
+      </div>
+    </div>
+    <div class="card-footer-body"></div>
+    <div class="card-footer-footer"></div>
+
+  </div>
 </div>

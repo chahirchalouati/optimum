@@ -1,6 +1,8 @@
-#!/usr/bin/env sh
-# shellcheck disable=SC2160
-while true ; do
-   curl --request GET -sL \
-        --url 'http://localhost:7003/audits'
+#!/usr/bin/env bash
+for i in {1..5} ; do
+
+curl http://localhost:9999/idp/idp/register/rest
+   -F key1=value1
+   -F key2=value2
+   -F photo=@C:/Users/Chahir Chalouati/Downloads/avatar.jpg
 done

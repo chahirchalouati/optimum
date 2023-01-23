@@ -22,6 +22,7 @@ import {ClickOutsideDirective} from './shared/directives/click-outside.directive
 import { PostCardComponent } from './components/post-card/post-card.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { TruncatePipe } from './shared/pipes/truncate.pipe';
+import { IconSizePipe } from './shared/pipes/icon-size.pipe';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { TruncatePipe } from './shared/pipes/truncate.pipe';
     ClickOutsideDirective,
     PostCardComponent,
     SideBarComponent,
-    TruncatePipe
+    TruncatePipe,
+    IconSizePipe
   ],
   imports: [
     BrowserModule,
