@@ -24,7 +24,7 @@ import {TruncatePipe} from './shared/pipes/truncate.pipe';
 import {IconSizePipe} from './shared/pipes/icon-size.pipe';
 import {CreatePostComponent} from './components/posts/create-post/create-post.component';
 import {DividerComponent} from './components/divider/divider.component';
-import { ButtonComponent } from './components/common/button/button.component';
+import {ButtonComponent} from './components/common/button/button.component';
 
 @NgModule({
   declarations: [
