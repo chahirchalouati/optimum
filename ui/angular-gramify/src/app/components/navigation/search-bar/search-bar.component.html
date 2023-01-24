@@ -1,0 +1,12 @@
+<app-icon [iconSize]="15"
+          [name]="'search'"
+          [type]="'none'"
+          class="search-icon"></app-icon>
+<input (change)="keyUpEventChange($event)"
+       (input)="keyUpEventChange($event)"
+       (keyup)="keyUpEventChange($event)"
+       *ngIf="hasInputValue"
+       [placeholder]="placeholder"
+       class="search-input"
+       type="search">
+<div *ngIf="!hasInputValue" class="search-input">{{placeholder}}</div>

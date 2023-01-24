@@ -1,4 +1,5 @@
 @import "variables";
+@import "utils";
 
 :host {
   width: max-content;
@@ -9,7 +10,7 @@
   border-radius: 25px;
   position: relative;
 
-  input {
+  .search-input {
     background: $input-primary-background-color;
     width: 600px;
     height: 40px;
@@ -19,11 +20,16 @@
     border-radius: 25px;
     box-shadow: 2px 2px 0 $primary-shadow-color;
     font-size: 14.5px;
+    @extend .row;
+    align-items: center;
+
+    .placeholder {
+      color: $secondary-text-light-color;
+      font-weight: normal;
+    }
 
     &::placeholder {
-      text-transform: capitalize;
-      font-weight: normal;
-      color: $primary-text-light-color;
+      @extend .placeholder;
     }
 
     &:hover {
@@ -34,5 +40,6 @@
   .search-icon {
     position: absolute;
     opacity: 0.5;
+    margin-left: 0.5rem;
   }
 }

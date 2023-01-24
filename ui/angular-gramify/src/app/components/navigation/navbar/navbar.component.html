@@ -1,4 +1,4 @@
-<nav class="nav-bar">
+<nav *ngIf="(profile$ | async) as profile" class="nav-bar">
   <div class="nav-logo">GRAMIFY</div>
   <div (clickOutside)="search_bar_result.showDefaultMessage = false"
        appClickOutside class="nav-search">
@@ -20,7 +20,7 @@
               [size]="40"
               [type]="'rounded'"
               class="nav-user-action__item"></app-icon>
-    <app-avatar [img]="(profile$ | async)?.avatar" [shape]="'rounded'"
+    <app-avatar [img]="profile?.avatar" [shape]="'rounded'"
                 [size]="40"
                 class="nav-user-action__item"></app-avatar>
   </div>

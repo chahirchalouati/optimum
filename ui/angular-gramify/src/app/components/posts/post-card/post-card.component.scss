@@ -1,5 +1,5 @@
-@import "utils";
-@import "variables";
+@import "src/shared/styles/utils";
+@import "src/shared/styles/variables";
 
 .card {
   margin: 1rem auto;
@@ -76,7 +76,7 @@
     min-height: 3rem;
     @extend .column;
     padding: .3rem;
-
+    width: 100%;
 
     .card-footer-header {
       @extend .column;

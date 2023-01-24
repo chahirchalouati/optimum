@@ -2,8 +2,10 @@
 <div class="row relative">
   <app-sidebar class="fixed left"></app-sidebar>
   <main class="main">
-    <app-post-card *ngFor="let post of (posts$ | async)?.content"
-                   [post]="post"></app-post-card>
+    <app-create-post [profile$]="profile$"></app-create-post>
+    <ng-container *ngIf="(posts$ | async) as posts">
+      <app-post-card *ngFor="let post of posts?.content" [post]="post"></app-post-card>
+    </ng-container>
   </main>
   <app-sidebar class="fixed right"></app-sidebar>
 </div>

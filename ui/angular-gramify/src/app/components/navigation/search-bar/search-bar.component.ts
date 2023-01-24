@@ -6,7 +6,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent {
-  @Input() placeholder: string = 'search gramify';
+  @Input() placeholder: string = 'Search gramify';
+  @Input() hasInputValue: boolean = true;
   @Output() keysUpEvent: EventEmitter<any> = new EventEmitter<any>();
 
   keyUpEventChange($event: Event) {

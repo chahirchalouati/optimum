@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import Post, {Visibility} from "../../shared/domain/Post";
+import Post, {Visibility} from "../../../shared/domain/Post";
 import moment from "moment/moment";
-import {IconType} from "../../utils/IconUtils";
-import {environment} from "../../../environment/environment";
+import {IconType} from "../../../utils/IconUtils";
+import {environment} from "../../../../environment/environment";
 
 @Component({
   selector: 'app-post-card',

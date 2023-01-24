@@ -1,0 +1,36 @@
+<div *ngIf="(profile$ | async) as profile" class="card-form">
+  <div class="card-form__create_post_form">
+    <app-avatar [img]="profile?.avatar"
+                [shape]="'rounded'"
+                [size]="40"></app-avatar>
+    <div [attr.placeholder]="getPlaceholder(profile?.username)" class="dummy-input"></div>
+  </div>
+  <app-divider direction="horizontal"></app-divider>
+  <div class="card-form__create_post_form__actions">
+    <app-button class="btn">
+      <app-icon [iconSize]="25"
+                [name]="'like'"
+                [size]="30"
+                [toolTipActive]="true"
+                [toolTipText]="'like'"
+                [type]="'none'"></app-icon>
+    </app-button>
+    <app-button>
+      <app-icon [iconSize]="25"
+                [name]="'like'"
+                [size]="30"
+                [toolTipActive]="true"
+                [toolTipText]="'like'"
+                [type]="'none'"></app-icon>
+    </app-button>
+    <app-button>
+      <app-icon [iconSize]="25"
+                [name]="'like'"
+                [size]="30"
+                [toolTipActive]="true"
+                [toolTipText]="'like'"
+                [type]="'none'"></app-icon>
+    </app-button>
+  </div>
+
+</div>

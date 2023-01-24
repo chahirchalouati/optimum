@@ -11,18 +11,20 @@ import {AuthorizationComponent} from "./pages/authorization/authorization.compon
 import {ErrorComponent} from "./pages/error/error.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {NoSanitizePipe} from "./shared/pipes/no-sanitize.pipe";
-import {NavbarComponent} from './components/navbar/navbar.component';
-import {SidebarComponent} from './components/sidebar/sidebar.component';
-import {IconComponent} from './components/icon/icon.component';
-import {SearchBarComponent} from './components/search-bar/search-bar.component';
-import {DropDownBoxComponent} from './components/drop-down-box/drop-down-box.component';
-import {AvatarComponent} from './components/avatar/avatar.component';
+import {NavbarComponent} from './components/navigation/navbar/navbar.component';
+import {SidebarComponent} from './components/navigation/sidebar/sidebar.component';
+import {IconComponent} from './components/common/icon/icon.component';
+import {SearchBarComponent} from './components/navigation/search-bar/search-bar.component';
+import {DropDownBoxComponent} from './components/common/drop-down-box/drop-down-box.component';
+import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {SrcPipe} from "./shared/pipes/src.pipe";
 import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
-import { PostCardComponent } from './components/post-card/post-card.component';
-import { SideBarComponent } from './components/side-bar/side-bar.component';
-import { TruncatePipe } from './shared/pipes/truncate.pipe';
-import { IconSizePipe } from './shared/pipes/icon-size.pipe';
+import {PostCardComponent} from './components/posts/post-card/post-card.component';
+import {TruncatePipe} from './shared/pipes/truncate.pipe';
+import {IconSizePipe} from './shared/pipes/icon-size.pipe';
+import {CreatePostComponent} from './components/posts/create-post/create-post.component';
+import {DividerComponent} from './components/divider/divider.component';
+import { ButtonComponent } from './components/common/button/button.component';
 
 @NgModule({
   declarations: [
@@ -40,9 +42,11 @@ import { IconSizePipe } from './shared/pipes/icon-size.pipe';
     AvatarComponent,
     ClickOutsideDirective,
     PostCardComponent,
-    SideBarComponent,
     TruncatePipe,
-    IconSizePipe
+    IconSizePipe,
+    CreatePostComponent,
+    DividerComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,

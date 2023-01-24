@@ -1,6 +1,7 @@
 export type NavItem = { name: string, link: string };
 
 export interface Environment {
+  createPostPlaceholder: string;
   maxContentSize: number;
   production: boolean;
   oauthCallbackUrl: string;
@@ -57,6 +58,7 @@ export interface Environment {
 }
 
 export const environment: Environment = {
+    createPostPlaceholder: 'What\'s on your mind, %s?',
     maxContentSize: 200,
     production: false,
     oauthCallbackUrl: "http://127.0.0.1:4200/authorized",
