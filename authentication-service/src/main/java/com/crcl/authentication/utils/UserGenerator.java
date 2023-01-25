@@ -17,6 +17,10 @@ public class UserGenerator {
     private static final Random RANDOM = new Random();
 
     public static List<User> generateRandomUsers(int count, String username) {
+        return generateRandomUsers(count, username, "password");
+    }
+
+    public static List<User> generateRandomUsers(int count, String username, String password) {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             User user = new User();
@@ -24,7 +28,7 @@ public class UserGenerator {
             user.setLastName(LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)]);
             user.setUsername(username + i);
             user.setEmail(generateEmail(user.getFirstName(), user.getLastName()));
-            user.setPassword("password");
+            user.setPassword(password);
             user.setAvatar(AVATARS[RANDOM.nextInt(AVATARS.length)]);
             user.setGender(GENDERS[RANDOM.nextInt(GENDERS.length)]);
             users.add(user);

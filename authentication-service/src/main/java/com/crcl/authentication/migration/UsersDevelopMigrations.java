@@ -5,6 +5,7 @@ import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.UserGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,11 +17,12 @@ import java.util.List;
 public class UsersDevelopMigrations {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void migrate() {
         if (userRepository.count() < 10) {
-            List<User> users = UserGenerator.generateRandomUsers(10, "username");
+            List<User> users = UserGenerator.generateRandomUsers(10, passwordEncoder.encode("password"));
             userRepository.saveAll(users);
         }
     }
