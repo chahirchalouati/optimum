@@ -11,6 +11,7 @@ public class AttachmentDto {
     private String name;
     private String bucket;
     private String version;
+    private String contentType;
     @Getter(AccessLevel.NONE)
     @JsonIgnore
     private String link;

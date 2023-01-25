@@ -9,6 +9,7 @@ import com.crcl.storage.service.StorageService;
 import io.minio.*;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -27,6 +28,7 @@ import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
@@ -70,6 +72,7 @@ public class StorageServiceImpl implements StorageService {
                 .build();
 
         return Mono.just(minioClient.getObject(getObjectArgs))
+                .log()
                 .map(this::getAllBytes)
                 .map(ByteArrayResource::new)
                 .switchIfEmpty(Mono.error(NotFoundException::new));
