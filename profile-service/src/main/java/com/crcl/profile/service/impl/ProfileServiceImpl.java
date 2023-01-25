@@ -12,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +29,10 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public ProfileDto save(ProfileDto profileDto) {
         Profile profile = this.profileMapper.toEntity(profileDto);
+        UserDto userDto = this.idpClient.findByUsername(profileDto.getUsername());
+        if (Objects.isNull(userDto))
+            throw new UsernameNotFoundException("unable to find user for profile with username " + profileDto.getUsername());
+        profile.setUser(userDto);
         return profileMapper.toDto(profileRepository.save(profile));
     }
 

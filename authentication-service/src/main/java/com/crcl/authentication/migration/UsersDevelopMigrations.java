@@ -2,6 +2,7 @@ package com.crcl.authentication.migration;
 
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.repository.UserRepository;
+import com.crcl.authentication.utils.RoleUtils;
 import com.crcl.authentication.utils.UserGenerator;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -21,10 +22,12 @@ public class UsersDevelopMigrations {
 
     @PostConstruct
     public void migrate() {
-        if (userRepository.count() < 10) {
-            List<User> users = UserGenerator.generateRandomUsers(10, passwordEncoder.encode("password"));
-            userRepository.saveAll(users);
-        }
+        userRepository.deleteAll();
+        String password = passwordEncoder.encode("password");
+        List<User> users = UserGenerator.generateRandomUsers(1000, "username", password);
+        users.forEach(user -> user.setRoles(RoleUtils.getDefaultUserRoles()));
+        userRepository.saveAll(users);
+
     }
 
 }

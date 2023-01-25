@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
     private static Function<PostDto, PostDto> enhanceWith(List<ProfileDto> profiles) {
         return postDto -> {
             ProfileDto profile = profiles.stream()
-                    .filter(profileDto -> Objects.equals(profileDto.getUsername(), postDto.getUsername()))
+                    .filter(profileDto -> Objects.equals(profileDto.getUser().getUsername(), postDto.getUsername()))
                     .findFirst()
                     .orElse(null);
             postDto.setOwner(profile);
