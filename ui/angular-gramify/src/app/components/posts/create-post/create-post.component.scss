@@ -45,5 +45,16 @@
 
   .card-form__create_post_form__actions {
     @extend .row;
+    padding: 0.3rem;
+
+    .column {
+      flex: 1;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background: $button-secondary-background-color;
+      }
+    }
   }
 }
