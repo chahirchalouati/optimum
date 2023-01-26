@@ -26,12 +26,4 @@
         <module>profile-service</module>
         <module>storage-service</module>
     </modules>
-    <dependencies>
-        <dependency>
-            <groupId>com.github.ydespreaux.testcontainers</groupId>
-            <artifactId>testcontainers-cassandra</artifactId>
-            <version>1.2.4</version>
-        </dependency>
-    </dependencies>
-
 </project>
