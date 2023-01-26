@@ -1,5 +1,6 @@
 package com.crcl.authentication.migration;
 
+import com.crcl.authentication.configuration.props.UsersDevelopProperties;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.RoleUtils;
@@ -19,15 +20,21 @@ public class UsersDevelopMigrations {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UsersDevelopProperties usersDevelopProperties;
+
 
     @PostConstruct
     public void migrate() {
-        userRepository.deleteAll();
-        String password = passwordEncoder.encode("password");
-        List<User> users = UserGenerator.generateRandomUsers(1000, "username", password);
+        String encodedPws = passwordEncoder.encode(usersDevelopProperties.getPassword());
+        List<User> users = UserGenerator.generateRandomUsers(
+                usersDevelopProperties.getCount(),
+                usersDevelopProperties.getUsername(),
+                encodedPws
+        );
         users.forEach(user -> user.setRoles(RoleUtils.getDefaultUserRoles()));
         userRepository.saveAll(users);
 
     }
+
 
 }
