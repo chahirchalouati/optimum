@@ -3,9 +3,9 @@
     <app-avatar [img]="profile?.avatar"
                 [shape]="'rounded'"
                 [size]="40"></app-avatar>
-    <div [attr.placeholder]="getPlaceholder(profile?.username)" class="dummy-input"></div>
+    <div [attr.placeholder]="getPlaceholder(profile?.user?.username)" class="dummy-input"></div>
   </div>
-  <app-divider direction="horizontal"></app-divider>
+  <div class="horizontal"></div>
   <div class="card-form__create_post_form__actions">
     <app-button class="column" kind="transparent" label="video">
       <app-icon [iconSize]="25"
@@ -28,5 +28,4 @@
                 [type]="'none'"></app-icon>
     </app-button>
   </div>
-
 </div>
