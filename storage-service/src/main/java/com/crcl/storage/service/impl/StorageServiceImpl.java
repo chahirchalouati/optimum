@@ -72,7 +72,6 @@ public class StorageServiceImpl implements StorageService {
                 .build();
 
         return Mono.just(minioClient.getObject(getObjectArgs))
-                .log()
                 .map(this::getAllBytes)
                 .map(ByteArrayResource::new)
                 .switchIfEmpty(Mono.error(NotFoundException::new));
