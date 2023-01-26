@@ -30,6 +30,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 @Slf4j
 public class StorageServiceImpl implements StorageService {
+
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
