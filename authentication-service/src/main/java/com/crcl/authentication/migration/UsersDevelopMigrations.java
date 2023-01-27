@@ -25,14 +25,16 @@ public class UsersDevelopMigrations {
 
     @PostConstruct
     public void migrate() {
-        String encodedPws = passwordEncoder.encode(usersDevelopProperties.getPassword());
-        List<User> users = UserGenerator.generateRandomUsers(
-                usersDevelopProperties.getCount(),
-                usersDevelopProperties.getUsername(),
-                encodedPws
-        );
-        users.forEach(user -> user.setRoles(RoleUtils.getDefaultUserRoles()));
-        userRepository.saveAll(users);
+        if (userRepository.count() <= 0) {
+            String encodedPws = passwordEncoder.encode(usersDevelopProperties.getPassword());
+            List<User> users = UserGenerator.generateRandomUsers(
+                    usersDevelopProperties.getCount(),
+                    usersDevelopProperties.getUsername(),
+                    encodedPws
+            );
+            users.forEach(user -> user.setRoles(RoleUtils.getDefaultUserRoles()));
+            userRepository.saveAll(users);
+        }
 
     }
 
