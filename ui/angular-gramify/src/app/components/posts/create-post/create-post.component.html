@@ -3,7 +3,8 @@
     <app-avatar [img]="profile?.avatar"
                 [shape]="'rounded'"
                 [size]="40"></app-avatar>
-    <div [attr.placeholder]="getPlaceholder(profile?.user?.username)" class="dummy-input"></div>
+    <div (click)="modalComponent.show=true" [attr.placeholder]="getPlaceholder(profile?.user?.username)"
+         class="dummy-input"></div>
   </div>
   <div class="horizontal"></div>
   <div class="card-form__create_post_form__actions">
@@ -29,3 +30,4 @@
     </app-button>
   </div>
 </div>
+<app-modal #modalComponent [title]="'Create new post'"></app-modal>

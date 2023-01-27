@@ -8,9 +8,10 @@
   border-radius: 5px;
   box-shadow: 0 0 3px $secondary-shadow-color;
   background: white;
-  @extend .row;
-  justify-content: space-evenly;
+  @extend .column;
+  justify-content: flex-start;
   overflow: hidden;
+  position: relative;
 
   img {
     object-fit: cover;
@@ -18,4 +19,28 @@
     width: 100%;
     height: 100%;
   }
+
+  .card-story__img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 70%;
+  }
+
+  .card-story__btn {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -70%);
+
+    .rounded {
+      background: transparent !important;
+    }
+  }
+}
+
+.card-story-form {
+  @extend .card-story;
+  background: $primary-text-color;
+
 }
