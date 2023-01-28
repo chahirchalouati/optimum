@@ -1,0 +1,70 @@
+= _Gramify_
+
+:author: Chahir Chalouati
+:email:  chehhhir@gmail.com
+:revnumber: 0.1
+:revdate: {docdate}
+:subject: Spring microserices & angular
+:keywords: Angular, Angular CLI, TypeScript, JavaScript, Node, npm, Jasmine, Protractor, java, spring framwork, spring boot, Oauth2
+:icons: font
+:lang: en
+:language: javadocript
+:sourcedir: .
+:toc: macro
+:source-highlighter: highlight.js
+
+=== Source Code
+****
+If you'd like to get right to it, the https://github.com/chahirchalouati/gramify-ms[source is on GitHub].
+****
+
+toc::[]
+
+=== The key features
+
+1. *Post creation and visualization*
+* Users should be able to create and share posts, including text, images, and videos.
+Posts should be displayed in a timeline format, with the most recent posts appearing at the top.
+
+2. *Friendships*
+* Users should be able to add other users as friends and view their friend's posts in their timeline.
+
+3. *Comments*
+* Users should be able to leave comments on posts, and view comments left by other users.
+
+4. *Likes*
+* Users should be able to like posts and view the number of likes on a post.
+
+5. *Profile*
+* Each user should have a profile page that displays their posts, friends, and other information.
+
+6. *Notifications*
+* Users should receive notifications when their posts receive comments or likes.
+
+7. *Search*
+* Users should be able to search for other users or posts by keywords.
+
+8. *Security and privacy*
+* The application should include features to protect the privacy of its users, such as the ability to control who can see their posts and profile information.
+
+=== Software Requirements
+
+* Java 17 or higher
+* Spring Framework 5 or higher
+* Kubernetes 1.20 or higher
+* Docker 19.03 or higher
+
+=== Hardware Requirements
+
+* 4 GB RAM or higher
+* 2 CPU cores or higher
+* 40 GB storage or higher
+
+=== Development Environment
+
+* An IDE that supports Java 17 and Spring Framework, such as IntelliJ IDEA or Eclipse
+* Git for version control
+* A Kubernetes cluster set up for deployment
+* Docker installed on the development machine and the Kubernetes cluster
+
+=== Running the Application
