@@ -3,7 +3,7 @@
     <app-avatar [img]="profile?.avatar"
                 [shape]="'rounded'"
                 [size]="40"></app-avatar>
-    <div (click)="modalComponent.show=true" [attr.placeholder]="getPlaceholder(profile?.user?.username)"
+    <div (click)="openModal(modalComponent)" [attr.placeholder]="getPlaceholder(profile?.user?.username)"
          class="dummy-input"></div>
   </div>
   <div class="horizontal"></div>
@@ -30,4 +30,27 @@
     </app-button>
   </div>
 </div>
-<app-modal #modalComponent [title]="'Create new post'"></app-modal>
+<app-modal #modalComponent>
+  <div class="row flex-centered">
+    <app-button class="column" kind="transparent" label="video">
+      <app-icon [iconSize]="25"
+                [name]="'video'"
+                [size]="30"
+                [type]="'none'"></app-icon>
+    </app-button>
+
+    <app-button class="column" kind="transparent" label="image/story">
+      <app-icon [iconSize]="25"
+                [name]="'image'"
+                [size]="30"
+                [type]="'none'"></app-icon>
+    </app-button>
+
+    <app-button class="column" kind="transparent" label="feelings/birthday">
+      <app-icon [iconSize]="25"
+                [name]="'feeling'"
+                [size]="30"
+                [type]="'none'"></app-icon>
+    </app-button>
+  </div>
+</app-modal>

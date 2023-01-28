@@ -1,5 +1,5 @@
 <nav *ngIf="(profile$ | async) as profile" class="nav-bar">
-  <div class="nav-logo">GRAMIFY</div>
+  <div class="nav-logo" routerLink="">{{appName.toUpperCase()}}</div>
   <div (clickOutside)="search_bar_result.showDefaultMessage = false"
        appClickOutside class="nav-search">
     <app-search-bar (click)="search_bar_result.showDefaultMessage=true"

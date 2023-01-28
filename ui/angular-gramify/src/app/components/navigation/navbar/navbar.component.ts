@@ -5,6 +5,7 @@ import {EMPTY, Observable} from "rxjs";
 import {ProfileService} from "../../../services/profile.service";
 import {AuditService} from "../../../services/audit.service";
 import {TokenService} from "../../../services/token.service";
+import {environment} from "../../../../environment/environment";
 
 @Component({
   selector: 'app-navbar',
@@ -14,6 +15,7 @@ import {TokenService} from "../../../services/token.service";
 export class NavbarComponent implements OnInit {
   profile$: Observable<Profile> = EMPTY;
   userInfo: any = this.tokenService.getUserInfo();
+  appName: string = environment.appName;
 
   constructor(private auditService: AuditService,
               private profileService: ProfileService,

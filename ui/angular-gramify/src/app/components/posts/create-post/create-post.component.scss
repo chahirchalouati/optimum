@@ -36,9 +36,11 @@
 
       &:after {
         content: attr(placeholder);
-
         color: $secondary-text-light-color;
         font-weight: normal;
+        @extend .row;
+        align-items: center;
+        padding: 0 1rem 0 0.5rem;
       }
     }
   }
