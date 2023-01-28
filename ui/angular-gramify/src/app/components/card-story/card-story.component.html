@@ -1,0 +1,11 @@
+<div [class]="isForm ? 'card-story-form' : 'card-story'">
+  <img *ngIf="!isForm" alt="sd"
+       src="https://images.pexels.com/photos/14930394/pexels-photo-14930394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+  <ng-container *ngIf="isForm && (profile | async)?.avatar as avatar">
+    <img [alt]="avatar" [src]="avatar" class="card-story__img">
+    <app-icon (click)="create_post_modal.show=true" [name]="'plus'" [type]="'rounded'"
+              class="card-story__btn"></app-icon>
+    <small style="color: white; align-self:center; margin-top: auto; margin-bottom: 0.2rem;">create story</small>
+  </ng-container>
+</div>
+<app-modal #create_post_modal title="Create new story"></app-modal>

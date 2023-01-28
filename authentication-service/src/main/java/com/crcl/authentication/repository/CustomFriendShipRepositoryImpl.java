@@ -29,7 +29,6 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
 
     @Override
     public FriendShip remove(User owner, User newFriend) {
-
         return null;
     }
 

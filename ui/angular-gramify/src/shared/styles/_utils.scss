@@ -30,6 +30,11 @@
   flex-direction: column;
 }
 
+.flex-centered {
+  justify-content: center;
+  align-items: center;
+}
+
 .shadow-effect {
   transition: linear 0.1s;
   filter: brightness(80%);

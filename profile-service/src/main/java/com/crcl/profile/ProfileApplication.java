@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @EnableFeignClients
 @ConfigurationPropertiesScan("com.crcl.profile.configuration.*")
@@ -17,6 +18,7 @@ public class ProfileApplication {
     }
 
     @Bean
+    @Profile("dev")
     Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
     }

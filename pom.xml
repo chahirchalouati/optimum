@@ -9,11 +9,14 @@
     <version>1.0.1</version>
     <name>gramify-ms</name>
     <description>gramify-ms</description>
+
     <properties>
         <java.version>17</java.version>
         <spring.security.version>2.3.4.RELEASE</spring.security.version>
     </properties>
+
     <packaging>pom</packaging>
+
     <modules>
         <module>common</module>
         <module>configuration-service</module>

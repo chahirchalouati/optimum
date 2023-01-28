@@ -25,6 +25,11 @@ import {IconSizePipe} from './shared/pipes/icon-size.pipe';
 import {CreatePostComponent} from './components/posts/create-post/create-post.component';
 import {DividerComponent} from './components/divider/divider.component';
 import {ButtonComponent} from './components/common/button/button.component';
+import {CardStoryComponent} from './components/card-story/card-story.component';
+import {CreateStoryComponent} from './components/create-story/create-story.component';
+import {ModalComponent} from "./components/common/modal/modal.component";
+import { ModalDirective } from './shared/directives/modal.directive';
+import { DynamicComponentDirective } from './shared/directives/dynamic-component.directive';
 
 @NgModule({
   declarations: [
@@ -46,7 +51,12 @@ import {ButtonComponent} from './components/common/button/button.component';
     IconSizePipe,
     CreatePostComponent,
     DividerComponent,
-    ButtonComponent
+    ButtonComponent,
+    CardStoryComponent,
+    CreateStoryComponent,
+    ModalComponent,
+    ModalDirective,
+    DynamicComponentDirective
   ],
   imports: [
     BrowserModule,

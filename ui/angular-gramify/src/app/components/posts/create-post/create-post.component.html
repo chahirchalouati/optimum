@@ -3,34 +3,54 @@
     <app-avatar [img]="profile?.avatar"
                 [shape]="'rounded'"
                 [size]="40"></app-avatar>
-    <div [attr.placeholder]="getPlaceholder(profile?.username)" class="dummy-input"></div>
+    <div (click)="openModal(modalComponent)" [attr.placeholder]="getPlaceholder(profile?.user?.username)"
+         class="dummy-input"></div>
   </div>
-  <app-divider direction="horizontal"></app-divider>
+  <div class="horizontal"></div>
   <div class="card-form__create_post_form__actions">
-    <app-button class="btn">
+    <app-button class="column" kind="transparent" label="video">
       <app-icon [iconSize]="25"
-                [name]="'like'"
+                [name]="'video'"
                 [size]="30"
-                [toolTipActive]="true"
-                [toolTipText]="'like'"
                 [type]="'none'"></app-icon>
     </app-button>
-    <app-button>
+
+    <app-button class="column" kind="transparent" label="image/story">
       <app-icon [iconSize]="25"
-                [name]="'like'"
+                [name]="'image'"
                 [size]="30"
-                [toolTipActive]="true"
-                [toolTipText]="'like'"
                 [type]="'none'"></app-icon>
     </app-button>
-    <app-button>
+
+    <app-button class="column" kind="transparent" label="feelings/birthday">
       <app-icon [iconSize]="25"
-                [name]="'like'"
+                [name]="'feeling'"
                 [size]="30"
-                [toolTipActive]="true"
-                [toolTipText]="'like'"
                 [type]="'none'"></app-icon>
     </app-button>
   </div>
-
 </div>
+<app-modal #modalComponent>
+  <div class="row flex-centered">
+    <app-button class="column" kind="transparent" label="video">
+      <app-icon [iconSize]="25"
+                [name]="'video'"
+                [size]="30"
+                [type]="'none'"></app-icon>
+    </app-button>
+
+    <app-button class="column" kind="transparent" label="image/story">
+      <app-icon [iconSize]="25"
+                [name]="'image'"
+                [size]="30"
+                [type]="'none'"></app-icon>
+    </app-button>
+
+    <app-button class="column" kind="transparent" label="feelings/birthday">
+      <app-icon [iconSize]="25"
+                [name]="'feeling'"
+                [size]="30"
+                [type]="'none'"></app-icon>
+    </app-button>
+  </div>
+</app-modal>
