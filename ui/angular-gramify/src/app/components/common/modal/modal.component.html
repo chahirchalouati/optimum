@@ -1,17 +1,17 @@
 <div *ngIf="show" class="modal">
   <div class="modal-box">
     <div class="modal-box-header">
-      <app-icon [toolTipActive]="true"
+      <app-icon *ngIf="showGoBack" [toolTipActive]="true"
                 class="back"
                 name="arrowBackRound"
                 toolTipText="back"
-                type="none"></app-icon>
+                type="rounded"></app-icon>
       <h3 class="title">{{title}}</h3>
-      <app-icon (click)="show = false" [toolTipActive]="true"
+      <app-icon (click)="closeModal()" [toolTipActive]="true"
                 class="close"
                 name="close"
                 toolTipText="close"
-                type="none"></app-icon>
+                type="rounded"></app-icon>
     </div>
     <div class="modal-box-body">
       <ng-content></ng-content>

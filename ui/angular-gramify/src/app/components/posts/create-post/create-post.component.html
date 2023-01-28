@@ -1,26 +1,26 @@
 <div *ngIf="(profile$ | async) as profile" class="card-form">
   <div class="card-form__create_post_form">
     <app-avatar [img]="profile?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
-    <div class="dummy-input"
+    <div (click)="openModal(modalComponent)"
          [attr.placeholder]="getPlaceHolder(profile?.user?.username)"
-         (click)="openModal(modalComponent)"></div>
+         class="dummy-input"></div>
   </div>
   <div class="horizontal"></div>
   <div class="card-form__create_post_form__actions">
     <app-button class="column" kind="transparent bold" label="live video">
-      <app-icon class="live-video" [iconSize]="25" [name]="'video'" [size]="30" [type]="'none'"></app-icon>
+      <app-icon [iconSize]="25" [name]="'video'" [size]="30" [type]="'none'" class="live-video"></app-icon>
     </app-button>
     <app-button class="column" kind="transparent bold" label="image/story">
-      <app-icon class="image" [iconSize]="25"
-                [name]="'image'"
+      <app-icon [iconSize]="25" [name]="'image'"
                 [size]="30"
-                [type]="'none'"></app-icon>
+                [type]="'none'"
+                class="image"></app-icon>
     </app-button>
     <app-button class="column" kind="transparent bold" label="feelings/birthday">
-      <app-icon class="feeling" [iconSize]="25"
-                [name]="'feeling'"
+      <app-icon [iconSize]="25" [name]="'feeling'"
                 [size]="30"
-                [type]="'none'"></app-icon>
+                [type]="'none'"
+                class="feeling"></app-icon>
     </app-button>
   </div>
 

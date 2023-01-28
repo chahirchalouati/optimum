@@ -24,14 +24,22 @@
     object-fit: cover;
     object-position: center;
     width: 100%;
-    height: 70%;
+    height: 75%;
   }
 
   .card-story__btn {
     position: absolute;
-    top: 70%;
+    top: 85%;
     left: 50%;
-    transform: translate(-50%, -70%);
+    transform: translate(-50%, -85%);
+
+    &::ng-deep span {
+      background: $primary-color;
+
+      svg {
+        stroke: white;
+      }
+    }
 
     .rounded {
       background: transparent !important;
@@ -41,6 +49,6 @@
 
 .card-story-form {
   @extend .card-story;
-  background: $primary-text-color;
+  background: white;
 
 }

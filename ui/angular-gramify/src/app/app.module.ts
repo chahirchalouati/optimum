@@ -28,8 +28,8 @@ import {ButtonComponent} from './components/common/button/button.component';
 import {CardStoryComponent} from './components/card-story/card-story.component';
 import {CreateStoryComponent} from './components/create-story/create-story.component';
 import {ModalComponent} from "./components/common/modal/modal.component";
-import { ModalDirective } from './shared/directives/modal.directive';
-import { DynamicComponentDirective } from './shared/directives/dynamic-component.directive';
+import {ModalDirective} from './shared/directives/modal.directive';
+import {DynamicComponentDirective} from './shared/directives/dynamic-component.directive';
 
 @NgModule({
   declarations: [
