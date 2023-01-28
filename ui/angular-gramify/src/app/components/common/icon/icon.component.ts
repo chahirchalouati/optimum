@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {icons, IconType} from "../../../utils/IconUtils";
+import {ICONS, IconType} from "../../../utils/IconUtils";
 
 @Component({
   selector: 'app-icon',
@@ -16,7 +16,7 @@ export class IconComponent implements OnInit {
   svg: string = '';
 
   ngOnInit(): void {
-    this.svg = icons[this.name]
+    this.svg = ICONS[this.name]
   }
 
 }
