@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-export type ButtonKind = 'flat' | 'rounded' | 'transparent'
+export type ButtonKind = 'flat' | 'rounded' | 'transparent' | string;
 export type ButtonType = 'submit' | 'button' | 'reset'
 
 @Component({

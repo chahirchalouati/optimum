@@ -1,5 +1,5 @@
-@import "src/shared/styles/utils";
-@import "src/shared/styles/variables";
+@import "variables";
+@import "utils";
 
 .card-form {
   margin: 1rem auto;
@@ -57,6 +57,18 @@
       &:hover {
         background: $button-secondary-background-color;
       }
+    }
+
+    .live-video ::ng-deep span svg {
+      fill: red;
+    }
+
+    .image ::ng-deep span svg {
+      fill: green;
+    }
+
+    .feeling ::ng-deep span svg {
+      fill: orange;
     }
   }
 

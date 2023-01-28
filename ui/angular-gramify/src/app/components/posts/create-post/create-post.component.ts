@@ -33,7 +33,7 @@ export class CreatePostComponent implements OnInit {
 
   }
 
-  getPlaceholder(username: string | undefined) {
+  getPlaceHolder(username: string | undefined) {
     return environment.createPostPlaceholder.replace("%s", username as string);
   }
 

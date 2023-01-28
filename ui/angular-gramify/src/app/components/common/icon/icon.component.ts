@@ -7,7 +7,7 @@ import {icons, IconType} from "../../../utils/IconUtils";
   styleUrls: ['./icon.component.scss']
 })
 export class IconComponent implements OnInit {
-  @Input() type: 'flat' | 'rounded' | 'none' | "card" = "none";
+  @Input() type: 'flat' | 'rounded' | 'none' | "card" | string = "none";
   @Input() name!: IconType;
   @Input() size: number = 30;
   @Input() iconSize: number = 20;
