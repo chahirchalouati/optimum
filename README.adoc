@@ -14,6 +14,7 @@
 :source-highlighter: highlight.js
 
 === Source Code
+
 ****
 If you'd like to get right to it, the https://github.com/chahirchalouati/gramify-ms[source is on GitHub].
 ****
@@ -67,4 +68,13 @@ Posts should be displayed in a timeline format, with the most recent posts appea
 * A Kubernetes cluster set up for deployment
 * Docker installed on the development machine and the Kubernetes cluster
 
-=== Running the Application
+=== Setting up the Run Configuration
+
+1. Open Application in IntelliJ IDEA.
+2. Click on the "Run" menu and then select "Edit Configurations...".
+3. Click on the "+" button to add a new configuration and select "Spring Boot".
+4. In the "Name" field, enter a name of microservice for the configuration.
+5. In the "Main class" field, select the class with the @SpringBootApplication annotation.
+6. In the "Program arguments" field, enter --spring.profiles.active=dev.
+This will activate the "dev" profile for the application.
+7. Click on the "Apply" button to save the configuration.
