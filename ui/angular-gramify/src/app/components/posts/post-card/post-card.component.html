@@ -3,7 +3,7 @@
     <div class="card-header__details">
       <app-avatar [img]="post.owner?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
       <div class="card-header__details__userInfo">
-        <h5 class="username">{{post.owner?.username}}</h5>
+        <h5 class="username">{{post.owner.user.firstName + " " + post.owner.user.lastName }}</h5>
         <span class="card-header__details_postInfo">
             <small class="createdAt">{{getDate(post.createdAt)}}</small>
           <app-icon

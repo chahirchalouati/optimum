@@ -3,6 +3,7 @@ import Post, {Visibility} from "../../../shared/domain/Post";
 import moment from "moment/moment";
 import {IconType} from "../../../utils/IconUtils";
 import {environment} from "../../../../environment/environment";
+import {User} from "../../../shared/domain/Profile";
 
 @Component({
   selector: 'app-post-card',
@@ -24,5 +25,9 @@ export class PostCardComponent implements OnInit {
 
   getVisibilityIcon(visibility: Visibility): IconType {
     return visibility.toLowerCase() as IconType;
+  }
+
+  getFullName(user: User | undefined) {
+    return !!user ? user.fullName: "";
   }
 }

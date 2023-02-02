@@ -4,6 +4,7 @@ import {HomeComponent} from "./pages/home/home.component";
 import {AuthenticationGuard} from "./shared/gaurds/authentication.guard";
 import {AuthorizationComponent} from "./pages/authorization/authorization.component";
 import {ErrorComponent} from "./pages/error/error.component";
+import {StoryComponent} from "./pages/story/story.component";
 
 const routes: Routes = [
   {
@@ -11,6 +12,12 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthenticationGuard]
   },
+  {
+    path: 'story',
+    component: StoryComponent,
+    canActivate: [AuthenticationGuard]
+  },
+
   {
     path: 'authorized',
     component: AuthorizationComponent,

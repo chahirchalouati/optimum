@@ -1,10 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {DropDownBoxComponent} from "../../common/drop-down-box/drop-down-box.component";
 import Profile from "../../../shared/domain/Profile";
 import {EMPTY, Observable} from "rxjs";
-import {ProfileService} from "../../../services/profile.service";
-import {AuditService} from "../../../services/audit.service";
-import {TokenService} from "../../../services/token.service";
 import {environment} from "../../../../environment/environment";
 
 @Component({
@@ -12,19 +9,11 @@ import {environment} from "../../../../environment/environment";
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-  profile$: Observable<Profile> = EMPTY;
-  userInfo: any = this.tokenService.getUserInfo();
+export class NavbarComponent {
+  @Input() profile$: Observable<Profile> = EMPTY;
   appName: string = environment.appName;
 
-  constructor(private auditService: AuditService,
-              private profileService: ProfileService,
-              private tokenService: TokenService) {
-  }
-
-  ngOnInit(): void {
-    this.profile$ = this.profileService.getUserProfile(this.userInfo.username);
-  }
+  constructor() {}
 
   alert($event: MouseEvent) {
     alert($event.timeStamp)

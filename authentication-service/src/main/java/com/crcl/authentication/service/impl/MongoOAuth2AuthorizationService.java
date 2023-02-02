@@ -1,2 +1,4 @@
-package com.crcl.authentication.service.impl;public class MongoOAuth2AuthorizationService {
+package com.crcl.authentication.service.impl;
+
+public class MongoOAuth2AuthorizationService {
 }

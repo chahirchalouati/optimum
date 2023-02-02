@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {TokenService} from "../../services/token.service";
 import {ObjectsUtils} from "../../utils/ObjectsUtils";
+import {ProfileService} from "../../services/profile.service";
 import isNotEmpty = ObjectsUtils.isNotEmpty;
 
 @Component({
@@ -20,7 +21,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private tokenService: TokenService,
               private router: Router,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private profileService: ProfileService) {
   }
 
   ngOnInit(): void {
@@ -36,7 +38,15 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
           this.authenticateSubscription = this.authenticationService.authenticate(code).subscribe(
             isAuthenticated => {
               if (isAuthenticated) {
-                this.router.navigate(['']);
+                const userInfo = this.tokenService.getUserInfo();
+                this.profileService.getUserProfile(userInfo.username).subscribe(
+                  profile => {
+                    this.profileService.setProfile(profile);
+                    this.router.navigate(['']);
+                  },
+                  error => this.router.navigate(['error'])
+                )
+
               } else {
                 this.router.navigate(['error']);
               }

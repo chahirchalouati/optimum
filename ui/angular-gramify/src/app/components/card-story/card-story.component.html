@@ -3,7 +3,7 @@
        src="https://images.pexels.com/photos/14930394/pexels-photo-14930394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
   <ng-container *ngIf="isForm && (profile | async)?.avatar as avatar">
     <img [alt]="avatar" [src]="avatar" class="card-story__img">
-    <app-icon (click)="create_post_modal.show=true" [iconSize]="40" [name]="'plus'" [size]="40"
+    <app-icon (click)="navigate('/story')" [iconSize]="40" [name]="'plus'" [size]="40"
               [type]="'rounded white-border'"
               class="card-story__btn"></app-icon>
     <small class="card-text">create story</small>

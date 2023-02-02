@@ -1,2 +1,4 @@
-package com.crcl.authentication.domain;public class MongoAuthorization {
+package com.crcl.authentication.domain;
+
+public class MongoAuthorization {
 }

@@ -43,7 +43,12 @@ public class AuthorizationServerConfiguration {
     public SecurityFilterChain securityASFilterChain(HttpSecurity httpSecurity) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
         this.corsCustomizer.corsCustomizer(httpSecurity);
-        return httpSecurity.formLogin().loginPage(securityProperties.getLoginPage()).failureForwardUrl(securityProperties.getFailureForwardUrl()).and().oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt).build();
+        return httpSecurity.formLogin()
+                .loginPage(securityProperties.getLoginPage())
+                .failureForwardUrl(securityProperties.getFailureForwardUrl())
+                .and()
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .build();
     }
 
     @Bean
@@ -60,12 +65,6 @@ public class AuthorizationServerConfiguration {
     public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(SrvProfileClient profileClient) {
         return new TokenCustomizer(profileClient);
     }
-
-//    @Bean
-//    public OAuth2AuthorizationService authorizationService(MongoOAuth2AuthorizationRepository mongoOAuth2AuthorizationRepository,
-//                                                           RegisteredClientRepository registeredClientRepository) {
-//        return new MongoOAuth2AuthorizationService(registeredClientRepository, mongoOAuth2AuthorizationRepository);
-//    }
 
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {

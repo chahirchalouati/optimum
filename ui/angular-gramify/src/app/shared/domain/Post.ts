@@ -13,7 +13,7 @@ export default interface Post extends Selectable {
   attachments: Attachment[];
   createdAt: string;
   content: string;
-  owner?: Profile;
+  owner: Profile;
   visibility: Visibility;
 }
 export type Visibility = "PUBLIC" | "FRIEND" | "PRIVATE";

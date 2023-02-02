@@ -5,14 +5,17 @@ import {HttpClient} from "@angular/common/http";
 import {Pageable} from "../shared/domain/Pageable";
 import {Observable} from "rxjs";
 import {environment} from "../../environment/environment";
+import {StorageService} from "./storage.service";
 
+export const KEY_PROFILE: string = 'PROFILE';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService implements GenericCrud<Profile> {
 
-  constructor(private httpClient: HttpClient) {
+
+  constructor(private httpClient: HttpClient, private storageService: StorageService) {
   }
 
   get(pageRequest: Pageable.PageRequest): Observable<Pageable.Page<Profile>> {
@@ -38,4 +41,16 @@ export class ProfileService implements GenericCrud<Profile> {
   getUserProfile(username: string): Observable<Profile> {
     return this.httpClient.get<Profile>(`${environment.api.profile.PROFILE_GET_USER}/${username}`, {params: {username: username}});
   }
+
+  setProfile(profile: Profile): Profile {
+    this.storageService.with("localStorage")
+      .setItem(KEY_PROFILE, profile);
+    return profile;
+  }
+
+  getProfile(): Profile {
+    return this.storageService.with("localStorage")
+      .getItem<Profile>(KEY_PROFILE);
+  }
+
 }
