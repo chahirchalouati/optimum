@@ -1,11 +1,11 @@
 import {ComponentFactoryResolver, Directive, HostListener, Input, ViewContainerRef} from '@angular/core';
-import {ModalComponent} from "../../components/common/modal/modal.component";
+import {CreatePostModal} from "../../components/common/modal/create-post-modal.component";
 
 @Directive({
   selector: '[appDynamicComponent]'
 })
 export class DynamicComponentDirective {
-  @Input() component!: ModalComponent;
+  @Input() component!: CreatePostModal;
 
   constructor(private viewContainerRef: ViewContainerRef, private factory: ComponentFactoryResolver) {
   }

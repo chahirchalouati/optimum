@@ -1,10 +1,10 @@
-import {Component, Input, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {AuthenticationService} from "../../../services/authentication.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs";
 import Profile from "../../../shared/domain/Profile";
 import {environment} from "../../../../environment/environment";
-import {ModalComponent} from "../../common/modal/modal.component";
+import {CreatePostModal} from "../../common/modal/create-post-modal.component";
 
 @Component({
   selector: 'app-create-post',
@@ -12,11 +12,10 @@ import {ModalComponent} from "../../common/modal/modal.component";
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent implements OnInit {
-  @ViewChild('modalContent', {static: true}) modalContent!: TemplateRef<any>;
   @Input() profile$!: Observable<Profile>;
   @Input() placeholder: string = '';
   createPostForm!: FormGroup;
-  modal: any = ModalComponent;
+  modal: any = CreatePostModal;
 
   constructor(private authenticationService: AuthenticationService,
               private viewContainerRef: ViewContainerRef,
@@ -37,14 +36,7 @@ export class CreatePostComponent implements OnInit {
     return environment.createPostPlaceholder.replace("%s", username as string);
   }
 
-  getCreatePostModal() {
-    const modalComponent = new ModalComponent();
-    modalComponent.show = true;
-    modalComponent.title = 'create post'
-    return modalComponent;
-  }
-
-  openModal(modal: ModalComponent) {
+  openModal(modal: CreatePostModal) {
     modal.show = true;
     modal.title = 'Create post'
   }

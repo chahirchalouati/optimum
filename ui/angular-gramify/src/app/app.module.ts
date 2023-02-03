@@ -27,7 +27,7 @@ import {DividerComponent} from './components/divider/divider.component';
 import {ButtonComponent} from './components/common/button/button.component';
 import {CardStoryComponent} from './components/card-story/card-story.component';
 import {CreateStoryComponent} from './components/create-story/create-story.component';
-import {ModalComponent} from "./components/common/modal/modal.component";
+import {CreatePostModal} from "./components/common/modal/create-post-modal.component";
 import {ModalDirective} from './shared/directives/modal.directive';
 import {DynamicComponentDirective} from './shared/directives/dynamic-component.directive';
 import {StoryComponent} from './pages/story/story.component';
@@ -55,7 +55,7 @@ import {StoryComponent} from './pages/story/story.component';
     ButtonComponent,
     CardStoryComponent,
     CreateStoryComponent,
-    ModalComponent,
+    CreatePostModal,
     ModalDirective,
     DynamicComponentDirective,
     StoryComponent

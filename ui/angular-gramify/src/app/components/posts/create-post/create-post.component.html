@@ -25,8 +25,23 @@
   </div>
 
   <app-modal #modalComponent>
-    <div class="column">
-      <app-avatar [img]="profile?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-header__details">
+          <app-avatar [img]="profile?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
+          <div class="modal-header__details__userInfo">
+            <h5 class="username">{{profile.user.firstName + " " + profile.user.lastName }}</h5>
+            <span class="modal-header__details_postInfo">
+          <app-icon
+            [name]="'public'"
+            [size]="10"
+            [type]="'none'"
+            style="margin-left: 3px"></app-icon>
+        </span>
+
+          </div>
+        </div>
+      </div>
     </div>
   </app-modal>
 
