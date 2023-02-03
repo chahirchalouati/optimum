@@ -28,6 +28,6 @@ export class PostCardComponent implements OnInit {
   }
 
   getFullName(user: User | undefined) {
-    return !!user ? user.fullName: "";
+    return !!user ? user.fullName : "";
   }
 }

@@ -30,7 +30,7 @@ import {CreateStoryComponent} from './components/create-story/create-story.compo
 import {ModalComponent} from "./components/common/modal/modal.component";
 import {ModalDirective} from './shared/directives/modal.directive';
 import {DynamicComponentDirective} from './shared/directives/dynamic-component.directive';
-import { StoryComponent } from './pages/story/story.component';
+import {StoryComponent} from './pages/story/story.component';
 
 @NgModule({
   declarations: [

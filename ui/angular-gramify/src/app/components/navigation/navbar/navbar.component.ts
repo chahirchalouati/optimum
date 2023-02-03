@@ -13,7 +13,8 @@ export class NavbarComponent {
   @Input() profile$: Observable<Profile> = EMPTY;
   appName: string = environment.appName;
 
-  constructor() {}
+  constructor() {
+  }
 
   alert($event: MouseEvent) {
     alert($event.timeStamp)

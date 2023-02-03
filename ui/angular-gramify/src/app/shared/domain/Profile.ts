@@ -1,5 +1,4 @@
 import {Pageable} from "./Pageable";
-import {ObjectsUtils} from "../../utils/ObjectsUtils";
 import Selectable = Pageable.Selectable;
 
 export default interface Profile extends Selectable {

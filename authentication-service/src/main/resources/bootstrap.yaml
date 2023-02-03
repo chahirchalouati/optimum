@@ -13,8 +13,4 @@ spring:
 logging:
   level:
     org:
-      springframework:
-        security: info
-        web: info
-        data:
-          mongodb: info
+      springframework: trace

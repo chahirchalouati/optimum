@@ -15,6 +15,6 @@ export class StoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  this.profile$ = of(this.profileService.getProfile())
+    this.profile$ = of(this.profileService.getProfile())
   }
 }

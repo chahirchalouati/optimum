@@ -29,9 +29,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @AllArgsConstructor
 public class AuthorizationServerConfiguration {
+
     private final CorsCustomizer corsCustomizer;
     private final SecurityProperties securityProperties;
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -7,15 +7,15 @@ import Profile from "../../shared/domain/Profile";
   templateUrl: './create-story.component.html',
   styleUrls: ['./create-story.component.scss']
 })
-export class CreateStoryComponent implements OnInit{
+export class CreateStoryComponent implements OnInit {
   @Input() profile$!: Observable<Profile>;
 
   ngOnInit(): void {
-   this.profile$.subscribe(
-     value => {
-       console.log(value)
-     }
-   )
+    this.profile$.subscribe(
+      value => {
+        console.log(value)
+      }
+    )
 
   }
 
