@@ -1,9 +1,12 @@
 package com.crcl.storage.configuration.Oauth2;
 
+import com.crcl.common.configuration.SwaggerConfiguration;
+import com.crcl.common.properties.ApiProperties;
 import com.crcl.common.utils.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -11,8 +14,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @Configuration
 @EnableWebFluxSecurity
 @AllArgsConstructor
+@Import({ApiProperties.class, SwaggerConfiguration.class})
 public class ResourceServerConfig {
-    private static final String ACTUATOR_ENDPOINT_PATTERN = "/actuator/*";
     private final CorsCustomizer corsCustomizer;
 
     @Bean
@@ -20,8 +23,9 @@ public class ResourceServerConfig {
         corsCustomizer.corsCustomizer(http);
         http.csrf().disable()
                 .authorizeExchange()
-                .pathMatchers(ACTUATOR_ENDPOINT_PATTERN).permitAll()
+                .pathMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
                 .pathMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                .pathMatchers().permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .oauth2ResourceServer()

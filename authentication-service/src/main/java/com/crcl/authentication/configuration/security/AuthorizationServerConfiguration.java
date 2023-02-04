@@ -7,11 +7,14 @@ import com.crcl.authentication.mappers.ClientMapper;
 import com.crcl.authentication.repository.MongoClientRepository;
 import com.crcl.authentication.repository.MongoRegisteredClientRepository;
 import com.crcl.authentication.service.impl.ClientSettingsEnhancer;
+import com.crcl.common.configuration.SwaggerConfiguration;
+import com.crcl.common.properties.ApiProperties;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,6 +29,7 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 
+@Import({ApiProperties.class, SwaggerConfiguration.class})
 @Configuration
 @AllArgsConstructor
 public class AuthorizationServerConfiguration {

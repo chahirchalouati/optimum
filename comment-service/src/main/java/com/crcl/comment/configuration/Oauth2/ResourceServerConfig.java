@@ -1,9 +1,12 @@
 package com.crcl.comment.configuration.Oauth2;
 
+import com.crcl.common.configuration.SwaggerConfiguration;
+import com.crcl.common.properties.ApiProperties;
 import com.crcl.common.utils.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.spel.spi.EvaluationContextExtension;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Configuration
 @AllArgsConstructor
+@Import({ApiProperties.class, SwaggerConfiguration.class})
 public class ResourceServerConfig {
 
     private final CorsCustomizer corsCustomizer;
