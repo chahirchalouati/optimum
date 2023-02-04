@@ -1,6 +1,6 @@
 package com.crcl.notification.client;
 
-import com.crcl.notification.configuration.SrvConfiguration;
+import com.crcl.notification.configuration.client.SrvConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(name = "configuration",

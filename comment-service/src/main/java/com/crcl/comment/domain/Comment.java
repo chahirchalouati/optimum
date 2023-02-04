@@ -4,28 +4,24 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 @Entity
-@Table(name = "comments")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Comment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+@Accessors(chain = true)
+public class Comment extends BaseEntity {
 
     @Column(name = "post_id")
     private String postId;
 
-    @Column(name = "user_id")
-    private String userId;
-
     @Column(name = "content")
+    @Lob
     private String content;
 }

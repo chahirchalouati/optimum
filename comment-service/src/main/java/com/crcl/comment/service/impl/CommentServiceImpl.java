@@ -65,7 +65,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Page<CommentDto> findAll(Pageable pageable) {
-        return this.commentRepository.findAll(pageable)
+        Page<Comment> commentPage = this.commentRepository.findAll(pageable);
+        commentPage.getContent().forEach(System.out::println);
+        return commentPage
                 .map(mapper::toDto);
     }
 

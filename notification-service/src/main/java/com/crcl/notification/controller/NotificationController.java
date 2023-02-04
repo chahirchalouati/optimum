@@ -19,6 +19,4 @@ public class NotificationController {
     public Mono<NotificationResponse<?>> create(NotificationRequest request) {
         return notificationService.notify(request);
     }
-
-
 }

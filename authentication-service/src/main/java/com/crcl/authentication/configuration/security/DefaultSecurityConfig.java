@@ -1,6 +1,7 @@
 package com.crcl.authentication.configuration.security;
 
 import com.crcl.authentication.configuration.web.CorsCustomizer;
+import com.crcl.common.utils.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class DefaultSecurityConfig {
         this.corsCustomizer.corsCustomizer(http);
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
         http.authorizeRequests()
+                .antMatchers(EndpointsUtils.Ignorable.SWAGGER_API).permitAll()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .antMatchers("/idp/login/**").permitAll()
                 .antMatchers("/idp/register/**").permitAll()
