@@ -12,7 +12,7 @@ logging:
       springframework:
         cloud:
           gateway:
-            filter: TRACE
+            filter: INFO
 ---
 spring:
   cloud:

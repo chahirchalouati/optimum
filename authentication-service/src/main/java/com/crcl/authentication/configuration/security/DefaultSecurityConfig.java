@@ -31,7 +31,7 @@ public class DefaultSecurityConfig {
         this.corsCustomizer.corsCustomizer(http);
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
         http.authorizeRequests()
-                .antMatchers(EndpointsUtils.Ignorable.SWAGGER_API).permitAll()
+                .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .antMatchers("/idp/login/**").permitAll()
                 .antMatchers("/idp/register/**").permitAll()

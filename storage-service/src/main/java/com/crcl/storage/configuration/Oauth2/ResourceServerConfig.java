@@ -21,7 +21,7 @@ public class ResourceServerConfig {
         http.csrf().disable()
                 .authorizeExchange()
                 .pathMatchers(ACTUATOR_ENDPOINT_PATTERN).permitAll()
-                .pathMatchers(EndpointsUtils.Ignorable.SWAGGER_API).permitAll()
+                .pathMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .oauth2ResourceServer()

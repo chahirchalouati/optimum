@@ -27,8 +27,8 @@ public class ResourceServerConfig {
 
         corsCustomizer.corsCustomizer(http);
         http.authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(EndpointsUtils.Ignorable.END_POINT_ACTUATOR).permitAll()
-                        .antMatchers(EndpointsUtils.Ignorable.SWAGGER_API).permitAll()
+                        .antMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                        .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

@@ -7,6 +7,5 @@ spring:
 
 logging:
   level:
-    org:
-      springframework:
-        web: trace
+
+        web: INFO
