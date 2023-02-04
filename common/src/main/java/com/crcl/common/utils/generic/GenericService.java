@@ -8,7 +8,7 @@ import java.util.List;
 public interface GenericService<EntityDto, EntityId> {
     EntityDto save(EntityDto entityDto);
 
-    List<EntityDto> save(List<EntityDto> entities);
+    List<EntityDto> save(List<EntityDto> entitiesDto);
 
     void deleteById(EntityId entityId);
 
