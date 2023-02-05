@@ -13,10 +13,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
+      - name: Set up JDK 17 Temurin
         uses: actions/setup-java@v2
         with:
           java-version: 17
+          distribution: temurin
 
       - name: Deploy to Github Package Registry
         env:
