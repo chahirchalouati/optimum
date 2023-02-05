@@ -23,22 +23,11 @@
             <groupId>com.crcl</groupId>
             <artifactId>common</artifactId>
             <version>1.0.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springdoc</groupId>
-                    <artifactId>springdoc-openapi-ui</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
             <version>8.4.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-core</artifactId>
-            <version>1.4.3</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>

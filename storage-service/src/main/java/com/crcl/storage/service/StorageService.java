@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface StorageService {
-    Mono<ByteArrayResource> getResource(String objectName, String eTag);
+    Mono<ByteArrayResource> getResource(String fileName, String owner);
 
     Mono<FileUploadResponse> save(Mono<FilePart> filePartMono);
 
