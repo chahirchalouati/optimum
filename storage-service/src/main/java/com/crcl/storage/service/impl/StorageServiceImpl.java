@@ -35,14 +35,6 @@ public class StorageServiceImpl implements StorageService {
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
 
-    private Function<ObjectWriteResponse, FileRecord> saveFileRecord() {
-        return response -> new FileRecord()
-                .setTag(response.etag())
-                .setName(response.object())
-                .setBucket(response.bucket())
-                .setVersion(response.versionId());
-    }
-
     @Override
     public Flux<FileUploadResponse> saveAll(Flux<FilePart> filePartFlux) {
         return filePartFlux.flatMap(filePart -> this.save(Mono.just(filePart)));
@@ -65,10 +57,10 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     @SneakyThrows
-    public Mono<ByteArrayResource> getResource(String objectName, String eTag) {
+    public Mono<ByteArrayResource> getResource(String fileName, String owner) {
         final var getObjectArgs = GetObjectArgs.builder()
-                .object(objectName)
-                .matchETag(eTag)
+                .object(fileName)
+                .matchETag(owner)
                 .bucket(bucketsResolver.resolve())
                 .build();
 
@@ -136,4 +128,14 @@ public class StorageServiceImpl implements StorageService {
             return new byte[0];
         }
     }
+
+    private Function<ObjectWriteResponse, FileRecord> saveFileRecord() {
+        return response -> new FileRecord()
+                .setTag(response.etag())
+                .setName(response.object())
+                .setBucket(response.bucket())
+                .setVersion(response.versionId());
+    }
+
+
 }

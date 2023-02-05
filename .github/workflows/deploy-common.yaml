@@ -1,0 +1,23 @@
+name: Deploy Maven Package
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set version based on tag
+        run: |
+          echo "Setting version in pom.xml based on GitHub tag"
+          tag_name=$(echo ${GITHUB_REF#refs/tags/})
+          sed -i "s/<version>.*<\/version>/<version>$tag_name<\/version>/" common/pom.xml
+
+      - name: Deploy with version based on tag
+        run: mvn -f common/pom.xml deploy

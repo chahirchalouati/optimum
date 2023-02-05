@@ -14,4 +14,6 @@ public class ApiProperties {
     private String contactEmail;
     private String licenseName;
     private String licenseUrl;
+    private String authorizationUrl;
+    private String tokenUrl;
 }
