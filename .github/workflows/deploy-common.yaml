@@ -1,4 +1,4 @@
-name: Deploy Maven Package
+name: Deploy Common Module
 
 on:
   push:
@@ -12,12 +12,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          java-version: '17'
-          distribution: 'temurin'
 
-      - name: Package code
-        run: mvn -f common/pom.xml clean package
+      - name: Set Java version
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
 
       - name: Set version based on tag
         run: |
@@ -25,7 +24,11 @@ jobs:
           tag_name=$(echo ${GITHUB_REF#refs/tags/})
           sed -i "s/<version>.*<\/version>/<version>$tag_name<\/version>/" common/pom.xml
 
-      - name: Deploy with version based on tag
-        run: mvn -f common/pom.xml deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build with Maven
+        run: mvn -f common/pom.xml clean install
+
+      - name: Deploy to GitHub Package Registry
+        uses: actions/upload-artifact@v2
+        with:
+          name: common
+          path: common/target/*.jar
