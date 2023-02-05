@@ -25,7 +25,7 @@ jobs:
           sed -i "s/<version>.*<\/version>/<version>$tag_name<\/version>/" common/pom.xml
 
       - name: Build with Maven
-        uses: maven-actions/mvn-action@v3
+        uses: maven-actions/mvn-action@v2
         with:
           args: -pl common clean package
 
