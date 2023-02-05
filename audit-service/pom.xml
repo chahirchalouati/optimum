@@ -130,7 +130,7 @@
         <repository>
             <id>github</id>
             <name>Chahir Chloauti</name>
-            <url>https://maven.pkg.github.com/chahirchalouati/microservices</url>
+            <url>https://maven.pkg.github.com/chahirchalouati/gramify-ms</url>
         </repository>
     </distributionManagement>
     <build>
