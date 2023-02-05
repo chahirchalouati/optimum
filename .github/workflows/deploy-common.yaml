@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
       - name: Package code
         run: mvn -f common/pom.xml clean package
@@ -24,3 +27,5 @@ jobs:
 
       - name: Deploy with version based on tag
         run: mvn -f common/pom.xml deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
