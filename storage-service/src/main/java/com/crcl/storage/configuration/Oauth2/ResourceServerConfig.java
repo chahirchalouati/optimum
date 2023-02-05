@@ -25,7 +25,6 @@ public class ResourceServerConfig {
                 .authorizeExchange()
                 .pathMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
                 .pathMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
-                .pathMatchers().permitAll()
                 .anyExchange().authenticated()
                 .and()
                 .oauth2ResourceServer()
