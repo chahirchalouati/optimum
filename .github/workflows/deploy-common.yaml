@@ -25,12 +25,9 @@ jobs:
           sed -i "s/<version>.*<\/version>/<version>$tag_name<\/version>/" common/pom.xml
 
       - name: Build with Maven
-        uses: maven-actions/mvn-action@v2
-        with:
-          args: -pl common clean package
+        run: mvn -pl common clean package
 
       - name: Deploy to GitHub Package Registry
-        uses: actions/upload-artifact@v2
-        with:
-          name: common
-          path: common/target/*.jar
+        run: mvn -pl common deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
