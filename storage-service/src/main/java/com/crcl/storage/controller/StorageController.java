@@ -14,15 +14,17 @@ import reactor.core.publisher.Mono;
 import java.net.URLConnection;
 import java.util.concurrent.TimeUnit;
 
-
 @RestController
 @RequestMapping("files")
 @AllArgsConstructor
 @Slf4j
 public class StorageController {
+
     private final StorageService storageService;
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "get stored file by owner & fileName")})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "get stored file by owner & fileName")
+    })
     @GetMapping("/{owner}/{fileName}")
     public Mono<ResponseEntity<?>> getByTagAndFileName(@PathVariable("fileName") String fileName, @PathVariable("owner") String owner) {
         return storageService.getResource(fileName, owner)
@@ -34,13 +36,17 @@ public class StorageController {
                         .body(byteArrayResource));
     }
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "store file")})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "store file")
+    })
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<?>> store(@RequestPart("file") Mono<FilePart> multipartFile) {
         return Mono.just(new ResponseEntity<>(storageService.save(multipartFile), HttpStatus.OK));
     }
 
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "store files")})
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "store files")
+    })
     @PostMapping(value = "/all", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Mono<ResponseEntity<?>> storeAll(@RequestPart("files") Flux<FilePart> multipartFiles) {
         return Mono.just(new ResponseEntity<>(storageService.saveAll(multipartFiles), HttpStatus.OK));
