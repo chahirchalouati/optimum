@@ -28,6 +28,6 @@ jobs:
         run: mvn -pl common clean package
 
       - name: Deploy to GitHub Package Registry
-        run: mvn -pl common deploy
+        run: mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
