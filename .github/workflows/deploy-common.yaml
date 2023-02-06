@@ -5,12 +5,9 @@ on:
     tags:
       - '*'
 
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17 Temurin
@@ -18,8 +15,9 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
+          cache: 'maven'
 
-      - name: Build specific module
+      - name: Build common module
         run: mvn clean install -pl common -DskipTests=true
 
       - name: Deploy to GitHub Package Registry
