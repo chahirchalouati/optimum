@@ -15,12 +15,9 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-          cache: 'maven'
+#          cache: 'maven'
 
       - name: Build common module
-        run: mvn clean install -pl common -DskipTests=true
-
-      - name: Re-Build common module
         run: mvn clean install -pl common -DskipTests=true
 
       - name: Deploy to GitHub Package Registry
