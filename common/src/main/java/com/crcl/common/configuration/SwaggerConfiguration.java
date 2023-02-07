@@ -24,14 +24,25 @@ public class SwaggerConfiguration {
     public OpenAPI api(ApiProperties apiProperties) {
         log.info("Initializing OpenAPI information {}", apiProperties);
 
+        License license = new License()
+                .name(apiProperties.getLicenseName())
+                .url(apiProperties.getLicenseUrl());
+
+        Contact contact = new Contact()
+                .name(apiProperties.getContactName())
+                .email(apiProperties.getContactEmail());
+
+        Info info = new Info()
+                .title(apiProperties.getTitle())
+                .description(apiProperties.getDescription())
+                .version(apiProperties.getVersion())
+                .termsOfService(apiProperties.getTermsOfService())
+                .contact(contact)
+                .license(license);
+
         return new OpenAPI()
                 .components(new Components())
-                .info(new Info().title(apiProperties.getTitle()).description(apiProperties.getDescription())
-                        .version(apiProperties.getVersion())
-                        .termsOfService(apiProperties.getTermsOfService())
-                        .contact(new Contact().name(apiProperties.getContactName()).email(apiProperties.getContactEmail()))
-                        .license(new License().name(apiProperties.getLicenseName()).url(apiProperties.getLicenseUrl()))
-                );
+                .info(info);
     }
 
     @Bean
