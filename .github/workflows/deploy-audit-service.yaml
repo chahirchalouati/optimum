@@ -50,6 +50,7 @@ jobs:
       - name: Docker build
         run: |
           cd audit-service/
+          ls
           docker build . -t chahirchalouati/audit-service:${{github.run_number}}
       - name: Login to DockerHub
         uses: docker/login-action@v1
