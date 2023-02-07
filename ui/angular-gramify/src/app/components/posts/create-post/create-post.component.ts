@@ -38,6 +38,5 @@ export class CreatePostComponent implements OnInit {
 
   openModal(modal: CreatePostModal) {
     modal.show = true;
-    modal.title = 'Create post'
   }
 }

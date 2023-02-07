@@ -35,6 +35,20 @@
   align-items: center;
 }
 
+.flex-space-between {
+  justify-content: space-between;
+}
+
+.flex-start {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.flex-end {
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
 .shadow-effect {
   transition: linear 0.1s;
   filter: brightness(80%);

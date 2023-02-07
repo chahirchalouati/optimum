@@ -30,3 +30,7 @@
 .transparent {
   @extend .btn;
 }
+
+.btn-gray {
+  background: $secondary-background-color;
+}
