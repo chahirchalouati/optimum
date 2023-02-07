@@ -23,7 +23,7 @@ jobs:
           distribution: temurin
           cache: 'maven'
       - name: Build with Maven
-        run: mvn clean install -pl ${i%%/}
+        run: mvn clean install -s $GITHUB_WORKSPACE/settings.xml  -pl ${i%%/}
       - name: Publish to Docker Hub
         uses: docker/build-push-action@v1
         with:
