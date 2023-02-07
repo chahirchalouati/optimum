@@ -49,7 +49,8 @@ jobs:
           path: target/
       - name: Docker build
         run: |
-          docker build ./audit-service/ -t chahirchalouati/gramify-ms:${{github.run_number}}
+          cd audit-service/
+          docker build . -t chahirchalouati/audit-service:${{github.run_number}}
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -58,7 +59,7 @@ jobs:
 
       - name: Docker push
         run: |
-          docker push chahirchalouati/gramify-ms:${{github.run_number}}
+          docker push chahirchalouati/audit-service:${{github.run_number}}
   run:
     runs-on: ubuntu-latest
     needs: [build, deploy]
@@ -66,5 +67,5 @@ jobs:
     steps:
       - name: Run container
         run: |
-          docker run chahirchalouati/gramify-ms:${{github.run_number}}
+          docker run chahirchalouati/audit-service:${{github.run_number}}
  
