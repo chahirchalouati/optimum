@@ -1,11 +1,15 @@
-
-name: Build and Publish infrastructure
+#!/usr/bin/env sh
+dirs=$(ls -d */)
+for i in ${dirs[@]}; do
+  touch ".github/workflows/deploy-${i%%/}.yaml"
+ echo "
+name: Build and Publish ${i%%/}
 
 on:
   push:
     branches: [ develop ]
     paths:
-      - infrastructure/**
+      - ${i%%/}/**
 
 jobs:
   build:
@@ -26,6 +30,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: chahirchalouati/gramify-ms
-          tags: {{github.run_number}}
+          tags: ${{github.run_number}}
 
- 
+ " >>  .github/workflows/deploy-${i%%/}.yaml
+
+done
