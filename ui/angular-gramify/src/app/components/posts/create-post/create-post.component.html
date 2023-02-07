@@ -24,21 +24,15 @@
     </app-button>
   </div>
 
-  <app-modal #modalComponent>
+  <app-modal
+    [title]="'Create post'"
+    #modalComponent>
     <div class="modal">
       <div class="modal-header">
         <div class="modal-header__details">
-          <app-avatar [img]="profile?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
-          <div class="modal-header__details__userInfo">
-            <h5 class="username">{{profile.user.firstName + " " + profile.user.lastName }}</h5>
-            <span class="modal-header__details_postInfo">
-          <app-icon
-            [name]="'public'"
-            [size]="10"
-            [type]="'none'"
-            style="margin-left: 3px"></app-icon>
-        </span>
-
+          <div class="row flex-space-between">
+            <app-user-info-badge [profile$]='profile$'
+                                 [hasVisibility]="true"></app-user-info-badge>
           </div>
         </div>
       </div>

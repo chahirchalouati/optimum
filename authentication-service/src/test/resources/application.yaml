@@ -16,8 +16,8 @@ mongock:
 security:
   clientIp: 127.0.0.1
   issuer: http://auth-server:9000
-  loginPage: /idp/login
-  failureForwardUrl: /idp/login?error=true
+  loginPage: /authentication/login
+  failureForwardUrl: /authentication/login?error=true
   registrations:
     notification-service:
       refresh-token-access-time-to-leave: 8000
@@ -111,9 +111,9 @@ security:
         - authorization_code
         - client_credentials
 client:
-  idp:
-    url: http://localhost:9999/idp
-    name: idp
+  authentication:
+    url: http://localhost:9999/authentication
+    name: authentication
   storage:
     url: http://localhost:9999/storage
     name: storage

@@ -21,7 +21,7 @@ public class Oauth2TokenInterceptorHelper {
     public final static String AUTHORIZATION_HEADER = "Authorization";
     public final static String BEARER_TOKEN_TYPE = "Bearer";
     private @Autowired RestTemplate restTemplate;
-    private @Value("${client.idp.url}") String IDP_URL;
+    private @Value("${client.authentication.url}") String IDP_URL;
 
     public String getClientAccessToken(String clientId, String password) {
         try {

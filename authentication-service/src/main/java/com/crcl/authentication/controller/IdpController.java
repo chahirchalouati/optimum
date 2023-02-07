@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/idp")
+@RequestMapping("/authentication")
 @AllArgsConstructor
 public class IdpController {
     private final UserService userService;
