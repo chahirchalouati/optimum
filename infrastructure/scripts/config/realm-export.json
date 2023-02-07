@@ -1272,14 +1272,14 @@
       "builtIn": true,
       "authenticationExecutions": [
         {
-          "authenticator": "idp-confirm-link",
+          "authenticator": "authentication-confirm-link",
           "requirement": "REQUIRED",
           "priority": 10,
           "userSetupAllowed": false,
           "autheticatorFlow": false
         },
         {
-          "authenticator": "idp-email-verification",
+          "authenticator": "authentication-email-verification",
           "requirement": "ALTERNATIVE",
           "priority": 20,
           "userSetupAllowed": false,
@@ -1303,7 +1303,7 @@
       "builtIn": true,
       "authenticationExecutions": [
         {
-          "authenticator": "idp-username-password-form",
+          "authenticator": "authentication-username-password-form",
           "requirement": "REQUIRED",
           "priority": 10,
           "userSetupAllowed": false,
@@ -1452,7 +1452,7 @@
       "authenticationExecutions": [
         {
           "authenticatorConfig": "review profile config",
-          "authenticator": "idp-review-profile",
+          "authenticator": "authentication-review-profile",
           "requirement": "REQUIRED",
           "priority": 10,
           "userSetupAllowed": false,
@@ -1460,7 +1460,7 @@
         },
         {
           "authenticatorConfig": "create unique user config",
-          "authenticator": "idp-create-user-if-unique",
+          "authenticator": "authentication-create-user-if-unique",
           "requirement": "ALTERNATIVE",
           "priority": 20,
           "userSetupAllowed": false,

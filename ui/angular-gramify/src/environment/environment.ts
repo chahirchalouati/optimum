@@ -64,7 +64,7 @@ export const environment: Environment = {
     oauthCallbackUrl: "http://127.0.0.1:4200/authorized",
     oauthAuthorizeUrl: "http://auth-server:9000/oauth2/authorize",
     oauthClientId: "ui-service",
-    oauthTokenUrl: "idp/oauth2/token",
+    oauthTokenUrl: "authentication/oauth2/token",
     oauthClientSecret: "secret",
     scope: 'openid',
     grantType: 'authorization_code',
@@ -78,11 +78,11 @@ export const environment: Environment = {
         AUDIT_DELETE: "audit/audits/:id"
       },
       user: {
-        USER_GET_PAGE: "idp/users",
-        USER_GET_BY_ID: "idp/users/:id",
-        USER_POST: "idp/users",
-        USER_PUT: "idp/users/:id",
-        USER_DELETE: "idp/users/:id",
+        USER_GET_PAGE: "authentication/users",
+        USER_GET_BY_ID: "authentication/users/:id",
+        USER_POST: "authentication/users",
+        USER_PUT: "authentication/users/:id",
+        USER_DELETE: "authentication/users/:id",
       },
       profile: {
         PROFILE_GET_PAGE: "profile/profiles",

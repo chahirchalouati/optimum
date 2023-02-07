@@ -33,12 +33,12 @@ public class DefaultSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
-                .antMatchers("/idp/login/**").permitAll()
-                .antMatchers("/idp/register/**").permitAll()
-                .antMatchers("/idp/roles/**", "/idp/permissions/**").hasAnyRole("ROLE_SUPER_ADMIN", "ROLE_ADMIN")
+                .antMatchers("/authentication/login/**").permitAll()
+                .antMatchers("/authentication/register/**").permitAll()
+                .antMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ROLE_SUPER_ADMIN", "ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
-                .formLogin(fm -> fm.loginPage("/idp/login"));
+                .formLogin(fm -> fm.loginPage("/authentication/login"));
         http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .apply(authorizationServerConfigurer);
 
