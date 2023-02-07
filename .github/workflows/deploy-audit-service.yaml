@@ -49,7 +49,7 @@ jobs:
           path: target/
       - name: Docker build
         run: |
-          docker build ${{ github.workspace }}/audit-service/. -t chahirchalouati/gramify-ms:${{github.run_number}}
+          docker build ./audit-service/ -t chahirchalouati/gramify-ms:${{github.run_number}}
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
