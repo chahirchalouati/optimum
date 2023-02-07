@@ -34,7 +34,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: audit-service
-          path: ${{ github.workspace }}/my-app/target/*.jar
+          path: ${{ github.workspace }}/audit-service/target/*.jar
           retention-days: 1
 
   deploy:
