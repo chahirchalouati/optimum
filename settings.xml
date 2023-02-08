@@ -26,11 +26,11 @@
         </profile>
     </profiles>
 
-    <servers>
+   <servers>
         <server>
             <id>github</id>
-            <username>chahirchalouati</username>
-            <password>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</password>
+            <username>${env.USER_NAME}</username>
+           <password>${env.ACCESS_TOKEN}</password>
         </server>
     </servers>
 

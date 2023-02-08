@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 17 Temurin
@@ -17,8 +17,13 @@ jobs:
           distribution: temurin
           cache: 'maven'
 
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.8.6
+
       - name: Build common module
-        run: mvn clean install -pl common -DskipTests=true
+        run: mvn clean install -s ./settings.xml  -pl common -DskipTests=true
 
       - name: Deploy to GitHub Package Registry
         uses: actions/upload-artifact@v2
@@ -27,3 +32,6 @@ jobs:
           path: common/target/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+ 

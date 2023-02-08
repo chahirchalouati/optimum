@@ -35,7 +35,6 @@
             </snapshots>
         </repository>
     </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,16 +56,19 @@
             <artifactId>datafaker</artifactId>
             <version>1.7.0</version>
         </dependency>
+        <!-- test-->
         <dependency>
             <groupId>com.crcl</groupId>
             <artifactId>common</artifactId>
             <version>1.0.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
             <version>2.7.5</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
@@ -125,8 +127,8 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <distributionManagement>
+
         <repository>
             <id>github</id>
             <name>Chahir Chloauti</name>

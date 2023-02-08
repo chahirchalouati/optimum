@@ -1,11 +1,15 @@
-
-name: Build and Publish k8s
+#!/usr/bin/env sh
+dirs=$(ls -d */)
+for i in ${dirs[@]}; do
+  touch ".github/workflows/deploy-${i%%/}.yaml"
+ echo "
+name: Build and Publish ${i%%/}
 
 on:
   push:
     branches: [ develop ]
     paths:
-      - k8s/**
+      - ${i%%/}/**
 
 jobs:
   build:
@@ -19,13 +23,15 @@ jobs:
           distribution: temurin
           cache: 'maven'
       - name: Build with Maven
-        run: mvn clean install
+        run: mvn clean install -s $GITHUB_WORKSPACE/settings.xml  -pl ${i%%/}
       - name: Publish to Docker Hub
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           repository: chahirchalouati/gramify-ms
-          tags: {{github.run_number}}
+          tags: ${{github.run_number}}
 
- 
+ " >>  .github/workflows/deploy-${i%%/}.yaml
+
+done
