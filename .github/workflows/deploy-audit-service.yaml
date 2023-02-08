@@ -65,6 +65,7 @@ jobs:
 
       - name: Docker push
         run: |
+          docker images
           docker push ghcr.io/chahirchalouati/audit-service:${{github.run_number}}
   run:
     runs-on: ubuntu-latest
