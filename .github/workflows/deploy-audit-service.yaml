@@ -46,7 +46,7 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: audit-service
-          path: target/
+          path: ${{ github.workspace }}/audit-service/target/
       - name: Docker build
         run: |
           cd audit-service/
