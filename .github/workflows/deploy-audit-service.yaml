@@ -7,7 +7,6 @@ on:
     paths:
       - audit-service/**
       - deploy-audit-service.yaml
-
 jobs:
   build:
     runs-on: ubuntu-latest
