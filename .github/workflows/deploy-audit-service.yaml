@@ -6,8 +6,6 @@ on:
     branches: [ develop ]
     paths:
       - audit-service/**
-    files:
-      - deploy-audit-service.yaml
 jobs:
   build:
     runs-on: ubuntu-latest
