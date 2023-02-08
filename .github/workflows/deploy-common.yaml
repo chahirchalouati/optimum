@@ -17,6 +17,11 @@ jobs:
           distribution: temurin
           cache: 'maven'
 
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.8.6
+
       - name: Build common module
         run: mvn clean install -s ./settings.xml  -pl common -DskipTests=true
 
