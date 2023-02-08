@@ -128,7 +128,6 @@
         </dependencies>
     </dependencyManagement>
     <distributionManagement>
-
         <repository>
             <id>github</id>
             <name>Chahir Chloauti</name>
