@@ -1,4 +1,3 @@
-
 name: Build and Publish audit-service
 
 on:
@@ -8,11 +7,13 @@ on:
       - audit-service/**
       - .github/workflows/deploy-audit-service.yaml
 jobs:
+
   build:
     runs-on: self-hosted
     permissions:
       contents: read
       packages: write
+
     steps:
       - uses: actions/checkout@v2
 
@@ -25,6 +26,11 @@ jobs:
           server-id: github
           server-username: USER_NAME
           server-password: ACCESS_TOKEN
+
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: 3.8.6
 
       - name: Build with Maven
         env:
@@ -56,20 +62,17 @@ jobs:
           ls
           docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
 
-      - name: Login with Github Container registry
+      - name: Docker push
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+        run: docker push ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
 
-      - name: Docker push
-        run: |
-          docker images
-          docker push ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
   run:
     runs-on: self-hosted
-    needs: [build, deploy]
+    needs: [ build, deploy ]
 
     steps:
       - name: Run container
