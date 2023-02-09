@@ -59,7 +59,6 @@ jobs:
       - name: Docker build
         run: |
           cd audit-service/
-          ls
           docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
 
       - name: Docker Login
