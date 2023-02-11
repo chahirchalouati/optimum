@@ -29,16 +29,13 @@ jobs:
           server-username: USER_NAME
           server-password: ACCESS_TOKEN
 
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.8.6
+
 
       - name: Build with Maven
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: mvn clean install -s ./settings.xml -DskipTests=true  -pl audit-service
+        run: mvn clean install -s ./settings.xml   -pl audit-service
 
       - name: Temporarily save jar artifact
         uses: actions/upload-artifact@v2
