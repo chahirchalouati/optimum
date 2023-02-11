@@ -61,7 +61,7 @@ jobs:
       - name: Build Docker Image
         uses: docker/build-push-action@v2
         with:
-          context: configuration-service/
+          context: ${{ github.workspace }}/configuration-service/
           push: true
           tags: ghcr.io/${{ github.actor }}/configuration-service:${{github.run_number}}
 
