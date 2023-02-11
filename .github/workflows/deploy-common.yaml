@@ -4,7 +4,8 @@ on:
   push:
     tags:
       - '*'
-
+    paths:
+      - .github/workflows/deploy-common.yaml
 jobs:
   build:
     runs-on: self-hosted
@@ -32,6 +33,33 @@ jobs:
           path: common/target/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    call-audit-service-workflow:
+      uses: .github/workflows/deploy-audit-service.yaml
+
+    call-authentication-service-workflow:
+      uses: .github/workflows/deploy-authentication-service.yaml
+
+    call-comment-service-workflow:
+      uses: .github/workflows/deploy-comment-service.yaml
+
+    call-configuration-service-workflow:
+      uses: .github/workflows/deploy-configuration-service.yaml
+
+    call-notification-service-workflow:
+      uses: .github/workflows/deploy-notification-service.yaml
+
+    call-post-service-workflow:
+      uses: .github/workflows/deploy-post-service.yaml
+
+    call-profile-service-workflow:
+      uses: .github/workflows/deploy-profile-service.yaml
+
+    call-proxy-service-workflow:
+      uses: .github/workflows/deploy-proxy-service.yaml
+
+    call-storage-service-workflow:
+      uses: .github/workflows/deploy-storage-service.yaml
 
 
  
