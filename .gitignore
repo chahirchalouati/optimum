@@ -8,6 +8,7 @@ target/
 !**/src/test/**/target/
 settings.xml
 /configurations
+
 ### STS ###
 .apt_generated
 .classpath
