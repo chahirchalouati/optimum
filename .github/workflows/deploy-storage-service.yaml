@@ -29,8 +29,6 @@ jobs:
           server-username: USER_NAME
           server-password: ACCESS_TOKEN
 
-
-
       - name: Build with Maven
         env:
           USER_NAME: ${{ secrets.USER_NAME }}

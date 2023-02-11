@@ -19,8 +19,6 @@ jobs:
           distribution: temurin
           cache: 'maven'
 
-
-
       - name: Build common module
         run: mvn clean install -s ./settings.xml  -pl common -DskipTests=true
 
