@@ -1,5 +1,5 @@
 
-# ---1---
+# ---2---
 name: Build and Publish configuration-service
 
 on:
@@ -29,6 +29,7 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: 'maven'
+
           server-id: github
           server-username: USER_NAME
           server-password: ACCESS_TOKEN
