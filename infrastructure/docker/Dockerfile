@@ -3,6 +3,7 @@
 FROM debian:buster-slim
 
 ARG GITHUB_RUNNER_VERSION="2.301.1"
+ARG MAVEN_VERSION=3.6.3
 
 ENV RUNNER_NAME "runner"
 ENV GITHUB_PAT ""
@@ -16,12 +17,21 @@ RUN apt-get update \
         sudo \
         git \
         jq \
-        maven \
+        wget \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && useradd -m github \
     && usermod -aG sudo github \
     && echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+
+RUN wget https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+    && tar -zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz \
+    && rm apache-maven-$MAVEN_VERSION-bin.tar.gz \
+    && mv apache-maven-$MAVEN_VERSION /usr/lib/mvn
+
+ENV MAVEN_HOME /usr/lib/mvn
+ENV PATH $MAVEN_HOME/bin:$PATH
 
 USER github
 WORKDIR /home/github
