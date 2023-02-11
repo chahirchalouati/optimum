@@ -1,5 +1,6 @@
 infrastructure/docker/data
-
+infrastructure/docker/.env
+utils.sh
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
