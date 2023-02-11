@@ -1,6 +1,11 @@
 version: '3.3'
 services:
-
+#  github-runner:
+#    image: ghcr.io/chahirchalouati/github-runner:1.0.1
+#    environment:
+#      - GITHUB_OWNER=chahirchalouati
+#      - GITHUB_REPOSITORY=gramify-ms
+#      - GITHUB_PAT=GITHUB_PAT
   minio:
     image: minio/minio
     container_name: minio
