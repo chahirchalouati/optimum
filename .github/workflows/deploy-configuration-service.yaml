@@ -45,7 +45,6 @@ jobs:
           name: configuration-service
           path: ${{ github.workspace }}/configuration-service/target/*.jar
           retention-days: 1
-
   docker:
     runs-on: self-hosted
     needs: maven
@@ -65,7 +64,6 @@ jobs:
           tags: ghcr.io/${{ github.actor }}/configuration-service:${{github.run_number}}
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
-
 
   run:
     runs-on: self-hosted
