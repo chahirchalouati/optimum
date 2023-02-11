@@ -8,6 +8,10 @@ on:
     paths:
       - configuration-service/**
       - .github/workflows/deploy-configuration-service.yaml
+
+env:
+  KUBECONFIG: ${{ secrets.KUBECONFIG }}
+
 jobs:
 
   maven:
@@ -73,8 +77,17 @@ jobs:
     needs: [ maven, docker ]
 
     steps:
-      - name: Run container
-        run: |
-          docker run chahirchalouati/configuration-service:${{github.run_number}}
+      - name: Configure Kubernetes CLI
+        uses: azure/setup-kubectl@v1
+        with:
+          kubeconfig: ${{ env.KUBECONFIG }}
+
+      - name: Deploy to Kubernetes
+        uses: azure/k8s-deploy@v1
+        with:
+          manifests: |
+            k8s/k8s-configuration-service.yaml
+          command: apply
+          args: -f -
 
  
