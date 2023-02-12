@@ -53,17 +53,13 @@ jobs:
           name: notification-service
           path: ${{ github.workspace }}/notification-service/target/
 
+      - name: Docker login
+        run: sudo docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+
       - name: Docker build
         run: |
           cd notification-service/
           sudo docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
-
-      - name: Docker Login
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker Push
         run: sudo docker push ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
