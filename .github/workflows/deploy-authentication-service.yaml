@@ -57,9 +57,7 @@ jobs:
           path: ${{ github.workspace }}/authentication-service/target/
 
       - name: Set up Docker CLI
-        uses: docker/setup-docker@v1
-        with:
-          docker-version: 20.10.22
+        uses: actions/setup-docker@v2
 
       - name: Build Docker Image
         uses: docker/build-push-action@v2
