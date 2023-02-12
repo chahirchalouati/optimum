@@ -56,17 +56,24 @@ jobs:
           name: authentication-service
           path: ${{ github.workspace }}/authentication-service/target/
 
-      - name: Set up Docker CLI
-        uses: actions/setup-docker@v2
+      - name: Login to github registry
+        uses: actions-hub/docker/login@master
+        env:
+          DOCKER_USERNAME: ${{ github.actor }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_REGISTRY_URL: ghcr.io
 
-      - name: Build Docker Image
-        uses: docker/build-push-action@v2
+      - name: Build :latest
+        if: success()
+        run: |
+          cd notification-service/
+          docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
+
+      - name: Push to docker hub :latest
+        if: success()
+        uses: actions-hub/docker@master
         with:
-          context: authentication-service
-          push: true
-          tags: ghcr.io/${{ github.actor }}/authentication-service:${{github.run_number}}
-          secrets: |
-            GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          args: push ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
 
   run:
     runs-on: self-hosted
