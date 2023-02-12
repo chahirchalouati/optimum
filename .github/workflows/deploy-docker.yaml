@@ -2,6 +2,7 @@ on:
   push
 
 name: ci
+
 jobs:
   ci:
     runs-on: self-hosted
