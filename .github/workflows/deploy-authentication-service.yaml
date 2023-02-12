@@ -1,4 +1,5 @@
-# ---3---
+
+# ---1---
 name: Build and Publish authentication-service
 
 on:
@@ -7,10 +8,6 @@ on:
     paths:
       - authentication-service/**
       - .github/workflows/deploy-authentication-service.yaml
-
-env:
-  KUBECONFIG: ${{ secrets.KUBECONFIG }}
-
 jobs:
 
   maven:
@@ -28,7 +25,6 @@ jobs:
           java-version: 17
           distribution: temurin
           cache: 'maven'
-
           server-id: github
           server-username: USER_NAME
           server-password: ACCESS_TOKEN
@@ -45,6 +41,7 @@ jobs:
           name: authentication-service
           path: ${{ github.workspace }}/authentication-service/target/*.jar
           retention-days: 1
+
   docker:
     runs-on: self-hosted
     needs: maven
@@ -56,24 +53,20 @@ jobs:
           name: authentication-service
           path: ${{ github.workspace }}/authentication-service/target/
 
-      - name: Login to github registry
-        uses: actions-hub/docker/login@master
-        env:
-          DOCKER_USERNAME: ${{ github.actor }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-          DOCKER_REGISTRY_URL: ghcr.io
-
-      - name: Build :latest
-        if: success()
+      - name: Docker build
         run: |
-          cd notification-service/
-          docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
+          cd authentication-service/
+          docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/authentication-service:${{github.run_number}}
 
-      - name: Push to docker hub :latest
-        if: success()
-        uses: actions-hub/docker@master
+      - name: Docker Login
+        uses: docker/login-action@v2
         with:
-          args: push ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker Push
+        run: docker push ghcr.io/${{ github.actor }}/authentication-service:${{github.run_number}}
 
   run:
     runs-on: self-hosted
@@ -89,6 +82,8 @@ jobs:
         uses: azure/k8s-deploy@v1
         with:
           manifests: |
-            k8s/k8s-authentication-service.yaml
+            k8s/k8s-configuration-service.yaml
           command: apply
           args: -f -
+
+ 
