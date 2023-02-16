@@ -72,7 +72,7 @@ jobs:
       - name: Create config file
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
-        run: sudo echo -e ${env.KUBECONFIG} > ${{ github.workspace }}/kube.config
+        run: sudo echo -e "${env.KUBECONFIG}" > ${{ github.workspace }}/kube.config
 
       - name: Set config file
         run: sudo kubectl --kubeconfig=${{ github.workspace }}/kube.config --context=default
