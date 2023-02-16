@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: github-runner
+  labels:
+    app: github-runner
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: github-runner
+      labels:
+        app: github-runner
+    spec:
+      containers:
+        - name: github-runner
+          image: ghcr.io/chahirchalouati/github-runner:1.0.3
+          env:
+            - name: GITHUB_OWNER
+              value: ${GITHUB_OWNER}
+            - name: GITHUB_REPOSITORY
+              value: ${GITHUB_REPOSITORY}
+            - name: GITHUB_PAT
+              value: ${GITHUB_PAT}
+          imagePullPolicy: IfNotPresent
+      imagePullSecrets:
+        - name: docker-registry
+
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: github-runner
