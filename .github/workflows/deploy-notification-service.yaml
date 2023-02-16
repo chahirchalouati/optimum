@@ -53,15 +53,15 @@ jobs:
           path: ${{ github.workspace }}/notification-service/target/
 
       - name: Docker login
-        run: sudo docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
+        run: docker login ghcr.io --username ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }}
 
       - name: Docker build
         run: |
           cd notification-service/
-          sudo docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
+           docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
 
       - name: Docker Push
-        run: sudo docker push ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
+        run: docker push ghcr.io/${{ github.actor }}/notification-service:${{github.run_number}}
 
   run:
     runs-on: self-hosted
@@ -72,15 +72,15 @@ jobs:
       - name: Create config file
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
-        run: sudo echo -e "${env.KUBECONFIG}" > ${{ github.workspace }}/kube.config
+        run: echo -e "${env.KUBECONFIG}" > ${{ github.workspace }}/kube.config
 
       - name: Set config file
-        run: sudo kubectl --kubeconfig=${{ github.workspace }}/kube.config --context=default
+        run: kubectl --kubeconfig=${{ github.workspace }}/kube.config --context=default
 
       - name: deploy module
         run: |
-          sudo sed -i 's/latest/${{github.run_number}}/g' ${{ github.workspace }}/k8s/k8s-notification-service.yaml
-          sudo kubectl apply -f ${{ github.workspace }}/k8s/k8s-notification-service.yaml
+          sed -i 's/latest/${{github.run_number}}/g' ${{ github.workspace }}/k8s/k8s-notification-service.yaml
+          kubectl apply -f ${{ github.workspace }}/k8s/k8s-notification-service.yaml
           
 
  
