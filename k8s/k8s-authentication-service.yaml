@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: authentication-service
+  labels:
+    app: authentication-service
+spec:
+  template:
+    metadata:
+      name: authentication-service
+      labels:
+        app: authentication-service
+    spec:
+      containers:
+        - name: authentication-service
+          image: ghcr.io/chahirchalouati/authentication-service:2
+          env:
+            - name: SPRING_APPLICATION_JSON
+              value: '{"spring.profiles.active":"prod"}'
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: myregistrykey2
+  selector:
+    matchLabels:
+      app: authentication-service
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: authentication-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: authentication-service
+  minReplicas: 1
+  maxReplicas: 4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentication-service
+spec:
+  selector:
+    app: authentication-service
+  ports:
+    - port: 8888
+      targetPort: 8888
+  type: NodePort

@@ -1,1 +1,49 @@
-kubectl create secret docker-registry docker-secret --docker-server=ghcr.io --docker-username=chahirchalouati --docker-password=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 --docker-email=chehhhir@gmail.com
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audit-service
+  labels:
+    app: audit-service
+spec:
+  template:
+    metadata:
+      name: audit-service
+      labels:
+        app: audit-service
+    spec:
+      containers:
+        - name: audit-service
+          image: ghcr.io/chahirchalouati/audit-service:2
+          env:
+            - name: SPRING_APPLICATION_JSON
+              value: '{"spring.profiles.active":"prod"}'
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: myregistrykey2
+  selector:
+    matchLabels:
+      app: audit-service
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: audit-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: audit-service
+  minReplicas: 1
+  maxReplicas: 4
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audit-service
+spec:
+  selector:
+    app: audit-service
+  ports:
+    - port: 8888
+      targetPort: 8888
+  type: NodePort
