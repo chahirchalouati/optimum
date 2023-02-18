@@ -1,5 +1,6 @@
 package com.crcl.storage.service;
 
+import com.crcl.storage.domain.FileRecord;
 import com.crcl.storage.dto.FileUploadResponse;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.codec.multipart.FilePart;
@@ -7,7 +8,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface StorageService {
-    Mono<ByteArrayResource> getResource(String fileName, String owner);
+    Mono<ByteArrayResource> getResource(String fileName, String owner, String bucket);
+
+    Mono<ByteArrayResource> getResource(FileRecord fileRecord);
 
     Mono<FileUploadResponse> save(Mono<FilePart> filePartMono);
 

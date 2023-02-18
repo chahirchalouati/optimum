@@ -49,8 +49,8 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto roleDto) {
-        return ResponseEntity.ok(this.profileService.save(roleDto));
+    public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto profileDto) {
+        return ResponseEntity.ok(this.profileService.save(profileDto));
     }
 
     @PostMapping("/all")
@@ -59,8 +59,8 @@ public class ProfileController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto roleDto, String id) {
-        return ResponseEntity.ok(this.profileService.update(roleDto, id));
+    public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto profileDto, @PathVariable String id) {
+        return ResponseEntity.ok(this.profileService.update(profileDto, id));
     }
 
     @DeleteMapping("/{id}")

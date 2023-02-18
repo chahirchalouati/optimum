@@ -1,9 +1,10 @@
 package com.crcl.storage.controller;
 
 import com.crcl.storage.service.StorageService;
+import com.crcl.storage.service.impl.BucketsResolver;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.http.codec.multipart.FilePart;
@@ -16,18 +17,19 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("files")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class StorageController {
 
     private final StorageService storageService;
+    private final BucketsResolver bucketsResolver;
 
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "get stored file by owner & fileName")
     })
     @GetMapping("/{owner}/{fileName}")
     public Mono<ResponseEntity<?>> getByTagAndFileName(@PathVariable("fileName") String fileName, @PathVariable("owner") String owner) {
-        return storageService.getResource(fileName, owner)
+        return storageService.getResource(fileName, owner, bucketsResolver.resolve())
                 .map(byteArrayResource -> ResponseEntity.ok()
                         .contentType(MediaType.valueOf(URLConnection.guessContentTypeFromName(fileName)))
                         .cacheControl(CacheControl.maxAge(1, TimeUnit.DAYS).cachePrivate().proxyRevalidate())

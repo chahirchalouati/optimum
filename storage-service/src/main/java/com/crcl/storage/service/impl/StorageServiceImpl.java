@@ -2,12 +2,15 @@ package com.crcl.storage.service.impl;
 
 import com.crcl.storage.domain.FileRecord;
 import com.crcl.storage.dto.FileUploadResponse;
+import com.crcl.storage.dto.ResizeImageRequest;
 import com.crcl.storage.exceptions.CreateRecordException;
 import com.crcl.storage.exceptions.NotFoundException;
+import com.crcl.storage.queue.ResizeImageQueueSender;
 import com.crcl.storage.repository.RecordRepository;
 import com.crcl.storage.service.StorageService;
+import com.crcl.storage.utils.FileExtensionUtils;
 import io.minio.*;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -23,17 +26,21 @@ import reactor.util.function.Tuple2;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class StorageServiceImpl implements StorageService {
 
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
+    private final ResizeImageQueueSender resizeImageQueueSender;
 
     @Override
     public Flux<FileUploadResponse> saveAll(Flux<FilePart> filePartFlux) {
@@ -51,23 +58,30 @@ public class StorageServiceImpl implements StorageService {
                                 .andThen(saveFileRecord())
                 )
                 .flatMap(recordRepository::save)
+                .doOnNext(publishResizeImageEvent())
                 .map(mapToUploadResponse())
                 .switchIfEmpty(Mono.error(CreateRecordException::new));
     }
 
+
     @Override
     @SneakyThrows
-    public Mono<ByteArrayResource> getResource(String fileName, String owner) {
+    public Mono<ByteArrayResource> getResource(String fileName, String owner, String bucket) {
         final var getObjectArgs = GetObjectArgs.builder()
                 .object(fileName)
                 .matchETag(owner)
-                .bucket(bucketsResolver.resolve())
+                .bucket(bucket)
                 .build();
 
         return Mono.just(minioClient.getObject(getObjectArgs))
                 .map(this::getAllBytes)
                 .map(ByteArrayResource::new)
                 .switchIfEmpty(Mono.error(NotFoundException::new));
+    }
+
+    @Override
+    public Mono<ByteArrayResource> getResource(FileRecord record) {
+        return this.getResource(record.getName(), record.getOwner(), record.getBucket());
     }
 
     private Function<Tuple2<InputStream, FilePart>, PutObjectArgs> mapToStoreRequest() {
@@ -137,5 +151,16 @@ public class StorageServiceImpl implements StorageService {
                 .setVersion(response.versionId());
     }
 
+    private Consumer<FileRecord> publishResizeImageEvent() {
+        return fileRecord -> {
+            boolean isImage = FileExtensionUtils.isImage(fileRecord.getName());
+            if (isImage) {
+                final var request = new ResizeImageRequest()
+                        .setFileRecord(fileRecord)
+                        .setCreatedAt(LocalDateTime.now(Clock.systemDefaultZone()));
+                resizeImageQueueSender.resizeImage(request);
+            }
+        };
+    }
 
 }

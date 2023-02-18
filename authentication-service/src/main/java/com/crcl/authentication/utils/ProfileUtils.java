@@ -11,9 +11,10 @@ public class ProfileUtils {
     public static final String DEFAULT_BG_IMAGE = "https://img.freepik.com/free-vector/blue-gradient-blank-background-business_53876-120508.jpg?w=2000";
 
     public static ProfileDto getDefaultProfile(User user) {
-        return new ProfileDto().setUsername(user.getUsername())
-                .setEmail(user.getEmail())
-                .setAvatar(getAvatar(user)).setBackgroundImage(DEFAULT_BG_IMAGE);
+        return new ProfileDto()
+                .setUsername(user.getUsername())
+                .setAvatar(getAvatar(user))
+                .setBackgroundImage(DEFAULT_BG_IMAGE);
     }
 
     @NotNull
