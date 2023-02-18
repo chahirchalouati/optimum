@@ -25,14 +25,14 @@
   </div>
 
   <app-modal
-    [title]="'Create post'"
-    #modalComponent>
+    #modalComponent
+    [title]="'Create post'">
     <div class="modal">
       <div class="modal-header">
         <div class="modal-header__details">
           <div class="row flex-space-between">
-            <app-user-info-badge [profile$]='profile$'
-                                 [hasVisibility]="true"></app-user-info-badge>
+            <app-user-info-badge [hasVisibility]="true"
+                                 [profile$]='profile$'></app-user-info-badge>
           </div>
         </div>
       </div>

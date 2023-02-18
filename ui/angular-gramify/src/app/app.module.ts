@@ -31,7 +31,7 @@ import {CreatePostModal} from "./components/common/modal/create-post-modal.compo
 import {ModalDirective} from './shared/directives/modal.directive';
 import {DynamicComponentDirective} from './shared/directives/dynamic-component.directive';
 import {StoryComponent} from './pages/story/story.component';
-import { UserInfoBadgeComponent } from './components/common/user-info-badge/user-info-badge.component';
+import {UserInfoBadgeComponent} from './components/common/user-info-badge/user-info-badge.component';
 
 @NgModule({
   declarations: [
