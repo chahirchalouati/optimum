@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 // TODO: 1/8/2023 add resiliency
-@FeignClient(name = "${client.srvProfile.name}", url = "${client.profile.url}",
+@FeignClient(name = "${client.srvProfile.name}", url = "${client.srvProfile.url}",
         configuration = {SrvOauth2ClientConfig.class})
 public interface SrvProfileClient {
     @GetMapping("/profiles/profile/username/{username}")

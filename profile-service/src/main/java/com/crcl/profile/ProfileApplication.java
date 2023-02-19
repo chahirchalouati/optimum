@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
 @EnableFeignClients
-@ConfigurationPropertiesScan("com.crcl.profile.configuration.*")
+@ConfigurationPropertiesScan("com.crcl.profile.configuration")
 @SpringBootApplication
 public class ProfileApplication {
 

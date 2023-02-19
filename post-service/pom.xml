@@ -37,11 +37,6 @@
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>io.github.openfeign.form</groupId>-->
-        <!--            <artifactId>feign-form-spring</artifactId>-->
-        <!--            <version>3.3.0</version>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
@@ -51,11 +46,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
             <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.crcl</groupId>
-            <artifactId>common</artifactId>
-            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -123,11 +113,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ydespreaux.testcontainers</groupId>
-            <artifactId>testcontainers-cassandra</artifactId>
-            <version>1.2.4</version>
         </dependency>
 
     </dependencies>
