@@ -27,7 +27,6 @@ public class UsersDevelopMigrations {
 
     @EventListener(ApplicationReadyEvent.class)
     public void migrate() {
-        userRepository.deleteAll();
         if (userRepository.count() <= 1) {
             log.info("start bootstrapping users for development environment");
             final String encodedPassword = passwordEncoder.encode(usersDevelopProperties.getPassword());

@@ -9,9 +9,12 @@ import com.crcl.authentication.repository.MongoRegisteredClientRepository;
 import com.crcl.authentication.service.impl.ClientSettingsEnhancer;
 import com.crcl.common.configuration.SwaggerConfiguration;
 import com.crcl.common.properties.ApiProperties;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -28,6 +31,10 @@ import org.springframework.security.oauth2.server.authorization.config.ProviderS
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 @Import({ApiProperties.class, SwaggerConfiguration.class})
 @Configuration
@@ -75,4 +82,14 @@ public class AuthorizationServerConfiguration {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
     }
 
+    @Bean
+    @SneakyThrows
+    public JWKSource<SecurityContext> jwkSource(JwkProvider jwkProvider) {
+        KeyPair keyPair = jwkProvider.getLastEnabledKeyPair();
+        RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+                .privateKey((RSAPrivateKey) keyPair.getPrivate())
+                .keyID("authentication-server-key")
+                .build();
+        return (jwkSelector, securityContext) -> jwkSelector.select(new JWKSet(rsaKey));
+    }
 }
