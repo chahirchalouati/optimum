@@ -10,6 +10,7 @@ import java.util.List;
 
 @FeignClient(name = "${client.authentication.name}", url = "${client.authentication.url}", configuration = OAuthFeignConfig.class)
 public interface IdpClient {
+
     @GetMapping("/users/username/{username}")
     UserDto findByUsername(@PathVariable String username);
 
