@@ -36,7 +36,7 @@ public class RoleServiceImpl implements RoleService {
         roleRepository.findById(id).ifPresent(role -> {
             role.setEnabled(false);
             roleRepository.save(role);
-            log.info("role with id %s was disabled".formatted(role.getId()));
+            log.info("Role with id {} was disabled", role.getId());
         });
 
     }

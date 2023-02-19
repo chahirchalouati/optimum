@@ -1,6 +1,5 @@
 package com.crcl.authentication.migration;
 
-import com.crcl.authentication.clients.SrvProfileClient;
 import com.crcl.authentication.configuration.props.UsersDevelopProperties;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.repository.UserRepository;
@@ -40,12 +39,7 @@ public class UsersDevelopMigrations {
                     .map(this::addDefaultRoles)
                     .peek(user -> log.info("created new user {}", user.getUsername()))
                     .toList();
-
-            List<User> storedUsers = userRepository.saveAll(users);
-
-//            storedUsers.stream()
-//                    .map(ProfileUtils::getDefaultProfile)
-//                    .forEach(srvProfileClient::save);
+            userRepository.saveAll(users);
             log.info("end bootstrapping users for development environment");
         }
     }
