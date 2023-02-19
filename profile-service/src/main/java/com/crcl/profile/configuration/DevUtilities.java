@@ -27,7 +27,10 @@ public class DevUtilities {
     @EventListener(ApplicationReadyEvent.class)
     public void init() {
         log.info("Starting command line runner");
+
         final List<UserDto> users = srvIdpClient.findAll();
+        log.debug("Retrieved {} users from SrvIdpClient", users.size());
+
         for (UserDto user : users) {
             if (profileRepository.findByUsername(user.getUsername()).isEmpty()) {
                 log.info("User profile not found, creating a new profile for user: {}", user.getUsername());
