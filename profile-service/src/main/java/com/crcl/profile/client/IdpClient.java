@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "${client.authentication.name}", url = "${client.authentication.url}", configuration = OAuthFeignConfig.class)
+@FeignClient(
+        name = "${client.authentication.name}",
+        url = "${client.authentication.url}",
+        configuration = OAuthFeignConfig.class
+)
 public interface IdpClient {
 
     @GetMapping("/users/username/{username}")
