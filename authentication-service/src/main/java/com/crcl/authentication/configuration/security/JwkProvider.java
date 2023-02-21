@@ -30,7 +30,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwkProvider {
     private static final int KEY_SIZE = 2048;
-
     private final MinioClient minioClient;
     private final KeyFileRepository keyFileRepository;
 
@@ -46,11 +45,10 @@ public class JwkProvider {
 
     @PostConstruct
     public void setup() throws IOException {
-        KeyFile keyFile = keyFileRepository.findFirstByEnabledOrderByCreationDateDesc(true);
+        var keyFile = keyFileRepository.findFirstByEnabledOrderByCreationDateDesc(true);
         if (keyFile == null) {
             this.uploadKeysToMinio();
         }
-
     }
 
     public void uploadKeysToMinio() throws IOException {

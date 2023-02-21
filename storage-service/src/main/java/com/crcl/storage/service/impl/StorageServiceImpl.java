@@ -8,6 +8,7 @@ import com.crcl.storage.exceptions.NotFoundException;
 import com.crcl.storage.queue.ResizeImageQueueSender;
 import com.crcl.storage.repository.RecordRepository;
 import com.crcl.storage.service.StorageService;
+import com.crcl.storage.service.UserService;
 import com.crcl.storage.utils.FileExtensionUtils;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class StorageServiceImpl implements StorageService {
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
     private final ResizeImageQueueSender resizeImageQueueSender;
+    private final UserService userService;
 
     @Override
     public Flux<FileUploadResponse> saveAll(Flux<FilePart> filePartFlux) {

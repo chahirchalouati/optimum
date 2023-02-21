@@ -26,15 +26,11 @@
     </div>
   </div>
   <div class="card-body">
-    <!--    todo fix this shit -->
-    <p *ngIf="!shouldShowMore" class="card-body__content">{{post.content | truncate:[200, '...']}}</p>
-    <p *ngIf="shouldShowMore" class="card-body__content">{{post.content}}</p>
-    <p (click)="shouldShowMore=true" *ngIf="!shouldShowMore" class="card-body__content__more">show more</p>
-    <p (click)="shouldShowMore=false" *ngIf="shouldShowMore" class="card-body__content__more">show less</p>
-    <ng-container *ngIf="post.attachments[0].name | src: post.attachments[0].etag | async as src">
-      <img [alt]="post.attachments[0].name" [src]="src"/>
-    </ng-container>
-
+    <p class="card-body__content">{{ shouldShowMore ? post.content : post.content | truncate:[200, '...']  }}</p>
+    <p (click)="toggle()"
+       class="card-body__content__more">{{ shouldShowMore ? 'show less' : 'show more' }}</p>
+    <img [alt]="post.attachments[0].name" [src]="post.attachments[0].name | src: post.attachments[0].etag | async"
+         appImgFallback/>
   </div>
   <div class="card-footer">
     <div class="card-footer-header">

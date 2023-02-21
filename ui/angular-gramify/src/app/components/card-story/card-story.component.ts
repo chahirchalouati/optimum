@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {Observable} from "rxjs";
 import Profile from "../../shared/domain/Profile";
 import {Router} from "@angular/router";
 
@@ -10,7 +9,7 @@ import {Router} from "@angular/router";
 })
 export class CardStoryComponent {
   @Input() isForm: boolean = false;
-  @Input() profile!: Observable<Profile>;
+  @Input() profile!: Profile;
 
   constructor(private router: Router) {
   }

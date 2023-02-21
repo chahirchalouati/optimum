@@ -20,9 +20,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -31,10 +34,18 @@ import org.springframework.security.oauth2.server.authorization.config.ProviderS
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.util.Assert;
 
+import javax.servlet.http.HttpSession;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Objects;
 
 @Import({ApiProperties.class, SwaggerConfiguration.class})
 @Configuration
@@ -52,9 +63,32 @@ public class AuthorizationServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
+        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
+        DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
+                new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
+        );
+        authorizationServerConfigurer.tokenRevocationEndpoint(tokenRevocationEndpoint ->
+                tokenRevocationEndpoint.revocationResponseHandler((request, response, authentication) -> {
+                    Assert.notNull(request, "HttpServletRequest required");
+                    HttpSession session = request.getSession(false);
+                    System.out.println(session);
+                    if (!Objects.isNull(session)) {
+                        session.removeAttribute("SPRING_SECURITY_CONTEXT");
+                        session.invalidate();
+                    }
+
+                    new SecurityContextLogoutHandler()
+                            .logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+                    SecurityContextHolder.getContext().setAuthentication(null);
+                    SecurityContextHolder.clearContext();
+                    response.setStatus(HttpStatus.CREATED.value());
+                })
+        );
+        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+
         this.corsCustomizer.corsCustomizer(httpSecurity);
-        return httpSecurity.formLogin()
+        return httpSecurity.requestMatcher(endpointsMatcher)
+                .formLogin()
                 .loginPage(securityProperties.getLoginPage())
                 .failureForwardUrl(securityProperties.getFailureForwardUrl())
                 .and()

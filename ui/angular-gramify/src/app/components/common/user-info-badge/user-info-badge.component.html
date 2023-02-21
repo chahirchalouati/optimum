@@ -1,10 +1,10 @@
-<div *ngIf="profile$ | async as profile" class="row">
+<div *ngIf="profile" class="row">
   <app-avatar [img]="profile?.avatar"
               [shape]="'rounded'"
               [size]="40"></app-avatar>
   <small class="username bold">{{profile.user.firstName + " " + profile.user.lastName}}</small>
   <ng-container *ngIf="hasVisibility">
-    <!-- TODO add more flexibility on buttons styles -->
+
     <app-button [kind]="'rounded'"
                 [label]="iconComponent.toolTipText"
                 [type]="'button'">

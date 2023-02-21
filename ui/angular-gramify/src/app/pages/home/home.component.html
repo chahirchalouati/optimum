@@ -1,14 +1,24 @@
-<app-navbar [profile$]="profile$"></app-navbar>
-<div class="row relative">
-  <app-sidebar class="fixed left"></app-sidebar>
-  <main class="main">
-    <app-create-story [profile$]="profile$"></app-create-story>
-    <app-create-post [profile$]="profile$"></app-create-post>
-    <ng-container *ngIf="(posts$ | async) as posts">
-      <app-post-card *ngFor="let post of posts?.content" [post]="post"></app-post-card>
-    </ng-container>
-  </main>
-  <app-sidebar class="fixed right"></app-sidebar>
-</div>
+<ng-container *ngIf="(initialState$ | async) as initialState">
+  <app-navbar [profile]="initialState.profile"></app-navbar>
+  <div class="row relative">
+    <app-sidebar class="fixed left"></app-sidebar>
+    <main class="main">
+      <app-create-story [profile]="initialState.profile"></app-create-story>
+      <app-create-post [profile]="initialState.profile"></app-create-post>
+      <ng-container *ngIf="initialState.posts">
+        <app-post-card *ngFor="let post of initialState.posts?.content" [post]="post"></app-post-card>
+      </ng-container>
+    </main>
+    <app-sidebar class="fixed right"></app-sidebar>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isLoading">
+  <div class="column flex-centered w-100 h-100">
+    <div class="logo">{{appName.toUpperCase()}}</div>
+    <app-puff-loader></app-puff-loader>
+  </div>
+</ng-container>
+
 
 

@@ -11,6 +11,7 @@ public class ProfileUtils {
 
     public static ProfileDto getDefaultProfile(UserDto user) {
         return new ProfileDto()
+                .setUser(user)
                 .setUsername(user.getUsername())
                 .setAvatar(getAvatar(user))
                 .setBackgroundImage(DEFAULT_BG_IMAGE);

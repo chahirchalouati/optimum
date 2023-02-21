@@ -1,4 +1,4 @@
-<div *ngIf="(profile$ | async) as profile" class="card-form">
+<div *ngIf="profile" class="card-form">
   <div class="card-form__create_post_form">
     <app-avatar [img]="profile?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
     <div (click)="openModal(modalComponent)"
@@ -32,7 +32,7 @@
         <div class="modal-header__details">
           <div class="row flex-space-between">
             <app-user-info-badge [hasVisibility]="true"
-                                 [profile$]='profile$'></app-user-info-badge>
+                                 [profile]='profile'></app-user-info-badge>
           </div>
         </div>
       </div>

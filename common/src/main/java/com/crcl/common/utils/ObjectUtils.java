@@ -23,7 +23,8 @@ public class ObjectUtils {
         if (predicate.test(value)) {
             try {
                 throw exceptionType.getConstructor(String.class).newInstance(message);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 throw new RuntimeException("Failed to throw exception of type " + exceptionType.getName(), e);
             }
         }

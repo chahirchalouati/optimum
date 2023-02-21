@@ -38,20 +38,9 @@ public class PostServiceImpl implements PostService {
     private final UserService userService;
     private final ProfileClient profileClient;
 
-    private static Function<PostDto, PostDto> enhanceWith(List<ProfileDto> profiles) {
-        return postDto -> {
-            ProfileDto profile = profiles.stream()
-                    .filter(profileDto -> Objects.equals(profileDto.getUser().getUsername(), postDto.getUsername()))
-                    .findFirst()
-                    .orElse(null);
-            postDto.setOwner(profile);
-            return postDto;
-        };
-    }
-
     @Override
-    public PostDto save(PostDto userDto) {
-        Post user = this.postMapper.toEntity(userDto);
+    public PostDto save(PostDto postDto) {
+        Post user = this.postMapper.toEntity(postDto);
         return postMapper.toDto(postRepository.save(user));
     }
 
@@ -104,9 +93,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto update(PostDto userDto, Long id) {
+    public PostDto update(PostDto postDto, Long id) {
         return postRepository.findById(id)
-                .map(user -> postMapper.toEntity(userDto))
+                .map(user -> postMapper.toEntity(postDto))
                 .map(postRepository::save)
                 .map(postMapper::toDto)
                 .orElse(null);
@@ -137,5 +126,16 @@ public class PostServiceImpl implements PostService {
                         .setEtag(response.getEtag())
                         .setVersion(response.getVersion()))
                 .collect(Collectors.toSet());
+    }
+
+    private Function<PostDto, PostDto> enhanceWith(List<ProfileDto> profiles) {
+        return postDto -> {
+            ProfileDto profile = profiles.stream()
+                    .filter(profileDto -> Objects.equals(profileDto.getUser().getUsername(), postDto.getUsername()))
+                    .findFirst()
+                    .orElse(null);
+            postDto.setOwner(profile);
+            return postDto;
+        };
     }
 }
