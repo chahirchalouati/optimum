@@ -6,8 +6,11 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
-import javax.persistence.*;;import java.util.HashSet;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
+
+;
 
 @Entity
 @Table(name = "posts", indexes = {

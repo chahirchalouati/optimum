@@ -2,10 +2,8 @@ package com.crcl.storage.queue;
 
 import com.crcl.common.dto.AuthenticatedMessage;
 import com.crcl.common.dto.DefaultMessage;
-import com.crcl.common.dto.Message;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.storage.configuration.filters.JwtFilterInterceptor;
-import com.crcl.storage.configuration.queue.QueueConfiguration;
 import com.crcl.storage.dto.FileUploadResponse;
 import com.crcl.storage.dto.ResizeImageRequest;
 import com.crcl.storage.service.UserService;

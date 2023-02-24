@@ -118,7 +118,7 @@ public class JwkProvider {
 
     private void uploadToMinio(String bucketName, String objectName, String filename) {
         try {
-            if (minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())){
+            if (minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())) {
                 minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
             }
             minioClient.putObject(

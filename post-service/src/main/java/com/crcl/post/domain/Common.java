@@ -30,10 +30,6 @@ public class Common extends BaseEntity {
     @Enumerated(EnumType.STRING)
     protected Visibility visibility = Visibility.PRIVATE;
 
-    public enum Visibility {
-        PUBLIC, FRIEND, PRIVATE
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -45,5 +41,9 @@ public class Common extends BaseEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public enum Visibility {
+        PUBLIC, FRIEND, PRIVATE
     }
 }
