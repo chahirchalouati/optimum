@@ -3,9 +3,7 @@ package com.crcl.authentication.configuration.security;
 import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.domain.KeyFile;
 import com.crcl.authentication.repository.KeyFileRepository;
-import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -120,6 +118,9 @@ public class JwkProvider {
 
     private void uploadToMinio(String bucketName, String objectName, String filename) {
         try {
+            if (minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build())){
+                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+            }
             minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(bucketName)
