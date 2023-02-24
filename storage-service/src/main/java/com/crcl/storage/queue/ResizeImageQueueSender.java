@@ -1,6 +1,7 @@
 package com.crcl.storage.queue;
 
 
+import com.crcl.storage.dto.FileUploadResponse;
 import com.crcl.storage.dto.ResizeImageRequest;
 import com.crcl.storage.service.UserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -12,4 +13,6 @@ public abstract class ResizeImageQueueSender extends MessageQueueSender {
     }
 
     public abstract void resizeImage(ResizeImageRequest request);
+
+    public abstract void updateImageAttachment(FileUploadResponse fileUploadResponse);
 }

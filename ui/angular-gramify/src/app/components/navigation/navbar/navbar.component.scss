@@ -1,4 +1,4 @@
-@import "src/shared/styles/variables";
+@import "utils";
 
 .nav-bar {
   width: 100%;
@@ -17,10 +17,9 @@
   .nav-logo {
     font-weight: bolder;
     color: $primary-color;
-    font-size: larger;
-    text-shadow: 1px 1px 1px $primary-color;
+    font-size: x-large;
     font-family: 'Telex', sans-serif !important;
-    letter-spacing: 3px;
+    letter-spacing: 1px;
     flex: 1;
     justify-content: flex-start;
     cursor: pointer;

@@ -5,9 +5,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import java.util.Objects;
 
 @Entity
@@ -28,8 +26,9 @@ public class Attachment extends BaseEntity {
     @JsonIgnore
     private String link;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Post posts;
+    public String getLink() {
+        return this.etag.concat("/").concat(this.name);
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -42,9 +41,5 @@ public class Attachment extends BaseEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    public String getLink() {
-        return this.etag.concat("/").concat(this.name);
     }
 }

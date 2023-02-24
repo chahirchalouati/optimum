@@ -2,7 +2,9 @@ package com.crcl.storage.service;
 
 import com.crcl.storage.configuration.properties.ImageSizesProperties;
 import com.crcl.storage.domain.FileRecord;
+import com.crcl.storage.dto.FileUploadResponse;
 import com.crcl.storage.dto.ResizeImageRequest;
+import com.crcl.storage.queue.ResizeImageQueueSender;
 import com.crcl.storage.repository.RecordRepository;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
@@ -28,6 +30,7 @@ public class ImageResizeServiceImpl implements ImageResizeService {
     private final MinioClient minioClient;
     private final ImageSizesProperties imageSizesProperties;
     private final RecordRepository recordRepository;
+    private final ResizeImageQueueSender resizeImageQueueSender;
 
     @Override
     public void resize(ResizeImageRequest request) {
@@ -42,6 +45,7 @@ public class ImageResizeServiceImpl implements ImageResizeService {
                             final var inputStream = getResizedImageInputStream(resource.getInputStream(), imageSize, getFileExtension(record.getName()));
                             saveImageToMinio(record, newFileName, inputStream);
                             updateFileRecord(record, newFileName);
+                            resizeImageQueueSender.updateImageAttachment(buildMessage(record, newFileName));
                             log.debug("Finished processing image with size {}", imageSize);
                         } catch (Exception e) {
                             log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);
@@ -49,6 +53,16 @@ public class ImageResizeServiceImpl implements ImageResizeService {
                     }
                     log.debug("Resized all image sizes for file record: {}", record);
                 });
+    }
+
+    private FileUploadResponse buildMessage(FileRecord record, String name) {
+        return FileUploadResponse.builder()
+                .contentType(record.getType())
+                .bucket(record.getBucket())
+                .etag(record.getTag())
+                .name(name)
+                .version(record.getVersion())
+                .build();
     }
 
     private String getNewFileName(String fileName, ImageSizesProperties.ImageSize imageSize) {

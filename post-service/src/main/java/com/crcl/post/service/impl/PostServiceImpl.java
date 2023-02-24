@@ -14,19 +14,18 @@ import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @AllArgsConstructor
@@ -76,15 +75,17 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
         if (!pageable.getSort().isSorted()) {
-            pageable = PageRequest.of(pageable.getPageNumber(),
+            pageable = PageRequest.of(
+                    pageable.getPageNumber(),
                     pageable.getPageSize(),
                     Sort.Direction.DESC,
                     "createdAt");
         }
-        Page<Post> posts = postRepository.findByLoggedUser(pageable);
-        Set<String> usersNames = posts.getContent().stream()
+
+        final Page<Post> posts = postRepository.findByLoggedUser(pageable);
+        final Set<String> usersNames = posts.getContent().stream()
                 .map(Post::getUsername)
-                .collect(Collectors.toSet());
+                .collect(toSet());
         List<ProfileDto> profiles = this.profileClient.findByUsernames(usersNames);
 
         return posts
@@ -103,18 +104,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto save(PostFormDto postFormDto) {
-        final List<MultipartFile> files = postFormDto.getFiles().stream().toList();
-        final List<FileUploadResponse> responses = this.storageClient.saveAll(files);
-        final Post post = new Post()
-                .setAttachments(getAttachments(responses))
-                .setContent(postFormDto.getContent())
-                .setVisibility(postFormDto.getVisibility())
-                .setUsername(userService.getCurrentUser().getUsername());
+        final var files = postFormDto.getFiles().stream().toList();
+        final var responses = this.storageClient.saveAll(files);
+        final var post = new Post();
+        post.setAttachments(getAttachments(responses));
+        post.setContent(postFormDto.getContent());
+        post.setVisibility(postFormDto.getVisibility());
+        post.setUsername(userService.getCurrentUser().getUsername());
+        post.setUser(userService.getCurrentUser());
         final Post save = postRepository.save(post);
         return postMapper.toDto(save);
     }
 
-    @NotNull
     private Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
         return responses.stream()
                 .map(response -> new Attachment()
@@ -125,7 +126,7 @@ public class PostServiceImpl implements PostService {
                         .setBucket(response.getBucket())
                         .setEtag(response.getEtag())
                         .setVersion(response.getVersion()))
-                .collect(Collectors.toSet());
+                .collect(toSet());
     }
 
     private Function<PostDto, PostDto> enhanceWith(List<ProfileDto> profiles) {

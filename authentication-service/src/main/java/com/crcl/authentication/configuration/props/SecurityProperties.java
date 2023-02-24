@@ -13,5 +13,6 @@ public class SecurityProperties {
     private String clientIp;
     private String loginPage;
     private String failureForwardUrl;
+    private String certificationBucket;
     private Map<String, Registration> registrations = new HashMap<>();
 }

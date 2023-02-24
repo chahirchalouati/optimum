@@ -1,6 +1,7 @@
 package com.crcl.storage.queue;
 
 import com.crcl.common.dto.AuthenticatedMessage;
+import com.crcl.common.utils.QueueDefinition;
 import com.crcl.storage.dto.ResizeImageRequest;
 import com.crcl.storage.service.ImageResizeService;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class ResizeImageQueueReceiverImpl implements ResizeImageQueueReceiver {
     private final ImageResizeService imageResizeService;
 
-    @RabbitListener(queues = "#{queueConfiguration.STORAGE_RESIZE_IMAGES_QUEUE}")
+    @RabbitListener(queues = QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE)
     public void onReceiveResizeImage(Message<AuthenticatedMessage<ResizeImageRequest>> message) {
         ResizeImageRequest request = message.getPayload().getPayload();
         this.imageResizeService.resize(request);

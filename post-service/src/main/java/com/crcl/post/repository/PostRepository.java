@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository  extends CommonRepository<Post> {
     @NotNull
     @Query(" SELECT p FROM Post p WHERE p.username =?#{ principal }")
     Page<Post> findByLoggedUser(@NotNull Pageable pageable);

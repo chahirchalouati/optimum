@@ -63,32 +63,9 @@ public class AuthorizationServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
-        DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
-                new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
-        );
-        authorizationServerConfigurer.tokenRevocationEndpoint(tokenRevocationEndpoint ->
-                tokenRevocationEndpoint.revocationResponseHandler((request, response, authentication) -> {
-                    Assert.notNull(request, "HttpServletRequest required");
-                    HttpSession session = request.getSession(false);
-                    System.out.println(session);
-                    if (!Objects.isNull(session)) {
-                        session.removeAttribute("SPRING_SECURITY_CONTEXT");
-                        session.invalidate();
-                    }
-
-                    new SecurityContextLogoutHandler()
-                            .logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-                    SecurityContextHolder.getContext().setAuthentication(null);
-                    SecurityContextHolder.clearContext();
-                    response.setStatus(HttpStatus.CREATED.value());
-                })
-        );
-        RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
-
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(httpSecurity);
         this.corsCustomizer.corsCustomizer(httpSecurity);
-        return httpSecurity.requestMatcher(endpointsMatcher)
-                .formLogin()
+        return httpSecurity.formLogin()
                 .loginPage(securityProperties.getLoginPage())
                 .failureForwardUrl(securityProperties.getFailureForwardUrl())
                 .and()

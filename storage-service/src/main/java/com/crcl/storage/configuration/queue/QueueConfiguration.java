@@ -1,5 +1,6 @@
 package com.crcl.storage.configuration.queue;
 
+import com.crcl.common.utils.QueueDefinition;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,11 +19,10 @@ import java.util.List;
 
 @Configuration
 public class QueueConfiguration {
-
-    public static final String STORAGE_RESIZE_IMAGES_QUEUE = "storage_resize_images_queue";
-
-
-    private static final List<String> QUEUES = List.of(STORAGE_RESIZE_IMAGES_QUEUE);
+    private static final List<String> QUEUES = List.of(
+            QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE,
+            QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE
+    );
 
     @Bean
     public Declarables init() {
