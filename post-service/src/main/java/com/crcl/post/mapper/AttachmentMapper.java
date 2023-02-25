@@ -8,8 +8,8 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class AttachmentMapper implements GenericMapper<Attachment, AttachmentDto> {
@@ -29,7 +29,20 @@ public abstract class AttachmentMapper implements GenericMapper<Attachment, Atta
         attachmentDto.setVersion(entity.getVersion());
         attachmentDto.setContentType(entity.getContentType());
         Map<String, Object> map = entity.getAdditionalData();
-        if (map != null) {
+
+        if (map != null && !map.isEmpty() && map.size() == imageSizesProperties.getSizes().size()) {
+            attachmentDto.setAdditionalData(new LinkedHashMap<>(map));
+        } else {
+            Set<String> missingSizes = imageSizesProperties.getSizes().keySet()
+                    .stream()
+                    .filter(imageSize -> {
+                        assert map != null;
+                        return map.containsKey(imageSize);
+                    })
+                    .collect(Collectors.toSet());
+            for (String missingSize : missingSizes) {
+                map.put(missingSize,attachmentDto);
+            }
             attachmentDto.setAdditionalData(new LinkedHashMap<>(map));
         }
         attachmentDto.setLink(entity.getLink());
