@@ -3,7 +3,7 @@ package com.crcl.processor.queue.impl;
 import com.crcl.common.dto.AuthenticatedMessage;
 import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.common.utils.QueueDefinition;
-import com.crcl.processor.queue.QueueReceiver;
+import com.crcl.processor.queue.MessageQueueConsumer;
 import com.crcl.processor.queue.annotation.SecurityContextInterceptor;
 import com.crcl.processor.service.ImageProcessor;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class QueueReceiverImpl implements QueueReceiver {
+public class MessageQueueConsumerImpl implements MessageQueueConsumer {
 
     private final ImageProcessor imageProcessor;
 

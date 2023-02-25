@@ -7,16 +7,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 @AllArgsConstructor
-public abstract class MessageQueueSender {
+public abstract class MessageQueuePublisher {
 
     protected final RabbitTemplate rabbitTemplate;
     protected final UserService userService;
 
-    public <T> void sendMessage(Message<T> message, String queueName) {
+    public <T> void publish(Message<T> message, String queueName) {
         rabbitTemplate.convertAndSend(queueName, message);
     }
 
-    public <T> void sendAuthenticatedMessage(AuthenticatedMessage<T> message, String queueName) {
+    public <T> void publishAuthenticatedMessage(AuthenticatedMessage<T> message, String queueName) {
         rabbitTemplate.convertAndSend(queueName, message);
     }
 }

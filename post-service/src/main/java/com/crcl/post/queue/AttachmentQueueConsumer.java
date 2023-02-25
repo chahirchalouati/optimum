@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class AttachmentQueueReceiver {
+public class AttachmentQueueConsumer {
     private final AttachmentService attachmentService;
 
     @RabbitListener(queues = QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE)
-    public void updateAttachmentQueue(Message<DefaultMessage<ImageUploadEvent>> message) {
+    public void consumeImageUploadEvent(Message<DefaultMessage<ImageUploadEvent>> message) {
         attachmentService.updateByEtag(message.getPayload());
     }
 

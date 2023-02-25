@@ -5,7 +5,7 @@ import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.processor.domain.FileRecord;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
-import com.crcl.processor.queue.ResizeImageQueueSender;
+import com.crcl.processor.queue.ResizeImageQueuePublisher;
 import com.crcl.processor.repository.RecordRepository;
 import com.crcl.processor.service.StorageService;
 import com.crcl.processor.service.UserService;
@@ -40,7 +40,7 @@ public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
-    private final ResizeImageQueueSender resizeImageQueueSender;
+    private final ResizeImageQueuePublisher resizeImageQueueSender;
     private final UserService userService;
 
     @Override
@@ -164,7 +164,7 @@ public class StorageServiceImpl implements StorageService {
                 final var request = new ImageUploadEvent();
                 request.setResponse(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                resizeImageQueueSender.resizeImage(request);
+                resizeImageQueueSender.publishImageUploadEvent(request);
             }
         };
     }
