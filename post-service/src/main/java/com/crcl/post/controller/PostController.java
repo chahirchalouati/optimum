@@ -41,7 +41,7 @@ public class PostController {
 
     @PostMapping("/all")
     public ResponseEntity<List<PostDto>> save(@Valid @RequestBody List<PostDto> entities) {
-        return ResponseEntity.ok(this.postService.save(entities));
+        return ResponseEntity.ok(this.postService.saveAll(entities));
     }
 
     @PutMapping("/{id}")

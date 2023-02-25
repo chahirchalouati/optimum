@@ -9,6 +9,7 @@ import com.crcl.post.dto.PostDto;
 import com.crcl.post.dto.PostFormDto;
 import com.crcl.post.dto.ProfileDto;
 import com.crcl.post.mapper.PostMapper;
+import com.crcl.post.repository.AttachmentRepository;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
@@ -19,11 +20,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -31,20 +35,21 @@ import static java.util.stream.Collectors.toSet;
 @AllArgsConstructor
 @Slf4j
 public class PostServiceImpl implements PostService {
+
     private final PostRepository postRepository;
     private final PostMapper postMapper;
     private final StorageClient storageClient;
     private final UserService userService;
     private final ProfileClient profileClient;
+    private final AttachmentRepository attachmentRepository;
 
-    @Override
     public PostDto save(PostDto postDto) {
         Post user = this.postMapper.toEntity(postDto);
         return postMapper.toDto(postRepository.save(user));
     }
 
     @Override
-    public List<PostDto> save(List<PostDto> entities) {
+    public List<PostDto> saveAll(List<PostDto> entities) {
         return entities.stream()
                 .map(this::save)
                 .toList();
@@ -87,10 +92,11 @@ public class PostServiceImpl implements PostService {
                 .map(Post::getUsername)
                 .collect(toSet());
         List<ProfileDto> profiles = this.profileClient.findByUsernames(usersNames);
-
+        Map<String, ProfileDto> profileMap = profiles.stream()
+                .collect(Collectors.toMap(p -> p.getUser().getUsername(), p -> p));
         return posts
                 .map(postMapper::toDto)
-                .map(enhanceWith(profiles));
+                .map(mergePostsWithOwnerProfiles(profileMap));
     }
 
     @Override
@@ -105,6 +111,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto save(PostFormDto postFormDto) {
         final var files = postFormDto.getFiles().stream().toList();
+        validateFilesName(files);
         final var responses = this.storageClient.saveAll(files);
         final var post = new Post();
         post.setAttachments(getAttachments(responses));
@@ -115,6 +122,21 @@ public class PostServiceImpl implements PostService {
         final Post save = postRepository.save(post);
         return postMapper.toDto(save);
     }
+
+    private void validateFilesName(List<MultipartFile> files) {
+        for (MultipartFile file : files) {
+            String fileName = file.getName();
+            log.debug("Validating file name: {}", fileName);
+            boolean fileExists = attachmentRepository.existsByNameIgnoreCase(fileName);
+            if (fileExists) {
+                log.warn("Duplicate file name found: {}", fileName);
+                throw new RuntimeException("Duplicate file name found: " + fileName);
+            }
+            log.debug("File name is unique: {}", fileName);
+        }
+        log.info("All file names are valid");
+    }
+
 
     private Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
         return responses.stream()
@@ -129,14 +151,14 @@ public class PostServiceImpl implements PostService {
                 .collect(toSet());
     }
 
-    private Function<PostDto, PostDto> enhanceWith(List<ProfileDto> profiles) {
+    private Function<PostDto, PostDto> mergePostsWithOwnerProfiles(Map<String, ProfileDto> profileMap) {
         return postDto -> {
-            ProfileDto profile = profiles.stream()
-                    .filter(profileDto -> Objects.equals(profileDto.getUser().getUsername(), postDto.getUsername()))
-                    .findFirst()
-                    .orElse(null);
-            postDto.setOwner(profile);
+            String postUsername = postDto.getUsername();
+            ProfileDto ownerProfile = profileMap.get(postUsername);
+            postDto.setOwner(ownerProfile);
             return postDto;
         };
     }
+
+
 }

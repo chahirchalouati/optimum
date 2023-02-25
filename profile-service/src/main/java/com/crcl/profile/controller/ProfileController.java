@@ -50,12 +50,12 @@ public class ProfileController {
 
     @PostMapping
     public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto profileDto) {
-        return ResponseEntity.ok(this.profileService.save(profileDto));
+        return ResponseEntity.ok(this.profileService.saveAll(profileDto));
     }
 
     @PostMapping("/all")
     public ResponseEntity<List<ProfileDto>> save(@Valid @RequestBody List<ProfileDto> entities) {
-        return ResponseEntity.ok(this.profileService.save(entities));
+        return ResponseEntity.ok(this.profileService.saveAll(entities));
     }
 
     @PutMapping("/{id}")
