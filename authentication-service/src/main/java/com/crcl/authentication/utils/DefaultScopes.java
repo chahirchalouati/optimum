@@ -13,10 +13,10 @@ public interface DefaultScopes {
     String SCOPE_POST_DELETE = "post.delete";
     String SCOPE_POST_MODIFY = "post.modify";
     // scopes for STORAGE
-    String SCOPE_STORAGE_READ = "storage.read";
-    String SCOPE_STORAGE_WRITE = "storage.write";
-    String SCOPE_STORAGE_DELETE = "storage.delete";
-    String SCOPE_STORAGE_MODIFY = "storage.modify";
+    String SCOPE_STORAGE_READ = "processor.read";
+    String SCOPE_STORAGE_WRITE = "processor.write";
+    String SCOPE_STORAGE_DELETE = "processor.delete";
+    String SCOPE_STORAGE_MODIFY = "processor.modify";
     // scopes for COMMENT
     String SCOPE_COMMENT_READ = "comment.read";
     String SCOPE_COMMENT_WRITE = "comment.write";

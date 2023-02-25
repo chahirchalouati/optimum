@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: storage-service
+  name: processor-service
   labels:
-    app: storage-service
+    app: processor-service
 spec:
   template:
     metadata:
-      name: storage-service
+      name: processor-service
       labels:
-        app: storage-service
+        app: processor-service
     spec:
       containers:
-        - name: storage-service
-          image: ghcr.io/chahirchalouati/storage-service:2
+        - name: processor-service
+          image: ghcr.io/chahirchalouati/processor-service:2
           env:
             - name: SPRING_APPLICATION_JSON
               value: '{
@@ -27,27 +27,27 @@ spec:
         - name: myregistrykey2
   selector:
     matchLabels:
-      app: storage-service
+      app: processor-service
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: storage-service
+  name: processor-service
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: storage-service
+    name: processor-service
   minReplicas: 1
   maxReplicas: 4
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: storage-service
+  name: processor-service
 spec:
   selector:
-    app: storage-service
+    app: processor-service
   ports:
     - port: 9000
       targetPort: 9000

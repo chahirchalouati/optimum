@@ -1,12 +1,13 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.responses.FileUploadResponse;
-import com.crcl.post.domain.Attachment;
+import com.crcl.common.dto.DefaultMessage;
+import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.common.properties.ImageSize;
+import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.post.repository.AttachmentRepository;
 import com.crcl.post.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,15 +17,16 @@ public class AttachmentServiceImpl implements AttachmentService {
     private final AttachmentRepository attachmentRepository;
 
     @Override
-    public void updateByEtag(String eTag, FileUploadResponse uploadResponse) {
-        log.info("Updating attachment with eTag: " + eTag);
-        attachmentRepository.findByEtag(eTag).stream().findFirst().ifPresent(
+    public void updateByEtag(DefaultMessage<ImageUploadEvent> message) {
+        ImageUploadEvent imageUploadEvent = message.getPayload();
+        FileUploadResult response = imageUploadEvent.getResponse();
+        log.info("Updating attachment with eTag: " + response.getEtag());
+        attachmentRepository.findByEtag(response.getEtag()).stream().findFirst().ifPresent(
                 attachment -> {
-                    Attachment target = new Attachment();
-                    BeanUtils.copyProperties(attachment, target, "id");
-                    target.setName(uploadResponse.getName());
-                    attachmentRepository.save(target);
-                    log.info("Attachment with id " + target.getId() + " updated successfully.");
+                    ImageSize imageSize = imageUploadEvent.getImageSize();
+                    attachment.getAdditionalData().put(imageSize.getName(), response);
+                    attachmentRepository.save(attachment);
+                    log.info("Attachment with id " + attachment.getId() + " updated successfully.");
                 }
         );
     }

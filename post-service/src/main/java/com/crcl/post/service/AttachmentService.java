@@ -1,7 +1,8 @@
 package com.crcl.post.service;
 
-import com.crcl.common.dto.responses.FileUploadResponse;
+import com.crcl.common.dto.DefaultMessage;
+import com.crcl.common.queue.ImageUploadEvent;
 
 public interface AttachmentService {
-    void updateByEtag(String eTag, FileUploadResponse uploadResponse);
+    void updateByEtag(DefaultMessage<ImageUploadEvent> message);
 }

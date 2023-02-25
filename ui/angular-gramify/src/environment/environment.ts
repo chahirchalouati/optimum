@@ -108,7 +108,7 @@ export const environment: Environment = {
         COMMENT_DELETE: "comment/comments/:id",
       },
       file: {
-        FILES_GET_ONE: "storage/files"
+        FILES_GET_ONE: "processor/files"
 
       }
 

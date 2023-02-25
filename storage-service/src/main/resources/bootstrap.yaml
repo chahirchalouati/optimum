@@ -6,4 +6,4 @@ spring:
       uri: http://localhost:8888
 logging:
   level:
-    root: debug
+    root: info

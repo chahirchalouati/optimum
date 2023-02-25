@@ -55,7 +55,7 @@ jobs:
       uses: .github/workflows/deploy-proxy-service.yaml
 
     call-storage-service-workflow:
-      uses: .github/workflows/deploy-storage-service.yaml
+      uses: .github/workflows/deploy-processor-service.yaml
 
 
  

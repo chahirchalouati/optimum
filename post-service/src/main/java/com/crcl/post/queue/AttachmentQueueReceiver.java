@@ -1,7 +1,7 @@
 package com.crcl.post.queue;
 
 import com.crcl.common.dto.DefaultMessage;
-import com.crcl.common.dto.responses.FileUploadResponse;
+import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,8 @@ public class AttachmentQueueReceiver {
     private final AttachmentService attachmentService;
 
     @RabbitListener(queues = QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE)
-    public void updateAttachmentQueue(Message<DefaultMessage<FileUploadResponse>> message) {
-        FileUploadResponse response = message.getPayload().getPayload();
-        attachmentService.updateByEtag(response.getEtag(), response);
+    public void updateAttachmentQueue(Message<DefaultMessage<ImageUploadEvent>> message) {
+        attachmentService.updateByEtag(message.getPayload());
     }
 
 

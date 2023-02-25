@@ -1,7 +1,9 @@
 package com.crcl.common.properties;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class ImageSize {
     private int width;
