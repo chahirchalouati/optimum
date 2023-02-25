@@ -6,11 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-import reactor.core.scheduler.Schedulers;
 
 
 @Service
@@ -27,7 +24,6 @@ public class UserServiceImpl implements UserService {
             return Mono.empty();
         }
 
-        var userDetails = (Jwt) authentication.getPrincipal();
-        return idpClient.findByUsername((String) userDetails.getHeaders().get("username"));
+        return idpClient.findByUsername(authentication.getName());
     }
 }

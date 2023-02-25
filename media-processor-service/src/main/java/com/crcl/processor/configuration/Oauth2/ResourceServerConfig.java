@@ -3,9 +3,7 @@ package com.crcl.processor.configuration.Oauth2;
 import com.crcl.common.configuration.SwaggerConfiguration;
 import com.crcl.common.properties.ApiProperties;
 import com.crcl.common.utils.EndpointsUtils;
-import com.crcl.processor.clients.IdpClient;
 import lombok.AllArgsConstructor;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -15,12 +13,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.server.SecurityWebFilterChain;
-import reactivefeign.ReactiveOptions;
-import reactivefeign.client.log.DefaultReactiveLogger;
-import reactivefeign.client.log.ReactiveLoggerListener;
-import reactivefeign.webclient.WebReactiveOptions;
-
-import java.time.Clock;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -46,14 +40,16 @@ public class ResourceServerConfig {
         return http.build();
     }
 
-    @Bean
-    public ReactiveOptions reactiveOptions() {
-        return new WebReactiveOptions.Builder()
-                .setReadTimeoutMillis(2000)
-                .setWriteTimeoutMillis(2000)
-                .setResponseTimeoutMillis(2000)
-                .build();
-    }
+//    @Bean
+//    public ReactiveOptions reactiveOptions() {
+//        return new WebReactiveOptions.Builder()
+//
+//                .setReadTimeoutMillis(2000)
+//                .setWriteTimeoutMillis(2000)
+//                .setResponseTimeoutMillis(2000)
+//                .build();
+//    }
+
 
     @Bean
     public JwtDecoder decoder(OAuth2ClientProperties oAuth2ClientProperties) {

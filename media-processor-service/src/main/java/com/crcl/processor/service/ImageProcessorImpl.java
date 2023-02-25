@@ -19,7 +19,7 @@ public class ImageProcessorImpl implements ImageProcessor {
         userService.getCurrentUser().subscribe(System.out::println);
 
         FileUploadResult response = event.getResponse();
-        storageClient.getObject(response.getName(), response.getBucket()).subscribe(
+        storageClient.getObject(response.getName(), response.getEtag()).subscribe(
                 byteArrayResource -> System.out.println(byteArrayResource.contentLength())
         );
     }

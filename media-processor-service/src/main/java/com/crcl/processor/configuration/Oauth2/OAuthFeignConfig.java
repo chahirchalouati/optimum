@@ -1,11 +1,11 @@
 package com.crcl.processor.configuration.Oauth2;
 
-import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
+import reactivefeign.client.ReactiveHttpRequestInterceptor;
 
 public class OAuthFeignConfig {
     @Bean
-    public RequestInterceptor requestInterceptor() {
+    public ReactiveHttpRequestInterceptor requestInterceptor() {
         return new Oauth2TokenInterceptor();
     }
 
