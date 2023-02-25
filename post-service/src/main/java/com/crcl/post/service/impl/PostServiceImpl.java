@@ -8,6 +8,7 @@ import com.crcl.post.dto.FileUploadResponse;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.dto.PostFormDto;
 import com.crcl.post.dto.ProfileDto;
+import com.crcl.post.exceptions.DuplicateFileNameException;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.AttachmentRepository;
 import com.crcl.post.repository.PostRepository;
@@ -125,12 +126,12 @@ public class PostServiceImpl implements PostService {
 
     private void validateFilesName(List<MultipartFile> files) {
         for (MultipartFile file : files) {
-            String fileName = file.getName();
+            String fileName = file.getOriginalFilename();
             log.debug("Validating file name: {}", fileName);
             boolean fileExists = attachmentRepository.existsByNameIgnoreCase(fileName);
             if (fileExists) {
                 log.warn("Duplicate file name found: {}", fileName);
-                throw new RuntimeException("Duplicate file name found: " + fileName);
+                throw new DuplicateFileNameException("Duplicate file name found: " + fileName);
             }
             log.debug("File name is unique: {}", fileName);
         }
