@@ -21,7 +21,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         ImageUploadEvent imageUploadEvent = message.getPayload();
         FileUploadResult response = imageUploadEvent.getResponse();
         log.info("Updating attachment with eTag: " + response.getEtag());
-        attachmentRepository.findByEtag(response.getEtag()).stream().findFirst().ifPresent(
+        attachmentRepository.findByEtag(imageUploadEvent.getId()).stream().findFirst().ifPresent(
                 attachment -> {
                     ImageSize imageSize = imageUploadEvent.getImageSize();
                     attachment.getAdditionalData().put(imageSize.getName(), response);

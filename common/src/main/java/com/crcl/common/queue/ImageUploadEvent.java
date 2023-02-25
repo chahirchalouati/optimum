@@ -10,4 +10,5 @@ import lombok.EqualsAndHashCode;
 public class ImageUploadEvent extends BaseEvent {
     private FileUploadResult response;
     private ImageSize imageSize;
+    private String id;
 }

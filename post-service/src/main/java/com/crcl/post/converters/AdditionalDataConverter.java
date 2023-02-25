@@ -19,10 +19,7 @@ public class AdditionalDataConverter implements AttributeConverter<Map<String, O
     @Override
     public String convertToDatabaseColumn(Map<String, Object> additionalData) {
         try {
-            String value = objectMapper.writeValueAsString(additionalData);
-
-            log.info(value);
-            return value;
+            return objectMapper.writeValueAsString(additionalData);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Error converting additional data to JSON string", e);
         }
@@ -34,9 +31,7 @@ public class AdditionalDataConverter implements AttributeConverter<Map<String, O
             return new HashMap<>();
         }
         try {
-            Map<String, Object> map = objectMapper.readValue(json, Map.class);
-            log.info(map.values().toString());
-            return map;
+            return objectMapper.readValue(json, Map.class);
         } catch (IOException e) {
             throw new RuntimeException("Error converting JSON string to additional data map", e);
         }

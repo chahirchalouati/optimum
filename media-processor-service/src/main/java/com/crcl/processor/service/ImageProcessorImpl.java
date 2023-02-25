@@ -56,6 +56,7 @@ public class ImageProcessorImpl implements ImageProcessor {
                                     final var imageUploadEvent = new ImageUploadEvent();
                                     imageUploadEvent.setImageSize(imageSize);
                                     imageUploadEvent.setResponse(buildFileUploadResponse(uploadFileResponse));
+                                    imageUploadEvent.setId(response.getEtag());
                                     message.setPayload(imageUploadEvent);
 
                                     messageQueuePublisher.publish(message, QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE);
