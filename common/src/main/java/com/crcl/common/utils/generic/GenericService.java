@@ -6,9 +6,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface GenericService<EntityDto, EntityId> {
-    EntityDto save(EntityDto entityDto);
+    EntityDto saveAll(EntityDto entityDto);
 
-    List<EntityDto> save(List<EntityDto> entitiesDto);
+    List<EntityDto> saveAll(List<EntityDto> entitiesDto);
 
     void deleteById(EntityId entityId);
 

@@ -1,5 +1,6 @@
 package com.crcl.post.queue.configuration;
 
+import com.crcl.common.utils.QueueDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.Declarables;
@@ -16,16 +17,9 @@ import java.util.List;
 @Configuration
 public class QueueConfiguration {
 
-    public static final String UPDATE_PAYMENT_QUEUE = "update_payment_queue";
-    public static final String UPDATE_ORDER_STATE_QUEUE = "update_order_state_queue";
-    public static final String UPDATE_PAYMENT_STATE_QUEUE = "update_payment_state_queue";
-    public static final String NOTIFY_PAYMENT_COMPLETE_QUEUE = "notify_payment_complete_queue";
-
     private static final List<String> QUEUES = List.of(
-            UPDATE_PAYMENT_QUEUE,
-            UPDATE_ORDER_STATE_QUEUE,
-            UPDATE_PAYMENT_STATE_QUEUE,
-            NOTIFY_PAYMENT_COMPLETE_QUEUE
+            QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE,
+            QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE
     );
 
     @Bean

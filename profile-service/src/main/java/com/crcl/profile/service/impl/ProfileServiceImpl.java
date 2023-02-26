@@ -27,7 +27,7 @@ public class ProfileServiceImpl implements ProfileService {
     private final IdpClient idpClient;
 
     @Override
-    public ProfileDto save(ProfileDto profileDto) {
+    public ProfileDto saveAll(ProfileDto profileDto) {
         Profile profile = this.profileMapper.toEntity(profileDto);
         UserDto userDto = this.idpClient.findByUsername(profileDto.getUsername());
         if (Objects.isNull(userDto))
@@ -37,9 +37,9 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<ProfileDto> save(List<ProfileDto> entities) {
+    public List<ProfileDto> saveAll(List<ProfileDto> entities) {
         return entities.stream()
-                .map(this::save).toList();
+                .map(this::saveAll).toList();
     }
 
     @Override

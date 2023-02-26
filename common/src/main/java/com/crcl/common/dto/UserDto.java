@@ -11,6 +11,7 @@ public class UserDto {
     private String lastName;
     private String username;
     private String email;
+    private String gender;
     private Set<Object> roles = new HashSet<>();
     private boolean isAccountNonExpired = true;
     private boolean isEnabled = true;

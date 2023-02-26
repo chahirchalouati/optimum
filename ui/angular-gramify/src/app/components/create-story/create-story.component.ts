@@ -1,5 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {Component, Input} from '@angular/core';
 import Profile from "../../shared/domain/Profile";
 
 @Component({
@@ -7,17 +6,7 @@ import Profile from "../../shared/domain/Profile";
   templateUrl: './create-story.component.html',
   styleUrls: ['./create-story.component.scss']
 })
-export class CreateStoryComponent implements OnInit {
-  @Input() profile$!: Observable<Profile>;
-
-  ngOnInit(): void {
-    this.profile$.subscribe(
-      value => {
-        console.log(value)
-      }
-    )
-
-  }
-
+export class CreateStoryComponent {
+  @Input() profile!: Profile;
 
 }

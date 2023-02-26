@@ -23,8 +23,7 @@ public class ClientSettingsEnhancer implements Enhancer<Client> {
     public Client enhance(final Client client) {
         final var registrations = securityProperties.getRegistrations()
                 .get(client.getClientId());
-        if (isNull(registrations))
-            return client;
+        if (isNull(registrations)) return client;
 
         final var accessTokenTimeToLive = Duration.ofSeconds(registrations.getTokenAccessTimeToLeave());
         final var refreshTokenTimeToLive = Duration.ofSeconds(registrations.getRefreshTokenAccessTimeToLeave());

@@ -143,6 +143,7 @@ services:
       - '7010:7010'
     networks:
       - l_net
+
   social-service:
     build:
       context: ../../clients/social/

@@ -1,19 +1,19 @@
-<div class="row" *ngIf="profile$ | async as profile">
+<div *ngIf="profile" class="row">
   <app-avatar [img]="profile?.avatar"
               [shape]="'rounded'"
               [size]="40"></app-avatar>
   <small class="username bold">{{profile.user.firstName + " " + profile.user.lastName}}</small>
   <ng-container *ngIf="hasVisibility">
-    <!-- TODO add more flexibility on buttons styles -->
-    <app-button [type]="'button'"
-                [kind]="'rounded'"
-                [label]="iconComponent.toolTipText">
-      <app-icon #iconComponent [type]="'none'"
+
+    <app-button [kind]="'rounded'"
+                [label]="iconComponent.toolTipText"
+                [type]="'button'">
+      <app-icon #iconComponent [iconSize]="20"
                 [name]="'private'"
+                [size]="10"
                 [toolTipActive]="true"
                 [toolTipText]="'private'"
-                [size]="10"
-                [iconSize]="20"></app-icon>
+                [type]="'none'"></app-icon>
     </app-button>
   </ng-container>
 </div>

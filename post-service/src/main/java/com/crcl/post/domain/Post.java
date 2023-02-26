@@ -11,26 +11,28 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "posts", indexes = {
+        @Index(name = "idx_post_username", columnList = "username")
+})
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@RequiredArgsConstructor()
 @Accessors(chain = true)
-public class Post extends BaseEntity {
-    private String username;
-    @Lob
-    private String content;
-
-    @Enumerated(EnumType.STRING)
-    private Visibility visibility = Visibility.PRIVATE;
+public class Post extends Common {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "post_id")
     @ToString.Exclude
-    private Set<Attachment> attachments = new HashSet<>();
+    protected Set<Attachment> attachments = new HashSet<>();
 
-    public enum Visibility {
-        PUBLIC, FRIEND, PRIVATE
-    }
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    @ToString.Exclude
+    protected Set<Tag> tags = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    @ToString.Exclude
+    protected Set<Like> likes = new HashSet<>();
 }

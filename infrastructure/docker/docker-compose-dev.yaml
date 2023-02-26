@@ -1,6 +1,11 @@
 version: '3.3'
 services:
-
+  github-runner:
+    image: ghcr.io/${GITHUB_OWNER}/github-runner:1.0.1
+    environment:
+      - GITHUB_OWNER=${GITHUB_OWNER}
+      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+      - GITHUB_PAT=${GITHUB_PAT}
   minio:
     image: minio/minio
     container_name: minio
@@ -11,7 +16,7 @@ services:
     environment:
       MINIO_ROOT_USER: myaccesskey
       MINIO_ROOT_PASSWORD: mysecretkey
-      MINIO_BUCKET: storage
+      MINIO_BUCKET: processor
     volumes:
       - minio:/export
     networks:
@@ -78,6 +83,29 @@ services:
       - '3001:3000'
     networks:
       - l_net
+#  elasticsearch:
+#    container_name: es-container
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+#    environment:
+#      - xpack.security.enabled=false
+#      - "discovery.type=single-node"
+#    networks:
+#      - l_net
+#    ports:
+#      - "9200:9200"
+#
+#  kibana:
+#    container_name: kb-container
+#    image: docker.elastic.co/kibana/kibana:7.11.0
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://es-container:9200
+#    networks:
+#      - l_net
+#    depends_on:
+#      - elasticsearch
+#    ports:
+#      - "5601:5601"
+
 
 networks:
   l_net:

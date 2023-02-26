@@ -1,5 +1,6 @@
 infrastructure/docker/data
-
+infrastructure/docker/.env
+utils.sh
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -7,6 +8,7 @@ target/
 !**/src/test/**/target/
 settings.xml
 /configurations
+
 ### STS ###
 .apt_generated
 .classpath
@@ -34,3 +36,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/.github/workflows/env.sh

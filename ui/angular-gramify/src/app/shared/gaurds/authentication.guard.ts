@@ -17,7 +17,7 @@ export class AuthenticationGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): GuardType {
     if (!this.tokenService.isAuthenticated()) {
-      this.tokenService.clear();
+      this.tokenService.removeToken();
       this.authenticationService.getAuthorizationCode();
     }
     return true;

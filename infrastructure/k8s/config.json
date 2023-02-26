@@ -1,0 +1,8 @@
+{
+  "auths": {
+    "ghcr.io": {
+      "auth": "Y2hhaGlyY2hhbG91YXRpOmdocF8xQUprcmhBZWFsaUkwMTMxTmlqOVp6T2ZXRTlMUHYxUjRKVng="
+    }
+  },
+  "credsStore": "desktop"
+}

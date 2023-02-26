@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, ViewContainerRef} from '@angular/core';
 import {AuthenticationService} from "../../../services/authentication.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {Observable} from "rxjs";
 import Profile from "../../../shared/domain/Profile";
 import {environment} from "../../../../environment/environment";
 import {CreatePostModal} from "../../common/modal/create-post-modal.component";
@@ -12,7 +11,7 @@ import {CreatePostModal} from "../../common/modal/create-post-modal.component";
   styleUrls: ['./create-post.component.scss']
 })
 export class CreatePostComponent implements OnInit {
-  @Input() profile$!: Observable<Profile>;
+  @Input() profile!: Profile;
   @Input() placeholder: string = '';
   createPostForm!: FormGroup;
   modal: any = CreatePostModal;

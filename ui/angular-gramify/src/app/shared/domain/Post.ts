@@ -7,6 +7,7 @@ export interface Attachment {
   name: string;
   bucket: string;
   version: string;
+  additionalData: { [key: string]: Attachment };
 }
 
 export default interface Post extends Selectable {

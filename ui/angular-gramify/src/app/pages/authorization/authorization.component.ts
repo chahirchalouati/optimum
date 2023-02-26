@@ -44,16 +44,15 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
                     this.profileService.setProfile(profile);
                     this.router.navigate(['']);
                   },
-                  error => this.router.navigate(['error'])
+                  () => this.router.navigate(['error'])
                 )
-
               } else {
                 this.router.navigate(['error']);
               }
             },
             () => {
-              if (this.tokenService.tokenExists()) {
-                this.tokenService.clear()
+              if (!!this.tokenService.getToken()) {
+                this.tokenService.removeToken()
                 this.router.navigate(['']);
               }
             }

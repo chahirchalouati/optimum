@@ -92,7 +92,7 @@ security:
     storage-service:
       refresh-token-access-time-to-leave: 8000
       token-access-time-to-leave: 8000
-      id: storage-service
+      id: processor-service
       uris:
         - http://127.0.0.1:7010
       scopes:
@@ -116,10 +116,10 @@ client:
     name: authentication
   storage:
     url: http://localhost:9999/storage
-    name: storage
+    name: processor
   srvStorage:
     url: http://localhost:9999/storage
-    name: storage
+    name: processor
   profile:
     url: http://localhost:9999/profile
     name: profile

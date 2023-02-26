@@ -38,67 +38,91 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto save(UserDto userDto) {
+        log.debug("Saving user: {}", userDto);
         User user = this.userMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRoles(RoleUtils.getDefaultUserRoles());
-        return userMapper.toDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+        log.debug("User saved: {}", savedUser);
+        return userMapper.toDto(savedUser);
     }
 
     @Override
     public List<UserDto> save(List<UserDto> entities) {
-        return entities.stream()
+        log.debug("Saving users: {}", entities);
+        List<UserDto> savedUsers = entities.stream()
                 .map(this::save).toList();
+        log.debug("Users saved: {}", savedUsers);
+        return savedUsers;
     }
 
     @Override
     public void deleteById(String id) {
         userRepository.findById(id).ifPresent(user -> {
             user.setEnabled(false);
-            userRepository.save(user);
-            log.info("user with id %s was disabled".formatted(user.getId()));
+            User disabledUser = userRepository.save(user);
+            log.debug("User with id {} was disabled: {}", user.getId(), disabledUser);
         });
-
     }
 
     @Override
     public UserDto findById(String id) {
-        return userRepository.findById(id)
+        log.debug("Finding user by id: {}", id);
+        UserDto foundUser = userRepository.findById(id)
                 .map(userMapper::toDto).orElse(null);
+        log.debug("User found: {}", foundUser);
+        return foundUser;
     }
 
 
     @Override
     public List<UserDto> findAll() {
-        return userRepository.getAll(authenticationHelper.getCurrent());
+        log.debug("Finding all users");
+        List<UserDto> foundUsers = userRepository.getAll(authenticationHelper.getCurrent());
+        log.debug("Users found: {}", foundUsers);
+        return foundUsers;
     }
 
 
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
-        return userRepository.getAll(pageable, authenticationHelper.getCurrent());
+        log.debug("Finding users by page: {}", pageable);
+        Page<UserDto> foundUsers = userRepository.getAll(pageable, authenticationHelper.getCurrent());
+        log.debug("Users found: {}", foundUsers);
+        return foundUsers;
     }
 
     @Override
     public UserDto update(UserDto userDto, String id) {
-        return userRepository.findById(id)
+        log.debug("Updating user with id {}: {}", id, userDto);
+        User updatedUser = userRepository.findById(id)
                 .map(user -> userMapper.toEntity(userDto))
                 .map(userRepository::save)
-                .map(userMapper::toDto).orElse(null);
+                .orElse(null);
+        UserDto updatedUserDto = userMapper.toDto(updatedUser);
+        log.debug("User updated: {}", updatedUserDto);
+        return updatedUserDto;
     }
 
     @Override
     public UserDto findByUsername(String username) {
-        return userRepository.findByUsernameAllIgnoreCase(username)
+        log.debug("Finding user by username: {}", username);
+        UserDto foundUser = userRepository.findByUsernameAllIgnoreCase(username)
                 .map(userMapper::toDto).orElse(null);
+        log.debug("User found: {}", foundUser);
+        return foundUser;
     }
 
     @Override
     public UserDto save(CreateUserRequest request) {
+        log.debug("Creating user: {}", request);
         final User user = userMapper.toEntity(request);
         this.addUserAvatar(request, user);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRoles(RoleUtils.getDefaultUserRoles());
-        return userMapper.toDto(this.userRepository.save(user));
+        UserDto savedUser = userMapper.toDto(this.userRepository.save(user));
+        log.debug("User created: {}", savedUser);
+        return savedUser;
     }
 
     @Override
@@ -107,7 +131,6 @@ public class UserServiceImpl implements UserService {
         this.profileClient.findByUsernames(new ArrayList<>(userNames));
         return new HashSet<>(userMapper.mapToDto(users));
     }
-
 
     private void addUserAvatar(CreateUserRequest request, User user) {
         try {

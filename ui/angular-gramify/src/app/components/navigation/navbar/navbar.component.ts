@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {DropDownBoxComponent} from "../../common/drop-down-box/drop-down-box.component";
 import Profile from "../../../shared/domain/Profile";
-import {EMPTY, Observable} from "rxjs";
 import {environment} from "../../../../environment/environment";
 
 @Component({
@@ -10,7 +9,7 @@ import {environment} from "../../../../environment/environment";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  @Input() profile$: Observable<Profile> = EMPTY;
+  @Input() profile!: Profile;
   appName: string = environment.appName;
 
   constructor() {

@@ -30,4 +30,8 @@ export class PostCardComponent implements OnInit {
   getFullName(user: User | undefined) {
     return !!user ? user.fullName : "";
   }
+
+  toggle() {
+    this.shouldShowMore = !this.shouldShowMore;
+  }
 }

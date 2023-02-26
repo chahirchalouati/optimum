@@ -28,5 +28,6 @@
         <module>notification-service</module>
         <module>profile-service</module>
         <module>storage-service</module>
+        <module>media-processor-service</module>
     </modules>
 </project>

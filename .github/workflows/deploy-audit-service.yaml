@@ -1,4 +1,4 @@
-
+# ---1---
 name: Build and Publish audit-service
 
 on:
@@ -8,11 +8,13 @@ on:
       - audit-service/**
       - .github/workflows/deploy-audit-service.yaml
 jobs:
-  build:
+
+  maven:
     runs-on: self-hosted
     permissions:
       contents: read
       packages: write
+
     steps:
       - uses: actions/checkout@v2
 
@@ -30,7 +32,7 @@ jobs:
         env:
           USER_NAME: ${{ secrets.USER_NAME }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        run: mvn clean install -s ./settings.xml  -pl audit-service
+        run: mvn clean install -s ./settings.xml   -pl audit-service
 
       - name: Temporarily save jar artifact
         uses: actions/upload-artifact@v2
@@ -39,9 +41,9 @@ jobs:
           path: ${{ github.workspace }}/audit-service/target/*.jar
           retention-days: 1
 
-  deploy:
+  docker:
     runs-on: self-hosted
-    needs: build
+    needs: maven
 
     steps:
       - uses: actions/checkout@v2
@@ -53,25 +55,24 @@ jobs:
       - name: Docker build
         run: |
           cd audit-service/
-          ls
           docker build -f Dockerfile . -t ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
 
-      - name: Login with Github Container registry
+      - name: Docker Login
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker push
-        run: |
-          docker images
-          docker push ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
+      - name: Docker Push
+        run: docker push ghcr.io/${{ github.actor }}/audit-service:${{github.run_number}}
+
   run:
     runs-on: self-hosted
-    needs: [build, deploy]
+    needs: [ maven, docker ]
+
     steps:
       - name: Run container
-        run: |
-          docker run chahirchalouati/audit-service:${{github.run_number}}
+        run: echo "deploy to kubernetes cluster"
+
  

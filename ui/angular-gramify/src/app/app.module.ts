@@ -31,7 +31,9 @@ import {CreatePostModal} from "./components/common/modal/create-post-modal.compo
 import {ModalDirective} from './shared/directives/modal.directive';
 import {DynamicComponentDirective} from './shared/directives/dynamic-component.directive';
 import {StoryComponent} from './pages/story/story.component';
-import { UserInfoBadgeComponent } from './components/common/user-info-badge/user-info-badge.component';
+import {UserInfoBadgeComponent} from './components/common/user-info-badge/user-info-badge.component';
+import {PuffLoaderComponent} from './components/common/Loaders/puff-loader/puff-loader.component';
+import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { UserInfoBadgeComponent } from './components/common/user-info-badge/user
     ModalDirective,
     DynamicComponentDirective,
     StoryComponent,
-    UserInfoBadgeComponent
+    UserInfoBadgeComponent,
+    PuffLoaderComponent,
+    ImgFallbackDirective
   ],
   imports: [
     BrowserModule,

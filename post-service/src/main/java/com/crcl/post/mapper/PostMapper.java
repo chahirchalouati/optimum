@@ -6,6 +6,10 @@ import com.crcl.post.dto.PostDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(
+        componentModel = "spring",
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
+        uses = {AttachmentMapper.class}
+)
 public interface PostMapper extends GenericMapper<Post, PostDto> {
 }

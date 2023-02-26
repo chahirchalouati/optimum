@@ -1,6 +1,5 @@
 package com.crcl.post.domain;
 
-import com.crcl.post.annotation.DeletedBy;
 import com.crcl.post.validators.annotation.ModifiedBy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +32,6 @@ public class BaseEntity {
     private String createdBy;
     @ModifiedBy
     private String modifiedBy;
-    @DeletedBy
-    private String deletedBy;
-
     @CreatedDate
     private LocalDateTime createdAt;
     @LastModifiedDate

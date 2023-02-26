@@ -1,75 +1,47 @@
 import {Injectable} from '@angular/core';
-import Token, {TOKEN_STORE_KEY} from "../shared/domain/Token";
+import {JwtHelperService} from '@auth0/angular-jwt';
+import Token from "../shared/domain/Token";
 import jwtDecode, {JwtPayload} from "jwt-decode";
-import {StorageService} from "./storage.service";
 
-export interface ITokenService {
-  save(token: Token): boolean;
-
-  get(): Token;
-
-  isAuthenticated(): boolean;
-
-  isExpired(token: number): boolean;
-
-  getUserInfo(): any;
-
-  getDecodedAccessToken(token: string): any;
-
-  clear(): void;
-}
+const TOKEN_KEY = 'access_token';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TokenService implements ITokenService {
-  private store: any = null;
+export class TokenService {
+  private jwtHelper = new JwtHelperService();
 
-  constructor(private storageService: StorageService) {
-    this.store = this.storageService.with("localStorage");
+  constructor() {
   }
 
-  getUserInfo(): any {
-    return this.getDecodedAccessToken(this.get().access_token)
+  getToken(): Token | null {
+    const token = localStorage.getItem(TOKEN_KEY);
+    return !!token ? JSON.parse(token) as Token : null;
   }
 
-  getDecodedAccessToken(token: string): JwtPayload | null {
-    try {
-      return jwtDecode<JwtPayload>(token);
-    } catch (Error) {
-      return null;
+  saveToken(token: Token): boolean {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+    return !!token;
+  }
+
+  removeToken(): void {
+    localStorage.removeItem(TOKEN_KEY);
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) {
+      return true;
     }
-  }
-
-  get(): Token {
-    return this.store.getItem(TOKEN_STORE_KEY) as Token;
+    return this.jwtHelper.isTokenExpired(token.access_token);
   }
 
   isAuthenticated(): boolean {
-    const expiresIn = this.get()?.access_token;
-    return expiresIn ? this.isTokenExpired(expiresIn) : false;
+    return !this.isTokenExpired();
   }
 
-  save(token: Token): boolean {
-    this.store.removeItem(TOKEN_STORE_KEY);
-    console.log(token.access_token)
-    return !!this.store.setItem(TOKEN_STORE_KEY, token);
-  }
-
-  clear(): void {
-    this.store.removeItem(TOKEN_STORE_KEY)
-  }
-
-  isExpired(token: number): boolean {
-    return false;
-  }
-
-  tokenExists(): boolean {
-    return !!this.get();
-  }
-
-  private isTokenExpired(token: string) {
-    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
-    return expiry * 1000 > Date.now();
+  getUserInfo(): any {
+    const token = this.getToken();
+    return !!token ? jwtDecode<JwtPayload>(token.access_token) : null;
   }
 }

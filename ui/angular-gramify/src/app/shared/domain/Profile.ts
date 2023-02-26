@@ -8,7 +8,6 @@ export default interface Profile extends Selectable {
   user: Partial<User>;
 }
 
-
 export interface Role {
   id: string;
   enabled: boolean;
@@ -17,6 +16,7 @@ export interface Role {
 }
 
 export interface User {
+
   fullName: string;
   firstName: string;
   lastName: string;
