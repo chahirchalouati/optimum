@@ -10,8 +10,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-;
-
 @Entity
 @Table(name = "posts", indexes = {
         @Index(name = "idx_post_username", columnList = "username")
@@ -36,5 +34,5 @@ public class Post extends Common {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "post_id")
     @ToString.Exclude
-    protected Set<Tag> likes = new HashSet<>();
+    protected Set<Like> likes = new HashSet<>();
 }
