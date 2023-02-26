@@ -1,6 +1,8 @@
 package com.crcl.post.domain;
 
+import com.crcl.post.converters.ProfileDtoConverter;
 import com.crcl.post.converters.UserDtoConverter;
+import com.crcl.post.dto.ProfileDto;
 import com.crcl.post.dto.UserDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,10 @@ public class Common extends BaseEntity {
     @Convert(converter = UserDtoConverter.class)
     @Column(columnDefinition = "JSON")
     protected UserDto user;
+
+    @Convert(converter = ProfileDtoConverter.class)
+    @Column(columnDefinition = "JSON")
+    protected ProfileDto profile;
 
     @Lob
     protected String content;

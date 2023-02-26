@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -110,16 +111,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto save(PostFormDto postFormDto) {
-        final var files = postFormDto.getFiles().stream().toList();
-        validateFilesName(files);
-        final var responses = this.storageClient.saveAll(files);
         final var post = new Post();
-        post.setAttachments(getAttachments(responses));
+
+        if (!CollectionUtils.isEmpty(postFormDto.getFiles())) {
+            final var files = List.copyOf(postFormDto.getFiles());
+            validateFilesName(files);
+            final var responses = this.storageClient.saveAll(files);
+            post.setAttachments(getAttachments(responses));
+        }
+
         post.setContent(postFormDto.getContent());
         post.setVisibility(postFormDto.getVisibility());
         post.setUsername(userService.getCurrentUser().getUsername());
         post.setUser(userService.getCurrentUser());
+        ProfileDto profileDto = profileClient.findByUsername(userService.getCurrentUser().getUsername());
+        post.setProfile(profileDto);
         final Post save = postRepository.save(post);
+
         return postMapper.toDto(save);
     }
 

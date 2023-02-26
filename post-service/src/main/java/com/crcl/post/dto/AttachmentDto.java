@@ -9,6 +9,7 @@ import java.util.Map;
 
 @Data
 public class AttachmentDto {
+
     private String etag;
     private String name;
     private String bucket;

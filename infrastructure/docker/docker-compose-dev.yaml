@@ -1,11 +1,11 @@
 version: '3.3'
 services:
-  github-runner:
-    image: ghcr.io/${GITHUB_OWNER}/github-runner:1.0.1
-    environment:
-      - GITHUB_OWNER=${GITHUB_OWNER}
-      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
-      - GITHUB_PAT=${GITHUB_PAT}
+#  github-runner:
+  #    image: ghcr.io/${GITHUB_OWNER}/github-runner:1.0.1
+  #    environment:
+  #      - GITHUB_OWNER=${GITHUB_OWNER}
+  #      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+  #      - GITHUB_PAT=${GITHUB_PAT}
   minio:
     image: minio/minio
     container_name: minio
@@ -35,11 +35,12 @@ services:
       - l_net
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    build: rabbitMQ/.
     container_name: rabbitmq-container
     ports:
       - "5672:5672"
       - "15672:15672"
+      - "61613:61613"
     volumes:
       - rabbit-conf:/var/lib/rabbitmq/
       - rabbit-log:/var/log/rabbitmq

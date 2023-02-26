@@ -29,7 +29,7 @@
     <p class="card-body__content">{{ shouldShowMore ? post.content : post.content | truncate:[200, '...']  }}</p>
     <p (click)="toggle()"
        class="card-body__content__more">{{ shouldShowMore ? 'show less' : 'show more' }}</p>
-    <img [alt]="post.attachments[0].additionalData['event_image'].name"
+    <img *ngIf="post.attachments.length > 0" [alt]="post.attachments[0].additionalData['event_image'].name"
          [src]="post.attachments[0].additionalData['event_image'].name | src: post.attachments[0].additionalData['event_image'].etag | async"
          appImgFallback/>
   </div>

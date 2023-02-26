@@ -22,12 +22,8 @@ public abstract class AttachmentMapper implements GenericMapper<Attachment, Atta
         if (entity == null) {
             return null;
         }
-        AttachmentDto attachmentDto = new AttachmentDto();
-        attachmentDto.setEtag(entity.getEtag());
-        attachmentDto.setName(entity.getName());
-        attachmentDto.setBucket(entity.getBucket());
-        attachmentDto.setVersion(entity.getVersion());
-        attachmentDto.setContentType(entity.getContentType());
+
+        AttachmentDto attachmentDto = createAttachmentDto(entity);
         Map<String, Object> map = entity.getAdditionalData();
 
         if (map != null && !map.isEmpty() && map.size() == imageSizesProperties.getSizes().size()) {
@@ -37,13 +33,29 @@ public abstract class AttachmentMapper implements GenericMapper<Attachment, Atta
                     .stream()
                     .filter(imageSize -> {
                         assert map != null;
-                        return map.containsKey(imageSize);
+                        return !map.containsKey(imageSize);
                     })
-                    .forEach(missingSize -> map.put(missingSize, attachmentDto));
+                    .forEach(missingSize -> {
+                        AttachmentDto dto = createAttachmentDto(entity);
+                        map.put(missingSize, dto);
+                    });
+
             attachmentDto.setAdditionalData(new LinkedHashMap<>(map));
         }
-        attachmentDto.setLink(entity.getLink());
 
+        attachmentDto.setLink(entity.getLink());
         return attachmentDto;
     }
+
+    private AttachmentDto createAttachmentDto(Attachment entity) {
+        AttachmentDto dto = new AttachmentDto();
+        dto.setEtag(entity.getEtag());
+        dto.setName(entity.getName());
+        dto.setBucket(entity.getBucket());
+        dto.setVersion(entity.getVersion());
+        dto.setContentType(entity.getContentType());
+        return dto;
+    }
+
+
 }

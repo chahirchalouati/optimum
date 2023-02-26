@@ -8,7 +8,6 @@ import java.util.Set;
 
 @Data
 public class PostFormDto {
-
     private Set<MultipartFile> files;
     private String content;
     private Post.Visibility visibility;
