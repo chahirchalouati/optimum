@@ -52,8 +52,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
               }
             },
             () => {
-              if (this.tokenService.tokenExists()) {
-                this.tokenService.clear()
+              if (!!this.tokenService.getToken()) {
+                this.tokenService.removeToken()
                 this.router.navigate(['']);
               }
             }

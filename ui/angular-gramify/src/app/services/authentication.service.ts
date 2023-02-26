@@ -57,7 +57,7 @@ export class AuthenticationService implements GenericCrud<User>, IAuthentication
       .append(CLIENT_SECRET, environment.oauthClientSecret);
 
     return this.httpClient.post<Token>(environment.oauthTokenUrl, payload, options).pipe(
-      map((token) => this.tokenService.save(token)));
+      map((token) => this.tokenService.saveToken(token as Token)));
   }
 
   getAuthorizationCode(): void {
