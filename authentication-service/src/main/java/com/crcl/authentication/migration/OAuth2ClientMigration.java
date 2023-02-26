@@ -1,5 +1,6 @@
 package com.crcl.authentication.migration;
 
+import com.crcl.authentication.configuration.props.Registration;
 import com.crcl.authentication.domain.Client;
 import com.crcl.authentication.helpers.MigrationHelper;
 import com.crcl.authentication.utils.AppClientScopes;
@@ -22,20 +23,7 @@ public class OAuth2ClientMigration {
         migrationHelper
                 .getSecurityProperties()
                 .getRegistrations().forEach((key, registration) -> {
-                    final List<AuthorizationGrantType> grantTypes = registration.getGrantTypes().stream()
-                            .map(AuthorizationGrantType::new)
-                            .toList();
-                    final List<String> redirectUris = registration.getUris().stream()
-                            .map(s -> s.concat("/authorized"))
-                            .toList();
-                    final Client client = new Client()
-                            .setId(registration.getId())
-                            .setClientId(registration.getId())
-                            .setClientSecret(migrationHelper.getPasswordEncoder().encode("secret"))
-                            .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
-                            .setAuthorizationGrantTypes(grantTypes)
-                            .setRedirectUris(redirectUris)
-                            .setScopes(registration.getScopes());
+                    final Client client = buildClient(migrationHelper, registration);
                     migrationHelper.getClientRepository().save(client);
                 });
     }
@@ -51,5 +39,28 @@ public class OAuth2ClientMigration {
                 .setRedirectUris(Set.of())
                 .setScopes(AppClientScopes.UI_SCOPES);
         migrationHelper.getClientRepository().save(client);
+    }
+
+    private static Client buildClient(MigrationHelper migrationHelper, Registration registration) {
+        return getClient(migrationHelper, registration);
+    }
+
+    protected static Client getClient(MigrationHelper migrationHelper, Registration registration) {
+        final List<AuthorizationGrantType> grantTypes = registration.getGrantTypes().stream()
+                .map(AuthorizationGrantType::new)
+                .toList();
+
+        final List<String> redirectUris = registration.getUris().stream()
+                .map(s -> s.concat("/authorized"))
+                .toList();
+
+        return new Client()
+                .setId(registration.getId())
+                .setClientId(registration.getId())
+                .setClientSecret(migrationHelper.getPasswordEncoder().encode("secret"))
+                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
+                .setAuthorizationGrantTypes(grantTypes)
+                .setRedirectUris(redirectUris)
+                .setScopes(registration.getScopes());
     }
 }
