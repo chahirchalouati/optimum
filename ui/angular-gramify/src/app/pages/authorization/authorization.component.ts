@@ -44,9 +44,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
                     this.profileService.setProfile(profile);
                     this.router.navigate(['']);
                   },
-                  error => this.router.navigate(['error'])
+                  () => this.router.navigate(['error'])
                 )
-
               } else {
                 this.router.navigate(['error']);
               }
