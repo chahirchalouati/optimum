@@ -1,4 +1,5 @@
-<div [style.grid-template-columns]="'repeat(2, 1fr)'" class="grid-container">
+<div [style.grid-template-columns]="attachments.length > 1 ? 'repeat(2, 1fr)': 'repeat(1, 1fr)'"
+     class="grid-container">
   <ng-container *ngFor="let attachment of attachments">
     <ng-container *ngIf="attachment as image">
       <div *ngIf="isImage(attachment.contentType)" class="grid-item">
@@ -9,8 +10,11 @@
     </ng-container>
     <div *ngIf="isVideo(attachment.contentType)" class="grid-item">
       <video
+        #videoElement
         [src]="attachment.name | src: attachment.etag | async"
-        controls>
+        (visible)="setVisibility($event, videoElement)"
+        [controls]="isControlsActive"
+        trackVisibility>
       </video>
     </div>
   </ng-container>

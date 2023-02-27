@@ -9,6 +9,8 @@ import {Attachment, Pair} from "../../../shared/domain/Post";
 export class MediaGridComponent implements OnInit {
   @Input() attachments: Attachment[] = [];
   private keys: Array<string> = [];
+  isControlsActive: boolean = false;
+  autoPlay: boolean = false;
 
   ngOnInit(): void {
     this.keys = Object.keys(this.attachments[0].additionalData)
@@ -26,5 +28,13 @@ export class MediaGridComponent implements OnInit {
   getImage(attachment: Attachment): Pair {
     const randomIndex = Math.floor(Math.random() * this.keys.length);
     return attachment.additionalData[this.keys[randomIndex]];
+  }
+
+  setVisibility($event: boolean, videoElement: HTMLVideoElement) {
+    if ($event) {
+      videoElement.play();
+    } else {
+      videoElement.pause();
+    }
   }
 }

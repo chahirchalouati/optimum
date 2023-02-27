@@ -35,6 +35,7 @@ import {UserInfoBadgeComponent} from './components/common/user-info-badge/user-i
 import {PuffLoaderComponent} from './components/common/Loaders/puff-loader/puff-loader.component';
 import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
 import {MediaGridComponent} from './components/common/media-grid/media-grid.component';
+import {TrackVisibilityDirective} from './shared/directives/track-visibility.directive';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import {MediaGridComponent} from './components/common/media-grid/media-grid.comp
     UserInfoBadgeComponent,
     PuffLoaderComponent,
     ImgFallbackDirective,
-    MediaGridComponent
+    MediaGridComponent,
+    TrackVisibilityDirective
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,5 @@
 package com.crcl.processor.clients;
 
-
 import com.crcl.common.dto.UserDto;
 import com.crcl.processor.configuration.Oauth2.OAuthFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
