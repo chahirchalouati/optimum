@@ -1,40 +1,38 @@
-.grid-container {
+.container {
   display: grid;
-  grid-gap: 0;
 }
 
-.grid-item {
+.item {
   position: relative;
   overflow: hidden;
-  cursor: pointer;
 }
 
-.grid-item img,
-.grid-item video {
+.item img, video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: block;
+  height: auto;
+  transition: transform 0.5s;
 }
 
-.grid-item video::before {
-  content: '\f144';
-  font-weight: 900;
-  font-size: 50px;
+.item:hover img {
+  transform: scale(1.1);
+}
+
+.overlay {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #fff;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.5s;
 }
 
-.grid-item video:hover::before {
+.overlay i {
+  font-size: 48px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.item:hover .overlay {
   opacity: 1;
-}
-
-@media (max-width: 768px) {
-  .grid-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }

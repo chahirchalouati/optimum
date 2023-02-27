@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Attachment, Pair} from "../../../shared/domain/Post";
+import {Attachment} from "../../../shared/domain/Post";
 
 @Component({
   selector: 'app-media-grid',
@@ -8,12 +8,9 @@ import {Attachment, Pair} from "../../../shared/domain/Post";
 })
 export class MediaGridComponent implements OnInit {
   @Input() attachments: Attachment[] = [];
-  private keys: Array<string> = [];
-  isControlsActive: boolean = false;
-  autoPlay: boolean = false;
+  isControlsActive: boolean = true;
 
   ngOnInit(): void {
-    this.keys = Object.keys(this.attachments[0].additionalData)
   }
 
   isVideo(contentType: string) {
@@ -24,15 +21,9 @@ export class MediaGridComponent implements OnInit {
     return !!contentType && contentType.startsWith("image");
   }
 
-
-  getImage(attachment: Attachment): Pair {
-    const randomIndex = Math.floor(Math.random() * this.keys.length);
-    return attachment.additionalData[this.keys[randomIndex]];
-  }
-
-  setVisibility($event: boolean, videoElement: HTMLVideoElement) {
+  autoPlayVideo($event: boolean, videoElement: HTMLVideoElement) {
     if ($event) {
-      videoElement.play();
+      videoElement.play()
     } else {
       videoElement.pause();
     }

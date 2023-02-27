@@ -1,14 +1,14 @@
 <div *ngIf="profile" class="row">
-  <app-avatar [img]="profile?.avatar"
+  <app-avatar [img]="profile.avatar"
               [shape]="'rounded'"
               [size]="40"></app-avatar>
   <small class="username bold">{{profile.user.firstName + " " + profile.user.lastName}}</small>
   <ng-container *ngIf="hasVisibility">
 
-    <app-button [kind]="'rounded'"
-                [label]="iconComponent.toolTipText"
+    <app-button [label]="'private'"
+                kind="rounded"
                 [type]="'button'">
-      <app-icon #iconComponent [iconSize]="20"
+      <app-icon [iconSize]="20"
                 [name]="'private'"
                 [size]="10"
                 [toolTipActive]="true"

@@ -1,8 +1,8 @@
 <div *ngIf="profile" class="card-form">
   <div class="card-form__create_post_form">
-    <app-avatar [img]="profile?.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
+    <app-avatar [img]="profile.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
     <div (click)="openModal(modalComponent)"
-         [attr.placeholder]="getPlaceHolder(profile?.user?.username)"
+         [attr.placeholder]="getPlaceHolder(profile.user.username)"
          class="dummy-input"></div>
   </div>
   <div class="horizontal"></div>

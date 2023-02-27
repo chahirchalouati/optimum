@@ -1,7 +1,7 @@
 <div [class]="isForm ? 'card-story-form' : 'card-story'">
   <img *ngIf="!isForm" alt="sd"
        src="https://images.pexels.com/photos/14930394/pexels-photo-14930394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
-  <ng-container *ngIf="isForm && profile?.avatar as avatar">
+  <ng-container *ngIf="isForm && profile.avatar as avatar">
     <img [alt]="avatar" [src]="avatar" class="card-story__img">
     <app-icon (click)="navigate('/story')" [iconSize]="40" [name]="'plus'" [size]="40"
               [type]="'rounded white-border'"
