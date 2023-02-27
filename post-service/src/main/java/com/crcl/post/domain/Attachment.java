@@ -22,7 +22,6 @@ import java.util.Objects;
 @Accessors(chain = true)
 @Table(name = "attachments")
 public class Attachment extends BaseEntity {
-
     private String etag;
     private String name;
     private String bucket;

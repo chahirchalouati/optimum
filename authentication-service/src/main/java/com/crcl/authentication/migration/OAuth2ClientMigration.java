@@ -18,29 +18,6 @@ import static org.springframework.security.oauth2.core.ClientAuthenticationMetho
 @ChangeLog
 public class OAuth2ClientMigration {
 
-    @ChangeSet(order = "001", id = "save_default_clients", author = "@chahir_chalouati")
-    public void saveClients(final MigrationHelper migrationHelper) {
-        migrationHelper
-                .getSecurityProperties()
-                .getRegistrations().forEach((key, registration) -> {
-                    final Client client = buildClient(migrationHelper, registration);
-                    migrationHelper.getClientRepository().save(client);
-                });
-    }
-
-    @ChangeSet(order = "002", id = "save_system_clients", author = "@chahir_chalouati")
-    public void saveSystemClient(final MigrationHelper migrationHelper) {
-        final Client client = new Client()
-                .setId("SYSTEM")
-                .setClientId("SYSTEM")
-                .setClientSecret(migrationHelper.getPasswordEncoder().encode("SYSTEM"))
-                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
-                .setAuthorizationGrantTypes(Set.of(AuthorizationGrantType.CLIENT_CREDENTIALS))
-                .setRedirectUris(Set.of())
-                .setScopes(AppClientScopes.UI_SCOPES);
-        migrationHelper.getClientRepository().save(client);
-    }
-
     private static Client buildClient(MigrationHelper migrationHelper, Registration registration) {
         return getClient(migrationHelper, registration);
     }
@@ -62,5 +39,28 @@ public class OAuth2ClientMigration {
                 .setAuthorizationGrantTypes(grantTypes)
                 .setRedirectUris(redirectUris)
                 .setScopes(registration.getScopes());
+    }
+
+    @ChangeSet(order = "001", id = "save_default_clients", author = "@chahir_chalouati")
+    public void saveClients(final MigrationHelper migrationHelper) {
+        migrationHelper
+                .getSecurityProperties()
+                .getRegistrations().forEach((key, registration) -> {
+                    final Client client = buildClient(migrationHelper, registration);
+                    migrationHelper.getClientRepository().save(client);
+                });
+    }
+
+    @ChangeSet(order = "002", id = "save_system_clients", author = "@chahir_chalouati")
+    public void saveSystemClient(final MigrationHelper migrationHelper) {
+        final Client client = new Client()
+                .setId("SYSTEM")
+                .setClientId("SYSTEM")
+                .setClientSecret(migrationHelper.getPasswordEncoder().encode("SYSTEM"))
+                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
+                .setAuthorizationGrantTypes(Set.of(AuthorizationGrantType.CLIENT_CREDENTIALS))
+                .setRedirectUris(Set.of())
+                .setScopes(AppClientScopes.UI_SCOPES);
+        migrationHelper.getClientRepository().save(client);
     }
 }

@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-#  github-runner:
+  #  github-runner:
   #    image: ghcr.io/${GITHUB_OWNER}/github-runner:1.0.1
   #    environment:
   #      - GITHUB_OWNER=${GITHUB_OWNER}

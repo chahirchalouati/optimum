@@ -6,6 +6,7 @@ import com.crcl.common.properties.ImageSize;
 import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.post.repository.AttachmentRepository;
 import com.crcl.post.service.AttachmentService;
+import com.nimbusds.jose.util.Pair;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         attachmentRepository.findByEtag(imageUploadEvent.getId()).stream().findFirst().ifPresent(
                 attachment -> {
                     ImageSize imageSize = imageUploadEvent.getImageSize();
-                    attachment.getAdditionalData().put(imageSize.getName(), response);
+                    attachment.getAdditionalData().put(imageSize.getName(), Pair.of(imageSize, response));
                     attachmentRepository.save(attachment);
                     log.info("Attachment with id " + attachment.getId() + " updated successfully.");
                 }

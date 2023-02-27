@@ -34,6 +34,7 @@ import {StoryComponent} from './pages/story/story.component';
 import {UserInfoBadgeComponent} from './components/common/user-info-badge/user-info-badge.component';
 import {PuffLoaderComponent} from './components/common/Loaders/puff-loader/puff-loader.component';
 import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
+import {MediaGridComponent} from './components/common/media-grid/media-grid.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
     StoryComponent,
     UserInfoBadgeComponent,
     PuffLoaderComponent,
-    ImgFallbackDirective
+    ImgFallbackDirective,
+    MediaGridComponent
   ],
   imports: [
     BrowserModule,

@@ -2,12 +2,23 @@ import Selectable = Pageable.Selectable;
 import {Pageable} from "./Pageable";
 import Profile from "./Profile";
 
+export type Pair = {
+  left: {
+    name: string;
+    label: string;
+    width: number;
+    height: number;
+  },
+  right: Attachment
+};
+
 export interface Attachment {
   etag: string;
   name: string;
   bucket: string;
+  contentType: string;
   version: string;
-  additionalData: { [key: string]: Attachment };
+  additionalData: { [key: string]: Pair };
 }
 
 export default interface Post extends Selectable {

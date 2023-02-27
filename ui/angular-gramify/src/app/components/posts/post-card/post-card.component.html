@@ -29,9 +29,12 @@
     <p class="card-body__content">{{ shouldShowMore ? post.content : post.content | truncate:[200, '...']  }}</p>
     <p (click)="toggle()"
        class="card-body__content__more">{{ shouldShowMore ? 'show less' : 'show more' }}</p>
-    <img *ngIf="post.attachments.length > 0" [alt]="post.attachments[0].additionalData['event_image'].name"
-         [src]="post.attachments[0].additionalData['event_image'].name | src: post.attachments[0].additionalData['event_image'].etag | async"
+    <img *ngIf="post.attachments.length == 1 " [alt]="post.attachments[0].additionalData['event_image'].right.name"
+         [src]="post.attachments[0].additionalData['event_image'].right.name | src: post.attachments[0].additionalData['event_image'].right.etag | async"
          appImgFallback/>
+    <app-media-grid *ngIf="post.attachments.length > 1"
+                    [attachments]="post.attachments"></app-media-grid>
+
   </div>
   <div class="card-footer">
     <div class="card-footer-header">
