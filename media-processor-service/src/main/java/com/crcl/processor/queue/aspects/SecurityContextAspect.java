@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -27,13 +28,13 @@ public class SecurityContextAspect {
 
     @Around("@annotation(com.crcl.processor.queue.annotation.SecurityContextInterceptor)")
     public Object applySecurityContext(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("Applying security context to message");
+        log.debug("Applying security context to message");
         Object[] args = joinPoint.getArgs();
         Message<AuthenticatedMessage<ImageUploadEvent>> message = (Message<AuthenticatedMessage<ImageUploadEvent>>) args[0];
         AuthenticatedMessage<ImageUploadEvent> payload = message.getPayload();
         try {
             Jwt jwt = decoder.decode(payload.getToken());
-            if (jwt.getExpiresAt().isBefore(Instant.now())) {
+            if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {
                 String errorMsg = "The given token is expired " + jwt.getClaims().toString();
                 log.error(errorMsg);
                 return joinPoint.proceed();
@@ -54,7 +55,7 @@ public class SecurityContextAspect {
             log.debug("Authentication token removed from SecurityContext");
         }
 
-        log.info("Security context applied successfully");
+        log.debug("Security context applied successfully");
         return result;
     }
 }

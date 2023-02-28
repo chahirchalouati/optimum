@@ -6,4 +6,6 @@ spring:
       uri: http://localhost:8888
 logging:
   level:
-    root: info
+    com:
+      crcl:
+        processor: debug

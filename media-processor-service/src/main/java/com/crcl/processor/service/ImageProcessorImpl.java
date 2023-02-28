@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
@@ -88,6 +89,7 @@ public class ImageProcessorImpl implements ImageProcessor {
 
     private String getFileExtension(String fileName) {
         String[] parts = fileName.split("\\.");
+        Assert.notNull(parts[parts.length - 1], "File extension cannot be null for file name: " + fileName);
         return parts[parts.length - 1];
     }
 
@@ -97,6 +99,7 @@ public class ImageProcessorImpl implements ImageProcessor {
                 .outputFormat(extension)
                 .size(size.getHeight(), size.getWidth())
                 .toOutputStream(outputStream);
+
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
@@ -108,10 +111,8 @@ public class ImageProcessorImpl implements ImageProcessor {
                 .contentType(URLConnection.guessContentTypeFromName(newFileName))
                 .build();
         log.debug("Saved resized image to MinIO with file name {}", newFileName);
-        ObjectWriteResponse response = minioClient.putObject(args);
 
-
-        return response;
+        return minioClient.putObject(args);
 
     }
 
