@@ -27,8 +27,7 @@
   </div>
   <div class="card-body">
     <p class="card-body__content">{{ shouldShowMore ? post.content : post.content | truncate:[200, '...']  }}</p>
-    <p (click)="toggle()"
-       class="card-body__content__more">{{ shouldShowMore ? 'show less' : 'show more' }}</p>
+    <p (click)="toggle()" class="card-body__content__more">{{ shouldShowMore ? 'show less' : 'show more' }}</p>
     <app-media-grid [attachments]="post.attachments"></app-media-grid>
 
   </div>

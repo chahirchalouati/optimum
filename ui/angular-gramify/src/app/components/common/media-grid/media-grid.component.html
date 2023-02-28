@@ -1,20 +1,16 @@
-<div [style.grid-template-columns]="attachments.length > 1 ? 'repeat(2, 1fr)': 'repeat(1, 1fr)'"
-     class="container">
-  <ng-container *ngFor="let media of attachments | index : 1 | slice: 0 : maxPostElement; let i =index">
-    <div *ngIf="isImage(media.contentType)" [style.grid-area]="'item-'+ media.index " class="item">
-      <img [alt]="media.name"
+<ng-container *ngFor="let media of attachments | index : 1 | slice: 0 : maxPostElement; let i =index">
+  <div *ngIf="isImage(media.contentType)" [style.grid-area]="'item-'+ media.index " class="item">
+    <img [alt]="media.name"
+         [src]="media.name | src: media.etag | async"
+         appImgFallback>
+  </div>
+  <div *ngIf="isVideo(media.contentType)" [class]="'item'" [style.grid-area]="'item-'+ media.index ">
+    <video #videoElement
+           (visible)="autoPlayVideo($event, videoElement)"
+           [controls]="isControlsActive"
+           [muted]="true"
            [src]="media.name | src: media.etag | async"
-           appImgFallback>
-    </div>
-    <div *ngIf="isVideo(media.contentType)" [class]="'item'" [style.grid-area]="'item-'+ media.index ">
-      <video #videoElement
-             (visible)="autoPlayVideo($event, videoElement)"
-             [controls]="isControlsActive"
-             [muted]="true"
-             [src]="media.name | src: media.etag | async"
-             trackVisibility>
-      </video>
-    </div>
-  </ng-container>
-
-</div>
+           trackVisibility>
+    </video>
+  </div>
+</ng-container>

@@ -7,6 +7,8 @@
   border-radius: 5px;
   box-shadow: 0 0 3px $secondary-shadow-color;
   background: white;
+  min-height: max-content;
+
   @extend .column;
 
   .card-header {
@@ -55,17 +57,11 @@
 
   .card-body {
     width: 100%;
+    @extend .column;
 
     p {
       padding: 0.3rem 0.5rem;
       font-size: small;
-    }
-
-    img, video {
-      width: 100%;
-      height: 400px;
-      object-position: center;
-      object-fit: cover;
     }
 
     .card-body__content__more {

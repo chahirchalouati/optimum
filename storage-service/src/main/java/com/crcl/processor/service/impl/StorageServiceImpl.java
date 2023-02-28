@@ -1,5 +1,6 @@
 package com.crcl.processor.service.impl;
 
+import com.crcl.common.domain.Orientation;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.processor.domain.FileRecord;
@@ -23,6 +24,8 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +46,7 @@ public class StorageServiceImpl implements StorageService {
     private final ResizeImageQueuePublisher resizeImageQueueSender;
     private final UserService userService;
 
+
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {
         return filePartFlux.flatMap(filePart -> this.save(Mono.just(filePart)));
@@ -52,20 +56,19 @@ public class StorageServiceImpl implements StorageService {
     @SneakyThrows(Exception.class)
     public Mono<FileUploadResult> save(Mono<FilePart> particle) {
 
-        var zipWith = toInputStream(particle)
+        final var inputStreamResult = toInputStream(particle)
                 .zipWith(particle);
 
-        var then = createMinioRequest()
+        final var doUpload = createMinioRequest()
                 .andThen(uploadFile())
-                .andThen(saveUploadDetails());
+                .andThen(buildFileRecord());
 
-        return zipWith.map(then)
+        return inputStreamResult.map(doUpload)
                 .flatMap(recordRepository::save)
-                .doOnNext(publishUploadImageEvent())
+                .doOnNext(publishImageUploadEvent())
                 .map(createFileUploadResponse())
                 .switchIfEmpty(Mono.error(CreateRecordException::new));
     }
-
 
     @Override
     @SneakyThrows
@@ -89,21 +92,22 @@ public class StorageServiceImpl implements StorageService {
 
     private Function<Tuple2<InputStream, FilePart>, PutObjectArgs> createMinioRequest() {
         return zip -> {
-            final var inputStream = zip.getT1();
-            final var filename = zip.getT2().filename();
-            int available = 0;
             try {
-                available = inputStream.available();
+                final var inputStream = zip.getT1();
+                final var filename = zip.getT2().filename();
+                int available = inputStream.available();
+
+                return PutObjectArgs.builder()
+                        .extraHeaders(zip.getT2().headers().toSingleValueMap())
+                        .bucket(bucketsResolver.resolve())
+                        .object(filename)
+                        .stream(inputStream, available, -1)
+                        .contentType(URLConnection.guessContentTypeFromName(filename))
+                        .build();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Failed to create Minio request: {}", e.getMessage(), e);
+                throw new RuntimeException(e.getMessage());
             }
-            return PutObjectArgs.builder()
-                    .extraHeaders(zip.getT2().headers().toSingleValueMap())
-                    .bucket(bucketsResolver.resolve())
-                    .object(filename)
-                    .stream(inputStream, available, -1)
-                    .contentType(URLConnection.guessContentTypeFromName(filename))
-                    .build();
         };
     }
 
@@ -137,12 +141,12 @@ public class StorageServiceImpl implements StorageService {
         try {
             return getObjectResponse.readAllBytes();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to read all bytes from Minio object: {}", e.getMessage(), e);
             return new byte[0];
         }
     }
 
-    private Function<ObjectWriteResponse, FileRecord> saveUploadDetails() {
+    private Function<ObjectWriteResponse, FileRecord> buildFileRecord() {
         return response -> new FileRecord()
                 .setType(URLConnection.guessContentTypeFromName(response.object()))
                 .setTag(response.etag())
@@ -151,11 +155,11 @@ public class StorageServiceImpl implements StorageService {
                 .setVersion(response.versionId());
     }
 
-    private Consumer<FileRecord> publishUploadImageEvent() {
+    private Consumer<FileRecord> publishImageUploadEvent() {
         return record -> {
             boolean isImage = FileExtensionUtils.isImage(record.getName());
             if (isImage) {
-                var result = new FileUploadResult()
+                final var result = new FileUploadResult()
                         .setContentType(record.getType())
                         .setBucket(record.getBucket())
                         .setEtag(record.getTag())
@@ -166,6 +170,24 @@ public class StorageServiceImpl implements StorageService {
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
                 resizeImageQueueSender.publishImageUploadEvent(request);
             }
+        };
+    }
+
+    private Function<InputStream, Orientation> getOrientationMode() {
+        return inputStream -> {
+            try {
+                BufferedImage image = ImageIO.read(inputStream);
+                int width = image.getWidth();
+                int height = image.getHeight();
+                if (width > height) {
+                    return Orientation.LANDSCAPE;
+                } else {
+                    return Orientation.PORTRAIT;
+                }
+            } catch (IOException e) {
+                System.out.println("Failed to read image file: " + e.getMessage());
+            }
+            return null;
         };
     }
 
