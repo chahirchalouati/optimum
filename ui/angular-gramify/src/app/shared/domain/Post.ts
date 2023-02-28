@@ -12,7 +12,11 @@ export type Pair = {
   right: Attachment
 };
 
-export interface Attachment {
+export interface Indexable {
+  index: number;
+}
+
+export interface Attachment extends Indexable {
   etag: string;
   name: string;
   bucket: string;

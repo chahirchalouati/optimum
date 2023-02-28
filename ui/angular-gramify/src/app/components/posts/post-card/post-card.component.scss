@@ -65,11 +65,10 @@
       width: 100%;
       height: 400px;
       object-position: center;
-      object-fit: contain;
+      object-fit: cover;
     }
 
     .card-body__content__more {
-
       cursor: pointer;
     }
   }

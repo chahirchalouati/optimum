@@ -8,7 +8,9 @@ import {Attachment} from "../../../shared/domain/Post";
 })
 export class MediaGridComponent implements OnInit {
   @Input() attachments: Attachment[] = [];
+  @Input() maxPostElement: number = 4;
   isControlsActive: boolean = true;
+  next: string = '';
 
   ngOnInit(): void {
   }

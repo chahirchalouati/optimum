@@ -36,6 +36,7 @@ import {PuffLoaderComponent} from './components/common/Loaders/puff-loader/puff-
 import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
 import {MediaGridComponent} from './components/common/media-grid/media-grid.component';
 import {TrackVisibilityDirective} from './shared/directives/track-visibility.directive';
+import {IndexedPipe} from './shared/pipes/indexed.pipe';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import {TrackVisibilityDirective} from './shared/directives/track-visibility.dir
     PuffLoaderComponent,
     ImgFallbackDirective,
     MediaGridComponent,
-    TrackVisibilityDirective
+    TrackVisibilityDirective,
+    IndexedPipe
   ],
   imports: [
     BrowserModule,
