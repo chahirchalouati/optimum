@@ -1,5 +1,6 @@
 package com.crcl.post.dto;
 
+import com.crcl.common.domain.Orientation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class AttachmentDto {
     private String version;
     private String contentType;
     private Map<String, Object> additionalData;
+    private Orientation orientation;
     @Getter(AccessLevel.NONE)
     @JsonIgnore
     private String link;

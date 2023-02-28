@@ -1,6 +1,7 @@
 package com.crcl.processor.service;
 
 
+import com.crcl.common.domain.Orientation;
 import com.crcl.common.dto.DefaultMessage;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -52,10 +54,12 @@ public class ImageProcessorImpl implements ImageProcessor {
                                     final var newFileName = buildFileName(response.getName(), imageSize);
                                     final var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
                                     final var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
+                                    final var orientation = getOrientation(inputStream);
                                     final var message = new DefaultMessage<ImageUploadEvent>();
 
                                     final var imageUploadEvent = new ImageUploadEvent();
                                     imageUploadEvent.setImageSize(imageSize);
+                                    imageUploadEvent.setOrientation(orientation);
                                     imageUploadEvent.setResponse(buildFileUploadResponse(uploadFileResponse));
                                     imageUploadEvent.setId(response.getEtag());
                                     message.setPayload(imageUploadEvent);
@@ -69,6 +73,27 @@ public class ImageProcessorImpl implements ImageProcessor {
                             log.debug("Resized all image sizes for file record: {}", response);
                         }
                 );
+    }
+
+
+    private Orientation getOrientation(InputStream inputStream) {
+
+        try {
+            if (inputStream.markSupported()) {
+                inputStream.reset();
+            }
+            BufferedImage image = ImageIO.read(inputStream);
+            int width = image.getWidth();
+            int height = image.getHeight();
+            if (width > height) {
+                return Orientation.LANDSCAPE;
+            } else {
+                return Orientation.PORTRAIT;
+            }
+        } catch (IOException e) {
+            System.out.println("Failed to read image file: " + e.getMessage());
+        }
+        return Orientation.LANDSCAPE;
     }
 
     private FileUploadResult buildFileUploadResponse(ObjectWriteResponse uploadFileResponse) {

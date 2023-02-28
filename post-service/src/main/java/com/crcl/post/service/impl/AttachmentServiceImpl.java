@@ -25,6 +25,7 @@ public class AttachmentServiceImpl implements AttachmentService {
         attachmentRepository.findByEtag(imageUploadEvent.getId()).stream().findFirst().ifPresent(
                 attachment -> {
                     ImageSize imageSize = imageUploadEvent.getImageSize();
+                    attachment.setOrientation(imageUploadEvent.getOrientation());
                     attachment.getAdditionalData().put(imageSize.getName(), Pair.of(imageSize, response));
                     attachmentRepository.save(attachment);
                     log.info("Attachment with id " + attachment.getId() + " updated successfully.");

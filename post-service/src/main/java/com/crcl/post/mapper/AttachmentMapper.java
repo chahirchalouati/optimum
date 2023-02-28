@@ -54,6 +54,7 @@ public abstract class AttachmentMapper implements GenericMapper<Attachment, Atta
         dto.setBucket(entity.getBucket());
         dto.setVersion(entity.getVersion());
         dto.setContentType(entity.getContentType());
+        dto.setOrientation(entity.getOrientation());
         return dto;
     }
 

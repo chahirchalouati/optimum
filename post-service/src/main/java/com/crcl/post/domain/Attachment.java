@@ -1,15 +1,13 @@
 package com.crcl.post.domain;
 
+import com.crcl.common.domain.Orientation;
 import com.crcl.post.converters.AdditionalDataConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +32,8 @@ public class Attachment extends BaseEntity {
     @Convert(converter = AdditionalDataConverter.class)
     @Column(columnDefinition = "JSON")
     private Map<String, Object> additionalData = new HashMap<>();
+    @Enumerated(EnumType.STRING)
+    private Orientation orientation;
 
     public String getLink() {
         return this.etag.concat("/").concat(this.name);

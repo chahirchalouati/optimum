@@ -1,6 +1,5 @@
 package com.crcl.processor.service.impl;
 
-import com.crcl.common.domain.Orientation;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.processor.domain.FileRecord;
@@ -9,7 +8,6 @@ import com.crcl.processor.exceptions.NotFoundException;
 import com.crcl.processor.queue.ResizeImageQueuePublisher;
 import com.crcl.processor.repository.RecordRepository;
 import com.crcl.processor.service.StorageService;
-import com.crcl.processor.service.UserService;
 import com.crcl.processor.utils.FileExtensionUtils;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +22,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,7 +40,6 @@ public class StorageServiceImpl implements StorageService {
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
     private final ResizeImageQueuePublisher resizeImageQueueSender;
-    private final UserService userService;
 
 
     @Override
@@ -170,24 +165,6 @@ public class StorageServiceImpl implements StorageService {
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
                 resizeImageQueueSender.publishImageUploadEvent(request);
             }
-        };
-    }
-
-    private Function<InputStream, Orientation> getOrientationMode() {
-        return inputStream -> {
-            try {
-                BufferedImage image = ImageIO.read(inputStream);
-                int width = image.getWidth();
-                int height = image.getHeight();
-                if (width > height) {
-                    return Orientation.LANDSCAPE;
-                } else {
-                    return Orientation.PORTRAIT;
-                }
-            } catch (IOException e) {
-                System.out.println("Failed to read image file: " + e.getMessage());
-            }
-            return null;
         };
     }
 
