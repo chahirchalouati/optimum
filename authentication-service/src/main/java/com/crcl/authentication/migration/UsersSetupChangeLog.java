@@ -22,19 +22,17 @@ public class UsersSetupChangeLog {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    @ChangeSet(order = "001", id = "add_super_admin", author = "@chahir_chalouati")
-    public void getSuperAdmin(UserRepository userRepository, RoleRepository roleRepository) {
-        roleRepository.findByName(DefaultRoles.ROLE_SUPER_ADMIN)
-                .map(getSuperAdmin())
+    @ChangeSet(order = "001", id = "add_admin", author = "@chahir_chalouati")
+    public void createAdmin(UserRepository userRepository, RoleRepository roleRepository) {
+        roleRepository.findByName(DefaultRoles.ROLE_ADMIN)
+                .map(createAdmin())
                 .map(userRepository::save)
-                .orElseThrow(() -> new RoleNotFoundException(" unable to find role %s".formatted(DefaultRoles.ROLE_SUPER_ADMIN)));
-
+                .orElseThrow(() -> new RoleNotFoundException(" unable to find role %s".formatted(DefaultRoles.ROLE_ADMIN)));
     }
 
-    private Function<Role, User> getSuperAdmin() {
-        return role ->
-        {
-            final Set<Permission> permissions = Set.of();
+    private Function<Role, User> createAdmin() {
+        final Set<Permission> permissions = Set.of();
+        return role -> {
             role.setPermissions(permissions);
             return new User()
                     .setGender(Gender.MALE)
@@ -45,7 +43,6 @@ public class UsersSetupChangeLog {
                     .setAvatar(ProfileUtils.DEFAULT_MALE_AVATAR)
                     .setRoles(Set.of(role))
                     .setPassword(passwordEncoder.encode("admin"));
-
         };
     }
 
