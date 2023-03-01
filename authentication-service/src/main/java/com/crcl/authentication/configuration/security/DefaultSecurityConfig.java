@@ -35,7 +35,7 @@ public class DefaultSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .antMatchers("/authentication/login/**").permitAll()
                 .antMatchers("/authentication/register/**").permitAll()
-                .antMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ROLE_SUPER_ADMIN", "ROLE_ADMIN")
+                .antMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin(fm -> fm.loginPage("/authentication/login"));

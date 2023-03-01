@@ -41,7 +41,7 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     private Query getFilterByRoleCriteria(UserDto current) {
         Query query = new Query();
         if (nonNull(current) && !current.isSuperAdmin() && !current.isAdmin()) {
-            Criteria criteria = Criteria.where("roles").nin(Set.of(DefaultRoles.ROLE_ADMIN, DefaultRoles.ROLE_SUPER_ADMIN));
+            Criteria criteria = Criteria.where("roles").nin(Set.of(DefaultRoles.ROLE_ADMIN));
             query.addCriteria(criteria);
         }
         return query;
