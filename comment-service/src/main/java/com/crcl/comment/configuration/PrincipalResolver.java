@@ -1,4 +1,4 @@
-package com.crcl.comment.configuration.Oauth2;
+package com.crcl.comment.configuration;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.spel.spi.EvaluationContextExtension;
@@ -21,7 +21,7 @@ public class PrincipalResolver implements EvaluationContextExtension {
             @Override
             public Object getPrincipal() {
                 Jwt jwt = (Jwt) super.getPrincipal();
-                return (String) jwt.getClaims().get("username");
+                return jwt.getClaims().get("username");
             }
         };
     }

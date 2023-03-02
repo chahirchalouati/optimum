@@ -1,5 +1,7 @@
 <ng-container *ngFor="let media of attachments | index : 1 | slice: 0 : maxPostElement; let i =index">
-  <div *ngIf="isImage(media.contentType)" [style.grid-area]="'item-'+ media.index " class="item">
+  <div *ngIf="isImage(media.contentType)"
+       [style.grid-area]="'item-'+ media.index"
+       class="item">
     <img [alt]="media.name"
          [src]="media.name | src: media.etag | async"
          appImgFallback>

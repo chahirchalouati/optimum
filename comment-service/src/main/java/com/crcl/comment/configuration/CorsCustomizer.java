@@ -1,4 +1,4 @@
-package com.crcl.post.configuration.Oauth2;
+package com.crcl.comment.configuration;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.stereotype.Component;

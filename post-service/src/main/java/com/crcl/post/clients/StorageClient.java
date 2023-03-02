@@ -1,7 +1,7 @@
 package com.crcl.post.clients;
 
-import com.crcl.post.configuration.Oauth2.FeignFormConfig;
-import com.crcl.post.configuration.Oauth2.OAuthFeignConfig;
+import com.crcl.post.configuration.FeignFormConfig;
+import com.crcl.post.configuration.OAuthFeignConfig;
 import com.crcl.post.dto.FileUploadResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.ByteArrayResource;

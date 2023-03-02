@@ -1,6 +1,6 @@
 package com.crcl.post.clients;
 
-import com.crcl.post.configuration.Oauth2.OAuthFeignConfig;
+import com.crcl.post.configuration.OAuthFeignConfig;
 import com.crcl.post.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

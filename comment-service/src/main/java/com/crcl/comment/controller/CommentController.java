@@ -43,7 +43,7 @@ public class CommentController {
 
     @PostMapping("/all")
     public ResponseEntity<List<CommentDto>> save(@Valid @RequestBody List<CommentDto> entities) {
-        return ResponseEntity.ok(this.commentService.save(entities));
+        return ResponseEntity.ok(this.commentService.saveAll(entities));
     }
 
     @PutMapping("/{id}")

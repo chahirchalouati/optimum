@@ -29,11 +29,10 @@ public class CommentServiceImpl implements CommentService {
                 .map(commentRepository::save)
                 .map(mapper::toDto)
                 .orElse(null);
-
     }
 
     @Override
-    public List<CommentDto> save(List<CommentDto> entities) {
+    public List<CommentDto> saveAll(List<CommentDto> entities) {
         return entities.stream()
                 .map(this::save)
                 .collect(Collectors.toList());
