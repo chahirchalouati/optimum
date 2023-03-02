@@ -1,7 +1,8 @@
-package com.crcl.comment.service;
+package com.crcl.comment.service.impl;
 
 import com.crcl.comment.clients.IdpClient;
-import com.crcl.common.dto.UserDto;
+import com.crcl.comment.dto.UserDto;
+import com.crcl.comment.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;

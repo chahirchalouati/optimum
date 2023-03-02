@@ -1,5 +1,6 @@
 package com.crcl.comment.domain;
 
+import com.crcl.comment.validators.annotation.ModifiedBy;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -8,7 +9,6 @@ import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -30,7 +30,7 @@ public class BaseEntity {
     private Long id;
     @CreatedBy
     private String createdBy;
-    @LastModifiedBy
+    @ModifiedBy
     private String modifiedBy;
     @CreatedDate
     private LocalDateTime createdAt;
@@ -39,6 +39,7 @@ public class BaseEntity {
 
     @PostConstruct
     void initAuditFields() {
+
     }
 
     @Override

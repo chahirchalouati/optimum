@@ -1,7 +1,7 @@
 package com.crcl.comment.service;
 
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.comment.dto.UserDto;
 
 import java.util.List;
 import java.util.Set;

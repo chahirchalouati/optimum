@@ -1,82 +1,172 @@
 package com.crcl.comment.service.impl;
 
+import com.crcl.comment.clients.ProfileClient;
+import com.crcl.comment.clients.StorageClient;
+import com.crcl.comment.domain.Attachment;
 import com.crcl.comment.domain.Comment;
 import com.crcl.comment.dto.CommentDto;
-import com.crcl.comment.exceptions.utils.CommentExceptionUtils;
-import com.crcl.comment.mappers.CommentMapper;
+import com.crcl.comment.dto.FileUploadResponse;
+import com.crcl.comment.dto.PostFormDto;
+import com.crcl.comment.dto.ProfileDto;
+import com.crcl.comment.exceptions.DuplicateFileNameException;
+import com.crcl.comment.mapper.CommentMapper;
+import com.crcl.comment.repository.AttachmentRepository;
 import com.crcl.comment.repository.CommentRepository;
 import com.crcl.comment.service.CommentService;
+import com.crcl.comment.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toSet;
+
+@Service
 @AllArgsConstructor
 @Slf4j
-@Service
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
-    private final CommentMapper mapper;
+    private final CommentMapper commentMapper;
+    private final StorageClient storageClient;
+    private final UserService userService;
+    private final ProfileClient profileClient;
+    private final AttachmentRepository attachmentRepository;
 
-    @Override
-    public CommentDto save(CommentDto commentDto) {
-        return this.mapper.toOptionalEntity(commentDto)
-                .map(commentRepository::save)
-                .map(mapper::toDto)
-                .orElse(null);
+    public CommentDto save(CommentDto postDto) {
+        Comment user = this.commentMapper.toEntity(postDto);
+        return commentMapper.toDto(commentRepository.save(user));
     }
 
     @Override
     public List<CommentDto> saveAll(List<CommentDto> entities) {
         return entities.stream()
                 .map(this::save)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public void deleteById(Long id) {
-        if (this.commentRepository.existsById(id)) {
-            this.commentRepository.deleteById(id);
-            return;
-        }
-        CommentExceptionUtils.commentNotFoundException(id).get();
+        commentRepository.findById(id).ifPresent(user -> {
+            commentRepository.save(user);
+            log.info("user with id %s was disabled".formatted(user.getId()));
+        });
     }
 
     @Override
     public CommentDto findById(Long id) {
-        return this.commentRepository.findById(id)
-                .map(mapper::toDto)
-                .orElseThrow(CommentExceptionUtils.commentNotFoundException(id));
+        return commentRepository.findById(id)
+                .map(commentMapper::toDto)
+                .orElse(null);
     }
 
     @Override
     public List<CommentDto> findAll() {
-        return this.commentRepository.findAll()
-                .stream()
-                .map(mapper::toDto)
-                .collect(Collectors.toList());
+        return commentRepository.findAll().stream()
+                .map(commentMapper::toDto)
+                .toList();
     }
 
     @Override
     public Page<CommentDto> findAll(Pageable pageable) {
-        Page<Comment> commentPage = this.commentRepository.findAll(pageable);
-        commentPage.getContent().forEach(System.out::println);
-        return commentPage
-                .map(mapper::toDto);
+        if (!pageable.getSort().isSorted()) {
+            pageable = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    Sort.Direction.DESC,
+                    "createdAt");
+        }
+
+        final Page<Comment> posts = commentRepository.findByLoggedUser(pageable);
+        final Set<String> usersNames = posts.getContent().stream()
+                .map(Comment::getUsername)
+                .collect(toSet());
+        List<ProfileDto> profiles = this.profileClient.findByUsernames(usersNames);
+        Map<String, ProfileDto> profileMap = profiles.stream()
+                .collect(Collectors.toMap(p -> p.getUser().getUsername(), p -> p));
+        return posts
+                .map(commentMapper::toDto)
+                .map(mergePostsWithOwnerProfiles(profileMap));
     }
 
     @Override
-    public CommentDto update(CommentDto commentDto, Long id) {
-        Comment comment = this.commentRepository.findById(id)
-                .orElseThrow(CommentExceptionUtils.commentNotFoundException(id));
-        Comment partialUpdate = this.mapper.partialUpdate(commentDto, comment);
-        Comment savedComment = this.commentRepository.save(partialUpdate);
-        return mapper.toDto(savedComment);
+    public CommentDto update(CommentDto postDto, Long id) {
+        return commentRepository.findById(id)
+                .map(user -> commentMapper.toEntity(postDto))
+                .map(commentRepository::save)
+                .map(commentMapper::toDto)
+                .orElse(null);
     }
+
+    @Override
+    public CommentDto save(PostFormDto postFormDto) {
+        final var comment = new Comment();
+
+        if (!CollectionUtils.isEmpty(postFormDto.getFiles())) {
+            final var files = List.copyOf(postFormDto.getFiles());
+            validateFilesName(files);
+            final var responses = this.storageClient.saveAll(files);
+            comment.setAttachments(getAttachments(responses));
+        }
+
+        comment.setContent(postFormDto.getContent());
+        comment.setVisibility(postFormDto.getVisibility());
+        comment.setUsername(userService.getCurrentUser().getUsername());
+        comment.setUser(userService.getCurrentUser());
+        ProfileDto profileDto = profileClient.findByUsername(userService.getCurrentUser().getUsername());
+        comment.setProfile(profileDto);
+        final Comment save = commentRepository.save(comment);
+
+        return commentMapper.toDto(save);
+    }
+
+    private void validateFilesName(List<MultipartFile> files) {
+        for (MultipartFile file : files) {
+            String fileName = file.getOriginalFilename();
+            log.debug("Validating file name: {}", fileName);
+            boolean fileExists = attachmentRepository.existsByNameIgnoreCase(fileName);
+            if (fileExists) {
+                log.warn("Duplicate file name found: {}", fileName);
+                throw new DuplicateFileNameException("Duplicate file name found: " + fileName);
+            }
+            log.debug("File name is unique: {}", fileName);
+        }
+        log.info("All file names are valid");
+    }
+
+
+    private Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
+        return responses.stream()
+                .map(response -> new Attachment()
+                        .setUsername(userService.getCurrentUser().getUsername())
+                        .setContentType(response.getContentType())
+                        .setName(response.getName())
+                        .setLink(response.getLink())
+                        .setBucket(response.getBucket())
+                        .setEtag(response.getEtag())
+                        .setVersion(response.getVersion()))
+                .collect(toSet());
+    }
+
+    private Function<CommentDto, CommentDto> mergePostsWithOwnerProfiles(Map<String, ProfileDto> profileMap) {
+        return postDto -> {
+            String postUsername = postDto.getUsername();
+            ProfileDto ownerProfile = profileMap.get(postUsername);
+            postDto.setOwner(ownerProfile);
+            return postDto;
+        };
+    }
+
 
 }

@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Table(name = "comments")
 public class Comment extends Common implements Serializable {
     public static final String ENTITY_NAME = "Comment";
+    @Serial
     private static final long serialVersionUID = -6483377583531145808L;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
