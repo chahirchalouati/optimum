@@ -1,7 +1,8 @@
-package com.crcl.comment.configuration.Oauth2;
+package com.crcl.post.configuration;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
@@ -12,9 +13,9 @@ public class Oauth2TokenInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
-        final var authentication = (JwtAuthenticationToken) SecurityContextHolder
-                .getContext()
-                .getAuthentication();
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        JwtAuthenticationToken authentication = (JwtAuthenticationToken) securityContext.getAuthentication();
+
         if (authentication == null) {
             return;
         }
