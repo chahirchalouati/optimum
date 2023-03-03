@@ -1,9 +1,9 @@
 <div class="card">
   <div class="card-header">
     <div class="card-header__details">
-      <app-avatar [img]="post.owner.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
+      <app-avatar [img]="post.profile.avatar" [shape]="'rounded'" [size]="40"></app-avatar>
       <div class="card-header__details__userInfo">
-        <h5 class="username">{{post.owner.user.firstName + " " + post.owner.user.lastName }}</h5>
+        <h5 class="username">{{post.profile.user.firstName + " " + post.profile.user.lastName }}</h5>
         <span class="card-header__details_postInfo">
             <small class="createdAt">{{getDate(post.createdAt)}}</small>
           <app-icon

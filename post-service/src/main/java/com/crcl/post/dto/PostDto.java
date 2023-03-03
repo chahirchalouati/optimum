@@ -12,7 +12,7 @@ import java.util.List;
 public class PostDto {
     private Long id;
     private String content;
-    private ProfileDto owner;
+    private ProfileDto profile;
     private Post.Visibility visibility;
     private List<AttachmentDto> attachments;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)

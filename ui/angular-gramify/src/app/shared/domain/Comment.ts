@@ -9,6 +9,6 @@ export default interface Comment extends Selectable {
   attachments: Attachment[];
   createdAt: string;
   content: string;
-  owner: Profile;
+  profile: Profile;
   visibility: Visibility;
 }

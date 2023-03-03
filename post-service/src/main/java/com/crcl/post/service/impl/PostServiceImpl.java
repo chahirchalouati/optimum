@@ -168,7 +168,7 @@ public class PostServiceImpl implements PostService {
         return postDto -> {
             String postUsername = postDto.getUsername();
             ProfileDto ownerProfile = profileMap.get(postUsername);
-            postDto.setOwner(ownerProfile);
+            postDto.setProfile(ownerProfile);
             return postDto;
         };
     }

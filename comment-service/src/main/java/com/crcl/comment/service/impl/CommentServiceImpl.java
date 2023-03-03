@@ -168,11 +168,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private Function<CommentDto, CommentDto> mergePostsWithOwnerProfiles(Map<String, ProfileDto> profileMap) {
-        return postDto -> {
-            String postUsername = postDto.getUsername();
+        return commentDto -> {
+            String postUsername = commentDto.getUsername();
             ProfileDto ownerProfile = profileMap.get(postUsername);
-            postDto.setOwner(ownerProfile);
-            return postDto;
+            commentDto.setProfile(ownerProfile);
+            return commentDto;
         };
     }
 

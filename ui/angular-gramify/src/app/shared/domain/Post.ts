@@ -10,7 +10,7 @@ export default interface Post extends Selectable {
   attachments: Attachment[];
   createdAt: string;
   content: string;
-  owner: Profile;
+  profile: Profile;
   visibility: Visibility;
 }
 
