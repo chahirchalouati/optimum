@@ -1,10 +1,10 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.post.clients.ProfileClient;
 import com.crcl.post.clients.StorageClient;
 import com.crcl.post.domain.Attachment;
 import com.crcl.post.domain.Post;
-import com.crcl.post.dto.FileUploadResponse;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.dto.PostFormDto;
 import com.crcl.post.dto.ProfileDto;
@@ -151,7 +151,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private Set<Attachment> getAttachments(List<FileUploadResponse> responses) {
+    private Set<Attachment> getAttachments(List<FileUploadResult> responses) {
         return responses.stream()
                 .map(response -> new Attachment()
                         .setUsername(userService.getCurrentUser().getUsername())
