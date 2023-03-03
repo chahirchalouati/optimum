@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDto> save(List<RoleDto> entities) {
+    public List<RoleDto> saveAll(List<RoleDto> entities) {
         return entities.stream().map(this::save).toList();
     }
 

@@ -2,7 +2,7 @@ package com.crcl.authentication.clients;
 
 import com.crcl.authentication.configuration.clients.FeignFormConfig;
 import com.crcl.authentication.configuration.clients.SrvOauth2ClientConfig;
-import com.crcl.common.dto.responses.FileUploadResponse;
+import com.crcl.common.dto.responses.FileUploadResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -24,8 +24,8 @@ public interface ServerStorageClient {
     ByteArrayResource getObject(@PathVariable("objectName") String objectName, @PathVariable("tag") String tag);
 
     @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    FileUploadResponse save(@RequestPart("file") MultipartFile multipartFile);
+    FileUploadResult save(@RequestPart("file") MultipartFile multipartFile);
 
     @PostMapping(value = "/files/all", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    List<FileUploadResponse> saveAll(@RequestPart("files") List<MultipartFile> multipartFiles);
+    List<FileUploadResult> saveAll(@RequestPart("files") List<MultipartFile> multipartFiles);
 }

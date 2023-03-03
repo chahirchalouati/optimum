@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> save(List<UserDto> entities) {
+    public List<UserDto> saveAll(List<UserDto> entities) {
         log.debug("Saving users: {}", entities);
         List<UserDto> savedUsers = entities.stream()
                 .map(this::save).toList();
