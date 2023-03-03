@@ -1,0 +1,18 @@
+<div *ngFor="let comment of (comments$ | async)" class="comment">
+  <div class="header">
+    <div class="user">anonymous</div>
+  </div>
+  <div class="content">{{ comment.content }}</div>
+  <div *ngIf="comment.attachments.length > 0" class="attachments"></div>
+</div>
+<div class="row flex-centered ">
+  <div (click)="this.pageSubject.next(pageSubject.getValue() + 1)"
+       *ngIf="!isLast && !isLoading"
+       class="load-more"
+       role="button">load more
+  </div>
+
+  <ng-content></ng-content>
+</div>
+
+

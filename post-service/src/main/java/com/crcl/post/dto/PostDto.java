@@ -10,12 +10,13 @@ import java.util.List;
 
 @Data
 public class PostDto {
-    private List<AttachmentDto> attachments;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    private LocalDateTime createdAt;
+    private Long id;
     private String content;
     private ProfileDto owner;
     private Post.Visibility visibility;
+    private List<AttachmentDto> attachments;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime createdAt;
     @JsonIgnore
     private String username;
 }

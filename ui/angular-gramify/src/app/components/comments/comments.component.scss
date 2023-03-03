@@ -1,0 +1,52 @@
+@import "utils";
+
+.comment {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 16px;
+
+    .user {
+      color: #1a0dab;
+    }
+
+    .date {
+      color: #555;
+    }
+  }
+
+  .content {
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .attachments {
+    margin-top: 10px;
+
+    div {
+      margin-bottom: 5px;
+
+      a {
+        color: #1a0dab;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .load-more {
+    @extend .row;
+    width: 100%;
+    border: none;
+    background: none;
+
+
+  }
+}

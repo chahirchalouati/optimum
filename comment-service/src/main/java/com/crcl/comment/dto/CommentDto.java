@@ -10,12 +10,14 @@ import java.util.List;
 
 @Data
 public class CommentDto {
-    private List<AttachmentDto> attachments;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    private LocalDateTime createdAt;
+    private Long id;
+    private Long postId;
     private String content;
+    private List<AttachmentDto> attachments;
     private ProfileDto owner;
     private Comment.Visibility visibility;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    private LocalDateTime createdAt;
     @JsonIgnore
     private String username;
 }

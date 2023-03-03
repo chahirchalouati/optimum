@@ -5,8 +5,8 @@ import com.crcl.comment.clients.StorageClient;
 import com.crcl.comment.domain.Attachment;
 import com.crcl.comment.domain.Comment;
 import com.crcl.comment.dto.CommentDto;
+import com.crcl.comment.dto.CommentFormDto;
 import com.crcl.comment.dto.FileUploadResponse;
-import com.crcl.comment.dto.PostFormDto;
 import com.crcl.comment.dto.ProfileDto;
 import com.crcl.comment.exceptions.DuplicateFileNameException;
 import com.crcl.comment.mapper.CommentMapper;
@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,6 +45,7 @@ public class CommentServiceImpl implements CommentService {
     private final ProfileClient profileClient;
     private final AttachmentRepository attachmentRepository;
 
+    @Override
     public CommentDto save(CommentDto postDto) {
         Comment user = this.commentMapper.toEntity(postDto);
         return commentMapper.toDto(commentRepository.save(user));
@@ -110,25 +112,31 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto save(PostFormDto postFormDto) {
+    @Transactional
+    public CommentDto save(CommentFormDto commentFormDto) {
         final var comment = new Comment();
+        comment.setContent(commentFormDto.getContent());
+        comment.setUsername(userService.getCurrentUser().getUsername());
+        comment.setUser(userService.getCurrentUser());
+        comment.setPostId(commentFormDto.getPostId());
+        ProfileDto profileDto = profileClient.findByUsername(userService.getCurrentUser().getUsername());
+        comment.setProfile(profileDto);
 
-        if (!CollectionUtils.isEmpty(postFormDto.getFiles())) {
-            final var files = List.copyOf(postFormDto.getFiles());
+        if (!CollectionUtils.isEmpty(commentFormDto.getFiles())) {
+            final var files = List.copyOf(commentFormDto.getFiles());
             validateFilesName(files);
             final var responses = this.storageClient.saveAll(files);
             comment.setAttachments(getAttachments(responses));
         }
-
-        comment.setContent(postFormDto.getContent());
-        comment.setVisibility(postFormDto.getVisibility());
-        comment.setUsername(userService.getCurrentUser().getUsername());
-        comment.setUser(userService.getCurrentUser());
-        ProfileDto profileDto = profileClient.findByUsername(userService.getCurrentUser().getUsername());
-        comment.setProfile(profileDto);
         final Comment save = commentRepository.save(comment);
 
         return commentMapper.toDto(save);
+    }
+
+    @Override
+    public Page<CommentDto> findByPostId(Long id, Pageable pageable) {
+        return commentRepository.findByPostId(id, pageable)
+                .map(commentMapper::toDto);
     }
 
     private void validateFilesName(List<MultipartFile> files) {

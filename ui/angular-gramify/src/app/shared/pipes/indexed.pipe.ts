@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {Indexable} from "../domain/Post";
+import {Indexable} from "../domain/common";
 
 @Pipe({
   name: 'index'

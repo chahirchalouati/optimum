@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Attachment} from "../../../shared/domain/Post";
+import {Attachment} from "../../../shared/domain/Attachment";
 
 @Component({
   selector: 'app-media-grid',

@@ -34,6 +34,11 @@ public class PostController {
         return ResponseEntity.ok(this.postService.findById(id));
     }
 
+    @GetMapping("/exists/{id}")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(this.postService.existsById(id));
+    }
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@ModelAttribute PostFormDto postFormDto) {
         return ResponseEntity.ok(this.postService.save(postFormDto));

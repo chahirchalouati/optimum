@@ -37,6 +37,8 @@ import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
 import {MediaGridComponent} from './components/common/media-grid/media-grid.component';
 import {TrackVisibilityDirective} from './shared/directives/track-visibility.directive';
 import {IndexedPipe} from './shared/pipes/indexed.pipe';
+import {CommentsComponent} from './components/comments/comments.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -70,13 +72,15 @@ import {IndexedPipe} from './shared/pipes/indexed.pipe';
     ImgFallbackDirective,
     MediaGridComponent,
     TrackVisibilityDirective,
-    IndexedPipe
+    IndexedPipe,
+    CommentsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

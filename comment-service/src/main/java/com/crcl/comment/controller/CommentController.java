@@ -35,7 +35,7 @@ public class CommentController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> save(@ModelAttribute CommentFormDto commentFormDto) {
+    public ResponseEntity<?> save(@ModelAttribute @Valid CommentFormDto commentFormDto) {
         return ResponseEntity.ok(this.postService.save(commentFormDto));
     }
 

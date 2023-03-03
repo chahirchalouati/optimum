@@ -47,6 +47,7 @@
         <app-icon *ngIf="true"
                   [iconSize]="25"
                   [name]="'comment'"
+                  (click)="shouldShowComments=!shouldShowComments"
                   [size]="30"
                   [toolTipActive]="true"
                   [toolTipText]="'comment'"
@@ -61,6 +62,11 @@
       </div>
     </div>
     <div class="card-footer-body"></div>
-    <div class="card-footer-footer"></div>
+    <div class="card-footer-footer">
+
+      <app-comments #commentsComponent *ngIf="shouldShowComments" [posId]="post.id">
+        <app-puff-loader *ngIf="commentsComponent.isLoading"></app-puff-loader>
+      </app-comments>
+    </div>
   </div>
 </div>

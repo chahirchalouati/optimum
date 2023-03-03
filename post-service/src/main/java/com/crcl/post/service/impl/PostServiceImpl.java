@@ -131,6 +131,11 @@ public class PostServiceImpl implements PostService {
         return postMapper.toDto(save);
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        return postRepository.existsById(id);
+    }
+
     private void validateFilesName(List<MultipartFile> files) {
         for (MultipartFile file : files) {
             String fileName = file.getOriginalFilename();
