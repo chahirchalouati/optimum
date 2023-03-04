@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("posts")
@@ -22,11 +21,6 @@ public class PostController {
     @GetMapping
     public ResponseEntity<Page<PostDto>> findAll(Pageable pageable) {
         return ResponseEntity.ok(this.postService.findAll(pageable));
-    }
-
-    @GetMapping("/all")
-    public ResponseEntity<List<PostDto>> findAll() {
-        return ResponseEntity.ok(this.postService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -42,11 +36,6 @@ public class PostController {
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@ModelAttribute PostFormDto postFormDto) {
         return ResponseEntity.ok(this.postService.save(postFormDto));
-    }
-
-    @PostMapping("/all")
-    public ResponseEntity<List<PostDto>> save(@Valid @RequestBody List<PostDto> entities) {
-        return ResponseEntity.ok(this.postService.saveAll(entities));
     }
 
     @PutMapping("/{id}")
