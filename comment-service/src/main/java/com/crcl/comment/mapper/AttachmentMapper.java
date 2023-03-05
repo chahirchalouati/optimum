@@ -1,9 +1,9 @@
 package com.crcl.comment.mapper;
 
-import com.crcl.common.utils.generic.GenericMapper;
 import com.crcl.comment.configuration.properties.ImageSizesProperties;
 import com.crcl.comment.domain.Attachment;
 import com.crcl.comment.dto.AttachmentDto;
+import com.crcl.common.utils.generic.GenericMapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.crcl.post.repository;
 
 import com.crcl.post.domain.Post;
-import com.crcl.post.domain.Tag;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

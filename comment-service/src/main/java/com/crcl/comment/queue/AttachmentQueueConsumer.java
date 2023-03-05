@@ -1,9 +1,9 @@
 package com.crcl.comment.queue;
 
+import com.crcl.comment.service.AttachmentService;
 import com.crcl.common.dto.DefaultMessage;
 import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.common.utils.QueueDefinition;
-import com.crcl.comment.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

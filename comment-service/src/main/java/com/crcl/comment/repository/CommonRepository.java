@@ -1,7 +1,7 @@
 package com.crcl.comment.repository;
 
-import com.crcl.comment.domain.Common;
 import com.crcl.comment.domain.Comment;
+import com.crcl.comment.domain.Common;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
