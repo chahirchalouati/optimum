@@ -8,7 +8,7 @@
         <version>2.7.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.code.dremear</groupId>
+    <groupId>com.crcl</groupId>
     <artifactId>configuration-service</artifactId>
     <version>1.0.1</version>
     <name>configuration-service</name>
