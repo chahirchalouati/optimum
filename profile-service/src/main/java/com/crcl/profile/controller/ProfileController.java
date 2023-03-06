@@ -19,33 +19,13 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
-    public ResponseEntity<List<ProfileDto>> findAll() {
-        return ResponseEntity.ok(this.profileService.findAll());
-    }
-
-    @GetMapping("/example")
-    public ResponseEntity<Page<ProfileDto>> findAll(ProfileDto pageRequest, Pageable pageable) {
-        return ResponseEntity.ok(this.profileService.findAll(pageRequest, pageable));
-    }
-
-    @GetMapping("/example/one")
-    public ResponseEntity<ProfileDto> findOne(ProfileDto pageRequest) {
-        return ResponseEntity.ok(this.profileService.findOne(pageRequest));
+    public ResponseEntity<Page<ProfileDto>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(this.profileService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProfileDto> findById(@PathVariable String id) {
         return ResponseEntity.ok(this.profileService.findById(id));
-    }
-
-    @GetMapping("/profile/username/{username}")
-    public ResponseEntity<ProfileDto> findByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(this.profileService.findByUsername(username));
-    }
-
-    @GetMapping("/profile/usernames")
-    public ResponseEntity<List<ProfileDto>> findByUserNames(@RequestParam List<String> usernames) {
-        return ResponseEntity.ok(this.profileService.findByUsernames(usernames));
     }
 
     @PostMapping

@@ -11,7 +11,5 @@ public interface ProfileRepository extends MongoRepository<Profile, String> {
 
     List<Profile> findByUsernameIn(List<String> usernames);
 
-    boolean existsByEmailIgnoreCase(String email);
-
     boolean existsByUsernameIgnoreCase(String username);
 }

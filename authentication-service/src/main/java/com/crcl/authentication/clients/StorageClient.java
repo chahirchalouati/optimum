@@ -17,7 +17,10 @@ import java.util.List;
 // TODO: 1/8/2023 add resiliency
 @FeignClient(name = "${client.storage.name}",
         url = "${client.storage.url}",
-        configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
+        configuration = {
+                OAuthFeignConfig.class,
+                FeignFormConfig.class
+        })
 public interface StorageClient {
 
     @GetMapping("/files/{folder}/{fileName}")

@@ -14,7 +14,7 @@ import com.crcl.comment.repository.AttachmentRepository;
 import com.crcl.comment.repository.CommentRepository;
 import com.crcl.comment.service.CommentService;
 import com.crcl.comment.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class CommentServiceImpl implements CommentService {
 

@@ -13,9 +13,9 @@ import java.util.List;
 // TODO: 1/8/2023 add resiliency
 @FeignClient(name = "${client.profile.name}", url = "${client.profile.url}", configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
 public interface ProfileClient {
-    @GetMapping("/profiles/profile/username/{username}")
+    @GetMapping("/searches/username/{username}")
     ProfileDto findByUsername(@PathVariable String username);
 
-    @GetMapping("/profiles/profile/usernames")
+    @GetMapping("/searches/profile/usernames")
     List<ProfileDto> findByUsernames(@RequestParam("usernames") List<String> userNames);
 }

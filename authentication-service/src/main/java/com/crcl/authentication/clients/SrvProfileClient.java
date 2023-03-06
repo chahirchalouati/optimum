@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "${client.srvProfile.name}", url = "${client.srvProfile.url}",
         configuration = {SrvOauth2ClientConfig.class})
 public interface SrvProfileClient {
-    @GetMapping("/profiles/profile/username/{username}")
+    @GetMapping("/searches/username/{username}")
     ProfileDto findByUsername(@PathVariable String username);
 
     @PostMapping("/profiles")
