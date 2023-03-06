@@ -12,7 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 // TODO: 1/8/2023 add resiliency
-@FeignClient(name = "${client.profile.name}", url = "${client.profile.url}", configuration = {OAuthFeignConfig.class, FeignFormConfig.class})
+@FeignClient(name = "${client.profile.name}",
+        url = "${client.profile.url}",
+        configuration = {
+                OAuthFeignConfig.class, FeignFormConfig.class
+        })
 public interface ProfileClient {
     @GetMapping("/searches/username/{username}")
     ProfileDto findByUsername(@PathVariable String username);

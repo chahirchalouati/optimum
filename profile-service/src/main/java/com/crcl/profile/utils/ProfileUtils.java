@@ -2,13 +2,17 @@ package com.crcl.profile.utils;
 
 import com.crcl.profile.domain.*;
 import com.crcl.profile.dto.ProfileDto;
-import org.apache.commons.lang3.RandomUtils;
 import org.jetbrains.annotations.NotNull;
+import org.testcontainers.shaded.org.apache.commons.lang3.RandomUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ProfileUtils {
+
     public static final String DEFAULT_MALE_AVATAR = "https://thumbs.dreamstime.com/b/default-avatar-photo-placeholder-profile-icon-eps-file-easy-to-edit-default-avatar-photo-placeholder-profile-icon-124557887.jpg";
     public static final String DEFAULT_FEMALE_AVATAR = "https://thumbs.dreamstime.com/b/default-female-avatar-profile-picture-icon-grey-woman-photo-placeholder-vector-illustration-88413637.jpg";
     public static final String DEFAULT_BG_IMAGE = "https://img.freepik.com/free-vector/blue-gradient-blank-background-business_53876-120508.jpg?w=2000";
@@ -69,92 +73,65 @@ public class ProfileUtils {
                 .setAddress(address);
         profile.setLocation(Set.of(location));
 
-
         Hometown hometown = new Hometown();
         hometown.setAddress(address);
         profile.setHometown(hometown);
 
         Map.Entry<String, String> entry = occupationMap.entrySet().stream().findAny().get();
-        Occupation occupation = new Occupation()
+        var occupation = new Occupation()
                 .setTitle(entry.getKey())
                 .setEmployerName(entry.getValue())
                 .setStartDate(LocalDateTime.of(2015, 1, 1, 10, 20))
                 .setEndDate(LocalDateTime.of(2021, 1, 1, 10, 20));
         profile.setOccupation(occupation);
 
-        Set<Interest> interests = new HashSet<>();
-        Interest interest1 = new Interest();
-        interest1.setName(INTERESTS.get(RandomUtils.nextInt(0, INTERESTS.size())));
-        interest1.setCategory(new InterestCategory());
-        interests.add(interest1);
+        var interests = createRandomObjects(RandomUtils.nextInt(0, 30), () -> new Interest()
+                .setName(INTERESTS.get(RandomUtils.nextInt(0, INTERESTS.size())))
+                .setCategory(new InterestCategory()));
         profile.setInterests(interests);
 
-        Map.Entry<String, String> entry_1 = occupationMap.entrySet().stream().findAny().get();
-        Map.Entry<String, String> entry_2 = occupationMap.entrySet().stream().findAny().get();
-        Set<WorkExperience> workExperience = Set.of(
-
-                new WorkExperience()
-                        .setTitle(entry_1.getKey())
-                        .setEmployerName(entry_1.getValue())
-                        .setLocation(location)
-                        .setStartDate(LocalDateTime.of(2015, 1, 1, 10, 20))
-                        .setEndDate(LocalDateTime.of(2021, 1, 1, 10, 20)),
-
-                new WorkExperience()
-                        .setTitle(entry_2.getKey())
-                        .setEmployerName(entry_2.getValue())
-                        .setLocation(location)
-                        .setStartDate(LocalDateTime.of(2021, 1, 1, 10, 20))
+        var workExperience = createRandomObjects(RandomUtils.nextInt(0, 30), () -> {
+                    var occupationEntry = occupationMap.entrySet().stream().findAny().get();
+                    return new WorkExperience()
+                            .setTitle(occupationEntry.getKey())
+                            .setEmployerName(occupationEntry.getValue())
+                            .setLocation(location)
+                            .setStartDate(LocalDateTime.of(2015, 1, 1, 10, 20))
+                            .setEndDate(LocalDateTime.of(2021, 1, 1, 10, 20));
+                }
         );
         profile.setWorkExperience(workExperience);
 
-        Set<Language> languages = Set.of(
-                new Language()
-                        .setName(LANGUAGES.get(RandomUtils.nextInt(0, LANGUAGES.size())))
-                        .setProficiency(Arrays.stream(Proficiency.values()).findAny().get()),
-
-                new Language()
-                        .setName(LANGUAGES.get(RandomUtils.nextInt(0, LANGUAGES.size())))
-                        .setProficiency(Arrays.stream(Proficiency.values()).findAny().get()),
-
-                new Language()
-                        .setName(LANGUAGES.get(RandomUtils.nextInt(0, LANGUAGES.size())))
-                        .setProficiency(Arrays.stream(Proficiency.values()).findAny().get())
-        );
+        var languages = createRandomObjects(RandomUtils.nextInt(0, 30), () -> new Language()
+                .setName(LANGUAGES.get(RandomUtils.nextInt(0, LANGUAGES.size())))
+                .setProficiency(Arrays.stream(Proficiency.values()).findAny().get()));
         profile.setLanguages(languages);
 
-
-        Set<UserSkill> skills = Set.of(new UserSkill()
-                .setSkill(new Skill().setName(SKILLS.get(RandomUtils.nextInt(0, SKILLS.size()))))
-                .setProficiency(Arrays.stream(Proficiency.values()).findAny().get()));
+        var skills = createRandomObjects(RandomUtils.nextInt(0, 30), () -> {
+            var skill = new Skill().setName(SKILLS.get(RandomUtils.nextInt(0, SKILLS.size())));
+            var proficiency = Arrays.stream(Proficiency.values()).findAny().get();
+            return new UserSkill()
+                    .setSkill(skill)
+                    .setProficiency(proficiency);
+        });
         profile.setSkills(skills);
 
-//// Create a list of awards
-//        List<Award> awards = new ArrayList<>();
-//        Award award1 = new Award();
-//        award1.setName("Best Paper Award");
-//        award1.setDate(LocalDateTime.of(2020, 6, 15, 10, 20));
-//        award1.setIssuer("IEEE");
-//        Award award2 = new Award();
-//        award2.setName("Employee of the Month");
-//        award2.setDate(LocalDateTime.of(2019, 3, 1, 10, 20));
-//        award2.setIssuer("Facebook");
-//        awards.add(award1);
-//        awards.add(award2);
-//
-//// Create a list of volunteer experiences
-//        List<VolunteerExperience> volunteerExperience = new ArrayList<>();
-//        VolunteerExperience volunteer1 = new VolunteerExperience();
-//        volunteer1.setOrganization("Red Cross");
-//        volunteer1.setRole("Volunteer");
-//        volunteer1.setStartDate(LocalDateTime.of(2018, 1, 1, 10, 20));
-//        volunteer1.setEndDate(LocalDateTime.of(2019, 1, 1, 10, 20));
-//        VolunteerExperience volunteer2 = new VolunteerExperience();
-//        volunteer2.setOrganization("UNICEF");
-//        volunteer2.setRole("Volunteer");
-//        volunteer2.setStartDate(LocalDateTime.of(2019, 1, 1, 10, 20));
-//        volunteerExperience.add(volunteer1);
-//        volunteerExperience.add(volunteer2);
+
+        var awards = createRandomObjects(RandomUtils.nextInt(0, 30), () -> {
+            var name = AWARDS.get(RandomUtils.nextInt(0, AWARDS.size()));
+            return new Award()
+                    .setName(name)
+                    .setDate(LocalDateTime.now())
+                    .setIssuer("IEEE");
+        });
+        profile.setAwards(awards);
+        var volunteer = new VolunteerExperience()
+                .setOrganization("Red Cross")
+                .setRole("Volunteer")
+                .setStartDate(LocalDateTime.of(2018, 1, 1, 10, 20))
+                .setEndDate(LocalDateTime.of(2019, 1, 1, 10, 20));
+
+        profile.setVolunteerExperience(Set.of(volunteer));
 
         return profile;
     }
@@ -164,4 +141,20 @@ public class ProfileUtils {
         return user.getGender()
                 .equals("MALE") ? DEFAULT_MALE_AVATAR : DEFAULT_FEMALE_AVATAR;
     }
+
+    public static <T> Set<T> createRandomObjects(int count, int startFrom, Supplier<T> object) {
+        return IntStream.range(startFrom, count)
+                .mapToObj(operand -> object.get())
+                .collect(Collectors.toSet());
+    }
+
+    public static <T> Set<T> createRandomObjects(int count, Supplier<T> object) {
+        return createRandomObjects(count, 0, object);
+    }
+//
+//    public static void main(String[] args) {
+//        UserDto user = new UserDto();
+//        user.setGender("MALE");
+//        ProfileDto defaultProfile = ProfileUtils.getDefaultProfile(user);
+//    }
 }

@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 @Import({ApiProperties.class, SwaggerConfiguration.class})
 public class ResourceServerConfig {
+
     private final CorsCustomizer corsCustomizer;
 
     @Bean
