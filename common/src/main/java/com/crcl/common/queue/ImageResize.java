@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ImageResizeEvent extends BaseEvent {
+public class ImageResize extends Auditable {
     private String id;
     private FileUploadResult result;
 

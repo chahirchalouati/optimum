@@ -1,9 +1,9 @@
 package com.crcl.authentication.views;
 
 public class UserView {
-    public static interface CreateUserView extends UserResponseView {
+    public interface CreateUserView extends UserResponseView {
     }
 
-    public static interface UserResponseView {
+    public interface UserResponseView {
     }
 }

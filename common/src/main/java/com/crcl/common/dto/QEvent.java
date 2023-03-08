@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-public abstract class Message<T> {
+public abstract class QEvent<T> {
     protected T payload;
     protected Map<String, Object> headers = new HashMap<>();
 
@@ -14,7 +14,7 @@ public abstract class Message<T> {
         return payload;
     }
 
-    public Message<T> setPayload(T payload) {
+    public QEvent<T> setPayload(T payload) {
         this.payload = payload;
         return this;
     }
@@ -23,7 +23,7 @@ public abstract class Message<T> {
         return headers;
     }
 
-    public Message<T> setHeaders(Map<String, Object> headers) {
+    public QEvent<T> setHeaders(Map<String, Object> headers) {
         this.headers = headers;
         return this;
     }

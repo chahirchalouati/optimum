@@ -27,11 +27,6 @@ import static org.springframework.security.oauth2.core.ClientAuthenticationMetho
 @ChangeLog
 public class DevelopmentEnvironmentMigration {
 
-    private static Client buildClient(MigrationHelper migrationHelper, Registration registration) {
-        registration.getUris().add("https://oauth.pstmn.io/v1/callback");
-        return getClient(migrationHelper, registration);
-    }
-
     @ChangeSet(order = "001", id = "save_default_clients", author = "@chahir_chalouati")
     public void saveClients(final MigrationHelper migrationHelper) {
         migrationHelper.getSecurityProperties().getRegistrations()
@@ -77,5 +72,10 @@ public class DevelopmentEnvironmentMigration {
 
     private User addDefaultRoles(User user) {
         return user.setRoles(RoleUtils.getDefaultUserRoles());
+    }
+
+    private Client buildClient(MigrationHelper migrationHelper, Registration registration) {
+        registration.getUris().add("https://oauth.pstmn.io/v1/callback");
+        return getClient(migrationHelper, registration);
     }
 }

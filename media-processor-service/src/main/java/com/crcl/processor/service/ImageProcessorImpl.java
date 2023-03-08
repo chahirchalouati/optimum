@@ -2,14 +2,15 @@ package com.crcl.processor.service;
 
 
 import com.crcl.common.domain.Orientation;
-import com.crcl.common.dto.DefaultMessage;
+import com.crcl.common.dto.AuthenticatedQEvent;
+import com.crcl.common.dto.DefaultQEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
-import com.crcl.common.queue.ImageUploadEvent;
+import com.crcl.common.queue.ImageUpload;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.clients.StorageClient;
 import com.crcl.processor.configuration.properties.ImageSizesProperties;
-import com.crcl.processor.queue.MessageQueuePublisher;
+import com.crcl.processor.queue.EventQueuePublisher;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
@@ -37,11 +38,11 @@ public class ImageProcessorImpl implements ImageProcessor {
     private final StorageClient storageClient;
     private final MinioClient minioClient;
     private final ImageSizesProperties imageSizesProperties;
-    private final MessageQueuePublisher messageQueuePublisher;
+    private final EventQueuePublisher eventQueuePublisher;
 
     @Override
-    public void process(ImageUploadEvent event) {
-        final FileUploadResult response = event.getResponse();
+    public void process(AuthenticatedQEvent<ImageUpload> event) {
+        final FileUploadResult response = event.getPayload().getResponse();
 
         storageClient.getObject(response.getName(), response.getEtag())
                 .zipWith(userService.getCurrentUser())
@@ -55,16 +56,17 @@ public class ImageProcessorImpl implements ImageProcessor {
                                     final var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
                                     final var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
                                     final var orientation = getOrientation(inputStream);
-                                    final var message = new DefaultMessage<ImageUploadEvent>();
 
-                                    final var imageUploadEvent = new ImageUploadEvent();
+                                    final var imageUploadEvent = new ImageUpload();
                                     imageUploadEvent.setImageSize(imageSize);
                                     imageUploadEvent.setOrientation(orientation);
                                     imageUploadEvent.setResponse(buildFileUploadResponse(uploadFileResponse));
                                     imageUploadEvent.setId(response.getEtag());
+
+                                    final var message = new DefaultQEvent<ImageUpload>();
                                     message.setPayload(imageUploadEvent);
 
-                                    messageQueuePublisher.publish(message, QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE);
+                                    eventQueuePublisher.publish(message, QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE);
                                     log.debug("Finished processing image with size {}", imageSize);
                                 } catch (Exception e) {
                                     log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);

@@ -1,0 +1,9 @@
+package com.crcl.processor.queue;
+
+import com.crcl.common.dto.AuthenticatedQEvent;
+import com.crcl.common.queue.ImageUpload;
+import org.springframework.messaging.Message;
+
+public interface EventQueueConsumer {
+    void onReceiveResizeImage(Message<AuthenticatedQEvent<ImageUpload>> message);
+}

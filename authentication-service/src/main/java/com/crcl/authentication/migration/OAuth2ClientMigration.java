@@ -9,7 +9,6 @@ import com.github.cloudyrock.mongock.ChangeSet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 
-import java.util.List;
 import java.util.Set;
 
 import static org.springframework.security.oauth2.core.ClientAuthenticationMethod.CLIENT_SECRET_POST;
@@ -23,12 +22,12 @@ public class OAuth2ClientMigration {
     }
 
     protected static Client getClient(MigrationHelper migrationHelper, Registration registration) {
-        final List<AuthorizationGrantType> grantTypes = registration.getGrantTypes().stream()
+        final var grantTypes = registration.getGrantTypes().stream()
                 .map(AuthorizationGrantType::new)
                 .toList();
 
-        final List<String> redirectUris = registration.getUris().stream()
-                .map(s -> s.concat("/authorized"))
+        final var redirectUris = registration.getUris().stream()
+                .map(uri -> uri.contains("/callback") ? uri : uri.concat("/authorized"))
                 .toList();
 
         return new Client()

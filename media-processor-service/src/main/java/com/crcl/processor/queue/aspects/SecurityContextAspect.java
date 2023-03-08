@@ -1,7 +1,7 @@
 package com.crcl.processor.queue.aspects;
 
-import com.crcl.common.dto.AuthenticatedMessage;
-import com.crcl.common.queue.ImageUploadEvent;
+import com.crcl.common.dto.AuthenticatedQEvent;
+import com.crcl.common.queue.ImageUpload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,12 +26,12 @@ import java.util.Objects;
 public class SecurityContextAspect {
     private final JwtDecoder decoder;
 
-    @Around("@annotation(com.crcl.processor.queue.annotation.SecurityContextInterceptor)")
+    @Around("@annotation(com.crcl.common.annotation.SecurityContextInterceptor)")
     public Object applySecurityContext(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Applying security context to message");
         Object[] args = joinPoint.getArgs();
-        Message<AuthenticatedMessage<ImageUploadEvent>> message = (Message<AuthenticatedMessage<ImageUploadEvent>>) args[0];
-        AuthenticatedMessage<ImageUploadEvent> payload = message.getPayload();
+        Message<AuthenticatedQEvent<ImageUpload>> message = (Message<AuthenticatedQEvent<ImageUpload>>) args[0];
+        AuthenticatedQEvent<ImageUpload> payload = message.getPayload();
         try {
             Jwt jwt = decoder.decode(payload.getToken());
             if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {

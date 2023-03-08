@@ -12,15 +12,17 @@ import com.crcl.post.exceptions.DuplicateFileNameException;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.AttachmentRepository;
 import com.crcl.post.repository.PostRepository;
+import com.crcl.post.service.AuditService;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,7 +35,7 @@ import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toSet;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class PostServiceImpl implements PostService {
 
@@ -43,6 +45,7 @@ public class PostServiceImpl implements PostService {
     private final UserService userService;
     private final ProfileClient profileClient;
     private final AttachmentRepository attachmentRepository;
+    private final AuditService auditService;
 
     public PostDto save(PostDto postDto) {
         Post user = this.postMapper.toEntity(postDto);
@@ -110,6 +113,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public PostDto save(PostFormDto postFormDto) {
         final var post = new Post();
 
@@ -127,7 +131,7 @@ public class PostServiceImpl implements PostService {
         ProfileDto profileDto = profileClient.findByUsername(userService.getCurrentUser().getUsername());
         post.setProfile(profileDto);
         final Post save = postRepository.save(post);
-
+        auditService.publishCreatedPostEvent(save);
         return postMapper.toDto(save);
     }
 

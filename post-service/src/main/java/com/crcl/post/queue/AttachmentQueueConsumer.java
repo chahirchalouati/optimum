@@ -1,7 +1,7 @@
 package com.crcl.post.queue;
 
-import com.crcl.common.dto.DefaultMessage;
-import com.crcl.common.queue.ImageUploadEvent;
+import com.crcl.common.dto.DefaultQEvent;
+import com.crcl.common.queue.ImageUpload;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.service.AttachmentService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class AttachmentQueueConsumer {
     private final AttachmentService attachmentService;
 
     @RabbitListener(queues = QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE)
-    public void consumeImageUploadEvent(Message<DefaultMessage<ImageUploadEvent>> message) {
+    public void consumeImageUploadEvent(Message<DefaultQEvent<ImageUpload>> message) {
         attachmentService.updateByEtag(message.getPayload());
     }
 
