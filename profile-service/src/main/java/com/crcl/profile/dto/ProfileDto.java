@@ -12,8 +12,10 @@ import java.util.Set;
 @Data
 @Accessors(chain = true)
 public class ProfileDto {
-    @UniqueUserName
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String id;
 
+    @UniqueUserName
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String username;
 
@@ -23,9 +25,6 @@ public class ProfileDto {
     private String avatar;
 
     private String backgroundImage;
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String id;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Occupation occupation;
