@@ -1,5 +1,6 @@
 package com.crcl.post.domain;
 
+import com.crcl.common.domain.Visibility;
 import com.crcl.post.converters.ProfileDtoConverter;
 import com.crcl.post.converters.UserDtoConverter;
 import com.crcl.post.dto.ProfileDto;
@@ -47,9 +48,5 @@ public class Common extends BaseEntity {
     @Override
     public int hashCode() {
         return getClass().hashCode();
-    }
-
-    public enum Visibility {
-        PUBLIC, FRIEND, PRIVATE
     }
 }

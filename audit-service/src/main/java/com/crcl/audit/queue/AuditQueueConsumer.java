@@ -1,6 +1,7 @@
 package com.crcl.audit.queue;
 
-import com.crcl.common.dto.QEvent;
+import com.crcl.common.dto.DefaultQEvent;
+import com.crcl.common.dto.requests.AuditRequest;
 import com.crcl.common.utils.QueueDefinition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +17,9 @@ public class AuditQueueConsumer {
 
     private final AuditQueueProcessor queueProcessor;
 
-    @RabbitListener(queues = QueueDefinition.AUDIT_MESSAGE_QUEUE)
-    public void consumeImageUploadEvent(Message<QEvent> message) {
-        queueProcessor.<QEvent>process(message.getPayload());
+    @RabbitListener(queues = QueueDefinition.AUDIT_MESSAGE_QUEUE, messageConverter = "jsonMessageConverter")
+    public void consumeImageUploadEvent(Message<DefaultQEvent<AuditRequest>> message) {
+        queueProcessor.process(message.getPayload());
     }
 
 

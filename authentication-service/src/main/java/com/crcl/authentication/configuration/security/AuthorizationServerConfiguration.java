@@ -1,6 +1,5 @@
 package com.crcl.authentication.configuration.security;
 
-import com.crcl.authentication.clients.SrvProfileClient;
 import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.configuration.web.CorsCustomizer;
 import com.crcl.authentication.mappers.ClientMapper;
@@ -14,6 +13,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +38,7 @@ import java.security.interfaces.RSAPublicKey;
 
 @Import({ApiProperties.class, SwaggerConfiguration.class})
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthorizationServerConfiguration {
 
     private final CorsCustomizer corsCustomizer;
@@ -63,7 +63,9 @@ public class AuthorizationServerConfiguration {
     }
 
     @Bean
-    public RegisteredClientRepository registeredClientRepository(final MongoClientRepository mongoClientRepository, final ClientMapper clientMapper, final ClientSettingsEnhancer clientSettingsEnhancer) {
+    public RegisteredClientRepository registeredClientRepository(final MongoClientRepository mongoClientRepository,
+                                                                 final ClientMapper clientMapper,
+                                                                 final ClientSettingsEnhancer clientSettingsEnhancer) {
         return new MongoRegisteredClientRepository(mongoClientRepository, clientMapper, clientSettingsEnhancer);
     }
 
@@ -73,8 +75,8 @@ public class AuthorizationServerConfiguration {
     }
 
     @Bean
-    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer(SrvProfileClient profileClient) {
-        return new TokenCustomizer(profileClient);
+    public OAuth2TokenCustomizer<JwtEncodingContext> tokenCustomizer() {
+        return new TokenCustomizer();
     }
 
     @Bean
@@ -83,7 +85,6 @@ public class AuthorizationServerConfiguration {
     }
 
     @Bean
-    @SneakyThrows
     public JWKSource<SecurityContext> jwkSource(JwkProvider jwkProvider) {
         KeyPair keyPair = jwkProvider.getLastEnabledKeyPair();
         RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
@@ -92,4 +93,5 @@ public class AuthorizationServerConfiguration {
                 .build();
         return (jwkSelector, securityContext) -> jwkSelector.select(new JWKSet(rsaKey));
     }
+
 }

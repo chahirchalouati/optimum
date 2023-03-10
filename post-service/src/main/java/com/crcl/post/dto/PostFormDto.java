@@ -1,6 +1,6 @@
 package com.crcl.post.dto;
 
-import com.crcl.post.domain.Post;
+import com.crcl.common.domain.Visibility;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,5 +10,5 @@ import java.util.Set;
 public class PostFormDto {
     private Set<MultipartFile> files;
     private String content;
-    private Post.Visibility visibility;
+    private Visibility visibility;
 }

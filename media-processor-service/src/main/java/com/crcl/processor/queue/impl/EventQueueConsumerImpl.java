@@ -1,6 +1,5 @@
 package com.crcl.processor.queue.impl;
 
-import com.crcl.common.annotation.EventQueue;
 import com.crcl.common.annotation.SecurityContextInterceptor;
 import com.crcl.common.dto.AuthenticatedQEvent;
 import com.crcl.common.queue.ImageUpload;
@@ -10,11 +9,11 @@ import com.crcl.processor.service.ImageProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
-@EventQueue(classes = {})
 public class EventQueueConsumerImpl implements EventQueueConsumer {
-
     private final ImageProcessor imageProcessor;
 
     @SecurityContextInterceptor
@@ -23,3 +22,6 @@ public class EventQueueConsumerImpl implements EventQueueConsumer {
         imageProcessor.process(message.getPayload());
     }
 }
+
+
+

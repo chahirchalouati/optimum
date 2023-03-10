@@ -80,20 +80,24 @@ public class JwkProvider {
 
     }
 
-    public KeyPair getLastEnabledKeyPair() throws Exception {
-        // Get the last enabled key file from MongoDB
-        final var keyFile = keyFileRepository.findFirstByEnabledOrderByCreationDateDesc(true);
-        // Read the contents of the private key and public key files from Minio
-        final byte[] privateKeyBytes = getKeyByPath(keyFile.getPrivateKeyPath(), securityProperties.getCertificationBucket());
-        final byte[] publicKeyBytes = getKeyByPath(keyFile.getPublicKeyPath(), securityProperties.getCertificationBucket());
-        // Convert the key file contents to a KeyPair object
-        final var privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyBytes));
-        final var publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyBytes));
-        final var keyFactory = KeyFactory.getInstance(keyFile.getAlgorithm());
-        final var privateKey = keyFactory.generatePrivate(privateKeySpec);
-        final var publicKey = keyFactory.generatePublic(publicKeySpec);
+    public KeyPair getLastEnabledKeyPair() {
+        try {
+            // Get the last enabled key file from MongoDB
+            final var keyFile = keyFileRepository.findFirstByEnabledOrderByCreationDateDesc(true);
+            // Read the contents of the private key and public key files from Minio
+            final byte[] privateKeyBytes = getKeyByPath(keyFile.getPrivateKeyPath(), securityProperties.getCertificationBucket());
+            final byte[] publicKeyBytes = getKeyByPath(keyFile.getPublicKeyPath(), securityProperties.getCertificationBucket());
+            // Convert the key file contents to a KeyPair object
+            final var privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyBytes));
+            final var publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyBytes));
+            final var keyFactory = KeyFactory.getInstance(keyFile.getAlgorithm());
+            final var privateKey = keyFactory.generatePrivate(privateKeySpec);
+            final var publicKey = keyFactory.generatePublic(publicKeySpec);
 
-        return new KeyPair(publicKey, privateKey);
+            return new KeyPair(publicKey, privateKey);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private byte[] getKeyByPath(String keyPath, String bucket) throws Exception {
