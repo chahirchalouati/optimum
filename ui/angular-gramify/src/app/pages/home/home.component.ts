@@ -8,6 +8,7 @@ import {environment} from "../../../environment/environment";
 import {Pageable} from "../../shared/domain/Pageable";
 import Post from "../../shared/domain/Post";
 import {PostService} from "../../services/post.service";
+import moment from "moment/moment";
 
 export interface State {
   profile: Profile,
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
   contentMargin: number = 0;
   isLoading: boolean = false;
   appName: string = environment.appName;
+  isControlsActive: boolean = false;
 
   constructor(private auditService: AuditService,
               private profileService: ProfileService,
@@ -44,4 +46,19 @@ export class HomeComponent implements OnInit {
       );
   }
 
+  hasContent(type: string, contentType: string) {
+    return contentType.concat(type);
+  }
+
+  autoPlayVideo($event: boolean, videoElement: HTMLVideoElement) {
+    if ($event) {
+      videoElement.play()
+    } else {
+      videoElement.pause();
+    }
+  }
+
+  getDate(createdAt: string): string {
+    return moment().from(createdAt, true);
+  }
 }

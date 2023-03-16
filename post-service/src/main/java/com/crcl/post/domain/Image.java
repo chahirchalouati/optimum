@@ -6,8 +6,12 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-class Tag {
+class Image {
     private String avatar;
     private String bgImage;
     private UserDto user;
+    private String caption;
+    private int width;
+    private int height;
+    private String filter;
 }

@@ -7,11 +7,15 @@ import {Visibility} from "./common";
 
 export default interface Post extends Selectable {
   id: number;
-  attachments: Attachment[];
+  images: Attachment[];
+  videos: Attachment[];
   createdAt: string;
   content: string;
   profile: Profile;
   visibility: Visibility;
+  commentsCount: number;
+  likesCount: number;
+  shareCount: number;
 }
 
 

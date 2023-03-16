@@ -24,10 +24,9 @@ public class AttachmentServiceImpl implements AttachmentService {
         attachmentRepository.findByEtag(imageUpload.getId()).stream().findFirst().ifPresent(
                 attachment -> {
                     var imageSize = imageUpload.getImageSize();
-                    var details = ResizedImageDetails.builder()
-                            .details(response)
-                            .dimensions(imageSize)
-                            .build();
+                    var details = new ResizedImageDetails()
+                            .setDetails(response)
+                            .setDimensions(imageSize);
                     attachment.setOrientation(imageUpload.getOrientation());
                     attachment.getAdditionalData().put(imageSize.getName(), details);
                     attachmentRepository.save(attachment);

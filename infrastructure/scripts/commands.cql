@@ -1,4 +1,4 @@
--- create audit namespaces
+-- create post namespaces
 CREATE
     KEYSPACE IF NOT EXISTS audit_docker WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
 CREATE
@@ -8,7 +8,7 @@ CREATE
 CREATE
     KEYSPACE IF NOT EXISTS audit_prod WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
 
--- create audit profile
+-- create post profile
 CREATE
     KEYSPACE IF NOT EXISTS notification_docker WITH replication = {'class' : 'SimpleStrategy', 'replication_factor' : 1};
 CREATE

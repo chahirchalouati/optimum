@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-class Tag {
+public class Profile {
     private String avatar;
     private String bgImage;
     private UserDto user;

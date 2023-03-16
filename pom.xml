@@ -22,7 +22,6 @@
         <module>configuration-service</module>
         <module>proxy-service</module>
         <module>post-service</module>
-        <module>audit-service</module>
         <module>authentication-service</module>
         <module>notification-service</module>
         <module>profile-service</module>

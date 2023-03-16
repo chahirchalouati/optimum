@@ -2,15 +2,11 @@ package com.crcl.common.dto;
 
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Builder
+@Accessors(chain = true)
 public class ResizedImageDetails {
     private ImageSize dimensions;
     private FileUploadResult details;

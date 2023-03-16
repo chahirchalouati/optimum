@@ -1,0 +1,40 @@
+<nz-header>
+  <div class="logo">GRAMIFY</div>
+  <nz-input-group [nzSuffix]="suffixIconSearch" nzSize="large">
+    <input nz-input placeholder="Search in gramify" type="text"/>
+  </nz-input-group>
+  <ng-template #suffixIconSearch>
+    <span nz-icon nzType="search"></span>
+  </ng-template>
+
+  <nz-space [nzDirection]="'horizontal'" [nzSize]="'small'">
+    <nz-avatar [nzDropdownMenu]="notifications" nz-dropdown nzIcon="profile" nzTrigger="click"></nz-avatar>
+    <nz-dropdown-menu #notifications="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li nz-menu-item nzDanger>4th danger item</li>
+      </ul>
+    </nz-dropdown-menu>
+    <nz-avatar [nzDropdownMenu]="messages" nz-dropdown nzText="U" nzTrigger="click"></nz-avatar>
+    <nz-dropdown-menu #messages="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li nz-menu-item nzDanger>4th danger item</li>
+      </ul>
+    </nz-dropdown-menu>
+    <nz-avatar [nzDropdownMenu]="profile" nz-dropdown nzText="USER" nzTrigger="click"></nz-avatar>
+    <nz-dropdown-menu #profile="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item>1st menu item</li>
+        <li nz-menu-item>2nd menu item</li>
+        <li nz-menu-item>3rd menu item</li>
+        <li nz-menu-item nzDanger>4th danger item</li>
+      </ul>
+    </nz-dropdown-menu>
+  </nz-space>
+
+</nz-header>

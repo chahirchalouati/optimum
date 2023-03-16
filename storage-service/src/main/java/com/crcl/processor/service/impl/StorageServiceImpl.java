@@ -41,7 +41,6 @@ public class StorageServiceImpl implements StorageService {
     private final BucketsResolver bucketsResolver;
     private final ResizeImageQueuePublisher resizeImageQueueSender;
 
-
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {
         return filePartFlux.flatMap(filePart -> this.save(Mono.just(filePart)));
@@ -106,6 +105,11 @@ public class StorageServiceImpl implements StorageService {
         };
     }
 
+    private Mono<InputStream> toInputStream(Mono<FilePart> particle) {
+        return particle.flatMapMany(Part::content)
+                .reduce(DataBuffer::write)
+                .map(dataBuffer -> new ByteArrayInputStream(dataBuffer.asByteBuffer().array()));
+    }
 
     private Function<PutObjectArgs, ObjectWriteResponse> uploadFile() {
         return args -> {
@@ -115,12 +119,6 @@ public class StorageServiceImpl implements StorageService {
                 throw new RuntimeException(e);
             }
         };
-    }
-
-    public Mono<InputStream> toInputStream(Mono<FilePart> particle) {
-        return particle.flatMapMany(Part::content)
-                .reduce(DataBuffer::write)
-                .map(dataBuffer -> new ByteArrayInputStream(dataBuffer.asByteBuffer().array()));
     }
 
     private Function<FileRecord, FileUploadResult> createFileUploadResponse() {
