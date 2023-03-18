@@ -1,17 +1,15 @@
 package com.crcl.post.domain;
 
-import com.crcl.common.dto.UserDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
+public
 class Image {
-    private String avatar;
-    private String bgImage;
-    private UserDto user;
-    private String caption;
+    private int id;
+    private String url;
+    private String contentType;
     private int width;
     private int height;
-    private String filter;
 }

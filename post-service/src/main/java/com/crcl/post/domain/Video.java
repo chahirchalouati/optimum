@@ -8,11 +8,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public
 class Video {
-    private String id;
+    private int id;
     private String title;
     private String description;
     private int lengthInSeconds;
-    private UserDto user;
     private String url;
     private boolean isPublic;
     private String[] tags;

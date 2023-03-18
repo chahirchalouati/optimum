@@ -11,5 +11,5 @@ public class CommentFormDto {
     private Set<MultipartFile> files;
     private String content;
     @NotNull(message = "postId can't be null")
-    private Long postId;
+    private String postId;
 }

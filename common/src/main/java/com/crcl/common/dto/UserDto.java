@@ -12,7 +12,7 @@ public class UserDto {
     private String username;
     private String email;
     private String gender;
-    private Set<Object> roles = new HashSet<>();
+    private Set<RoleDto> roles = new HashSet<>();
     private boolean isAccountNonExpired = true;
     private boolean isEnabled = true;
     private boolean isAccountNonLocked = true;

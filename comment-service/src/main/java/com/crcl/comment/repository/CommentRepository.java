@@ -11,9 +11,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CommentRepository extends CommonRepository<Comment>, JpaSpecificationExecutor<Comment> {
 
-    Page<Comment> findByPostId(Long postId, Pageable pageable);
+    Page<Comment> findByPostId(String postId, Pageable pageable);
 
     @NotNull
     @Query(" SELECT p FROM Comment p WHERE p.username =?#{ principal }")
     Page<Comment> findByLoggedUser(@NotNull Pageable pageable);
+
+    Integer countByPostId(String postId);
 }

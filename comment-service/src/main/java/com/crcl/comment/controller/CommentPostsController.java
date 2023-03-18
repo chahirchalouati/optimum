@@ -18,7 +18,12 @@ public class CommentPostsController {
     private final CommentService postService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Page<CommentDto>> findById(@PathVariable Long id, Pageable pageable) {
+    public ResponseEntity<Page<CommentDto>> findById(@PathVariable String id, Pageable pageable) {
         return ResponseEntity.ok(this.postService.findByPostId(id, pageable));
+    }
+
+    @GetMapping("/count/{postId}")
+    public ResponseEntity<Integer> countByPost(@PathVariable String postId) {
+        return ResponseEntity.ok(this.postService.countByPost(postId));
     }
 }

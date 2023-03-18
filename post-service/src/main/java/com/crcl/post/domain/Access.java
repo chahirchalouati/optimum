@@ -1,6 +1,6 @@
 package com.crcl.post.domain;
 
-enum Access {
+public enum Access {
     PUBLIC,
     PRIVATE,
     FRIENDS,

@@ -8,5 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface CommentService extends GenericService<CommentDto, Long> {
     CommentDto save(CommentFormDto commentFormDto);
 
-    Page<CommentDto> findByPostId(Long id, Pageable pageable);
+    Page<CommentDto> findByPostId(String id, Pageable pageable);
+
+    Integer countByPost(String postId);
 }

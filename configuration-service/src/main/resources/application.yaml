@@ -15,6 +15,9 @@ logging:
             filter: INFO
 ---
 spring:
+  config:
+    activate:
+      on-profile: docker, prod
   cloud:
     config:
       server:
@@ -23,13 +26,14 @@ spring:
           default-label: main
           force-pull: true
           refresh-rate: 5
-      profile: docker,prod
 
 ---
 spring:
+  config:
+    activate:
+      on-profile: native
   cloud:
     config:
       server:
         native:
-          search-locations: file://${user.home}/IdeaProjects/gramify-ms-configurations
-      profile: dev
+         search-locations: file:///${user.home}/IdeaProjects/gramify-ms-configurations

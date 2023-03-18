@@ -37,5 +37,5 @@ public class Comment extends Common implements Serializable {
     @ToString.Exclude
     protected Set<Tag> likes = new HashSet<>();
     @Column(name = "post_id", nullable = false, updatable = false)
-    protected Long postId;
+    protected String postId;
 }

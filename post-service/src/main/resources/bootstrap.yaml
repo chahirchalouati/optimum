@@ -1,12 +1,6 @@
-server:
-  port: 7005
 spring:
   application:
     name: post-service
-  servlet:
-    multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
+  cloud:
+    config:
+      uri: http://localhost:8888

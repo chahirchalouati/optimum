@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class CommentDto {
     private Long id;
-    private Long postId;
+    private String postId;
     private String content;
     private List<AttachmentDto> attachments;
     private ProfileDto profile;

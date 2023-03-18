@@ -134,9 +134,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Page<CommentDto> findByPostId(Long id, Pageable pageable) {
+    public Page<CommentDto> findByPostId(String id, Pageable pageable) {
         return commentRepository.findByPostId(id, pageable)
                 .map(commentMapper::toDto);
+    }
+
+    @Override
+    public Integer countByPost(String postId) {
+        return commentRepository.countByPostId(postId);
     }
 
     private void validateFilesName(List<MultipartFile> files) {
