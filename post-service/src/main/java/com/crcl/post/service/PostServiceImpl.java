@@ -1,6 +1,8 @@
 package com.crcl.post.service;
 
 import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.common.utils.NotificationDefinition;
+import com.crcl.common.utils.NotificationTargets;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.StorageClient;
@@ -13,8 +15,6 @@ import com.crcl.post.dto.PostDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;
-import com.crcl.post.utils.CrclFileUtils;
-import com.crcl.post.utils.CrclUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,14 +26,21 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import static com.crcl.post.utils.CrclFileUtils.hasFiles;
+import static com.crcl.post.utils.CrclUtils.applyIf;
+import static com.crcl.post.utils.CrclUtils.applyIfNotEmpty;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
+
     private final PostRepository postRepository;
     private final PostMapper postMapper;
     private final StorageClient storageClient;
     private final IdpClient idpClient;
     private final TagRepository tagRepository;
+    private final PostQueueService queueService;
+    private final NotificationService notificationService;
 
     @Override
     public PostDto save(PostDto postDto) {
@@ -44,12 +51,19 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public PostDto save(@ValidCreatePostRequest CreatePostRequest request) {
-        Post post = new Post();
-        CrclUtils.applyIf(CrclFileUtils.hasFiles(request.getFiles()), () -> this.addFiles(request, post));
-        CrclUtils.applyIfNotEmpty(request.getSharedWithUsers(), () -> this.addSharedWithUsers(request, post));
-        CrclUtils.applyIfNotEmpty(request.getTags(), () -> this.addPostTags(request, post));
-        CrclUtils.applyIfNotEmpty(request.getTaggedUsers(), () -> this.addTaggedUsers(request, post));
-        return postMapper.toDto(postRepository.save(post));
+        Post post = postMapper.toEntity(request);
+        applyIf(hasFiles(request.getFiles()), () -> addFiles(request, post));
+        applyIfNotEmpty(request.getSharedWithUsers(), () -> addSharedWithUsers(request, post));
+        applyIfNotEmpty(request.getTags(), () -> addPostTags(request, post));
+        applyIfNotEmpty(request.getTaggedUsers(), () -> addTaggedUsers(request, post));
+
+        PostDto savedPost = postMapper.toDto(postRepository.save(post));
+        queueService.publishCreatePostEvent(savedPost);
+        notificationService.notifyCreatedPost(
+                NotificationDefinition.NOTIFY_POST_CREATED,
+                NotificationTargets.FRIENDS,
+                savedPost);
+        return savedPost;
     }
 
 
@@ -65,14 +79,14 @@ public class PostServiceImpl implements PostService {
         postRepository.findById(entityId)
                 .ifPresentOrElse(
                         post -> postRepository.deleteById(entityId),
-                        () -> new EntityNotFoundException(""));
+                        EntityNotFoundException::new);
     }
 
     @Override
     public PostDto findById(String s) {
         return postRepository.findById(s)
                 .map(postMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(""));
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
@@ -95,7 +109,7 @@ public class PostServiceImpl implements PostService {
                 .map(post -> postMapper.toEntity(postDto))
                 .map(postRepository::save)
                 .map(postMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(""));
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     private void addSharedWithUsers(CreatePostRequest request, Post post) {
@@ -134,11 +148,11 @@ public class PostServiceImpl implements PostService {
     }
 
     private void addPostTags(CreatePostRequest request, Post post) {
-        List<String> names = request.getTags().stream()
+        var names = request.getTags().stream()
                 .filter(Tag::isSystem)
                 .map(Tag::getName)
                 .toList();
-        List<Tag> tags = tagRepository.findByNameIn(names);
+        var tags = tagRepository.findByNameIn(names);
         post.setTags(new LinkedHashSet<>(tags));
     }
 

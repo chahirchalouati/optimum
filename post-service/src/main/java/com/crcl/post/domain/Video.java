@@ -1,6 +1,5 @@
 package com.crcl.post.domain;
 
-import com.crcl.common.dto.UserDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

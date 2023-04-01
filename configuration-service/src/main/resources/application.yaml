@@ -36,4 +36,4 @@ spring:
     config:
       server:
         native:
-         search-locations: file:///${user.home}/IdeaProjects/gramify-ms-configurations
+          search-locations: file:///${user.home}/IdeaProjects/gramify-ms-configurations

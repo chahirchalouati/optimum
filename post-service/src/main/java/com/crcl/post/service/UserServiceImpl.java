@@ -22,6 +22,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String getToken() {
+        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return jwt.getTokenValue();
+    }
+
+    @Override
     public List<UserDto> getUsersByUserName(Set<String> usersNames) {
         return idpClient.findByUsername(usersNames);
     }

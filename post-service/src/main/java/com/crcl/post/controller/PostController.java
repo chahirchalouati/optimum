@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class PostController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PostDto> save(@ModelAttribute CreatePostRequest request) {
+    public ResponseEntity<PostDto> save(@Valid @ModelAttribute CreatePostRequest request) {
         return ResponseEntity.ok(this.postService.save(request));
     }
 

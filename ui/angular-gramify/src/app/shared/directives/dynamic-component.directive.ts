@@ -1,4 +1,4 @@
-import {ComponentFactoryResolver, Directive, HostListener, Input, ViewContainerRef} from '@angular/core';
+import {ComponentFactoryResolver, Directive, HostListener, ViewContainerRef} from '@angular/core';
 
 @Directive({
   selector: '[appDynamicComponent]'

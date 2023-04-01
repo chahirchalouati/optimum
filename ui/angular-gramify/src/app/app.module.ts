@@ -28,7 +28,7 @@ import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzSpaceModule} from "ng-zorro-antd/space";
 import {NzAvatarModule} from "ng-zorro-antd/avatar";
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
-import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
+import {NavBarComponent} from './shared/components/nav-bar/nav-bar.component';
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzGridModule} from "ng-zorro-antd/grid";

@@ -3,7 +3,7 @@
   <nz-layout>
     <nz-sider nzWidth="max-content" style="left: 0">Sider</nz-sider>
     <nz-content>
-      <div class="card" *ngFor="let post of state.posts.content">
+      <div *ngFor="let post of state.posts.content" class="card">
         <div class="card-post-header">
           <div class="row">
             <nz-avatar [nzSrc]="post.profile.avatar"></nz-avatar>
@@ -20,17 +20,17 @@
         <div class="card-post-body">
           <div class="card-post-body-content">{{post.content | truncate: [180]}}</div>
           <ng-container *ngFor="let media of post.attachments | index : 1 | slice: 0 : 3; let i =index">
-            <div class="card-post-body-media" *ngIf="hasContent('image', media.contentType)">
-              <img [src]="media.name | src: media.etag  | async" fallBack [alt]="media.name"/>
+            <div *ngIf="hasContent('image', media.contentType)" class="card-post-body-media">
+              <img [alt]="media.name" [src]="media.name | src: media.etag  | async" fallBack/>
             </div>
           </ng-container>
         </div>
         <div class="card-post-footer">
           <div nz-row>
-          <div nz-col nzSpan="8">col-8</div>
-          <div nz-col nzSpan="8">col-8</div>
-          <div nz-col nzSpan="8">col-8</div>
-        </div>
+            <div nz-col nzSpan="8">col-8</div>
+            <div nz-col nzSpan="8">col-8</div>
+            <div nz-col nzSpan="8">col-8</div>
+          </div>
         </div>
       </div>
     </nz-content>

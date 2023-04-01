@@ -4,15 +4,20 @@ import com.crcl.common.utils.generic.GenericMapper;
 import com.crcl.post.actionValidators.ActionValidator;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.domain.*;
+import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring",
+        imports = {ActionValidator.class, CommentClient.class},
+        injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 public abstract class PostMapper implements GenericMapper<Post, PostDto> {
     @Autowired
     private Set<ActionValidator> validators;
@@ -52,4 +57,9 @@ public abstract class PostMapper implements GenericMapper<Post, PostDto> {
         validators.forEach(actionValidator -> actionValidator.validate(postDto));
         return postDto;
     }
+
+    @Mappings({
+            @Mapping(target = "sharedWithUsers", ignore = true)
+    })
+    public abstract Post toEntity(CreatePostRequest request);
 }
