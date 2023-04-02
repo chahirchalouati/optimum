@@ -31,7 +31,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionDto> save(List<PermissionDto> entities) {
+    public List<PermissionDto> saveAll(List<PermissionDto> entities) {
         log.debug("Saving permissions: {}", entities);
         List<PermissionDto> savedEntities = entities.stream().map(this::save).toList();
         log.debug("Saved permissions: {}", savedEntities);

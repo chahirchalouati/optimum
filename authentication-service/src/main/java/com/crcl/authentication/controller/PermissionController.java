@@ -39,7 +39,7 @@ public class PermissionController {
 
     @PostMapping("/all")
     public ResponseEntity<List<PermissionDto>> save(@Valid @RequestBody List<PermissionDto> entities) {
-        return ResponseEntity.ok(this.permissionService.save(entities));
+        return ResponseEntity.ok(this.permissionService.saveAll(entities));
     }
 
     @PutMapping("/{id}")

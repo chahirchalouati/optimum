@@ -50,7 +50,7 @@ public class ProfileController {
 
     @PostMapping
     public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto profileDto) {
-        return ResponseEntity.ok(this.profileService.saveAll(profileDto));
+        return ResponseEntity.ok(this.profileService.save(profileDto));
     }
 
     @PostMapping("/all")

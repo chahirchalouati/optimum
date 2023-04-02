@@ -62,7 +62,7 @@ public class StorageServiceImpl implements StorageService {
         return zipWith.map(then)
                 .flatMap(recordRepository::save)
                 .doOnNext(publishUploadImageEvent())
-                .map(createFileUploadResponse())
+                .map(createFileUploadResult())
                 .switchIfEmpty(Mono.error(CreateRecordException::new));
     }
 
@@ -124,7 +124,7 @@ public class StorageServiceImpl implements StorageService {
                 .map(dataBuffer -> new ByteArrayInputStream(dataBuffer.asByteBuffer().array()));
     }
 
-    private Function<FileRecord, FileUploadResult> createFileUploadResponse() {
+    private Function<FileRecord, FileUploadResult> createFileUploadResult() {
         return record -> new FileUploadResult()
                 .setContentType(record.getType())
                 .setBucket(record.getBucket())

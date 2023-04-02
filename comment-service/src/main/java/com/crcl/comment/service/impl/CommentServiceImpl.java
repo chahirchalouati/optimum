@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDto> save(List<CommentDto> entities) {
+    public List<CommentDto> saveAll(List<CommentDto> entities) {
         return entities.stream()
                 .map(this::save)
                 .collect(Collectors.toList());

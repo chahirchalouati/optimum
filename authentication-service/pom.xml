@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.code.dremear</groupId>
     <artifactId>authentication-service</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <name>authentication-service</name>
     <description>authentication-service</description>
 
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.crcl</groupId>
             <artifactId>common</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

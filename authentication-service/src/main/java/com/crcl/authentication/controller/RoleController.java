@@ -39,7 +39,7 @@ public class RoleController {
 
     @PostMapping("/all")
     public ResponseEntity<List<RoleDto>> save(@Valid @RequestBody List<RoleDto> entities) {
-        return ResponseEntity.ok(this.roleService.save(entities));
+        return ResponseEntity.ok(this.roleService.saveAll(entities));
     }
 
     @PutMapping("/{id}")

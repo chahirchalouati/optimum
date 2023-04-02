@@ -55,7 +55,7 @@ public class ImageProcessorImpl implements ImageProcessor {
 
                                     final var imageUploadEvent = new ImageUploadEvent();
                                     imageUploadEvent.setImageSize(imageSize);
-                                    imageUploadEvent.setResponse(buildFileUploadResponse(uploadFileResponse));
+                                    imageUploadEvent.setResponse(buildFileUploadResult(uploadFileResponse));
                                     imageUploadEvent.setId(response.getEtag());
                                     message.setPayload(imageUploadEvent);
 
@@ -70,7 +70,7 @@ public class ImageProcessorImpl implements ImageProcessor {
                 );
     }
 
-    private FileUploadResult buildFileUploadResponse(ObjectWriteResponse uploadFileResponse) {
+    private FileUploadResult buildFileUploadResult(ObjectWriteResponse uploadFileResponse) {
         return new FileUploadResult()
                 .setBucket(uploadFileResponse.bucket())
                 .setName(uploadFileResponse.object())
