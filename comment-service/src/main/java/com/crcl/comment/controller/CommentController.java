@@ -39,7 +39,7 @@ public class CommentController {
         return ResponseEntity.ok(this.postService.save(commentFormDto));
     }
 
-    @PostMapping("/all")
+    @PostMapping("/many")
     public ResponseEntity<List<CommentDto>> save(@Valid @RequestBody List<CommentDto> entities) {
         return ResponseEntity.ok(this.postService.saveAll(entities));
     }

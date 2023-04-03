@@ -33,7 +33,7 @@ public class ProfileController {
         return ResponseEntity.ok(this.profileService.save(profileDto));
     }
 
-    @PostMapping("/all")
+    @PostMapping("/many")
     public ResponseEntity<List<ProfileDto>> save(@Valid @RequestBody List<ProfileDto> entities) {
         return ResponseEntity.ok(this.profileService.saveAll(entities));
     }

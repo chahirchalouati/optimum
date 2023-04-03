@@ -1,7 +1,10 @@
-package com.crcl.notification.configuration.queue;
+package com.crcl.post.configuration.queue;
 
 import com.crcl.common.utils.QueueDefinition;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.Queue;
@@ -16,16 +19,15 @@ import java.util.List;
 
 @Configuration
 public class QueueConfiguration {
-
     private static final List<String> QUEUES = List.of(
-            QueueDefinition.NOTIFY_POST_CREATED_QUEUE
+            QueueDefinition.POST_CREATED_QUEUE
     );
 
     @Bean
     public Declarables init() {
-        final List<Queue> declarables = QUEUES.stream()
+        final List<Queue> queues = QUEUES.stream()
                 .map(Queue::new).toList();
-        return new Declarables(declarables);
+        return new Declarables(queues);
     }
 
     @Bean
@@ -44,6 +46,9 @@ public class QueueConfiguration {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        objectMapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
         return objectMapper;
     }
 

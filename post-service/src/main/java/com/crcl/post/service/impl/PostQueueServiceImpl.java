@@ -1,8 +1,11 @@
-package com.crcl.post.service;
+package com.crcl.post.service.impl;
 
 import com.crcl.common.dto.DefaultQEvent;
+import com.crcl.common.dto.QEvent;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.dto.PostDto;
+import com.crcl.post.service.PostQueueService;
+import com.crcl.post.service.UserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +20,11 @@ public class PostQueueServiceImpl extends PostQueueService {
     }
 
     @Override
-    protected void publishCreatePostEvent(PostDto postDto) {
+    public void publishCreatePostEvent(PostDto postDto) {
         var headers = new HashMap<String, Object>(1);
         headers.put("token", userService.getToken());
 
-        var event = new DefaultQEvent<PostDto>()
+        QEvent<PostDto> event = new DefaultQEvent<PostDto>()
                 .setHeaders(headers)
                 .setPayload(postDto);
 

@@ -1,6 +1,9 @@
 package com.crcl.post.service;
 
+import com.crcl.common.utils.NotificationTargets;
+import com.crcl.post.dto.PostDto;
+
 public interface NotificationService {
 
-    void notifyCreatedPost(String destination, String targets, Object payload);
+    void notifyCreatedPost(NotificationTargets targets, PostDto payload);
 }

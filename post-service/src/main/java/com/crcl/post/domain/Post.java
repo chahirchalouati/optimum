@@ -1,6 +1,7 @@
 package com.crcl.post.domain;
 
 import com.crcl.common.dto.UserDto;
+import com.crcl.post.dto.ProfileDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
@@ -16,7 +17,7 @@ public class Post {
     @Id
     private String id;
     private String content;
-    private Profile creator;
+    private ProfileDto creator;
     private Access access = Access.PUBLIC;
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();

@@ -1,5 +1,7 @@
 package com.crcl.common.utils;
 
-public interface NotificationTargets {
-    String FRIENDS = "friends";
+public enum NotificationTargets {
+    All_FRIENDS,
+    SPECIFIC_FRIENDS,
+    POST_OWNER
 }

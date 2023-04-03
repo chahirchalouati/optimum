@@ -23,7 +23,7 @@ public class InterestCategoryController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/all")
+    @PostMapping("/many")
     public ResponseEntity<List<InterestCategoryDto>> saveAll(@Valid @RequestBody List<InterestCategoryDto> entitiesDto) {
         return ResponseEntity.ok().build();
     }

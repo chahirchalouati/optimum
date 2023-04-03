@@ -9,4 +9,7 @@ public interface QueueDefinition {
     // audits queues
     String AUDIT_MESSAGE_QUEUE = "audit_message_queue";
     String POST_CREATED_QUEUE = "post_created_queue";
+
+    // audits queues
+    String NOTIFY_POST_CREATED_QUEUE = "notify_post_created_queue";
 }

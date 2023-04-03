@@ -1,6 +1,6 @@
 package com.crcl.notification.queue;
 
-import com.crcl.notification.dto.NotificationRequest;
+import com.crcl.common.dto.requests.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;

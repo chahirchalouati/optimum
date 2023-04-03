@@ -1,27 +1,26 @@
 package com.crcl.notification.service;
 
-import com.crcl.notification.dto.NotificationRequest;
-import com.crcl.notification.dto.NotificationResponse;
-import com.crcl.notification.dto.PushNotificationRequest;
+import com.crcl.common.dto.requests.NotificationRequest;
+import com.crcl.common.dto.responses.NotificationResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PushNotificationHandlerImpl extends NotificationHandler<PushNotificationRequest> {
+public class PushNotificationHandlerImpl extends NotificationHandler {
 
 
     @Override
-    public NotificationResponse<?> notifySync(PushNotificationRequest request) {
+    public NotificationResponse<?> notifySync(NotificationRequest request) {
         return null;
     }
 
     @Override
-    public void notifyAsync(PushNotificationRequest request) {
+    public void notifyAsync(NotificationRequest request) {
 
     }
 
     @Override
     public boolean canHandle(NotificationRequest request) {
-        return request instanceof PushNotificationRequest;
+        return request.getType().isPush();
     }
 
 

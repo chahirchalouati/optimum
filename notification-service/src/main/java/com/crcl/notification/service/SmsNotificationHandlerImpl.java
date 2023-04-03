@@ -1,24 +1,23 @@
 package com.crcl.notification.service;
 
-import com.crcl.notification.dto.NotificationRequest;
-import com.crcl.notification.dto.NotificationResponse;
-import com.crcl.notification.dto.SmsNotificationRequest;
+import com.crcl.common.dto.requests.NotificationRequest;
+import com.crcl.common.dto.responses.NotificationResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SmsNotificationHandlerImpl extends NotificationHandler<SmsNotificationRequest> {
+public class SmsNotificationHandlerImpl extends NotificationHandler {
     @Override
-    public NotificationResponse notifySync(SmsNotificationRequest request) {
+    public NotificationResponse notifySync(NotificationRequest request) {
         return null;
     }
 
     @Override
-    public void notifyAsync(SmsNotificationRequest request) {
+    public void notifyAsync(NotificationRequest request) {
 
     }
 
     @Override
     public boolean canHandle(NotificationRequest request) {
-        return request instanceof SmsNotificationRequest;
+        return request.getType().isSms();
     }
 }

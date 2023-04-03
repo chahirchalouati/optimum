@@ -1,20 +1,20 @@
 package com.crcl.notification.service;
 
-import com.crcl.notification.dto.NotificationRequest;
-import com.crcl.notification.dto.NotificationResponse;
+import com.crcl.common.dto.requests.NotificationRequest;
+import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.notification.queue.NotificationQueueSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 
-public abstract class NotificationHandler<T extends NotificationRequest> {
+public abstract class NotificationHandler {
     @Autowired
     private NotificationQueueSender notificationQueueSender;
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public abstract NotificationResponse notifySync(T request);
+    public abstract NotificationResponse notifySync(NotificationRequest request);
 
-    public abstract void notifyAsync(T request);
+    public abstract void notifyAsync(NotificationRequest request);
 
     public abstract boolean canHandle(NotificationRequest request);
 }

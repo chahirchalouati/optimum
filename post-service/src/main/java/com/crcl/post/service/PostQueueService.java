@@ -12,5 +12,5 @@ public abstract class PostQueueService extends QueueService {
     }
 
 
-    protected abstract void publishCreatePostEvent(final PostDto postDto);
+    public abstract void publishCreatePostEvent(final PostDto postDto);
 }

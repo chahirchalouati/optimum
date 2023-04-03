@@ -62,7 +62,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.save(userDto));
     }
 
-    @PostMapping("/all")
+    @PostMapping("/many")
     public ResponseEntity<List<UserDto>> save(@Valid @RequestBody @JsonView(UserView.CreateUserView.class) List<UserDto> entities) {
         return ResponseEntity.ok(this.userService.saveAll(entities));
     }

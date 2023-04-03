@@ -1,7 +1,8 @@
 package com.crcl.notification.controller;
 
-import com.crcl.notification.dto.NotificationRequest;
-import com.crcl.notification.dto.NotificationResponse;
+
+import com.crcl.common.dto.requests.NotificationRequest;
+import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.notification.service.NotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

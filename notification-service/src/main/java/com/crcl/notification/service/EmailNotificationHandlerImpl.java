@@ -1,28 +1,27 @@
 package com.crcl.notification.service;
 
-import com.crcl.notification.dto.EmailNotificationRequest;
-import com.crcl.notification.dto.NotificationRequest;
-import com.crcl.notification.dto.NotificationResponse;
+import com.crcl.common.dto.requests.NotificationRequest;
+import com.crcl.common.dto.responses.NotificationResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 @Service
-public class EmailNotificationHandlerImpl extends NotificationHandler<EmailNotificationRequest> implements MailTemplateGenerator {
+public class EmailNotificationHandlerImpl extends NotificationHandler implements MailTemplateGenerator {
 
     @Override
-    public NotificationResponse notifySync(EmailNotificationRequest request) {
+    public NotificationResponse notifySync(NotificationRequest request) {
         return null;
     }
 
     @Override
-    public void notifyAsync(EmailNotificationRequest request) {
+    public void notifyAsync(NotificationRequest request) {
 
     }
 
     @Override
     public boolean canHandle(NotificationRequest request) {
-        return request instanceof EmailNotificationRequest;
+        return request.getType().isEmail();
     }
 
     @Override

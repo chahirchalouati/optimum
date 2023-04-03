@@ -1,10 +1,10 @@
-package com.crcl.post.service;
+package com.crcl.post.service.impl;
 
 import com.crcl.common.exceptions.EntityNotFoundException;
-import com.crcl.common.utils.NotificationDefinition;
 import com.crcl.common.utils.NotificationTargets;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
+import com.crcl.post.client.ProfileClient;
 import com.crcl.post.client.StorageClient;
 import com.crcl.post.domain.Image;
 import com.crcl.post.domain.Post;
@@ -15,6 +15,10 @@ import com.crcl.post.dto.PostDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;
+import com.crcl.post.service.NotificationService;
+import com.crcl.post.service.PostQueueService;
+import com.crcl.post.service.PostService;
+import com.crcl.post.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +45,8 @@ public class PostServiceImpl implements PostService {
     private final TagRepository tagRepository;
     private final PostQueueService queueService;
     private final NotificationService notificationService;
+    private final UserService userService;
+    private final ProfileClient profileClient;
 
     @Override
     public PostDto save(PostDto postDto) {
@@ -56,13 +62,10 @@ public class PostServiceImpl implements PostService {
         applyIfNotEmpty(request.getSharedWithUsers(), () -> addSharedWithUsers(request, post));
         applyIfNotEmpty(request.getTags(), () -> addPostTags(request, post));
         applyIfNotEmpty(request.getTaggedUsers(), () -> addTaggedUsers(request, post));
-
+        post.setCreator(profileClient.findByUsername(userService.getCurrentUser().getUsername()));
         PostDto savedPost = postMapper.toDto(postRepository.save(post));
         queueService.publishCreatePostEvent(savedPost);
-        notificationService.notifyCreatedPost(
-                NotificationDefinition.NOTIFY_POST_CREATED,
-                NotificationTargets.FRIENDS,
-                savedPost);
+        notificationService.notifyCreatedPost(NotificationTargets.All_FRIENDS, savedPost);
         return savedPost;
     }
 

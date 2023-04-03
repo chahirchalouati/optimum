@@ -1,7 +1,8 @@
-package com.crcl.post.service;
+package com.crcl.post.service.impl;
 
 import com.crcl.common.dto.UserDto;
 import com.crcl.post.client.IdpClient;
+import com.crcl.post.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;

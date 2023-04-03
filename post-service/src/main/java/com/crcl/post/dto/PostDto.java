@@ -15,7 +15,7 @@ import java.util.Set;
 public class PostDto {
     private String id;
     private String content;
-    private Profile creator;
+    private ProfileDto creator;
     private Access access = Access.PUBLIC;
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();

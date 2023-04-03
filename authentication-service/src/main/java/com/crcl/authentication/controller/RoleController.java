@@ -37,7 +37,7 @@ public class RoleController {
         return ResponseEntity.ok(this.roleService.save(roleDto));
     }
 
-    @PostMapping("/all")
+    @PostMapping("/many")
     public ResponseEntity<List<RoleDto>> save(@Valid @RequestBody List<RoleDto> entities) {
         return ResponseEntity.ok(this.roleService.saveAll(entities));
     }
