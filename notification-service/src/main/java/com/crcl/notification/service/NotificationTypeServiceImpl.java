@@ -1,6 +1,7 @@
 package com.crcl.notification.service;
 
 import com.crcl.notification.domain.NotificationType;
+import com.crcl.notification.domain.NotificationTypeRequest;
 import com.crcl.notification.repository.NotificationTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,5 +59,11 @@ public class NotificationTypeServiceImpl implements NotificationTypeService {
                 .flatMap(type -> notificationTypeRepository.save(notificationType))
                 .switchIfEmpty(Mono.error(new RuntimeException("unable to find notificationType with id: " + entityId)));
 
+    }
+
+    @Override
+    public Mono<NotificationType> search(NotificationTypeRequest request) {
+        return notificationTypeRepository.search(request)
+                .switchIfEmpty(Mono.error(new RuntimeException("unable to find notificationType with type: " + request.getType())));
     }
 }

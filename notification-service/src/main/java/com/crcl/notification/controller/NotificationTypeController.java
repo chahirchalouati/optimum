@@ -38,6 +38,11 @@ public class NotificationTypeController {
         return notificationTypeService.findById(id);
     }
 
+    @GetMapping("/type")
+    public Mono<NotificationType> findByType(String type) {
+        return notificationTypeService.search(type);
+    }
+
     @GetMapping
     public Flux<NotificationType> findAll(Pageable pageable) {
         return notificationTypeService.findAll(pageable);
