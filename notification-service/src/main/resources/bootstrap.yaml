@@ -4,5 +4,7 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+  thymeleaf:
+    check-template-location: false
 endpoints:
   configuration-url:http://localhost:8888

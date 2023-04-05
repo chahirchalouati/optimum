@@ -2,40 +2,21 @@ package com.crcl.notification.repository.filters;
 
 import com.crcl.notification.domain.NotificationTypeRequest;
 import io.micrometer.common.util.StringUtils;
-import io.netty.util.internal.StringUtil;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
-public class NotificationTypeFilter {
+@Component
+public class NotificationTypeFilter extends IFilter<NotificationTypeRequest> {
 
-
-    public Filter filterFor(NotificationTypeRequest request) {
-        return new Filter().fromObject(request);
+    @Override
+    public IFilter<NotificationTypeRequest> filter(NotificationTypeRequest request) {
+        filterByType(request.getType());
+        return this;
     }
 
-    public class Filter {
-        private final Criteria criteria = new Criteria();
-
-        public Filter() {
-        }
-
-        public Filter fromObject(NotificationTypeRequest request) {
-            filterByType(criteria, request.getType());
-            filterByType(criteria, request.getType());
-            filterByType(criteria, request.getType());
-            filterByType(criteria, request.getType());
-            filterByType(criteria, request.getType());
-            return this;
-        }
-
-        private void filterByType(Criteria criteria, String type) {
-            if (!StringUtils.isNotBlank(type)){
-                criteria.andOperator(Criteria.where("type").is(type));
-            }
-        }
-
-        public Query build() {
-            return new Query(criteria);
+    private void filterByType(String type) {
+        if (StringUtils.isNotBlank(type)) {
+            criteria.add(Criteria.where("type").is(type));
         }
     }
 }

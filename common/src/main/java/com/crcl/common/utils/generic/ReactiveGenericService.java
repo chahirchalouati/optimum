@@ -1,6 +1,5 @@
 package com.crcl.common.utils.generic;
 
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

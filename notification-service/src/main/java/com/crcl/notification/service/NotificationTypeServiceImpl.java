@@ -62,8 +62,7 @@ public class NotificationTypeServiceImpl implements NotificationTypeService {
     }
 
     @Override
-    public Mono<NotificationType> search(NotificationTypeRequest request) {
-        return notificationTypeRepository.search(request)
-                .switchIfEmpty(Mono.error(new RuntimeException("unable to find notificationType with type: " + request.getType())));
+    public Mono<Page<NotificationType>> search(NotificationTypeRequest request) {
+        return notificationTypeRepository.search(request);
     }
 }

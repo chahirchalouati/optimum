@@ -1,7 +1,6 @@
 package com.crcl.post.service.impl;
 
 import com.crcl.common.exceptions.EntityNotFoundException;
-import com.crcl.common.utils.NotificationTargets;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
@@ -65,7 +64,7 @@ public class PostServiceImpl implements PostService {
         post.setCreator(profileClient.findByUsername(userService.getCurrentUser().getUsername()));
         PostDto savedPost = postMapper.toDto(postRepository.save(post));
         queueService.publishCreatePostEvent(savedPost);
-        notificationService.notifyCreatedPost(NotificationTargets.All_FRIENDS, savedPost);
+        notificationService.notifyCreatedPost(savedPost);
         return savedPost;
     }
 

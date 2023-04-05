@@ -1,7 +1,7 @@
 package com.crcl.post.service.impl;
 
 import com.crcl.common.dto.requests.NotificationRequest;
-import com.crcl.common.utils.NotificationTargets;
+import com.crcl.common.utils.NotificationDefinition;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.service.NotificationService;
@@ -17,11 +17,9 @@ public class NotificationServiceImpl extends QueueService implements Notificatio
     }
 
     @Override
-    public void notifyCreatedPost(NotificationTargets targets, PostDto payload) {
+    public void notifyCreatedPost(PostDto payload) {
         var request = new NotificationRequest<PostDto>()
-                .setPush(true)
-                .setEmail(true)
-                .setTargets(targets)
+                .setType(NotificationDefinition.NOTIFY_POST_CREATED)
                 .setPayload(payload);
         rabbitTemplate.convertAndSend(QueueDefinition.NOTIFY_POST_CREATED_QUEUE, request);
     }

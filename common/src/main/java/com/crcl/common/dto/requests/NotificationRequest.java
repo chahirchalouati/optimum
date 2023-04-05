@@ -1,10 +1,10 @@
 package com.crcl.common.dto.requests;
 
-import com.crcl.common.dto.NotificationType;
-import com.crcl.common.utils.NotificationTargets;
+import com.crcl.common.utils.NotificationDefinition;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -14,7 +14,9 @@ import java.util.UUID;
 public class NotificationRequest<T> {
     private UUID id = UUID.randomUUID();
     private T payload;
-    private NotificationType type;
+    @NotNull
+    private NotificationDefinition type;    @NotNull
+    private String sender;
     private LocalDateTime createdAt = LocalDateTime.now(Clock.systemDefaultZone());
 
 

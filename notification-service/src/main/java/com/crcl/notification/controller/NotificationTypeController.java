@@ -2,8 +2,10 @@ package com.crcl.notification.controller;
 
 
 import com.crcl.notification.domain.NotificationType;
+import com.crcl.notification.domain.NotificationTypeRequest;
 import com.crcl.notification.service.NotificationTypeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -38,8 +40,8 @@ public class NotificationTypeController {
         return notificationTypeService.findById(id);
     }
 
-    @GetMapping("/type")
-    public Mono<NotificationType> findByType(String type) {
+    @GetMapping("/search")
+    public Mono<Page<NotificationType>> findByType(NotificationTypeRequest type) {
         return notificationTypeService.search(type);
     }
 
