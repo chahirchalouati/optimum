@@ -4,8 +4,6 @@ import com.crcl.authentication.domain.FriendShipState;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 public class FriendShipDto {

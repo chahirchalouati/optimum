@@ -7,12 +7,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import reactivefeign.ReactiveOptions;
 import reactivefeign.webclient.WebReactiveOptions;
 
@@ -41,6 +44,11 @@ public class ResourceServerConfig {
     }
 
     @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
     public ReactiveOptions reactiveOptions() {
         return new WebReactiveOptions.Builder()
                 .setReadTimeoutMillis(2000)
@@ -49,9 +57,9 @@ public class ResourceServerConfig {
                 .build();
     }
 
-
     @Bean
-    public JwtDecoder decoder(OAuth2ClientProperties oAuth2ClientProperties) {
-        return JwtDecoders.fromIssuerLocation(oAuth2ClientProperties.getIssuerUri());
+    public JwtDecoder decoder(OAuth2ClientResourceServerProperties resourceServerProperties) {
+        return JwtDecoders.fromIssuerLocation(resourceServerProperties.getIssuerUri());
     }
+
 }

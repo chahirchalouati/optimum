@@ -6,7 +6,6 @@ import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.service.NotificationService;
 import com.crcl.post.service.QueueService;
-import com.crcl.post.service.UserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 

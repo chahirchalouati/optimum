@@ -4,7 +4,7 @@ import com.crcl.authentication.domain.Gender;
 import com.crcl.authentication.domain.Permission;
 import com.crcl.authentication.domain.Role;
 import com.crcl.authentication.domain.User;
-import com.crcl.authentication.exceptions.RoleNotFoundException;
+import com.crcl.common.exceptions.RoleNotFoundException;
 import com.crcl.authentication.repository.RoleRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.DefaultRoles;

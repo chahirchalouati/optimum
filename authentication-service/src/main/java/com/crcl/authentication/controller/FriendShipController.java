@@ -29,7 +29,7 @@ public class FriendShipController {
     @JsonView(UserView.UserResponseView.class)
     @GetMapping("/user/{username}")
     public ResponseEntity<Page<UserDto>> findFriends(@PathVariable("username") String username, Pageable pageable) {
-        return ResponseEntity.ok(friendShipService.findFriends(username,pageable));
+        return ResponseEntity.ok(friendShipService.findFriends(username, pageable));
     }
 
 }

@@ -23,10 +23,10 @@ public class DevUtilities {
     CommandLineRunner runnerNotificationTypeRepository(NotificationTypeRepository notificationTypeRepository, TemplateRepository templateRepository) {
         notificationTypeRepository.deleteAll().subscribe();
         String style = """
-                    .home{
-                    background: white;
-                    }
-                    """;
+                .home{
+                background: white;
+                }
+                """;
         String content = """
                 <!DOCTYPE html>
                 <html xmlns:th="http://www.thymeleaf.org">
@@ -42,7 +42,8 @@ public class DevUtilities {
                     <p>Your friends at the store</p>
                 </body>
                 </html>                            
-                """;            Template template = new Template();
+                """;
+        Template template = new Template();
         template.setContent(content);
         template.setStyle(style);
         Template template1 = templateRepository.save(template).block();
@@ -58,7 +59,8 @@ public class DevUtilities {
                             .setPush(false)
                             .setSms(false)
                             .setTemplateId(template1.getId())
-                            .setNotificationTargets(values[RandomUtils.nextInt(0, values.length - 1)]))
+                            .setSubject("Subject must not be null")
+                            .setNotificationTargets(NotificationTargets.All_FRIENDS))
                     .toList();
             notificationTypeRepository.saveAll(notificationTypes).subscribe();
         };

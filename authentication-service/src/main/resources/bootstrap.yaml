@@ -10,11 +10,8 @@ spring:
   jackson:
     mapper:
       default-view-inclusion: true
-logging:
-  level:
-    org:
-      springframework:
-        data:
-          mongodb:
-            core:
-              MongoTemplate: DEBUG
+org:
+  springframework:
+    web:
+      filter:
+        CommonsRequestLoggingFilter: DEBUG

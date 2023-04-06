@@ -38,11 +38,11 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
     @Override
     public Optional<FriendShip> areFriends(String sender, String recipient) {
         Criteria criteria = new Criteria().orOperator(
-                Criteria.where("sender.username").is(recipient)
-                        .and("recipient.username").is(sender),
+                Criteria.where("sender.username").is(sender)
+                        .and("recipient.username").is(recipient),
 
-                Criteria.where("recipient.username").is(sender)
-                        .and("sender.username").is(recipient)
+                Criteria.where("sender.username").is(recipient)
+                        .and("recipient.username").is(sender)
         );
 
         Query query = Query.query(criteria);

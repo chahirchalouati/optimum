@@ -15,7 +15,8 @@ public class NotificationRequest<T> {
     private UUID id = UUID.randomUUID();
     private T payload;
     @NotNull
-    private NotificationDefinition type;    @NotNull
+    private NotificationDefinition type;
+    @NotNull
     private String sender;
     private LocalDateTime createdAt = LocalDateTime.now(Clock.systemDefaultZone());
 

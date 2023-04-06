@@ -14,7 +14,6 @@ import com.crcl.post.dto.PostDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;
-import com.crcl.post.service.NotificationService;
 import com.crcl.post.service.PostQueueService;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
@@ -43,7 +42,6 @@ public class PostServiceImpl implements PostService {
     private final IdpClient idpClient;
     private final TagRepository tagRepository;
     private final PostQueueService queueService;
-
     private final UserService userService;
     private final ProfileClient profileClient;
 

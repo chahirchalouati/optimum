@@ -36,6 +36,10 @@ public class MailServiceImpl implements MailService {
             }
 
             mailSender.send(message);
+            for (String destination : to) {
+                log.info("end sending mail for " + destination);
+            }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

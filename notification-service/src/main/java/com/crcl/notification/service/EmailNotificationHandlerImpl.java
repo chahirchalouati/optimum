@@ -4,7 +4,7 @@ import com.crcl.common.dto.UserDto;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.common.utils.NotificationTargets;
-import com.crcl.notification.client.IdpClient;
+import com.crcl.notification.client.SrvIdpClient;
 import com.crcl.notification.domain.NotificationType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,17 +20,19 @@ import java.util.LinkedHashMap;
 public class EmailNotificationHandlerImpl extends NotificationHandler {
     private final MailTemplateGenerator templateGenerator;
     private final MailService mailService;
-    private final IdpClient idpClient;
+    private final SrvIdpClient srvIdpClient;
 
     @Override
     public NotificationResponse notifySync(NotificationRequest request, NotificationType type) {
         String mailContent = templateGenerator.generate((LinkedHashMap<String, Object>) request.getPayload(), type.getTemplateId());
         if (type.getNotificationTargets() == NotificationTargets.All_FRIENDS) {
-            Page<UserDto> friends = idpClient.findFriends(request.getSender(), PageRequest.ofSize(100)).block();
+            Page<UserDto> friends = srvIdpClient.findFriends(request.getSender(), PageRequest.ofSize(100)).block();
             do {
                 assert friends != null;
                 friends.forEach(userDto -> mailService.send(mailContent, new String[]{userDto.getEmail()}, null, type.getSubject()));
             } while (!friends.isLast());
+        } else {
+            type.getTargets().forEach(target -> mailService.send(mailContent, new String[]{target}, null, type.getSubject()));
         }
 
         NotificationResponse<Object> response = new NotificationResponse<>();

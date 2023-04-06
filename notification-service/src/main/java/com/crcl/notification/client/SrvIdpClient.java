@@ -2,7 +2,7 @@ package com.crcl.notification.client;
 
 
 import com.crcl.common.dto.UserDto;
-import com.crcl.notification.configuration.Oauth2.OAuthFeignConfig;
+import com.crcl.notification.configuration.Oauth2.OAuthServerFeignConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +12,11 @@ import reactor.core.publisher.Mono;
 
 
 @ReactiveFeignClient(
-        name = "${client.authentication.name}",
-        url = "${client.authentication.url}",
-        configuration = OAuthFeignConfig.class
+        name = "${client.srvAuthentication.name}",
+        url = "${client.srvAuthentication.url}",
+        configuration = OAuthServerFeignConfig.class
 )
-public interface IdpClient {
+public interface SrvIdpClient {
     @GetMapping("/friends/user/{username}")
     Mono<Page<UserDto>> findFriends(@PathVariable("username") String username, Pageable pageable);
 }

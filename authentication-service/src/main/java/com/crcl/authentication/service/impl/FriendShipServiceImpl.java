@@ -10,11 +10,14 @@ import com.crcl.authentication.repository.FriendShipRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.service.FriendShipService;
 import com.crcl.authentication.service.UserService;
+import com.crcl.common.exceptions.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -30,6 +33,9 @@ public class FriendShipServiceImpl implements FriendShipService {
     public FriendShipDto create(String recipient) {
         var sender = userService.getCurrentUser().getUsername();
         var friendShip = this.friendShipRepository.areFriends(sender, recipient);
+        if (Objects.equals(sender, recipient)) {
+            throw new BadRequestException("please choose a correct recipient");
+        }
         if (friendShip.isPresent()) {
             return friendShipMapper.toDto(friendShip.get());
         }
