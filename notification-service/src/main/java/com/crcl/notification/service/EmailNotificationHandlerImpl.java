@@ -9,6 +9,7 @@ import com.crcl.notification.domain.NotificationType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
@@ -25,7 +26,7 @@ public class EmailNotificationHandlerImpl extends NotificationHandler {
     public NotificationResponse notifySync(NotificationRequest request, NotificationType type) {
         String mailContent = templateGenerator.generate((LinkedHashMap<String, Object>) request.getPayload(), type.getTemplateId());
         if (type.getNotificationTargets() == NotificationTargets.All_FRIENDS) {
-            Page<UserDto> friends = idpClient.findFriends(request.getSender()).block();
+            Page<UserDto> friends = idpClient.findFriends(request.getSender(), PageRequest.ofSize(100)).block();
             do {
                 assert friends != null;
                 friends.forEach(userDto -> mailService.send(mailContent, new String[]{userDto.getEmail()}, null, type.getSubject()));

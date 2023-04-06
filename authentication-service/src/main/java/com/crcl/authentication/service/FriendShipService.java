@@ -6,7 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface FriendShipService {
-    FriendShipDto create(String owner, String newFriend);
+    FriendShipDto create(String newFriend);
 
     FriendShipDto remove(UserDto owner, UserDto newFriend);
 

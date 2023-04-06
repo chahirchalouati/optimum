@@ -13,4 +13,8 @@ spring:
 logging:
   level:
     org:
-      springframework: info
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG

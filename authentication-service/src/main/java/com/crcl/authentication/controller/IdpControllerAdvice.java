@@ -1,10 +1,6 @@
 package com.crcl.authentication.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.crcl.common.exceptions.ErrorResponse;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -23,7 +17,6 @@ import static java.util.Objects.nonNull;
 
 @ControllerAdvice
 public class IdpControllerAdvice {
-
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<?> badRequestResponse(MethodArgumentNotValidException exception) {
@@ -47,28 +40,5 @@ public class IdpControllerAdvice {
     public ResponseEntity<?> runtimeException(RuntimeException exception) {
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
-
 }
 
-@NoArgsConstructor
-@Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
-class ErrorResponse {
-
-    @JsonProperty(value = "message", index = 1)
-    private String defaultErrorMessage = "bad request";
-    @JsonProperty(value = "errors", index = 2)
-    private Map<String, String> errors;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:SS", shape = JsonFormat.Shape.STRING)
-    @JsonProperty(index = 3)
-    private LocalDateTime timestamp = LocalDateTime.now(Clock.systemDefaultZone());
-
-    public ErrorResponse(Map<String, String> errors) {
-        this.errors = errors;
-    }
-
-    public ErrorResponse(String defaultErrorMessage) {
-        this.defaultErrorMessage = defaultErrorMessage;
-    }
-}

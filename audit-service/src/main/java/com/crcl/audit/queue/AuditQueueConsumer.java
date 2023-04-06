@@ -18,9 +18,7 @@ public class AuditQueueConsumer {
     private final AuditQueueProcessor queueProcessor;
 
     @RabbitListener(queues = QueueDefinition.AUDIT_MESSAGE_QUEUE, messageConverter = "jsonMessageConverter")
-    public void consumeImageUploadEvent(Message<DefaultQEvent<AuditRequest>> message) {
+    public void consumeAuditEvent(Message<DefaultQEvent<AuditRequest>> message) {
         queueProcessor.process(message.getPayload());
     }
-
-
 }

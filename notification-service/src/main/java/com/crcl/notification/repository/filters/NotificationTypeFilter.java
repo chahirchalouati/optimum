@@ -1,7 +1,7 @@
 package com.crcl.notification.repository.filters;
 
 import com.crcl.notification.domain.NotificationTypeRequest;
-import io.micrometer.common.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
 

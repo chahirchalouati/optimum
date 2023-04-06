@@ -7,11 +7,11 @@ import com.crcl.authentication.domain.User;
 import java.util.Optional;
 
 public interface CustomFriendShipRepository {
-    FriendShip link(User right, User left, FriendShipState state, String initiator);
+    FriendShip link(User sender, User recipient, FriendShipState state);
 
-    FriendShip remove(User owner, User newFriend);
+    FriendShip remove(User sender, User recipient);
 
-    Optional<FriendShip> hasFriendShip(String owner, String friend);
+    Optional<FriendShip> areFriends(String sender, String recipient);
 
 
 }

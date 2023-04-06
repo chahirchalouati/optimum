@@ -17,39 +17,32 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public FriendShip link(User right, User left, FriendShipState state, String initiator) {
+    public FriendShip link(User sender, User recipient, FriendShipState state) {
         var friendShip = new FriendShip();
-        friendShip.setRight(right);
-        friendShip.setLeft(left);
+        friendShip.setSender(sender);
+        friendShip.setRecipient(recipient);
         friendShip.setState(state);
-        friendShip.setInitiator(initiator);
-
         return mongoTemplate.save(friendShip);
     }
 
     @Override
-    public FriendShip remove(User owner, User friend) {
-        Optional<FriendShip> friendShip = hasFriendShip(owner.getUsername(), friend.getUsername());
-        friendShip.ifPresent(
-                friendShip1 -> mongoTemplate.remove(friendShip1).wasAcknowledged()
-        );
-
-        return friendShip.orElse(null);
-
+    public FriendShip remove(User sender, User recipient) {
+        return areFriends(sender.getUsername(), recipient.getUsername())
+                .map(friendShip -> {
+                    mongoTemplate.remove(friendShip).wasAcknowledged();
+                    return friendShip;
+                })
+                .orElse(null);
     }
 
     @Override
-    public Optional<FriendShip> hasFriendShip(String owner, String friend) {
+    public Optional<FriendShip> areFriends(String sender, String recipient) {
         Criteria criteria = new Criteria().orOperator(
-                Criteria.where("left.username").is(owner)
-                        .and("right.username").is(friend)
-                        .and("state").is(FriendShipState.ACCEPTED)
-                        .and("state").ne(FriendShipState.REJECTED),
+                Criteria.where("sender.username").is(recipient)
+                        .and("recipient.username").is(sender),
 
-                Criteria.where("right.username").is(friend)
-                        .and("left.username").is(owner)
-                        .and("state").is(FriendShipState.ACCEPTED)
-                        .and("state").ne(FriendShipState.REJECTED)
+                Criteria.where("recipient.username").is(sender)
+                        .and("sender.username").is(recipient)
         );
 
         Query query = Query.query(criteria);

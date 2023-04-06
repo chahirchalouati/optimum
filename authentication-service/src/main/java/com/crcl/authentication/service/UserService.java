@@ -12,6 +12,8 @@ public interface UserService extends GenericService<UserDto, String> {
 
     UserDto save(CreateUserRequest request);
 
+    UserDto getCurrentUser();
+
     Set<UserDto> findByUserNames(Set<String> userNames);
 }
 

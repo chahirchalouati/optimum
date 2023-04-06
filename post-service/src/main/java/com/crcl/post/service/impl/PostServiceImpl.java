@@ -43,7 +43,7 @@ public class PostServiceImpl implements PostService {
     private final IdpClient idpClient;
     private final TagRepository tagRepository;
     private final PostQueueService queueService;
-    private final NotificationService notificationService;
+
     private final UserService userService;
     private final ProfileClient profileClient;
 
@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
         post.setCreator(profileClient.findByUsername(userService.getCurrentUser().getUsername()));
         PostDto savedPost = postMapper.toDto(postRepository.save(post));
         queueService.publishCreatePostEvent(savedPost);
-        notificationService.notifyCreatedPost(savedPost);
+
         return savedPost;
     }
 

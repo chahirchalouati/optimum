@@ -6,4 +6,7 @@ public class UserView {
 
     public interface UserResponseView {
     }
+
+    public interface UserPrivateView {
+    }
 }

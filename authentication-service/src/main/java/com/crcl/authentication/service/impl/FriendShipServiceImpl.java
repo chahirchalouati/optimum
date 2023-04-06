@@ -9,6 +9,7 @@ import com.crcl.authentication.mappers.UserMapper;
 import com.crcl.authentication.repository.FriendShipRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.service.FriendShipService;
+import com.crcl.authentication.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,33 +24,34 @@ public class FriendShipServiceImpl implements FriendShipService {
     private final FriendShipMapper friendShipMapper;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Override
-    public FriendShipDto create(String owner, String newFriend) {
-
-        var friendShip = this.friendShipRepository.hasFriendShip(owner, newFriend);
+    public FriendShipDto create(String recipient) {
+        var sender = userService.getCurrentUser().getUsername();
+        var friendShip = this.friendShipRepository.areFriends(sender, recipient);
         if (friendShip.isPresent()) {
             return friendShipMapper.toDto(friendShip.get());
         }
 
-        final var ownerEntity = userRepository.findByUsernameAllIgnoreCase(owner)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(owner)));
-        final var newFriendEntity = userRepository.findByUsernameAllIgnoreCase(newFriend)
-                .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(newFriend)));
-        FriendShip linkedFriendShip = this.friendShipRepository.link(ownerEntity, newFriendEntity, FriendShipState.PENDING, owner);
+        final var senderEntity = userRepository.findByUsernameAllIgnoreCase(sender)
+                .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(sender)));
+        final var recipientEntity = userRepository.findByUsernameAllIgnoreCase(recipient)
+                .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(recipient)));
+        FriendShip linkedFriendShip = this.friendShipRepository.link(senderEntity, recipientEntity, FriendShipState.PENDING);
 
         return friendShipMapper.toDto(linkedFriendShip);
     }
 
     @Override
-    public FriendShipDto remove(UserDto owner, UserDto newFriend) {
+    public FriendShipDto remove(UserDto sender, UserDto recipient) {
         return null;
     }
 
     @Override
     public Page<UserDto> findFriends(String username, Pageable pageable) {
         return friendShipRepository.findFriends(username, pageable)
-                .map(friendShip -> friendShip.getRight().getUsername().equals(username) ? friendShip.getLeft() : friendShip.getRight())
+                .map(friendShip -> friendShip.getSender().getUsername().equals(username) ? friendShip.getRecipient() : friendShip.getSender())
                 .map(userMapper::toDto);
     }
 }

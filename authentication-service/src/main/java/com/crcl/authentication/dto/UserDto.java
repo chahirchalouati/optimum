@@ -31,7 +31,7 @@ public class UserDto {
     @NotBlank
     @JsonView(value = UserView.CreateUserView.class)
     private String password;
-    @JsonView(value = UserView.UserResponseView.class)
+    @JsonView(value = UserView.UserPrivateView.class)
     private Set<RoleDto> roles = new HashSet<>();
     @NotBlank
     @JsonView(value = UserView.UserResponseView.class)

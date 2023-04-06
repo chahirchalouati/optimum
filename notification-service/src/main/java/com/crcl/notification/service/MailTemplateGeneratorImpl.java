@@ -20,7 +20,6 @@ public class MailTemplateGeneratorImpl implements MailTemplateGenerator {
 
     @Override
     public String generate(Map<String, Object> props, String id) {
-
         Template template = this.templateRepository.findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("template with id:" + id + "does not exists")))
                 .block();
