@@ -1,7 +1,7 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.AuthenticatedQEvent;
-import com.crcl.common.dto.QEvent;
+import com.crcl.common.dto.queue.AuthenticatedQEvent;
+import com.crcl.common.dto.queue.QEvent;
 import com.crcl.processor.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

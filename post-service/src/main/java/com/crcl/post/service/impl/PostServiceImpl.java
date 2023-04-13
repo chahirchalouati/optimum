@@ -1,6 +1,8 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.common.queue.ImageUpload;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
@@ -18,6 +20,7 @@ import com.crcl.post.service.PostQueueService;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -34,6 +38,7 @@ import static com.crcl.post.utils.CrclUtils.applyIfNotEmpty;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
@@ -66,6 +71,28 @@ public class PostServiceImpl implements PostService {
         return savedPost;
     }
 
+    @Override
+    public void synchronize(DefaultQEvent<ImageUpload> event) {
+        var imageId = event.getPayload().getId();
+        var fileUploadResult = event.getPayload().getResponse();
+        var imageSize = event.getPayload().getImageSize();
+
+        Optional<Post> postOptional = postRepository.findByImageId(imageId);
+        postOptional.ifPresent(post -> post.getImages().stream()
+                .filter(image -> image.getId().equals(imageId))
+                .findFirst()
+                .ifPresentOrElse(image -> {
+                            var imageToStore = new Image()
+                                    .setImageSize(imageSize)
+                                    .setParent(fileUploadResult.getEtag())
+                                    .setContentType(fileUploadResult.getContentType())
+                                    .setUrl(fileUploadResult.getLink());
+                            image.getProcessedImages().add(imageToStore);
+                            postRepository.save(postOptional.get());
+                        },
+                        () -> log.info("no image found for id " + imageId)
+                ));
+    }
 
     @Override
     public List<PostDto> saveAll(List<PostDto> entitiesDto) {
@@ -124,7 +151,8 @@ public class PostServiceImpl implements PostService {
         results.stream()
                 .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("image"))
                 .map(file -> new Image()
-                        .setId(index.getAndIncrement())
+                        .setId(file.getEtag())
+                        .setIndex(index.getAndIncrement())
                         .setContentType(file.getContentType())
                         .setUrl(file.getLink()))
                 .forEach(image -> post.getImages().add(image));
@@ -134,7 +162,8 @@ public class PostServiceImpl implements PostService {
         results.stream()
                 .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("video"))
                 .map(file -> new Video()
-                        .setId(index.incrementAndGet())
+                        .setId(file.getEtag())
+                        .setIndex(index.incrementAndGet())
                         .setUrl(file.getLink()))
                 .forEach(video -> post.getVideos().add(video));
     }

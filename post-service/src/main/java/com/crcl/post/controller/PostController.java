@@ -31,7 +31,7 @@ public class PostController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PostDto> save(@Valid @ModelAttribute CreatePostRequest request) {
+    public ResponseEntity<PostDto> save(@ModelAttribute CreatePostRequest request) {
         return ResponseEntity.ok(this.postService.save(request));
     }
 

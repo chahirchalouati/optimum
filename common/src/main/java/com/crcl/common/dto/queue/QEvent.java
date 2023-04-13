@@ -1,4 +1,4 @@
-package com.crcl.common.dto;
+package com.crcl.common.dto.queue;
 
 import lombok.Data;
 

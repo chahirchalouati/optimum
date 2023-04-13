@@ -2,7 +2,7 @@ package com.crcl.audit.queue;
 
 import com.crcl.audit.domain.Audit;
 import com.crcl.audit.service.AuditService;
-import com.crcl.common.dto.QEvent;
+import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.AuditRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

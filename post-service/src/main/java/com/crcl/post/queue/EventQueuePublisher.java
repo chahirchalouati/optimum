@@ -1,4 +1,4 @@
-package com.crcl.audit.queue;
+package com.crcl.post.queue;
 
 import com.crcl.common.dto.queue.QEvent;
 import lombok.AllArgsConstructor;

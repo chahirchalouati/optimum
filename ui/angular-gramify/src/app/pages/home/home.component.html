@@ -19,7 +19,7 @@
         <nz-divider nzType="horizontal"></nz-divider>
         <div class="card-post-body">
           <div class="card-post-body-content">{{post.content | truncate: [180]}}</div>
-          <ng-container *ngFor="let media of post.attachments | index : 1 | slice: 0 : 3; let i =index">
+          <ng-container *ngFor="let media of post.images | index : 1 | slice: 0 : 3; let i =index">
             <div *ngIf="hasContent('image', media.contentType)" class="card-post-body-media">
               <img [alt]="media.name" [src]="media.name | src: media.etag  | async" fallBack/>
             </div>

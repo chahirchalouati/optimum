@@ -13,6 +13,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import reactivefeign.ReactiveOptions;
+import reactivefeign.webclient.WebReactiveOptions;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -38,15 +40,14 @@ public class ResourceServerConfig {
         return http.build();
     }
 
-//    @Bean
-//    public ReactiveOptions reactiveOptions() {
-//        return new WebReactiveOptions.Builder()
-//
-//                .setReadTimeoutMillis(2000)
-//                .setWriteTimeoutMillis(2000)
-//                .setResponseTimeoutMillis(2000)
-//                .build();
-//    }
+    @Bean
+    public ReactiveOptions reactiveOptions() {
+        return new WebReactiveOptions.Builder()
+                .setReadTimeoutMillis(10000)
+                .setWriteTimeoutMillis(10000)
+                .setResponseTimeoutMillis(10000)
+                .build();
+    }
 
 
     @Bean

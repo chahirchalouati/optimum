@@ -1,7 +1,7 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.DefaultQEvent;
-import com.crcl.common.dto.QEvent;
+import com.crcl.common.dto.queue.DefaultQEvent;
+import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.AuditRequest;
 import com.crcl.common.utils.AuditAction;
 import com.crcl.common.utils.QueueDefinition;

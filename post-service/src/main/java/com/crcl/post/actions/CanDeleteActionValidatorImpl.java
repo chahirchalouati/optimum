@@ -1,4 +1,4 @@
-package com.crcl.post.actionValidators;
+package com.crcl.post.actions;
 
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.service.UserService;

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
 public class CreatePostRequestValidator implements ConstraintValidator<ValidCreatePostRequest, CreatePostRequest> {
     @Override

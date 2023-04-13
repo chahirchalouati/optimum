@@ -2,7 +2,7 @@ package com.crcl.comment.service.impl;
 
 import com.crcl.comment.repository.AttachmentRepository;
 import com.crcl.comment.service.AttachmentService;
-import com.crcl.common.dto.DefaultQEvent;
+import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.dto.ResizedImageDetails;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.queue.ImageUpload;

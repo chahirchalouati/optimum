@@ -19,7 +19,7 @@ public class QueueConfiguration {
 
     private static final List<String> QUEUES = List.of(
             QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE,
-            QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE
+            QueueDefinition.UPDATE_IMAGES_QUEUE
     );
 
     @Bean

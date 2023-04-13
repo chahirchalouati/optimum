@@ -1,7 +1,7 @@
 package com.crcl.post.mapper;
 
 import com.crcl.common.utils.generic.GenericMapper;
-import com.crcl.post.actionValidators.ActionValidator;
+import com.crcl.post.actions.ActionValidator;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.domain.*;
 import com.crcl.post.dto.CreatePostRequest;

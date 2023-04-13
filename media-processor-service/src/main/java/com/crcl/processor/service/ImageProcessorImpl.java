@@ -2,8 +2,8 @@ package com.crcl.processor.service;
 
 
 import com.crcl.common.domain.Orientation;
-import com.crcl.common.dto.AuthenticatedQEvent;
-import com.crcl.common.dto.DefaultQEvent;
+import com.crcl.common.dto.queue.AuthenticatedQEvent;
+import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
 import com.crcl.common.queue.ImageUpload;
@@ -66,7 +66,7 @@ public class ImageProcessorImpl implements ImageProcessor {
                                     final var message = new DefaultQEvent<ImageUpload>();
                                     message.setPayload(imageUploadEvent);
 
-                                    eventQueuePublisher.publish(message, QueueDefinition.UPDATE_ATTACHMENT_IMAGES_QUEUE);
+                                    eventQueuePublisher.publish(message, QueueDefinition.UPDATE_IMAGES_QUEUE);
                                     log.debug("Finished processing image with size {}", imageSize);
                                 } catch (Exception e) {
                                     log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);

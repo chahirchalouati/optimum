@@ -1,6 +1,6 @@
 package com.crcl.processor.queue.aspects;
 
-import com.crcl.common.dto.AuthenticatedQEvent;
+import com.crcl.common.dto.queue.AuthenticatedQEvent;
 import com.crcl.common.queue.ImageUpload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

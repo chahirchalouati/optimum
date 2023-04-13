@@ -7,7 +7,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public
 class Video {
-    private int id;
+    private int index;
+    private String id;
     private String title;
     private String description;
     private int lengthInSeconds;
