@@ -1,18 +1,12 @@
 package com.crcl.audit.queue;
 
-import com.crcl.common.dto.queue.QEvent;
-import lombok.AllArgsConstructor;
+import com.crcl.common.queue.QueuePublisher;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
-public class EventQueuePublisher {
-
-    private final RabbitTemplate rabbitTemplate;
-
-    public <T> void sendMessage(QEvent<T> QEvent, String queueName) {
-        rabbitTemplate.convertAndSend(queueName, QEvent);
+public class EventQueuePublisher extends QueuePublisher {
+    public EventQueuePublisher(RabbitTemplate rabbitTemplate) {
+        super(rabbitTemplate);
     }
-
 }

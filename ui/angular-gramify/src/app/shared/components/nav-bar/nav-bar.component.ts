@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import Profile from "../../domain/Profile";
 
 @Component({
   selector: 'app-nav-bar',
@@ -6,5 +7,5 @@ import {Component} from '@angular/core';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent {
-
+  @Input() profile!: Profile;
 }

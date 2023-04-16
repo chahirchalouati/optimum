@@ -1,18 +1,14 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.queue.QEvent;
-import lombok.RequiredArgsConstructor;
+import com.crcl.common.queue.QueuePublisher;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class EventQueuePublisher {
-
-    private final RabbitTemplate rabbitTemplate;
-
-    public <T> void publish(QEvent<T> QEvent, String queueName) {
-        rabbitTemplate.convertAndSend(queueName, QEvent);
+@Slf4j
+public class EventQueuePublisher extends QueuePublisher {
+    public EventQueuePublisher(RabbitTemplate rabbitTemplate) {
+        super(rabbitTemplate);
     }
-
 }

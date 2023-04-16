@@ -21,8 +21,8 @@ public class ProfileSearchRestController {
         return ResponseEntity.ok(this.profileService.findAll(pageRequest, pageable));
     }
 
-    @GetMapping("/username/{username}")
-    public ResponseEntity<ProfileDto> findByUsername(@PathVariable String username) {
+    @GetMapping("/username")
+    public ResponseEntity<ProfileDto> findByUsername(@RequestParam String username) {
         return ResponseEntity.ok(this.profileService.findByUsername(username));
     }
 

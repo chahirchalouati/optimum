@@ -26,6 +26,7 @@ public class ResourceServerConfig {
         http.csrf().disable()
                 .authorizeExchange()
                 .pathMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                .pathMatchers("/utils/**").permitAll()
                 .pathMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                 .anyExchange().authenticated()
                 .and()

@@ -1,5 +1,7 @@
 package com.crcl.notification.service;
 
+import com.crcl.common.dto.queue.DefaultQEvent;
+import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.notification.domain.NotificationType;
@@ -29,7 +31,8 @@ public class NotificationServiceImpl implements NotificationService {
                 .forEach(notificationHandler -> {
                     if (notificationType.isAsync()) {
                         log.info("START processing async notification" + request.getId().toString() + " using handler :" + notificationHandler.getClass().getName());
-                        notificationHandler.notifyAsync(request, notificationType);
+                        QEvent<NotificationRequest> event = new DefaultQEvent<NotificationRequest>().setPayload(request);
+                        notificationHandler.notifyAsync(event, notificationType);
                     } else {
                         log.info("START processing sync notification" + request.getId().toString() + " using handler :" + notificationHandler.getClass().getName());
                         NotificationResponse response = notificationHandler.notifySync(request, notificationType);

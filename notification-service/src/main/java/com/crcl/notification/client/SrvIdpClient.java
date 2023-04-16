@@ -1,6 +1,5 @@
 package com.crcl.notification.client;
 
-
 import com.crcl.common.dto.UserDto;
 import com.crcl.notification.configuration.Oauth2.OAuthServerFeignConfig;
 import org.springframework.data.domain.Page;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import reactivefeign.spring.config.ReactiveFeignClient;
 import reactor.core.publisher.Mono;
-
 
 @ReactiveFeignClient(
         name = "${client.srvAuthentication.name}",

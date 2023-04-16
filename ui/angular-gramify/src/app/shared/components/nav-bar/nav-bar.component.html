@@ -26,8 +26,8 @@
         <li nz-menu-item nzDanger>4th danger item</li>
       </ul>
     </nz-dropdown-menu>
-    <nz-avatar [nzDropdownMenu]="profile" nz-dropdown nzText="USER" nzTrigger="click"></nz-avatar>
-    <nz-dropdown-menu #profile="nzDropdownMenu">
+    <nz-avatar [nzDropdownMenu]="dropProfile" [nzSrc]="profile.avatar"  nz-dropdown nzText="USER" nzTrigger="click"></nz-avatar>
+    <nz-dropdown-menu #dropProfile="nzDropdownMenu">
       <ul nz-menu nzSelectable>
         <li nz-menu-item>1st menu item</li>
         <li nz-menu-item>2nd menu item</li>

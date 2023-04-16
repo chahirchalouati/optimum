@@ -1,8 +1,8 @@
 package com.crcl.authentication.repository;
 
 import com.crcl.authentication.domain.Client;
-import com.crcl.common.exceptions.ClientNotFoundException;
 import com.crcl.authentication.mappers.ClientMapper;
+import com.crcl.common.exceptions.ClientNotFoundException;
 import com.crcl.common.exceptions.EntityNotFoundException;
 import com.crcl.common.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;

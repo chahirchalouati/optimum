@@ -1,8 +1,6 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.exceptions.EntityNotFoundException;
-import com.crcl.common.queue.ImageUpload;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
@@ -28,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -50,6 +47,7 @@ public class PostServiceImpl implements PostService {
     private final UserService userService;
     private final ProfileClient profileClient;
 
+
     @Override
     public PostDto save(PostDto postDto) {
         Post save = postRepository.save(postMapper.toEntity(postDto));
@@ -69,29 +67,6 @@ public class PostServiceImpl implements PostService {
         queueService.publishCreatePostEvent(savedPost);
 
         return savedPost;
-    }
-
-    @Override
-    public void synchronize(DefaultQEvent<ImageUpload> event) {
-        var imageId = event.getPayload().getId();
-        var fileUploadResult = event.getPayload().getResponse();
-        var imageSize = event.getPayload().getImageSize();
-
-        Optional<Post> postOptional = postRepository.findByImageId(imageId);
-        postOptional.ifPresent(post -> post.getImages().stream()
-                .filter(image -> image.getId().equals(imageId))
-                .findFirst()
-                .ifPresentOrElse(image -> {
-                            var imageToStore = new Image()
-                                    .setImageSize(imageSize)
-                                    .setParent(fileUploadResult.getEtag())
-                                    .setContentType(fileUploadResult.getContentType())
-                                    .setUrl(fileUploadResult.getLink());
-                            image.getProcessedImages().add(imageToStore);
-                            postRepository.save(postOptional.get());
-                        },
-                        () -> log.info("no image found for id " + imageId)
-                ));
     }
 
     @Override

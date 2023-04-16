@@ -17,7 +17,6 @@ import java.util.Map;
 public class MailTemplateGeneratorImpl implements MailTemplateGenerator {
     private final TemplateRepository templateRepository;
 
-
     @Override
     public String generate(Map<String, Object> props, String id) {
         Template template = this.templateRepository.findById(id)

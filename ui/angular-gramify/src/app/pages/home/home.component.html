@@ -1,5 +1,5 @@
 <nz-layout *ngIf="(initialState$ | async )as state ">
-  <app-nav-bar></app-nav-bar>
+  <app-nav-bar [profile]="state.profile"></app-nav-bar>
   <nz-layout>
     <nz-sider nzWidth="max-content" style="left: 0">Sider</nz-sider>
     <nz-content>

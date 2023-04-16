@@ -6,7 +6,6 @@ import com.crcl.notification.domain.NotificationType;
 import com.crcl.notification.domain.Template;
 import com.crcl.notification.repository.NotificationTypeRepository;
 import com.crcl.notification.repository.TemplateRepository;
-import org.apache.commons.lang3.RandomUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
