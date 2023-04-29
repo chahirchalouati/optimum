@@ -52,12 +52,12 @@ public class JwkProvider {
     }
 
     public void uploadKeysToMinio() throws IOException {
-        final var keyPair = generateKeyPair();
-        final var id = UUID.randomUUID().toString();
-        final var privateSpec = new PKCS8EncodedKeySpec(keyPair.getPrivate().getEncoded());
-        final var publicSpec = new X509EncodedKeySpec(keyPair.getPublic().getEncoded());
-        final var privateKeyFile = writePem("PRIVATE KEY", privateSpec.getEncoded(), id);
-        final var publicKeyFile = writePem("PUBLIC KEY", publicSpec.getEncoded(), id);
+        var keyPair = generateKeyPair();
+        var id = UUID.randomUUID().toString();
+        var privateSpec = new PKCS8EncodedKeySpec(keyPair.getPrivate().getEncoded());
+        var publicSpec = new X509EncodedKeySpec(keyPair.getPublic().getEncoded());
+        var privateKeyFile = writePem("PRIVATE KEY", privateSpec.getEncoded(), id);
+        var publicKeyFile = writePem("PUBLIC KEY", publicSpec.getEncoded(), id);
 
         this.uploadToMinio(securityProperties.getCertificationBucket(), privateKeyFile, privateKeyFile);
         this.uploadToMinio(securityProperties.getCertificationBucket(), publicKeyFile, publicKeyFile);
@@ -83,16 +83,16 @@ public class JwkProvider {
     public KeyPair getLastEnabledKeyPair() {
         try {
             // Get the last enabled key file from MongoDB
-            final var keyFile = keyFileRepository.findFirstByEnabledOrderByCreationDateDesc(true);
+            var keyFile = keyFileRepository.findFirstByEnabledOrderByCreationDateDesc(true);
             // Read the contents of the private key and public key files from Minio
             final byte[] privateKeyBytes = getKeyByPath(keyFile.getPrivateKeyPath(), securityProperties.getCertificationBucket());
             final byte[] publicKeyBytes = getKeyByPath(keyFile.getPublicKeyPath(), securityProperties.getCertificationBucket());
             // Convert the key file contents to a KeyPair object
-            final var privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyBytes));
-            final var publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyBytes));
-            final var keyFactory = KeyFactory.getInstance(keyFile.getAlgorithm());
-            final var privateKey = keyFactory.generatePrivate(privateKeySpec);
-            final var publicKey = keyFactory.generatePublic(publicKeySpec);
+            var privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKeyBytes));
+            var publicKeySpec = new X509EncodedKeySpec(Base64.getDecoder().decode(publicKeyBytes));
+            var keyFactory = KeyFactory.getInstance(keyFile.getAlgorithm());
+            var privateKey = keyFactory.generatePrivate(privateKeySpec);
+            var publicKey = keyFactory.generatePublic(publicKeySpec);
 
             return new KeyPair(publicKey, privateKey);
         } catch (Exception e) {

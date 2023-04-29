@@ -48,22 +48,22 @@ public class ImageProcessorImpl implements ImageProcessor {
                 .zipWith(userService.getCurrentUser())
                 .subscribe(zipResult -> {
                             ByteArrayResource resource = zipResult.getT1();
-                            final var userDto = zipResult.getT2();
+                            var userDto = zipResult.getT2();
                             for (ImageSize imageSize : imageSizesProperties.getSizes().values()) {
                                 try {
                                     log.debug("Processing image with size {}", imageSize);
-                                    final var newFileName = buildFileName(response.getName(), imageSize);
-                                    final var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
-                                    final var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
-                                    final var orientation = getOrientation(inputStream);
+                                    var newFileName = buildFileName(response.getName(), imageSize);
+                                    var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
+                                    var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
+                                    var orientation = getOrientation(inputStream);
 
-                                    final var imageUploadEvent = new ImageUpload();
+                                    var imageUploadEvent = new ImageUpload();
                                     imageUploadEvent.setImageSize(imageSize);
                                     imageUploadEvent.setOrientation(orientation);
                                     imageUploadEvent.setResponse(buildFileUploadResponse(uploadFileResponse));
                                     imageUploadEvent.setId(response.getEtag());
 
-                                    final var message = new DefaultQEvent<ImageUpload>();
+                                    var message = new DefaultQEvent<ImageUpload>();
                                     message.setPayload(imageUploadEvent);
 
                                     eventQueuePublisher.publish(message, QueueDefinition.UPDATE_IMAGES_QUEUE);

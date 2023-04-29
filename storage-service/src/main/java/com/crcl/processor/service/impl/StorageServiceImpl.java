@@ -50,10 +50,10 @@ public class StorageServiceImpl implements StorageService {
     @SneakyThrows(Exception.class)
     public Mono<FileUploadResult> save(Mono<FilePart> particle) {
 
-        final var inputStreamResult = toInputStream(particle)
+        var inputStreamResult = toInputStream(particle)
                 .zipWith(particle);
 
-        final var doUpload = createMinioRequest()
+        var doUpload = createMinioRequest()
                 .andThen(uploadFile())
                 .andThen(buildFileRecord());
 
@@ -67,7 +67,7 @@ public class StorageServiceImpl implements StorageService {
     @Override
     @SneakyThrows
     public Mono<ByteArrayResource> getResource(String fileName, String owner, String bucket) {
-        final var getObjectArgs = GetObjectArgs.builder()
+        var getObjectArgs = GetObjectArgs.builder()
                 .object(fileName)
                 .matchETag(owner)
                 .bucket(bucket)
@@ -87,8 +87,8 @@ public class StorageServiceImpl implements StorageService {
     private Function<Tuple2<InputStream, FilePart>, PutObjectArgs> createMinioRequest() {
         return zip -> {
             try {
-                final var inputStream = zip.getT1();
-                final var filename = zip.getT2().filename();
+                var inputStream = zip.getT1();
+                var filename = zip.getT2().filename();
                 int available = inputStream.available();
 
                 return PutObjectArgs.builder()
@@ -152,13 +152,13 @@ public class StorageServiceImpl implements StorageService {
         return record -> {
             boolean isImage = FileExtensionUtils.isImage(record.getName());
             if (isImage) {
-                final var result = new FileUploadResult()
+                var result = new FileUploadResult()
                         .setContentType(record.getType())
                         .setBucket(record.getBucket())
                         .setEtag(record.getTag())
                         .setName(record.getName())
                         .setVersion(record.getVersion());
-                final var request = new ImageUpload();
+                var request = new ImageUpload();
                 request.setResponse(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
                 resizeImageQueueSender.publishImageUploadEvent(request);

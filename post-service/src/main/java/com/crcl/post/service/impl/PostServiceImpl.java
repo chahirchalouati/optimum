@@ -120,8 +120,8 @@ public class PostServiceImpl implements PostService {
     }
 
     private void addFiles(CreatePostRequest request, Post post) {
-        final var index = new AtomicInteger(0);
-        final var results = storageClient.saveAll(request.getFiles());
+        var index = new AtomicInteger(0);
+        var results = storageClient.saveAll(request.getFiles());
 
         results.stream()
                 .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("image"))

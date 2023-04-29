@@ -32,7 +32,7 @@ public class JwtFilterInterceptor implements WebFilter {
         if (token.contains(BEARER)) {
             token = token.replace(BEARER, EMPTY);
         }
-        final var jwtDecoder = JwtDecoders.fromIssuerLocation(oAuth2ResourceServerProperties.getJwt().getIssuerUri());
+        var jwtDecoder = JwtDecoders.fromIssuerLocation(oAuth2ResourceServerProperties.getJwt().getIssuerUri());
         jwt = Optional.ofNullable(jwtDecoder.decode(token));
         return chain.filter(exchange);
     }

@@ -40,9 +40,9 @@ public class FriendShipServiceImpl implements FriendShipService {
             return friendShipMapper.toDto(friendShip.get());
         }
 
-        final var senderEntity = userRepository.findByUsernameAllIgnoreCase(sender)
+        var senderEntity = userRepository.findByUsernameAllIgnoreCase(sender)
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(sender)));
-        final var recipientEntity = userRepository.findByUsernameAllIgnoreCase(recipient)
+        var recipientEntity = userRepository.findByUsernameAllIgnoreCase(recipient)
                 .orElseThrow(() -> new UsernameNotFoundException("can't find user with username %s".formatted(recipient)));
         FriendShip linkedFriendShip = this.friendShipRepository.link(senderEntity, recipientEntity, FriendShipState.PENDING);
 

@@ -25,8 +25,8 @@ public class ResizeImageQueuePublisherImpl extends ResizeImageQueuePublisher {
     public void publishImageUploadEvent(ImageUpload event) {
         final boolean present = jwtFilterInterceptor.getJwt().isPresent();
         if (present) {
-            final var jwt = jwtFilterInterceptor.getJwt().get();
-            final var message = new AuthenticatedQEvent<>();
+            var jwt = jwtFilterInterceptor.getJwt().get();
+            var message = new AuthenticatedQEvent<>();
             message.setToken(jwt.getTokenValue())
                     .setPayload(event);
             this.publishAuthenticatedMessage(message, QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE);

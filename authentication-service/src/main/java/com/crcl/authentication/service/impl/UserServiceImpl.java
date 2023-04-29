@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
     private void addUserAvatar(CreateUserRequest request, User user) {
         try {
             if (nonNull(request.getAvatarFile())) {
-                final var fileSaveResponse = this.serverStorageClient.save(request.getAvatarFile());
+                var fileSaveResponse = this.serverStorageClient.save(request.getAvatarFile());
                 user.setAvatar(fileSaveResponse.getLink());
             }
         } catch (Exception e) {

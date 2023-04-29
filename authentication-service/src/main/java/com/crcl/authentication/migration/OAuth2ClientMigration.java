@@ -22,11 +22,11 @@ public class OAuth2ClientMigration {
     }
 
     protected static Client getClient(MigrationHelper migrationHelper, Registration registration) {
-        final var grantTypes = registration.getGrantTypes().stream()
+        var grantTypes = registration.getGrantTypes().stream()
                 .map(AuthorizationGrantType::new)
                 .toList();
 
-        final var redirectUris = registration.getUris().stream()
+        var redirectUris = registration.getUris().stream()
                 .map(uri -> uri.contains("/callback") ? uri : uri.concat("/authorized"))
                 .toList();
 

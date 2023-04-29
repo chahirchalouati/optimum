@@ -19,7 +19,7 @@ public class AuthenticationHelperImpl implements AuthenticationHelper {
     @Override
     public UserDto getCurrent() {
 
-        final var authentication = SecurityContextHolder
+        var authentication = SecurityContextHolder
                 .getContext()
                 .getAuthentication();
         if (authentication != null) {

@@ -24,12 +24,12 @@ public class BucketsConfiguration {
         minioProperties.getBuckets().forEach(
                 bucketProperties -> {
                     try {
-                        final var bucketExists = BucketExistsArgs.builder()
+                        var bucketExists = BucketExistsArgs.builder()
                                 .bucket(bucketProperties.getName())
                                 .build();
 
                         if (!minioClient.bucketExists(bucketExists)) {
-                            final var makeBucketArgs = MakeBucketArgs.builder()
+                            var makeBucketArgs = MakeBucketArgs.builder()
                                     .objectLock(bucketProperties.isObjectLock())
                                     .bucket(bucketProperties.getName())
                                     .build();

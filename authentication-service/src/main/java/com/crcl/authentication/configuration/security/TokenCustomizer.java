@@ -23,7 +23,7 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
         final Authentication principal = context.getPrincipal();
         boolean isToken = Objects.equals(context.getTokenType().getValue(), ACCESS_TOKEN);
         if (isToken && principal instanceof UsernamePasswordAuthenticationToken) {
-            final var user = (User) principal.getPrincipal();
+            var user = (User) principal.getPrincipal();
             context.getClaims()
                     .claim("email", user.getEmail())
                     .claim("username", user.getUsername())

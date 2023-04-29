@@ -114,7 +114,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDto save(CommentFormDto commentFormDto) {
-        final var comment = new Comment();
+        var comment = new Comment();
         comment.setContent(commentFormDto.getContent());
         comment.setUsername(userService.getCurrentUser().getUsername());
         comment.setUser(userService.getCurrentUser());
@@ -123,9 +123,9 @@ public class CommentServiceImpl implements CommentService {
         comment.setProfile(profileDto);
 
         if (!CollectionUtils.isEmpty(commentFormDto.getFiles())) {
-            final var files = List.copyOf(commentFormDto.getFiles());
+            var files = List.copyOf(commentFormDto.getFiles());
             validateFilesName(files);
-            final var responses = this.storageClient.saveAll(files);
+            var responses = this.storageClient.saveAll(files);
             comment.setAttachments(getAttachments(responses));
         }
         final Comment save = commentRepository.save(comment);

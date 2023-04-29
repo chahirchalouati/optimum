@@ -34,6 +34,24 @@ services:
     networks:
       - l_net
 
+  postgres-db:
+    image: postgres:14.1-alpine
+    container_name: postgres-container
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-db:/var/lib/mysql
+    networks:
+      - l_net
+
   rabbitmq:
     build: rabbitMQ/.
     container_name: rabbitmq-container
@@ -114,6 +132,7 @@ networks:
 
 volumes:
   mysql-db:
+  postgres-db:
   cassandra-db:
   mongo-db:
   minio:

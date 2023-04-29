@@ -2,7 +2,7 @@ package com.crcl.authentication.service.impl;
 
 import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.domain.Client;
-import com.crcl.common.utils.ObjectUtils;
+import com.crcl.common.utils.CrclObjectUtils;
 import com.crcl.common.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +10,7 @@ import org.springframework.security.oauth2.server.authorization.config.TokenSett
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-
-import static java.util.Objects.isNull;
+import java.util.Objects;
 
 @Component("clientSettingsEnhancer")
 @AllArgsConstructor
@@ -21,18 +20,18 @@ public class ClientSettingsEnhancer implements Enhancer<Client> {
 
     @Override
     public Client enhance(final Client client) {
-        final var registrations = securityProperties.getRegistrations()
-                .get(client.getClientId());
-        if (isNull(registrations)) return client;
+        var registrations = securityProperties.getRegistrations();
+        var registration = registrations.get(client.getClientId());
+        if (Objects.isNull(registration)) return client;
 
-        final var accessTokenTimeToLive = Duration.ofSeconds(registrations.getTokenAccessTimeToLeave());
-        final var refreshTokenTimeToLive = Duration.ofSeconds(registrations.getRefreshTokenAccessTimeToLeave());
-        final var tokenSettings = TokenSettings.builder()
-                .accessTokenTimeToLive(accessTokenTimeToLive)
-                .refreshTokenTimeToLive(refreshTokenTimeToLive)
+        var tokenSettings = TokenSettings.builder()
+                .accessTokenTimeToLive(Duration.ofSeconds(registration.getTokenAccessTimeToLeave()))
+                .refreshTokenTimeToLive(Duration.ofSeconds(registration.getRefreshTokenAccessTimeToLeave()))
                 .build();
-        ObjectUtils.setIfNotNull(registrations.getId(), client::setClientId);
-        ObjectUtils.setIfNotNull(tokenSettings, client::setTokenSettings);
+        
+        CrclObjectUtils.setIfNotNull(registration.getId(), client::setClientId);
+        CrclObjectUtils.setIfNotNull(tokenSettings, client::setTokenSettings);
+        
         return client;
     }
 

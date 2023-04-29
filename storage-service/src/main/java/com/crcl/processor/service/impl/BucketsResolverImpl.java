@@ -24,7 +24,7 @@ public class BucketsResolverImpl implements BucketsResolver {
     public String resolve() {
         return jwtFilterInterceptor.getJwt().map(jwt -> {
             try {
-                final var bucketName = Objects.nonNull(jwt.getClaimAsString("username")) ? jwt.getClaimAsString("username") : jwt.getClaimAsString("sub");
+                var bucketName = Objects.nonNull(jwt.getClaimAsString("username")) ? jwt.getClaimAsString("username") : jwt.getClaimAsString("sub");
                 createBucketsInNotExists(bucketName);
                 return bucketName;
             } catch (Throwable e) {
@@ -44,7 +44,7 @@ public class BucketsResolverImpl implements BucketsResolver {
     private String createBucketsInNotExists(String bucket) {
         BucketExistsArgs existsArgs = BucketExistsArgs.builder().bucket(bucket).build();
         if (!minioClient.bucketExists(existsArgs)) {
-            final var makeBucketArgs = MakeBucketArgs.builder().bucket(bucket).build();
+            var makeBucketArgs = MakeBucketArgs.builder().bucket(bucket).build();
             minioClient.makeBucket(makeBucketArgs);
         }
         return bucket;
