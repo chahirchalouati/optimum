@@ -7,7 +7,6 @@ import com.crcl.post.synchronizers.ImageUploadSynchronizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 
@@ -18,7 +17,7 @@ public class EventQueueConsumer {
     private final ImageUploadSynchronizer synchronizer;
 
     @RabbitListener(queues = QueueDefinition.UPDATE_IMAGES_QUEUE)
-    public void consumeImageUploadEvent(Message<DefaultQEvent<ImageUpload>> message) {
-        this.synchronizer.synchronize(message.getPayload());
+    public void consumeImageUploadEvent(DefaultQEvent<ImageUpload> message) {
+        this.synchronizer.synchronize(message);
     }
 }

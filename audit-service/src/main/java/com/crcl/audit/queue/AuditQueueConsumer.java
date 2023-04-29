@@ -6,7 +6,6 @@ import com.crcl.common.utils.QueueDefinition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 
@@ -17,8 +16,8 @@ public class AuditQueueConsumer {
 
     private final AuditQueueProcessor queueProcessor;
 
-    @RabbitListener(queues = QueueDefinition.AUDIT_MESSAGE_QUEUE, messageConverter = "jsonMessageConverter")
-    public void consumeAuditEvent(Message<DefaultQEvent<AuditRequest>> message) {
-        queueProcessor.process(message.getPayload());
+    @RabbitListener(queues = QueueDefinition.AUDIT_MESSAGE_QUEUE)
+    public void consumeAuditEvent(DefaultQEvent<AuditRequest> message) {
+        queueProcessor.process(message);
     }
 }

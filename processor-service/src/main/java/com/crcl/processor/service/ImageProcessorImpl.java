@@ -2,11 +2,12 @@ package com.crcl.processor.service;
 
 
 import com.crcl.common.domain.Orientation;
+import com.crcl.common.dto.UserDto;
 import com.crcl.common.dto.queue.AuthenticatedQEvent;
 import com.crcl.common.dto.queue.DefaultQEvent;
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
-import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.clients.StorageClient;
 import com.crcl.processor.configuration.properties.ImageSizesProperties;
@@ -28,6 +29,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
+import java.util.Collection;
+import java.util.function.Consumer;
 
 @Service
 @Slf4j
@@ -42,41 +45,41 @@ public class ImageProcessorImpl implements ImageProcessor {
 
     @Override
     public void process(AuthenticatedQEvent<ImageUpload> event) {
-        final FileUploadResult response = event.getPayload().getResult();
+        FileUploadResult result = event.getPayload().getResult();
+        Collection<ImageSize> sizes = imageSizesProperties.getSizes().values();
 
-        storageClient.getObject(response.getName(), response.getEtag())
+        log.debug("Resized all image sizes for file record: {}", result);
+
+        storageClient.getObject(result.getName(), result.getEtag())
                 .zipWith(userService.getCurrentUser())
-                .subscribe(zipResult -> {
-                            ByteArrayResource resource = zipResult.getT1();
-                            var userDto = zipResult.getT2();
-                            for (ImageSize imageSize : imageSizesProperties.getSizes().values()) {
-                                try {
-                                    log.debug("Processing image with size {}", imageSize);
-                                    var newFileName = buildFileName(response.getName(), imageSize);
-                                    var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
-                                    var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
-                                    var orientation = getOrientation(inputStream);
-
-                                    var imageUploadEvent = new ImageUpload();
-                                    imageUploadEvent.setSize(imageSize);
-                                    imageUploadEvent.setOrientation(orientation);
-                                    imageUploadEvent.setResult(buildFileUploadResponse(uploadFileResponse));
-                                    imageUploadEvent.setId(response.getEtag());
-
-                                    var message = new DefaultQEvent<ImageUpload>();
-                                    message.setPayload(imageUploadEvent);
-
-                                    eventQueuePublisher.publish(message, QueueDefinition.UPDATE_IMAGES_QUEUE);
-                                    log.debug("Finished processing image with size {}", imageSize);
-                                } catch (Exception e) {
-                                    log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);
-                                }
-                            }
-                            log.debug("Resized all image sizes for file record: {}", response);
-                        }
-                );
+                .subscribe(zipResult -> sizes.forEach(doProcessImage(result, zipResult.getT1(), zipResult.getT2())));
     }
 
+    private Consumer<ImageSize> doProcessImage(FileUploadResult response, ByteArrayResource resource, UserDto userDto) {
+        return imageSize -> {
+            try {
+                log.debug("Processing image with size {}", imageSize);
+                var newFileName = buildFileName(response.getName(), imageSize);
+                var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
+                var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
+                var orientation = getOrientation(inputStream);
+
+                var uploadEvent = new ImageUpload();
+                uploadEvent.setSize(imageSize);
+                uploadEvent.setOrientation(orientation);
+                uploadEvent.setResult(buildFileUploadResponse(uploadFileResponse));
+                uploadEvent.setId(response.getEtag());
+
+                var message = new DefaultQEvent<ImageUpload>();
+                message.setPayload(uploadEvent);
+
+                eventQueuePublisher.publish(message, QueueDefinition.UPDATE_IMAGES_QUEUE);
+                log.debug("Finished processing image with size {}", imageSize);
+            } catch (Exception e) {
+                log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);
+            }
+        };
+    }
 
     private Orientation getOrientation(InputStream inputStream) {
 

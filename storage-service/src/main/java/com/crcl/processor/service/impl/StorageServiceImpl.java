@@ -1,7 +1,7 @@
 package com.crcl.processor.service.impl;
 
-import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.processor.domain.FileRecord;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
@@ -39,7 +39,7 @@ public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
-    private final ResizeImageQueuePublisher resizeImageQueueSender;
+    private final ResizeImageQueuePublisher imageQueuePublisher;
 
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {
@@ -161,7 +161,7 @@ public class StorageServiceImpl implements StorageService {
                 var request = new ImageUpload();
                 request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                resizeImageQueueSender.publishImageUploadEvent(request);
+                imageQueuePublisher.publishImageUploadEvent(request);
             }
         };
     }

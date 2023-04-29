@@ -4,13 +4,15 @@ import com.crcl.common.domain.Orientation;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+import java.time.Clock;
+import java.time.LocalDateTime;
+
 @Data
-public class ImageUpload extends Auditable {
+public class ImageUpload {
     private FileUploadResult result;
     private ImageSize size;
     private String id;
     private Orientation orientation;
+    protected LocalDateTime localDateTime = LocalDateTime.now(Clock.systemDefaultZone());
 }

@@ -8,7 +8,6 @@ import com.crcl.processor.queue.EventQueueConsumer;
 import com.crcl.processor.service.ImageProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,9 +16,9 @@ public class EventQueueConsumerImpl implements EventQueueConsumer {
     private final ImageProcessor imageProcessor;
 
     @SecurityContextInterceptor
-    @RabbitListener(queues = QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE)
-    public void onReceiveResizeImage(Message<AuthenticatedQEvent<ImageUpload>> message) {
-        imageProcessor.process(message.getPayload());
+    @RabbitListener(queues = QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE, messageConverter = "jsonMessageConverter")
+    public void onReceiveResizeImage(AuthenticatedQEvent<ImageUpload> message) {
+        imageProcessor.process(message);
     }
 }
 

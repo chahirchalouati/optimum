@@ -28,5 +28,6 @@
         <module>storage-service</module>
         <module>processor-service</module>
         <module>comment-service</module>
+        <module>audit-service</module>
     </modules>
 </project>

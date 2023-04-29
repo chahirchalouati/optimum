@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.messaging.Message;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -30,8 +29,7 @@ public class SecurityContextAspect {
     public Object applySecurityContext(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Applying security context to message");
         Object[] args = joinPoint.getArgs();
-        Message<AuthenticatedQEvent<ImageUpload>> message = (Message<AuthenticatedQEvent<ImageUpload>>) args[0];
-        AuthenticatedQEvent<ImageUpload> payload = message.getPayload();
+        AuthenticatedQEvent<ImageUpload> payload = (AuthenticatedQEvent<ImageUpload>) args[0];
         try {
             Jwt jwt = decoder.decode(payload.getToken());
             if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {

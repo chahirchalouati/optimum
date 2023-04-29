@@ -15,6 +15,12 @@ public class Tag {
     private UserDto userDto;
 
     public enum TagKind {
-        USER, POST, COMMENT, REPLY
+        USER,
+        POST,
+        COMMENT,
+        REPLY,
+        PAGE,
+        GROUP,
+        STORY
     }
 }

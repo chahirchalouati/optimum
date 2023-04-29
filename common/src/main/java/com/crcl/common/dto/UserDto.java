@@ -1,11 +1,13 @@
 package com.crcl.common.dto;
 
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@FieldNameConstants
 public class UserDto {
     private String firstName;
     private String lastName;

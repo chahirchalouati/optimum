@@ -1,5 +1,6 @@
 package com.crcl.notification.queue;
 
+import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.utils.QueueDefinition;
@@ -16,8 +17,8 @@ public class NotificationQueueConsumerImpl implements NotificationQueueConsumer 
     private final NotificationService notificationService;
 
     @RabbitListener(queues = QueueDefinition.NOTIFY_POST_CREATED_QUEUE)
-    public void consume(Message<QEvent<NotificationRequest>> request) {
+    public void consume(DefaultQEvent<NotificationRequest> request) {
         var event = request.getPayload();
-        this.notificationService.notify(event.getPayload());
+        this.notificationService.notify(event);
     }
 }
