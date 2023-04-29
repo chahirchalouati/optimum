@@ -8,7 +8,8 @@ import reactivefeign.spring.config.ReactiveFeignClient;
 import reactor.core.publisher.Mono;
 
 
-@ReactiveFeignClient(name = "${client.storage.name}",
+@ReactiveFeignClient(
+        name = "${client.storage.name}",
         url = "${client.storage.url}",
         configuration = {OAuthFeignConfig.class})
 public interface StorageClient {
