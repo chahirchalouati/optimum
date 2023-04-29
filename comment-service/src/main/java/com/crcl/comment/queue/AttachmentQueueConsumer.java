@@ -2,7 +2,7 @@ package com.crcl.comment.queue;
 
 import com.crcl.comment.service.AttachmentService;
 import com.crcl.common.dto.queue.DefaultQEvent;
-import com.crcl.common.queue.ImageUpload;
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.utils.QueueDefinition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

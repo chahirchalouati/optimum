@@ -5,7 +5,7 @@ import com.crcl.comment.service.AttachmentService;
 import com.crcl.common.dto.ResizedImageDetails;
 import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
-import com.crcl.common.queue.ImageUpload;
+import com.crcl.common.dto.queue.ImageUpload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,11 +19,11 @@ public class AttachmentServiceImpl implements AttachmentService {
     @Override
     public void updateByEtag(DefaultQEvent<ImageUpload> message) {
         ImageUpload imageUpload = message.getPayload();
-        FileUploadResult response = imageUpload.getResponse();
+        FileUploadResult response = imageUpload.getResult();
         log.info("Updating attachment with eTag: " + response.getEtag());
         attachmentRepository.findByEtag(imageUpload.getId()).stream().findFirst().ifPresent(
                 attachment -> {
-                    var imageSize = imageUpload.getImageSize();
+                    var imageSize = imageUpload.getSize();
                     var details = new ResizedImageDetails()
                             .setDetails(response)
                             .setDimensions(imageSize);

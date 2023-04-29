@@ -3,7 +3,7 @@ package com.crcl.post.synchronizers;
 import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
-import com.crcl.common.queue.ImageUpload;
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.post.domain.Image;
 import com.crcl.post.domain.Post;
 import com.crcl.post.repository.PostRepository;
@@ -30,8 +30,8 @@ public class ImageUploadSynchronizer implements Synchronizer<ImageUpload> {
     @Override
     public void synchronize(QEvent<ImageUpload> event) {
         var imageId = event.getPayload().getId();
-        var fileUploadResult = event.getPayload().getResponse();
-        var imageSize = event.getPayload().getImageSize();
+        var fileUploadResult = event.getPayload().getResult();
+        var imageSize = event.getPayload().getSize();
 
         Optional<Post> optionalPost = postRepository.findByImageId(imageId);
         optionalPost.ifPresent(

@@ -22,11 +22,11 @@
         <module>configuration-service</module>
         <module>proxy-service</module>
         <module>post-service</module>
-        <module>authentication-service</module>
+        <module>authorization-server</module>
         <module>notification-service</module>
         <module>profile-service</module>
         <module>storage-service</module>
-        <module>media-processor-service</module>
+        <module>processor-service</module>
         <module>comment-service</module>
     </modules>
 </project>

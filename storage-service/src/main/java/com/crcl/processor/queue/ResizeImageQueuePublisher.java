@@ -1,7 +1,7 @@
 package com.crcl.processor.queue;
 
 
-import com.crcl.common.queue.ImageUpload;
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.processor.service.UserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 

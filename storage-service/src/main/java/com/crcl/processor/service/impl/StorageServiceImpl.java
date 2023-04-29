@@ -1,7 +1,7 @@
 package com.crcl.processor.service.impl;
 
 import com.crcl.common.dto.responses.FileUploadResult;
-import com.crcl.common.queue.ImageUpload;
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.processor.domain.FileRecord;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
@@ -159,7 +159,7 @@ public class StorageServiceImpl implements StorageService {
                         .setName(record.getName())
                         .setVersion(record.getVersion());
                 var request = new ImageUpload();
-                request.setResponse(result);
+                request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
                 resizeImageQueueSender.publishImageUploadEvent(request);
             }
