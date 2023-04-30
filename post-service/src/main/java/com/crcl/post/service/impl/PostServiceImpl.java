@@ -1,5 +1,7 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.common.dto.UserDto;
+import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.exceptions.EntityNotFoundException;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
@@ -11,6 +13,7 @@ import com.crcl.post.domain.Tag;
 import com.crcl.post.domain.Video;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
+import com.crcl.post.dto.ProfileDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;
@@ -22,11 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.crcl.post.utils.CrclFileUtils.hasFiles;
@@ -55,18 +58,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    @Transactional
     public PostDto save(@ValidCreatePostRequest CreatePostRequest request) {
         Post post = postMapper.toEntity(request);
+
         applyIf(hasFiles(request.getFiles()), () -> addFiles(request, post));
         applyIfNotEmpty(request.getSharedWithUsers(), () -> addSharedWithUsers(request, post));
         applyIfNotEmpty(request.getTags(), () -> addPostTags(request, post));
         applyIfNotEmpty(request.getTaggedUsers(), () -> addTaggedUsers(request, post));
-        post.setCreator(profileClient.findByUsername(userService.getCurrentUser().getUsername()));
-        PostDto savedPost = postMapper.toDto(postRepository.save(post));
-        queueService.publishCreatePostEvent(savedPost);
 
-        return savedPost;
+        ProfileDto currentUserProfile = profileClient.findByUsername(userService.getCurrentUser().getUsername());
+        post.setCreator(currentUserProfile);
+
+        PostDto storedPost = postMapper.toDto(postRepository.save(post));
+
+        queueService.publishCreatePostEvent(storedPost);
+
+        return storedPost;
     }
 
     @Override
@@ -115,32 +122,8 @@ public class PostServiceImpl implements PostService {
     }
 
     private void addSharedWithUsers(CreatePostRequest request, Post post) {
-        var users = idpClient.findByUsername(new LinkedHashSet<>(request.getSharedWithUsers()));
+        List<UserDto> users = idpClient.findByUsername(new LinkedHashSet<>(request.getSharedWithUsers()));
         post.setSharedWithUsers(new LinkedHashSet<>(users));
-    }
-
-    private void addFiles(CreatePostRequest request, Post post) {
-        var index = new AtomicInteger(0);
-        var results = storageClient.saveAll(request.getFiles());
-
-        results.stream()
-                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("image"))
-                .map(file -> new Image()
-                        .setId(file.getEtag())
-                        .setIndex(index.getAndIncrement())
-                        .setContentType(file.getContentType())
-                        .setUrl(file.getLink()))
-                .forEach(image -> post.getImages().add(image));
-
-        index.set(0);
-
-        results.stream()
-                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("video"))
-                .map(file -> new Video()
-                        .setId(file.getEtag())
-                        .setIndex(index.incrementAndGet())
-                        .setUrl(file.getLink()))
-                .forEach(video -> post.getVideos().add(video));
     }
 
     private void addTaggedUsers(CreatePostRequest request, Post post) {
@@ -160,4 +143,35 @@ public class PostServiceImpl implements PostService {
         post.setTags(new LinkedHashSet<>(tags));
     }
 
+    private void addFiles(CreatePostRequest request, Post post) {
+        AtomicInteger index = new AtomicInteger(0);
+        List<FileUploadResult> results = storageClient.saveAll(request.getFiles());
+
+        results.stream()
+                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("image"))
+                .map(buildImage(index))
+                .forEach(image -> post.getImages().add(image));
+
+        index.set(0);
+
+        results.stream()
+                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("video"))
+                .map(buildVideo(index))
+                .forEach(video -> post.getVideos().add(video));
+    }
+
+    private Function<FileUploadResult, Image> buildImage(AtomicInteger index) {
+        return file -> new Image()
+                .setId(file.getEtag())
+                .setIndex(index.getAndIncrement())
+                .setContentType(file.getContentType())
+                .setUrl(file.getLink());
+    }
+
+    private Function<FileUploadResult, Video> buildVideo(AtomicInteger index) {
+        return file -> new Video()
+                .setId(file.getEtag())
+                .setIndex(index.incrementAndGet())
+                .setUrl(file.getLink());
+    }
 }

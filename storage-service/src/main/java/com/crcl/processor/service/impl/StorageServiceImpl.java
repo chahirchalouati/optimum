@@ -3,6 +3,7 @@ package com.crcl.processor.service.impl;
 import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.processor.domain.FileRecord;
+import com.crcl.processor.dto.WriteResponse;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
 import com.crcl.processor.queue.ResizeImageQueuePublisher;
@@ -28,6 +29,8 @@ import java.io.InputStream;
 import java.net.URLConnection;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -36,6 +39,7 @@ import java.util.function.Function;
 @Slf4j
 public class StorageServiceImpl implements StorageService {
 
+    private static final String FILE_TAG_KEY = "file_tag_key";
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
@@ -66,10 +70,10 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     @SneakyThrows
-    public Mono<ByteArrayResource> getResource(String fileName, String owner, String bucket) {
+    public Mono<ByteArrayResource> getResource(String fileName, String eTag, String bucket) {
         var getObjectArgs = GetObjectArgs.builder()
                 .object(fileName)
-                .matchETag(owner)
+                .extraQueryParams(Collections.singletonMap("tags", eTag))
                 .bucket(bucket)
                 .build();
 
@@ -91,10 +95,12 @@ public class StorageServiceImpl implements StorageService {
                 var filename = zip.getT2().filename();
                 int available = inputStream.available();
 
+                String timestamp = Long.toString(System.currentTimeMillis());
                 return PutObjectArgs.builder()
                         .extraHeaders(zip.getT2().headers().toSingleValueMap())
                         .bucket(bucketsResolver.resolve())
                         .object(filename)
+                        .tags(Collections.singletonMap(FILE_TAG_KEY, timestamp + "_" + UUID.randomUUID()))
                         .stream(inputStream, available, -1)
                         .contentType(URLConnection.guessContentTypeFromName(filename))
                         .build();
@@ -111,10 +117,11 @@ public class StorageServiceImpl implements StorageService {
                 .map(dataBuffer -> new ByteArrayInputStream(dataBuffer.asByteBuffer().array()));
     }
 
-    private Function<PutObjectArgs, ObjectWriteResponse> uploadFile() {
+    private Function<PutObjectArgs, WriteResponse> uploadFile() {
         return args -> {
             try {
-                return minioClient.putObject(args);
+                ObjectWriteResponse objectWriteResponse = minioClient.putObject(args);
+                return new WriteResponse(objectWriteResponse, args.tags().get());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -139,26 +146,29 @@ public class StorageServiceImpl implements StorageService {
         }
     }
 
-    private Function<ObjectWriteResponse, FileRecord> buildFileRecord() {
-        return response -> new FileRecord()
-                .setType(URLConnection.guessContentTypeFromName(response.object()))
-                .setTag(response.etag())
-                .setName(response.object())
-                .setBucket(response.bucket())
-                .setVersion(response.versionId());
+    private Function<WriteResponse, FileRecord> buildFileRecord() {
+        return response -> {
+            ObjectWriteResponse writeResponse = response.getWriteResponse();
+            return new FileRecord()
+                    .setType(URLConnection.guessContentTypeFromName(writeResponse.object()))
+                    .setTag(response.getTags().get(FILE_TAG_KEY))
+                    .setName(writeResponse.object())
+                    .setBucket(writeResponse.bucket())
+                    .setVersion(writeResponse.versionId());
+        };
     }
 
     private Consumer<FileRecord> publishImageUploadEvent() {
         return record -> {
             boolean isImage = FileExtensionUtils.isImage(record.getName());
             if (isImage) {
-                var result = new FileUploadResult()
+                FileUploadResult result = new FileUploadResult()
                         .setContentType(record.getType())
                         .setBucket(record.getBucket())
                         .setEtag(record.getTag())
                         .setName(record.getName())
                         .setVersion(record.getVersion());
-                var request = new ImageUpload();
+                ImageUpload request = new ImageUpload();
                 request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
                 imageQueuePublisher.publishImageUploadEvent(request);

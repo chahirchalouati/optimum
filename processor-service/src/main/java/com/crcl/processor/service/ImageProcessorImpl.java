@@ -30,12 +30,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ImageProcessorImpl implements ImageProcessor {
+    private static final String FILE_TAG_KEY = "file_tag_key";
 
     private final UserService userService;
     private final StorageClient storageClient;
@@ -87,14 +90,17 @@ public class ImageProcessorImpl implements ImageProcessor {
             if (inputStream.markSupported()) {
                 inputStream.reset();
             }
+
             BufferedImage image = ImageIO.read(inputStream);
-            int width = image.getWidth();
-            int height = image.getHeight();
+            final int width = image.getWidth();
+            final int height = image.getHeight();
+
             if (width > height) {
                 return Orientation.LANDSCAPE;
             } else {
                 return Orientation.PORTRAIT;
             }
+
         } catch (IOException e) {
             System.out.println("Failed to read image file: " + e.getMessage());
         }
@@ -114,12 +120,14 @@ public class ImageProcessorImpl implements ImageProcessor {
         String[] parts = fileName.split("\\.");
         String fileNameWithoutExtension = parts[parts.length - 2];
         String extension = getFileExtension(fileName);
+
         return fileNameWithoutExtension + imageSize.getLabel() + "." + extension;
     }
 
     private String getFileExtension(String fileName) {
         String[] parts = fileName.split("\\.");
         Assert.notNull(parts[parts.length - 1], "File extension cannot be null for file name: " + fileName);
+
         return parts[parts.length - 1];
     }
 
@@ -134,8 +142,10 @@ public class ImageProcessorImpl implements ImageProcessor {
     }
 
     private ObjectWriteResponse uploadFile(String userBucket, String newFileName, InputStream inputStream) throws Exception {
+        String timestamp = Long.toString(System.currentTimeMillis());
         PutObjectArgs args = PutObjectArgs.builder()
                 .bucket(userBucket)
+                .tags(Collections.singletonMap(FILE_TAG_KEY, timestamp + "_" + UUID.randomUUID()))
                 .object(newFileName)
                 .stream(inputStream, inputStream.available(), -1)
                 .contentType(URLConnection.guessContentTypeFromName(newFileName))
@@ -143,7 +153,6 @@ public class ImageProcessorImpl implements ImageProcessor {
         log.debug("Saved resized image to MinIO with file name {}", newFileName);
 
         return minioClient.putObject(args);
-
     }
 
 }

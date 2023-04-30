@@ -5,7 +5,9 @@ import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Document
@@ -22,5 +24,5 @@ public class FileRecord {
     private String type;
     private String url;
     private Set<String> records = new HashSet<>();
-
+    private Map<String, String> tags = new HashMap<>();
 }

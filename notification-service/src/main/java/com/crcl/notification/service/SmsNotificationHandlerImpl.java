@@ -1,6 +1,5 @@
 package com.crcl.notification.service;
 
-import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.common.queue.QueuePublisher;
@@ -18,8 +17,9 @@ public class SmsNotificationHandlerImpl extends NotificationHandler {
         return null;
     }
 
+
     @Override
-    public void notifyAsync(QEvent<NotificationRequest> request, NotificationType type) {
+    public void notifyAsync(NotificationRequest request, NotificationType type) {
 
     }
 

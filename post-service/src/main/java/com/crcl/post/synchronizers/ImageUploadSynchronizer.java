@@ -1,9 +1,9 @@
 package com.crcl.post.synchronizers;
 
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
-import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.post.domain.Image;
 import com.crcl.post.domain.Post;
 import com.crcl.post.repository.PostRepository;
@@ -29,16 +29,19 @@ public class ImageUploadSynchronizer implements Synchronizer<ImageUpload> {
 
     @Override
     public void synchronize(QEvent<ImageUpload> event) {
-        var imageId = event.getPayload().getId();
-        var fileUploadResult = event.getPayload().getResult();
-        var imageSize = event.getPayload().getSize();
+        String imageId = event.getPayload().getId();
+        FileUploadResult fileUploadResult = event.getPayload().getResult();
+        ImageSize imageSize = event.getPayload().getSize();
 
-        Optional<Post> optionalPost = postRepository.findByImageId(imageId);
-        optionalPost.ifPresent(
+        Optional<Post> post = postRepository.findByImageId(imageId);
+
+        post.ifPresent(
                 storedPost -> storedPost.getImages().stream()
                         .filter(filterImageById(imageId))
                         .findFirst()
-                        .ifPresentOrElse(addResizedImage(fileUploadResult, imageSize, optionalPost), () -> log.info("no image found for id %s".formatted(imageId)))
+                        .ifPresentOrElse(
+                                addResizedImage(fileUploadResult, imageSize, post),
+                                () -> log.info("no image found for id %s".formatted(imageId)))
         );
     }
 

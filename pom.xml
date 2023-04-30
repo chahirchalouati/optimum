@@ -19,10 +19,10 @@
 
     <modules>
         <module>common</module>
+        <module>authorization-server</module>
         <module>configuration-service</module>
         <module>proxy-service</module>
         <module>post-service</module>
-        <module>authorization-server</module>
         <module>notification-service</module>
         <module>profile-service</module>
         <module>storage-service</module>

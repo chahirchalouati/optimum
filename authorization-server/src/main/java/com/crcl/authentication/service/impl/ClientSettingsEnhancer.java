@@ -28,10 +28,10 @@ public class ClientSettingsEnhancer implements Enhancer<Client> {
                 .accessTokenTimeToLive(Duration.ofSeconds(registration.getTokenAccessTimeToLeave()))
                 .refreshTokenTimeToLive(Duration.ofSeconds(registration.getRefreshTokenAccessTimeToLeave()))
                 .build();
-        
+
         CrclObjectUtils.setIfNotNull(registration.getId(), client::setClientId);
         CrclObjectUtils.setIfNotNull(tokenSettings, client::setTokenSettings);
-        
+
         return client;
     }
 

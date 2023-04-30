@@ -1,12 +1,8 @@
 package com.crcl.comment.queue;
 
 import com.crcl.comment.service.AttachmentService;
-import com.crcl.common.dto.queue.DefaultQEvent;
-import com.crcl.common.dto.queue.ImageUpload;
-import com.crcl.common.utils.QueueDefinition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 
@@ -16,10 +12,10 @@ import org.springframework.stereotype.Component;
 public class AttachmentQueueConsumer {
     private final AttachmentService attachmentService;
 
-    @RabbitListener(queues = QueueDefinition.UPDATE_IMAGES_QUEUE)
-    public void consumeImageUploadEvent(DefaultQEvent<ImageUpload> message) {
-        attachmentService.updateByEtag(message.getPayload());
-    }
+//    @RabbitListener(queues = QueueDefinition.UPDATE_IMAGES_QUEUE)
+//    public void consumeImageUploadEvent(DefaultQEvent<ImageUpload> message) {
+//        attachmentService.updateByEtag(message.getPayload());
+//    }
 
 
 }

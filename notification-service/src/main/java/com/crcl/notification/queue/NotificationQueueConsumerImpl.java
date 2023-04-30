@@ -1,13 +1,11 @@
 package com.crcl.notification.queue;
 
 import com.crcl.common.dto.queue.DefaultQEvent;
-import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 @Component

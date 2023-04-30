@@ -1,11 +1,13 @@
 package com.crcl.notification.service;
 
 import com.crcl.common.dto.UserDto;
+import com.crcl.common.dto.queue.DefaultQEvent;
 import com.crcl.common.dto.queue.QEvent;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.common.queue.QueuePublisher;
 import com.crcl.common.utils.NotificationTargets;
+import com.crcl.common.utils.QueueDefinition;
 import com.crcl.notification.client.SrvIdpClient;
 import com.crcl.notification.domain.NotificationType;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -34,10 +37,11 @@ public class EmailNotificationHandlerImpl extends NotificationHandler {
         String mailContent = templateGenerator.generate((LinkedHashMap<String, Object>) request.getPayload(), type.getTemplateId());
         if (type.getNotificationTargets() == NotificationTargets.All_FRIENDS) {
             Page<UserDto> friends = srvIdpClient.findFriends(request.getSender(), PageRequest.ofSize(100)).block();
-            do {
-                assert friends != null;
-                friends.forEach(userDto -> mailService.send(mailContent, new String[]{userDto.getEmail()}, null, type.getSubject()));
-            } while (!friends.isLast());
+            if (Objects.nonNull(friends)) {
+                do {
+                    friends.forEach(userDto -> mailService.send(mailContent, new String[]{userDto.getEmail()}, null, type.getSubject()));
+                } while (!friends.isLast());
+            }
         } else {
             type.getTargets().forEach(target -> mailService.send(mailContent, new String[]{target}, null, type.getSubject()));
         }
@@ -48,7 +52,11 @@ public class EmailNotificationHandlerImpl extends NotificationHandler {
     }
 
     @Override
-    public void notifyAsync(QEvent<NotificationRequest> request, NotificationType type) {
+    public void notifyAsync(NotificationRequest request, NotificationType type) {
+        if (type.isAsync()) {
+            QEvent<NotificationRequest> event = new DefaultQEvent<NotificationRequest>().setPayload(request);
+            queuePublisher.publish(event, QueueDefinition.NOTIFY_ASYNC_QUEUE);
+        }
     }
 
     @Override

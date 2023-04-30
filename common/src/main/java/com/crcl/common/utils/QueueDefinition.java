@@ -12,4 +12,7 @@ public interface QueueDefinition {
 
     // audits queues
     String NOTIFY_POST_CREATED_QUEUE = "notify_post_created_queue";
+
+    // generic
+    String NOTIFY_ASYNC_QUEUE = "notify_async_queue";
 }
