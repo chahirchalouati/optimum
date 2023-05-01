@@ -1,5 +1,5 @@
-import {Pageable} from "./Pageable";
-import Selectable = Pageable.Selectable;
+import {Selectable} from "./Pageable";
+
 
 export default interface Profile extends Selectable {
   email: string;

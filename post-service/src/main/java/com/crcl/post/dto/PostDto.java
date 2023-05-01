@@ -1,9 +1,12 @@
 package com.crcl.post.dto;
 
 import com.crcl.post.domain.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,4 +29,10 @@ public class PostDto {
     private int likesCount = 0;
     private int disLikesCount = 0;
     private Map<String, Boolean> actions = new HashMap<>();
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private LocalDateTime createDate;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private LocalDateTime lastModifiedDate;
 }

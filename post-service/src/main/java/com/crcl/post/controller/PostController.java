@@ -4,11 +4,11 @@ import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/posts")
@@ -24,8 +24,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostDto>> getAllPosts() {
-        List<PostDto> posts = postService.findAll();
+    public ResponseEntity<Page<PostDto>> getAllPosts(Pageable pageable) {
+        Page<PostDto> posts = postService.findAll(pageable);
         return ResponseEntity.ok(posts);
     }
 

@@ -35,6 +35,8 @@ public abstract class PostMapper implements GenericMapper<Post, PostDto> {
         postDto.setContent(entity.getContent());
         postDto.setCreator(entity.getCreator());
         postDto.setAccess(entity.getAccess());
+        postDto.setCreateDate(entity.getCreateDate());
+        postDto.setLastModifiedDate(entity.getLastModifiedDate());
         Set<Video> videos = entity.getVideos();
         if (videos != null) {
             postDto.setVideos(new LinkedHashSet<>(videos));
@@ -54,6 +56,7 @@ public abstract class PostMapper implements GenericMapper<Post, PostDto> {
         postDto.setLikesCount(postDto.getLikes().size());
         postDto.setShareCount(postDto.getLikes().size());
         postDto.setCommentCount(commentClient.countByPost(entity.getId()));
+
         validators.forEach(actionValidator -> actionValidator.validate(postDto));
         return postDto;
     }

@@ -1,13 +1,14 @@
-export namespace Pageable {
-  export interface Sort {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  }
+export type Direction = "DESC" | "ASC";
 
-  export interface Pageable {
-    sort: Sort;
-    pagingState: string;
+export interface Sort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
+
+export interface Pageable {
+  sort: Sort;
+  pagingState: string;
     offset: number;
     pageNumber: number;
     pageSize: number;
@@ -34,32 +35,28 @@ export namespace Pageable {
     selected: boolean = false;
   }
 
-  export interface PageRequest {
-    page?: number,
-    size?: number,
-    sort?: string[]
+export interface PageRequest {
+  page?: number;
+  size?: number;
+  sort?: string[];
+}
+
+
+export class Sortable {
+  private readonly field: string;
+  private readonly direction: Direction;
+
+  private constructor(field: string, direction: Direction) {
+    this.field = field;
+    this.direction = direction;
   }
 
-  export type Direction = "DESC" | "ASC";
+  public static with(field: string, direction: Direction) {
+    return new Sortable(field, direction).param();
+  }
 
-  export class Sorted {
-    private field: string;
-    private direction: Direction;
-
-    private constructor(field: string, direction: Pageable.Direction) {
-      this.field = field;
-      this.direction = direction;
-    }
-
-    public static with(field: string, direction: Direction) {
-      return new Sorted(field, direction).param();
-    }
-
-    private param(): Array<string> {
-      return [`sort=${this.field}`, `${this.field}dir=${this.direction.toLowerCase()}`];
-    }
+  private param(): string {
+    return `${this.field},${this.direction.toLowerCase()}`;
   }
 }
 
-export class Sorted {
-}

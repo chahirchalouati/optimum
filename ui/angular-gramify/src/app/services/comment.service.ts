@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Pageable} from "../shared/domain/Pageable";
+import {Page, PageRequest} from "../shared/domain/Pageable";
 import {Observable} from "rxjs";
 import Comment from "../shared/domain/Comment";
 import {environment} from "../../environment/environment";
@@ -13,16 +13,16 @@ export class CommentService {
   constructor(private httpClient: HttpClient) {
   }
 
-  get(id: number, pageRequest: Pageable.PageRequest): Observable<Pageable.Page<Comment>> {
-    return this.httpClient.get<Pageable.Page<Comment>>(environment.api.comment.COMMENT_GET_PAGE + "/" + id, {
+  get(id: number, pageRequest: PageRequest): Observable<Page<Comment>> {
+    return this.httpClient.get<Page<Comment>>(environment.api.comment.COMMENT_GET_PAGE + "/" + id, {
       params: {
         ...pageRequest
       }
     });
   }
 
-  getId(id: string | number): Observable<Pageable.Page<Comment>> {
-    return this.httpClient.get<Pageable.Page<Comment>>(environment.api.comment.COMMENT_GET_BY_ID, {params: {id}});
+  getId(id: string | number): Observable<Page<Comment>> {
+    return this.httpClient.get<Page<Comment>>(environment.api.comment.COMMENT_GET_BY_ID, {params: {id}});
   }
 
   post(payload: Comment): Observable<Comment> {

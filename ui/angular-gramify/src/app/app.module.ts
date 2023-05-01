@@ -32,6 +32,7 @@ import {NavBarComponent} from './shared/components/nav-bar/nav-bar.component';
 import {NzImageModule} from "ng-zorro-antd/image";
 import {NzDividerModule} from "ng-zorro-antd/divider";
 import {NzGridModule} from "ng-zorro-antd/grid";
+import {NzCardModule} from "ng-zorro-antd/card";
 
 registerLocaleData(it);
 
@@ -53,24 +54,25 @@ registerLocaleData(it);
     IndexedPipe,
     NavBarComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    CommonModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    NzInputModule,
-    NzLayoutModule,
-    NzSpaceModule,
-    NzAvatarModule,
-    NzDropDownModule,
-    NzImageModule,
-    NgOptimizedImage,
-    NzDividerModule,
-    NzGridModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        CommonModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        NzInputModule,
+        NzLayoutModule,
+        NzSpaceModule,
+        NzAvatarModule,
+        NzDropDownModule,
+        NzImageModule,
+        NgOptimizedImage,
+        NzDividerModule,
+        NzGridModule,
+        NzCardModule,
+    ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: ApiInterceptor,

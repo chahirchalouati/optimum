@@ -4,9 +4,12 @@ import com.crcl.common.dto.UserDto;
 import com.crcl.post.dto.ProfileDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,4 +27,9 @@ public class Post {
     private Set<Tag> tags = new HashSet<>();
     private Set<Like> likes = new HashSet<>();
     private Set<UserDto> sharedWithUsers = new HashSet<>();
+
+    @CreatedDate
+    private LocalDateTime createDate;
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 }
