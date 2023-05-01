@@ -1,6 +1,6 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.queue.AuthenticatedQEvent;
+import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.common.dto.queue.ImageUpload;
 
 public interface EventQueueConsumer {

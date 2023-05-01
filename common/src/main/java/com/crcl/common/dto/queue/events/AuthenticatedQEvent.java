@@ -1,4 +1,4 @@
-package com.crcl.common.dto.queue;
+package com.crcl.common.dto.queue.events;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

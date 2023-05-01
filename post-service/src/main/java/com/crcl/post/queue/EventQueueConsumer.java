@@ -1,6 +1,6 @@
 package com.crcl.post.queue;
 
-import com.crcl.common.dto.queue.DefaultQEvent;
+import com.crcl.common.dto.queue.events.DefaultQEvent;
 import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.synchronizers.ImageUploadSynchronizer;

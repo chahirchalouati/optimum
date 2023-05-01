@@ -1,7 +1,7 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.queue.DefaultQEvent;
-import com.crcl.common.dto.queue.QEvent;
+import com.crcl.common.dto.queue.events.DefaultQEvent;
+import com.crcl.common.dto.queue.events.QEvent;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.queue.QueuePublisher;
 import com.crcl.common.utils.NotificationDefinition;

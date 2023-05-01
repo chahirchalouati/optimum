@@ -1,6 +1,6 @@
 package com.crcl.audit.queue;
 
-import com.crcl.common.dto.queue.DefaultQEvent;
+import com.crcl.common.dto.queue.events.DefaultQEvent;
 import com.crcl.common.dto.requests.AuditRequest;
 import com.crcl.common.utils.QueueDefinition;
 import lombok.RequiredArgsConstructor;

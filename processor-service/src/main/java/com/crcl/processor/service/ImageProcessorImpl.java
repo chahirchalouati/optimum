@@ -3,8 +3,8 @@ package com.crcl.processor.service;
 
 import com.crcl.common.domain.Orientation;
 import com.crcl.common.dto.UserDto;
-import com.crcl.common.dto.queue.AuthenticatedQEvent;
-import com.crcl.common.dto.queue.DefaultQEvent;
+import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.common.dto.queue.events.DefaultQEvent;
 import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;

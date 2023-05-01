@@ -14,4 +14,17 @@ export namespace ObjectsUtils {
     }
     return false;
   }
+
+
+}
+
+export namespace StringUtils{
+  export function isBlank(obj: any) {
+    if (obj === null || obj === undefined)
+      return true;
+    if (obj instanceof String) {
+      return !!obj && obj.length > 0 && obj.trim().length > 0;
+    }
+    return false;
+  }
 }

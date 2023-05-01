@@ -1,7 +1,7 @@
 package com.crcl.post.synchronizers;
 
 import com.crcl.common.dto.queue.ImageUpload;
-import com.crcl.common.dto.queue.QEvent;
+import com.crcl.common.dto.queue.events.QEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
 import com.crcl.post.domain.Image;
@@ -40,13 +40,15 @@ public class ImageUploadSynchronizer implements Synchronizer<ImageUpload> {
                         .filter(filterImageById(imageId))
                         .findFirst()
                         .ifPresentOrElse(
-                                addResizedImage(fileUploadResult, imageSize, post),
-                                () -> log.info("no image found for id %s".formatted(imageId)))
-        );
+                                addResizedImage(fileUploadResult, imageSize, post.get()),
+                                () -> log.info("No image found for id %s".formatted(imageId))
+                        ));
     }
 
     @NotNull
-    private Consumer<Image> addResizedImage(FileUploadResult fileUploadResult, ImageSize imageSize, Optional<Post> postOptional) {
+    private Consumer<Image> addResizedImage(FileUploadResult fileUploadResult,
+                                            ImageSize imageSize,
+                                            Post post) {
         return image -> {
             var imageToStore = new Image()
                     .setImageSize(imageSize)
@@ -54,7 +56,7 @@ public class ImageUploadSynchronizer implements Synchronizer<ImageUpload> {
                     .setContentType(fileUploadResult.getContentType())
                     .setUrl(fileUploadResult.getLink());
             image.getProcessedImages().add(imageToStore);
-            postRepository.save(postOptional.get());
+            postRepository.save(post);
         };
     }
 }
