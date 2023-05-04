@@ -1,4 +1,4 @@
-package com.crcl.notification.configuration.Oauth2;
+package com.crcl.userInfo.configuration.Oauth2;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

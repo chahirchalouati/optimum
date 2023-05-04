@@ -1,4 +1,4 @@
-package com.crcl.notification.configuration.Oauth2;
+package com.crcl.userInfo.configuration.Oauth2;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

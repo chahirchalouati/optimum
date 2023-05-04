@@ -23,6 +23,7 @@ public class ResourceServerConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                         .antMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                        .antMatchers("/websocket/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);

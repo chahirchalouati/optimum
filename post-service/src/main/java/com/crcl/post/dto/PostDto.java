@@ -1,5 +1,6 @@
 package com.crcl.post.dto;
 
+import com.crcl.common.dto.UserDto;
 import com.crcl.post.domain.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +25,7 @@ public class PostDto {
     private Set<Image> images = new HashSet<>();
     private Set<Tag> tags = new HashSet<>();
     private Set<Like> likes = new HashSet<>();
+    private Set<UserDto> sharedWithUsers = new HashSet<>();
     private int commentCount = 0;
     private int shareCount = 0;
     private int likesCount = 0;

@@ -1,4 +1,4 @@
-package com.crcl.notification.configuration.Oauth2;
+package com.crcl.userInfo.configuration.Oauth2;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.crcl.notification.configuration.Oauth2.ServerRequestInterceptor.BEARER_TOKEN_TYPE;
+import static com.crcl.userInfo.configuration.Oauth2.ServerRequestInterceptor.BEARER_TOKEN_TYPE;
 import static org.springframework.security.oauth2.core.AuthorizationGrantType.CLIENT_CREDENTIALS;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
 

@@ -1,4 +1,4 @@
-package com.crcl.notification.configuration.Oauth2;
+package com.crcl.userInfo.configuration.Oauth2;
 
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.stereotype.Component;

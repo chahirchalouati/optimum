@@ -1,4 +1,4 @@
-package com.crcl.notification.configuration.Oauth2;
+package com.crcl.userInfo.configuration.Oauth2;
 
 import com.crcl.common.configuration.SwaggerConfiguration;
 import com.crcl.common.properties.ApiProperties;
