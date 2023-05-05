@@ -3,6 +3,7 @@ package com.crcl.authentication.domain;
 import com.crcl.authentication.annotation.UniqueEmail;
 import com.crcl.authentication.annotation.UniqueUserName;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Getter(AccessLevel.NONE)
 @ToString
 @EqualsAndHashCode
+@FieldNameConstants()
 public class User implements UserDetails {
     @Id
     private String id;
@@ -42,7 +44,7 @@ public class User implements UserDetails {
     private String avatar;
     @NotBlank
     private Gender gender;
-    @Getter
+    @Getter(AccessLevel.NONE)
     private Set<Role> roles = new HashSet<>();
     private boolean isAccountNonExpired = true;
     private boolean isEnabled = true;

@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toSet;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.ACCESS_TOKEN;
 
 
@@ -23,28 +24,29 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
         final Authentication principal = context.getPrincipal();
         boolean isToken = Objects.equals(context.getTokenType().getValue(), ACCESS_TOKEN);
         if (isToken && principal instanceof UsernamePasswordAuthenticationToken) {
-            var user = (User) principal.getPrincipal();
+            User user = (User) principal.getPrincipal();
             context.getClaims()
-                    .claim("email", user.getEmail())
-                    .claim("username", user.getUsername())
-                    .claim("firstName", user.getFirstName())
-                    .claim("lastName", user.getLastName())
-                    .claim("email", user.getLastName())
-                    .claim("roles", getAuthorities(user.getRoles()));
+                    .claim(User.Fields.id, user.getId())
+                    .claim(User.Fields.email, user.getEmail())
+                    .claim(User.Fields.username, user.getUsername())
+                    .claim(User.Fields.firstName, user.getFirstName())
+                    .claim(User.Fields.lastName, user.getLastName())
+                    .claim(User.Fields.roles, getAuthorities(user.getRoles()));
         }
     }
 
     public Set<String> getAuthorities(Set<Role> roles) {
-        final Stream<String> permissionsStream = roles.stream()
+
+        Stream<String> permissionsStream = roles.stream()
                 .map(Role::getPermissions)
                 .flatMap(Set::stream)
                 .map(Permission::getName);
 
-        final Stream<String> rolesStream = roles.stream()
+        Stream<String> rolesStream = roles.stream()
                 .map(Role::getName);
 
         return Stream.concat(permissionsStream, rolesStream)
-                .collect(Collectors.toSet());
+                .collect(toSet());
     }
 
 

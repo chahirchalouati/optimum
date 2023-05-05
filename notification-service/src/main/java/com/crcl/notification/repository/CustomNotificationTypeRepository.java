@@ -8,7 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface CustomNotificationTypeRepository {
-    Flux<NotificationType> findAll(Pageable pageable);
+    Mono<Page<NotificationType>> findAll(Pageable pageable);
 
     Mono<Page<NotificationType>> search(NotificationTypeRequest request);
 }

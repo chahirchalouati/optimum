@@ -49,7 +49,7 @@ public class NotificationTypeServiceImpl implements NotificationTypeService {
     }
 
     @Override
-    public Flux<NotificationType> findAll(Pageable pageable) {
+    public Mono<Page<NotificationType>> findAll(Pageable pageable) {
         return notificationTypeRepository.findAll(pageable);
     }
 
