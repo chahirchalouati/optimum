@@ -1,15 +1,15 @@
 package com.crcl.post.client;
 
+import com.crcl.common.dto.ProfileDto;
 import com.crcl.post.configuration.FeignFormConfig;
 import com.crcl.post.configuration.OAuthFeignConfig;
-import com.crcl.post.dto.ProfileDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-// TODO: 1/8/2023 add resiliency
+
 @FeignClient(
         name = "${client.profile.name}",
         url = "${client.profile.url}",

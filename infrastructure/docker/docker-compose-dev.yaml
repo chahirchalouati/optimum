@@ -48,7 +48,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres-db:/var/lib/mysql
+      - postgres-db:/var/lib/postgres
     networks:
       - l_net
 

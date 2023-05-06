@@ -1,5 +1,6 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.common.dto.ProfileDto;
 import com.crcl.common.dto.UserDto;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.exceptions.EntityNotFoundException;
@@ -13,7 +14,6 @@ import com.crcl.post.domain.Tag;
 import com.crcl.post.domain.Video;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
-import com.crcl.post.dto.ProfileDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;

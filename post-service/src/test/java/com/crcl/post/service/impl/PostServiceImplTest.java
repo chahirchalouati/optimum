@@ -7,7 +7,6 @@ import com.crcl.post.client.StorageClient;
 import com.crcl.post.domain.Post;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
-import com.crcl.post.dto.ProfileDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;

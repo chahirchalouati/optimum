@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-// TODO: 1/8/2023 add resiliency
+
 @FeignClient(
         name = "${client.profile.name}",
         url = "${client.profile.url}",

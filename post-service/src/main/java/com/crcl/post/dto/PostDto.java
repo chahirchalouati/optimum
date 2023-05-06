@@ -1,5 +1,6 @@
 package com.crcl.post.dto;
 
+import com.crcl.common.dto.ProfileDto;
 import com.crcl.common.dto.UserDto;
 import com.crcl.post.domain.*;
 import com.fasterxml.jackson.annotation.JsonFormat;

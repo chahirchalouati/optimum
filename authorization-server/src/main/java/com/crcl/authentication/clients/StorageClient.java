@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-// TODO: 1/8/2023 add resiliency
+
 @FeignClient(name = "${client.storage.name}",
         url = "${client.storage.url}",
         configuration = {
