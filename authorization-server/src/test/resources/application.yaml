@@ -126,3 +126,18 @@ client:
   srvProfile:
     url: http://localhost:9999/profile
     name: profile
+minio:
+  access-key: myaccesskey
+  url: http://localhost:47017
+  secret-key: mysecretkey
+  buckets:
+    - name: key-public-cert
+      objectLock: false
+      isDefault: true
+    - name: key-private-cert
+      objectLock: false
+      isDefault: false
+dummy:
+  username: username
+  password: password
+  count: 100

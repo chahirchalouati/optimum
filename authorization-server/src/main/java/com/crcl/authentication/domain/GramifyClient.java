@@ -36,5 +36,4 @@ public class GramifyClient {
     private ClientSettings clientSettings;
     private TokenSettings tokenSettings;
 
-
 }
