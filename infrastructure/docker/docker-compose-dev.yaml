@@ -1,11 +1,11 @@
 version: '3.3'
 services:
-  #  github-runner:
-  #    image: ghcr.io/${GITHUB_OWNER}/github-runner:1.0.1
-  #    environment:
-  #      - GITHUB_OWNER=${GITHUB_OWNER}
-  #      - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
-  #      - GITHUB_PAT=${GITHUB_PAT}
+#    github-runner:
+#      image: ghcr.io/${GITHUB_OWNER}/github-runner:1.0.1
+#      environment:
+#        - GITHUB_OWNER=${GITHUB_OWNER}
+#        - GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
+#        - GITHUB_PAT=${GITHUB_PAT}
   minio:
     image: minio/minio
     container_name: minio
@@ -80,50 +80,50 @@ services:
     networks:
       - l_net
 
-#  prometheus:
-#    container_name: prometheus
-#    image: 'prom/prometheus:v2.14.0'
-#    ports:
-#      - '9090:9090'
-#    command: '--config.file=/etc/prometheus/config.yml'
-#    volumes:
-#      - './prometheus/prometheus.yml:/etc/prometheus/config.yml'
-#    networks:
-#      - l_net
-#
-#  grafana:
-#    container_name: grafana
-#    image: 'grafana/grafana:6.5.0'
-#    restart: "no"
-#    volumes:
-#      - /grafana/provisioning/dashboards/local.yml:/conf/provisioning/dashboards/sample.yml
-#      - /grafana/dashboards/:/var/lib/grafana/dashboards/
-#    ports:
-#      - '3001:3000'
-#    networks:
-#      - l_net
-#  elasticsearch:
-#    container_name: es-container
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-#    environment:
-#      - xpack.security.enabled=false
-#      - "discovery.type=single-node"
-#    networks:
-#      - l_net
-#    ports:
-#      - "9200:9200"
-#
-#  kibana:
-#    container_name: kb-container
-#    image: docker.elastic.co/kibana/kibana:7.11.0
-#    environment:
-#      - ELASTICSEARCH_HOSTS=http://es-container:9200
-#    networks:
-#      - l_net
-#    depends_on:
-#      - elasticsearch
-#    ports:
-#      - "5601:5601"
+  prometheus:
+    container_name: prometheus
+    image: 'prom/prometheus:v2.14.0'
+    ports:
+      - '9090:9090'
+    command: '--config.file=/etc/prometheus/config.yml'
+    volumes:
+      - './prometheus/prometheus.yml:/etc/prometheus/config.yml'
+    networks:
+      - l_net
+
+  grafana:
+    container_name: grafana
+    image: 'grafana/grafana:6.5.0'
+    restart: "no"
+    volumes:
+      - /grafana/provisioning/dashboards/local.yml:/conf/provisioning/dashboards/sample.yml
+      - /grafana/dashboards/:/var/lib/grafana/dashboards/
+    ports:
+      - '3001:3000'
+    networks:
+      - l_net
+  elasticsearch:
+    container_name: es-container
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - l_net
+    ports:
+      - "9200:9200"
+
+  kibana:
+    container_name: kb-container
+    image: docker.elastic.co/kibana/kibana:7.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
+    networks:
+      - l_net
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5601:5601"
 
 
 networks:

@@ -4,7 +4,7 @@ import com.crcl.authentication.domain.GramifyUser;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.authentication.mappers.UserMapper;
 import com.crcl.authentication.utils.DefaultRoles;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +19,10 @@ import java.util.Set;
 import static java.util.Objects.nonNull;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomUserRepositoryImpl implements CustomUserRepository {
     private final MongoTemplate mongoTemplate;
     private final UserMapper userMapper;
-//    private final UserHelper userHelper;
 
     @Override
     public Page<UserDto> getAll(Pageable pageable, UserDto current) {
