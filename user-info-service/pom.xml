@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.crcl</groupId>
-    <artifactId>gramifyUser-info-service</artifactId>
+    <artifactId>user-info-service</artifactId>
     <version>0.0.1</version>
     <name>userInfo</name>
     <description>userInfo</description>
