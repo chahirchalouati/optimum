@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import reactivefeign.spring.config.ReactiveFeignClient;
 import reactor.core.publisher.Mono;
-import com.crcl.notification.configuration.Oauth2.OAuthServerFeignConfig;
+import com.crcl.notification.configuration.security.OAuthServerFeignConfig;
 
 @ReactiveFeignClient(
         name = "${client.srvAuthentication.name}",

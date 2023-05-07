@@ -1,7 +1,7 @@
 package com.crcl.authentication.service.impl;
 
 import com.crcl.authentication.configuration.props.SecurityProperties;
-import com.crcl.authentication.domain.Client;
+import com.crcl.authentication.domain.GramifyClient;
 import com.crcl.common.utils.CrclObjectUtils;
 import com.crcl.common.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;
@@ -15,24 +15,24 @@ import java.util.Objects;
 @Component("clientSettingsEnhancer")
 @AllArgsConstructor
 @Slf4j
-public class ClientSettingsEnhancer implements Enhancer<Client> {
+public class ClientSettingsEnhancer implements Enhancer<GramifyClient> {
     private final SecurityProperties securityProperties;
 
     @Override
-    public Client enhance(final Client client) {
+    public GramifyClient enhance(final GramifyClient gramifyClient) {
         var registrations = securityProperties.getRegistrations();
-        var registration = registrations.get(client.getClientId());
-        if (Objects.isNull(registration)) return client;
+        var registration = registrations.get(gramifyClient.getClientId());
+        if (Objects.isNull(registration)) return gramifyClient;
 
         var tokenSettings = TokenSettings.builder()
                 .accessTokenTimeToLive(Duration.ofSeconds(registration.getTokenAccessTimeToLeave()))
                 .refreshTokenTimeToLive(Duration.ofSeconds(registration.getRefreshTokenAccessTimeToLeave()))
                 .build();
 
-        CrclObjectUtils.setIfNotNull(registration.getId(), client::setClientId);
-        CrclObjectUtils.setIfNotNull(tokenSettings, client::setTokenSettings);
+        CrclObjectUtils.setIfNotNull(registration.getId(), gramifyClient::setClientId);
+        CrclObjectUtils.setIfNotNull(tokenSettings, gramifyClient::setTokenSettings);
 
-        return client;
+        return gramifyClient;
     }
 
 

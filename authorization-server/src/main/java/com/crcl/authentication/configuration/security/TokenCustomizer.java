@@ -1,8 +1,8 @@
 package com.crcl.authentication.configuration.security;
 
-import com.crcl.authentication.domain.Permission;
-import com.crcl.authentication.domain.Role;
-import com.crcl.authentication.domain.User;
+import com.crcl.authentication.domain.GramifyRole;
+import com.crcl.authentication.domain.GramifyPermission;
+import com.crcl.authentication.domain.GramifyUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toSet;
@@ -24,26 +23,26 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
         final Authentication principal = context.getPrincipal();
         boolean isToken = Objects.equals(context.getTokenType().getValue(), ACCESS_TOKEN);
         if (isToken && principal instanceof UsernamePasswordAuthenticationToken) {
-            User user = (User) principal.getPrincipal();
+            GramifyUser gramifyUser = (GramifyUser) principal.getPrincipal();
             context.getClaims()
-                    .claim(User.Fields.id, user.getId())
-                    .claim(User.Fields.email, user.getEmail())
-                    .claim(User.Fields.username, user.getUsername())
-                    .claim(User.Fields.firstName, user.getFirstName())
-                    .claim(User.Fields.lastName, user.getLastName())
-                    .claim(User.Fields.roles, getAuthorities(user.getRoles()));
+                    .claim(GramifyUser.Fields.id, gramifyUser.getId())
+                    .claim(GramifyUser.Fields.email, gramifyUser.getEmail())
+                    .claim(GramifyUser.Fields.username, gramifyUser.getUsername())
+                    .claim(GramifyUser.Fields.firstName, gramifyUser.getFirstName())
+                    .claim(GramifyUser.Fields.lastName, gramifyUser.getLastName())
+                    .claim(GramifyUser.Fields.roles, getAuthorities(gramifyUser.getRoles()));
         }
     }
 
-    public Set<String> getAuthorities(Set<Role> roles) {
+    public Set<String> getAuthorities(Set<GramifyRole> gramifyRoles) {
 
-        Stream<String> permissionsStream = roles.stream()
-                .map(Role::getPermissions)
+        Stream<String> permissionsStream = gramifyRoles.stream()
+                .map(GramifyRole::getPermissions)
                 .flatMap(Set::stream)
-                .map(Permission::getName);
+                .map(GramifyPermission::getName);
 
-        Stream<String> rolesStream = roles.stream()
-                .map(Role::getName);
+        Stream<String> rolesStream = gramifyRoles.stream()
+                .map(GramifyRole::getName);
 
         return Stream.concat(permissionsStream, rolesStream)
                 .collect(toSet());

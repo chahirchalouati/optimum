@@ -1,6 +1,6 @@
 package com.crcl.notification.client;
 
-import com.crcl.notification.configuration.Oauth2.OAuthServerFeignConfig;
+import com.crcl.notification.configuration.security.OAuthServerFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(name = "configuration",

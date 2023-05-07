@@ -42,34 +42,36 @@ import static com.crcl.post.utils.CrclUtils.applyIfNotEmpty;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostMapper postMapper;
-    private final StorageClient storageClient;
-    private final IdpClient idpClient;
     private final TagRepository tagRepository;
     private final PostQueueService queueService;
     private final UserService userService;
+    private final IdpClient idpClient;
+    private final StorageClient storageClient;
     private final ProfileClient profileClient;
+    private final PostMapper mapper;
 
 
     @Override
     public PostDto save(PostDto postDto) {
-        Post save = postRepository.save(postMapper.toEntity(postDto));
-        return postMapper.toDto(save);
+        Post save = postRepository.save(mapper.toEntity(postDto));
+        return mapper.toDto(save);
     }
 
     @Override
     public PostDto save(@ValidCreatePostRequest CreatePostRequest request) {
-        Post post = postMapper.toEntity(request);
+        Post post = mapper.toEntity(request);
 
         applyIf(hasFiles(request.getFiles()), () -> addFiles(request, post));
         applyIfNotEmpty(request.getSharedWithUsers(), () -> addSharedWithUsers(request, post));
         applyIfNotEmpty(request.getTags(), () -> addPostTags(request, post));
         applyIfNotEmpty(request.getTaggedUsers(), () -> addTaggedUsers(request, post));
 
-        ProfileDto currentUserProfile = profileClient.findByUsername(userService.getCurrentUser().getUsername());
-        post.setCreator(currentUserProfile);
+        String username = userService.getCurrentUser().getUsername();
+        ProfileDto userProfile = profileClient.findByUsername(username);
+        post.setCreator(userProfile);
 
-        PostDto storedPost = postMapper.toDto(postRepository.save(post));
+        Post saved = postRepository.save(post);
+        PostDto storedPost = mapper.toDto(saved);
 
         queueService.publishCreatePostEvent(storedPost);
 
@@ -94,7 +96,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto findById(String s) {
         return postRepository.findById(s)
-                .map(postMapper::toDto)
+                .map(mapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
@@ -102,22 +104,22 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> findAll() {
         return this.postRepository.findAll()
                 .stream()
-                .map(postMapper::toDto)
+                .map(mapper::toDto)
                 .toList();
     }
 
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
-        return postRepository.findAll(pageable).map(postMapper::toDto);
+        return postRepository.findAll(pageable).map(mapper::toDto);
 
     }
 
     @Override
     public PostDto update(PostDto postDto, String entityId) {
         return postRepository.findById(entityId)
-                .map(post -> postMapper.toEntity(postDto))
+                .map(post -> mapper.toEntity(postDto))
                 .map(postRepository::save)
-                .map(postMapper::toDto)
+                .map(mapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 

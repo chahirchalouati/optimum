@@ -1,6 +1,6 @@
 package com.crcl.authentication.repository;
 
-import com.crcl.authentication.domain.Client;
+import com.crcl.authentication.domain.GramifyClient;
 import com.crcl.authentication.mappers.ClientMapper;
 import com.crcl.common.exceptions.ClientNotFoundException;
 import com.crcl.common.exceptions.EntityNotFoundException;
@@ -16,7 +16,7 @@ public class MongoRegisteredClientRepository implements RegisteredClientReposito
 
     private final MongoClientRepository repository;
     private final ClientMapper clientMapper;
-    private final Enhancer<Client> clientSettingsEnhancer;
+    private final Enhancer<GramifyClient> clientSettingsEnhancer;
 
     @Override
     public void save(RegisteredClient registeredClient) {

@@ -1,6 +1,6 @@
 package com.crcl.processor.clients;
 
-import com.crcl.processor.configuration.Oauth2.OAuthFeignConfig;
+import com.crcl.processor.configuration.security.OAuthFeignConfig;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

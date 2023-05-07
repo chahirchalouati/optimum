@@ -86,7 +86,7 @@ public class AuthorizationServerConfiguration {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource(JwkProvider jwkProvider) {
-        KeyPair keyPair = jwkProvider.getLastEnabledKeyPair();
+        KeyPair keyPair = jwkProvider.getKeyPair();
         RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
                 .privateKey((RSAPrivateKey) keyPair.getPrivate())
                 .keyID("authentication-server-key")

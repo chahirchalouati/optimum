@@ -1,6 +1,6 @@
 package com.crcl.comment.clients;
 
-import com.crcl.comment.configuration.OAuthFeignConfig;
+import com.crcl.comment.configuration.security.OAuthFeignConfig;
 import com.crcl.comment.dto.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

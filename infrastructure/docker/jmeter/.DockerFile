@@ -4,5 +4,5 @@ COPY apache-jmeter-${JMETER_VERSION}.tgz ./
 RUN tar xzf ./apache-jmeter-${JMETER_VERSION}.tgz  \
     && rm ./apache-jmeter-${JMETER_VERSION}.tgz \
 && ln -s ./apache-jmeter-${JMETER_VERSION}/bin/jmeter /usr/local/bin
-COPY user.properties apache-jmeter-${JMETER_VERSION}/bin/user.properties
+COPY gramifyUser.properties apache-jmeter-${JMETER_VERSION}/bin/gramifyUser.properties
 CMD ./jmeter

@@ -1,7 +1,7 @@
 package com.crcl.userInfo.client;
 
 
-import com.crcl.userInfo.configuration.Oauth2.OAuthServerFeignConfig;
+import com.crcl.userInfo.configuration.security.OAuthServerFeignConfig;
 import com.crcl.userInfo.domain.ProfileDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,5 +1,6 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.common.dto.ProfileDto;
 import com.crcl.common.dto.UserDto;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
@@ -48,44 +49,21 @@ class PostServiceImplTest {
     void save() {
         CreatePostRequest request = new CreatePostRequest();
 
-        UserDto userDto = new UserDto();
-        userDto.setUsername("userName");
+        UserDto user = new UserDto()
+                .setUsername("userName");
 
-        when(userService.getCurrentUser()).thenReturn(userDto);
+        ProfileDto userProfile = new ProfileDto()
+                .setUsername(user.getUsername());
+
+        when(userService.getCurrentUser()).thenReturn(user);
         when(postMapper.toEntity(request)).thenReturn(new Post());
-        when(profileClient.findByUsername(eq("userName")))
-                .thenReturn(new ProfileDto().setUsername(userDto.getUsername()));
+        when(postMapper.toDto(new Post())).thenReturn(new PostDto());
+        when(profileClient.findByUsername(eq("userName"))).thenReturn(userProfile);
 
         PostDto result = postService.save(request);
 
         Assertions.assertNotNull(result);
     }
 
-    @Test
-    void testSave() {
-    }
 
-    @Test
-    void saveAll() {
-    }
-
-    @Test
-    void deleteById() {
-    }
-
-    @Test
-    void findById() {
-    }
-
-    @Test
-    void findAll() {
-    }
-
-    @Test
-    void testFindAll() {
-    }
-
-    @Test
-    void update() {
-    }
 }

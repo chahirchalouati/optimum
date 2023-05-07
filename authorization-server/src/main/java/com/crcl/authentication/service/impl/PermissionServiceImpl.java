@@ -1,6 +1,6 @@
 package com.crcl.authentication.service.impl;
 
-import com.crcl.authentication.domain.Permission;
+import com.crcl.authentication.domain.GramifyPermission;
 import com.crcl.authentication.dto.PermissionDto;
 import com.crcl.authentication.mappers.PermissionMapper;
 import com.crcl.authentication.repository.PermissionRepository;
@@ -23,9 +23,9 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public PermissionDto save(PermissionDto permissionDto) {
         log.debug("Saving permission: {}", permissionDto);
-        Permission permission = this.permissionMapper.toEntity(permissionDto);
-        Permission savedPermission = permissionRepository.save(permission);
-        PermissionDto savedPermissionDto = permissionMapper.toDto(savedPermission);
+        GramifyPermission gramifyPermission = this.permissionMapper.toEntity(permissionDto);
+        GramifyPermission savedGramifyPermission = permissionRepository.save(gramifyPermission);
+        PermissionDto savedPermissionDto = permissionMapper.toDto(savedGramifyPermission);
         log.debug("Saved permission: {}", savedPermissionDto);
         return savedPermissionDto;
     }
@@ -42,8 +42,8 @@ public class PermissionServiceImpl implements PermissionService {
     public void deleteById(String id) {
         permissionRepository.findById(id).ifPresent(permission -> {
             permission.setEnabled(false);
-            Permission savedPermission = permissionRepository.save(permission);
-            log.debug("Disabled permission with id {}: {}", savedPermission.getId(), savedPermission);
+            GramifyPermission savedGramifyPermission = permissionRepository.save(permission);
+            log.debug("Disabled permission with id {}: {}", savedGramifyPermission.getId(), savedGramifyPermission);
         });
     }
 

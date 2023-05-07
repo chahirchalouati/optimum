@@ -1,6 +1,6 @@
 package com.crcl.authentication.configuration.clients.interceptors;
 
-import com.crcl.authentication.domain.Client;
+import com.crcl.authentication.domain.GramifyClient;
 import com.crcl.authentication.repository.MongoClientRepository;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -21,7 +21,7 @@ public class ServiceOauth2TokenInterceptorHelper implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
-        Optional<Client> service = this.mongoClientRepository.findByClientId("SYSTEM");
+        Optional<GramifyClient> service = this.mongoClientRepository.findByClientId("SYSTEM");
         service.ifPresent(
                 clientAuthToken -> {
                     var token = oauth2TokenInterceptorHelper.getClientAccessToken(clientAuthToken.getClientId(), "SYSTEM");

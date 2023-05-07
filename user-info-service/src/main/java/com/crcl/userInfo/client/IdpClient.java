@@ -1,7 +1,7 @@
 package com.crcl.userInfo.client;
 
 import com.crcl.common.dto.UserDto;
-import com.crcl.userInfo.configuration.Oauth2.OAuthFeignConfig;
+import com.crcl.userInfo.configuration.security.OAuthFeignConfig;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;

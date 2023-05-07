@@ -1,6 +1,6 @@
 package com.crcl.userInfo.client;
 
-import com.crcl.userInfo.configuration.Oauth2.OAuthServerFeignConfig;
+import com.crcl.userInfo.configuration.security.OAuthServerFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(name = "configuration",

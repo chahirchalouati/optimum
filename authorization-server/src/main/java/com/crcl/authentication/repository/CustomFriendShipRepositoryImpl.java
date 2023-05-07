@@ -2,7 +2,7 @@ package com.crcl.authentication.repository;
 
 import com.crcl.authentication.domain.FriendShip;
 import com.crcl.authentication.domain.FriendShipState;
-import com.crcl.authentication.domain.User;
+import com.crcl.authentication.domain.GramifyUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,7 +17,7 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
     private final MongoTemplate mongoTemplate;
 
     @Override
-    public FriendShip link(User sender, User recipient, FriendShipState state) {
+    public FriendShip link(GramifyUser sender, GramifyUser recipient, FriendShipState state) {
         var friendShip = new FriendShip();
         friendShip.setSender(sender);
         friendShip.setRecipient(recipient);
@@ -26,7 +26,7 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
     }
 
     @Override
-    public FriendShip remove(User sender, User recipient) {
+    public FriendShip remove(GramifyUser sender, GramifyUser recipient) {
         return areFriends(sender.getUsername(), recipient.getUsername())
                 .map(friendShip -> {
                     mongoTemplate.remove(friendShip).wasAcknowledged();

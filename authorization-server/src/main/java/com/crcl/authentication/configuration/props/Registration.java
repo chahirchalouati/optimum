@@ -1,5 +1,6 @@
 package com.crcl.authentication.configuration.props;
 
+import com.crcl.authentication.utils.GramifyClientScopes;
 import lombok.Data;
 
 import java.util.ArrayList;

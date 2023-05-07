@@ -1,7 +1,7 @@
 package com.crcl.comment.clients;
 
-import com.crcl.comment.configuration.FeignFormConfig;
-import com.crcl.comment.configuration.OAuthFeignConfig;
+import com.crcl.comment.configuration.security.FeignFormConfig;
+import com.crcl.comment.configuration.security.OAuthFeignConfig;
 import com.crcl.comment.dto.FileUploadResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.core.io.ByteArrayResource;
