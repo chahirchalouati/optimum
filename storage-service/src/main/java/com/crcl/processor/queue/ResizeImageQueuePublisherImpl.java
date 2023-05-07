@@ -1,7 +1,7 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.AuthenticatedMessage;
-import com.crcl.common.queue.ImageUploadEvent;
+import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.configuration.filters.JwtFilterInterceptor;
 import com.crcl.processor.service.UserService;
@@ -22,11 +22,11 @@ public class ResizeImageQueuePublisherImpl extends ResizeImageQueuePublisher {
     }
 
     @Override
-    public void publishImageUploadEvent(ImageUploadEvent event) {
+    public void publishImageUploadEvent(ImageUpload event) {
         final boolean present = jwtFilterInterceptor.getJwt().isPresent();
         if (present) {
-            final var jwt = jwtFilterInterceptor.getJwt().get();
-            final var message = new AuthenticatedMessage<>();
+            var jwt = jwtFilterInterceptor.getJwt().get();
+            var message = new AuthenticatedQEvent<>();
             message.setToken(jwt.getTokenValue())
                     .setPayload(event);
             this.publishAuthenticatedMessage(message, QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE);

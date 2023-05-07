@@ -1,23 +1,26 @@
 package com.crcl.post.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.crcl.common.dto.UserDto;
+import lombok.Data;
+import lombok.experimental.Accessors;
+import org.springframework.data.mongodb.core.index.Indexed;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.io.Serializable;
+@Data
+@Accessors(chain = true)
+public class Tag {
+    @Indexed(unique = true)
+    private String name;
+    private boolean system = false;
+    private TagKind kind;
+    private UserDto userDto;
 
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString(onlyExplicitlyIncluded = true)
-@Entity(name = Tag.ENTITY_NAME)
-@Table(name = "tags")
-public class Tag extends BaseEntity implements Serializable {
-    public static final String ENTITY_NAME = "Tag";
-    private static final long serialVersionUID = 4917545087208701084L;
-
-
+    public enum TagKind {
+        USER,
+        POST,
+        COMMENT,
+        REPLY,
+        PAGE,
+        GROUP,
+        STORY
+    }
 }

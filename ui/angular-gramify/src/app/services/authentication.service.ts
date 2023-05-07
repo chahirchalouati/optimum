@@ -5,7 +5,7 @@ import Token, {CLIENT_ID, CLIENT_SECRET, CODE, GRANT_TYPE, REDIRECT_URI} from ".
 import {environment} from "../../environment/environment";
 import GenericCrud from "../shared/domain/GenericCrud";
 import User from '../shared/domain/User';
-import {Pageable} from "../shared/domain/Pageable";
+import {Page, PageRequest} from "../shared/domain/Pageable";
 import {TokenService} from "./token.service";
 
 export interface IAuthenticationService {
@@ -27,12 +27,12 @@ export class AuthenticationService implements GenericCrud<User>, IAuthentication
   constructor(private httpClient: HttpClient, private tokenService: TokenService) {
   }
 
-  get(pageRequest: Pageable.PageRequest): Observable<Pageable.Page<User>> {
-    return this.httpClient.get<Pageable.Page<User>>(environment.api.user.USER_GET_PAGE, {params: {...pageRequest}});
+  get(pageRequest: PageRequest): Observable<Page<User>> {
+    return this.httpClient.get<Page<User>>(environment.api.user.USER_GET_PAGE, {params: {...pageRequest}});
   }
 
-  getId(id: string | number): Observable<Pageable.Page<User>> {
-    return this.httpClient.get<Pageable.Page<User>>(environment.api.user.USER_GET_BY_ID, {params: {id}});
+  getId(id: string | number): Observable<Page<User>> {
+    return this.httpClient.get<Page<User>>(environment.api.user.USER_GET_BY_ID, {params: {id}});
   }
 
   post(payload: User): Observable<User> {

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import GenericCrud from "../shared/domain/GenericCrud";
 import Profile from "../shared/domain/Profile";
 import {HttpClient} from "@angular/common/http";
-import {Pageable} from "../shared/domain/Pageable";
+import {Page, PageRequest} from "../shared/domain/Pageable";
 import {Observable} from "rxjs";
 import {environment} from "../../environment/environment";
 import {StorageService} from "./storage.service";
@@ -18,12 +18,12 @@ export class ProfileService implements GenericCrud<Profile> {
   constructor(private httpClient: HttpClient, private storageService: StorageService) {
   }
 
-  get(pageRequest: Pageable.PageRequest): Observable<Pageable.Page<Profile>> {
-    return this.httpClient.get<Pageable.Page<Profile>>(environment.api.profile.PROFILE_GET_PAGE, {params: {...pageRequest}});
+  get(pageRequest: PageRequest): Observable<Page<Profile>> {
+    return this.httpClient.get<Page<Profile>>(environment.api.profile.PROFILE_GET_PAGE, {params: {...pageRequest}});
   }
 
-  getId(id: string | number): Observable<Pageable.Page<Profile>> {
-    return this.httpClient.get<Pageable.Page<Profile>>(environment.api.profile.PROFILE_GET_BY_ID, {params: {id}});
+  getId(id: string | number): Observable<Page<Profile>> {
+    return this.httpClient.get<Page<Profile>>(environment.api.profile.PROFILE_GET_BY_ID, {params: {id}});
   }
 
   post(payload: Profile): Observable<Profile> {
@@ -39,7 +39,7 @@ export class ProfileService implements GenericCrud<Profile> {
   }
 
   getUserProfile(username: string): Observable<Profile> {
-    return this.httpClient.get<Profile>(`${environment.api.profile.PROFILE_GET_USER}/${username}`, {params: {username: username}});
+    return this.httpClient.get<Profile>(`${environment.api.profile.PROFILE_GET_USER}`, {params: {username: username}});
   }
 
   setProfile(profile: Profile): Profile {

@@ -28,25 +28,25 @@ toc::[]
 Posts should be displayed in a timeline format, with the most recent posts appearing at the top.
 
 2. *Friendships*
-* Users should be able to add other users as friends and view their friend's posts in their timeline.
+* Users should be able to add other gramifyUsers as friends and view their friend's posts in their timeline.
 
 3. *Comments*
-* Users should be able to leave comments on posts, and view comments left by other users.
+* Users should be able to leave comments on posts, and view comments left by other gramifyUsers.
 
 4. *Likes*
 * Users should be able to like posts and view the number of likes on a post.
 
 5. *Profile*
-* Each user should have a profile page that displays their posts, friends, and other information.
+* Each gramifyUser should have a profile page that displays their posts, friends, and other information.
 
 6. *Notifications*
 * Users should receive notifications when their posts receive comments or likes.
 
 7. *Search*
-* Users should be able to search for other users or posts by keywords.
+* Users should be able to search for other gramifyUsers or posts by keywords.
 
 8. *Security and privacy*
-* The application should include features to protect the privacy of its users, such as the ability to control who can see their posts and profile information.
+* The application should include features to protect the privacy of its gramifyUsers, such as the ability to control who can see their posts and profile information.
 
 === Software Requirements
 

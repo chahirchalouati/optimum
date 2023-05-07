@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalHandlerException {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> entityNotFoundException(EntityNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler({
+            EntityNotFoundException.class,
+            DuplicateFileNameException.class
+    })
+    public ResponseEntity<String> entityNotFoundException(RuntimeException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
 }

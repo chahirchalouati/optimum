@@ -1,15 +1,12 @@
 package com.crcl.post.repository;
 
 import com.crcl.post.domain.Post;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 
-@Repository
-public interface PostRepository extends CommonRepository<Post> {
-    @NotNull
-    @Query(" SELECT p FROM Post p WHERE p.username =?#{ principal }")
-    Page<Post> findByLoggedUser(@NotNull Pageable pageable);
+import java.util.Optional;
+
+public interface PostRepository extends MongoRepository<Post, String> {
+    @Query("{'images.id': ?0}")
+    Optional<Post> findByImageId(String id);
 }

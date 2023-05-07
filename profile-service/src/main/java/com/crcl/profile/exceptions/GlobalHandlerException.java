@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -42,12 +43,10 @@ public class GlobalHandlerException {
         return new ResponseEntity<>(new ErrorResponse(errorsMap), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({RuntimeException.class})
-    public ResponseEntity<?> runtimeException(RuntimeException exception) {
+    @ExceptionHandler({RuntimeException.class, MissingServletRequestParameterException.class})
+    public ResponseEntity<?> runtimeException(MissingServletRequestParameterException exception) {
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
-
 }
 
 @NoArgsConstructor

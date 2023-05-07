@@ -1,14 +1,14 @@
 package com.crcl.processor.service.impl;
 
+import com.crcl.common.dto.queue.ImageUpload;
 import com.crcl.common.dto.responses.FileUploadResult;
-import com.crcl.common.queue.ImageUploadEvent;
 import com.crcl.processor.domain.FileRecord;
+import com.crcl.processor.dto.WriteResponse;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
 import com.crcl.processor.queue.ResizeImageQueuePublisher;
 import com.crcl.processor.repository.RecordRepository;
 import com.crcl.processor.service.StorageService;
-import com.crcl.processor.service.UserService;
 import com.crcl.processor.utils.FileExtensionUtils;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +29,8 @@ import java.io.InputStream;
 import java.net.URLConnection;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -37,11 +39,11 @@ import java.util.function.Function;
 @Slf4j
 public class StorageServiceImpl implements StorageService {
 
+    private static final String FILE_TAG_KEY = "file_tag_key";
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
-    private final ResizeImageQueuePublisher resizeImageQueueSender;
-    private final UserService userService;
+    private final ResizeImageQueuePublisher imageQueuePublisher;
 
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {
@@ -52,27 +54,26 @@ public class StorageServiceImpl implements StorageService {
     @SneakyThrows(Exception.class)
     public Mono<FileUploadResult> save(Mono<FilePart> particle) {
 
-        var zipWith = toInputStream(particle)
+        var inputStreamResult = toInputStream(particle)
                 .zipWith(particle);
 
-        var then = createMinioRequest()
+        var doUpload = createMinioRequest()
                 .andThen(uploadFile())
-                .andThen(saveUploadDetails());
+                .andThen(buildFileRecord());
 
-        return zipWith.map(then)
+        return inputStreamResult.map(doUpload)
                 .flatMap(recordRepository::save)
-                .doOnNext(publishUploadImageEvent())
-                .map(createFileUploadResult())
+                .doOnNext(publishImageUploadEvent())
+                .map(createFileUploadResponse())
                 .switchIfEmpty(Mono.error(CreateRecordException::new));
     }
 
-
     @Override
     @SneakyThrows
-    public Mono<ByteArrayResource> getResource(String fileName, String owner, String bucket) {
-        final var getObjectArgs = GetObjectArgs.builder()
+    public Mono<ByteArrayResource> getResource(String fileName, String eTag, String bucket) {
+        var getObjectArgs = GetObjectArgs.builder()
                 .object(fileName)
-                .matchETag(owner)
+                .extraQueryParams(Collections.singletonMap("tags", eTag))
                 .bucket(bucket)
                 .build();
 
@@ -89,42 +90,45 @@ public class StorageServiceImpl implements StorageService {
 
     private Function<Tuple2<InputStream, FilePart>, PutObjectArgs> createMinioRequest() {
         return zip -> {
-            final var inputStream = zip.getT1();
-            final var filename = zip.getT2().filename();
-            int available = 0;
             try {
-                available = inputStream.available();
+                var inputStream = zip.getT1();
+                var filename = zip.getT2().filename();
+                int available = inputStream.available();
+
+                String timestamp = Long.toString(System.currentTimeMillis());
+                return PutObjectArgs.builder()
+                        .extraHeaders(zip.getT2().headers().toSingleValueMap())
+                        .bucket(bucketsResolver.resolve())
+                        .object(filename)
+                        .tags(Collections.singletonMap(FILE_TAG_KEY, timestamp + "_" + UUID.randomUUID()))
+                        .stream(inputStream, available, -1)
+                        .contentType(URLConnection.guessContentTypeFromName(filename))
+                        .build();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Failed to create Minio request: {}", e.getMessage(), e);
+                throw new RuntimeException(e.getMessage());
             }
-            return PutObjectArgs.builder()
-                    .extraHeaders(zip.getT2().headers().toSingleValueMap())
-                    .bucket(bucketsResolver.resolve())
-                    .object(filename)
-                    .stream(inputStream, available, -1)
-                    .contentType(URLConnection.guessContentTypeFromName(filename))
-                    .build();
         };
     }
 
+    private Mono<InputStream> toInputStream(Mono<FilePart> particle) {
+        return particle.flatMapMany(Part::content)
+                .reduce(DataBuffer::write)
+                .map(dataBuffer -> new ByteArrayInputStream(dataBuffer.asByteBuffer().array()));
+    }
 
-    private Function<PutObjectArgs, ObjectWriteResponse> uploadFile() {
+    private Function<PutObjectArgs, WriteResponse> uploadFile() {
         return args -> {
             try {
-                return minioClient.putObject(args);
+                ObjectWriteResponse objectWriteResponse = minioClient.putObject(args);
+                return new WriteResponse(objectWriteResponse, args.tags().get());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         };
     }
 
-    public Mono<InputStream> toInputStream(Mono<FilePart> particle) {
-        return particle.flatMapMany(Part::content)
-                .reduce(DataBuffer::write)
-                .map(dataBuffer -> new ByteArrayInputStream(dataBuffer.asByteBuffer().array()));
-    }
-
-    private Function<FileRecord, FileUploadResult> createFileUploadResult() {
+    private Function<FileRecord, FileUploadResult> createFileUploadResponse() {
         return record -> new FileUploadResult()
                 .setContentType(record.getType())
                 .setBucket(record.getBucket())
@@ -137,34 +141,37 @@ public class StorageServiceImpl implements StorageService {
         try {
             return getObjectResponse.readAllBytes();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Failed to read all bytes from Minio object: {}", e.getMessage(), e);
             return new byte[0];
         }
     }
 
-    private Function<ObjectWriteResponse, FileRecord> saveUploadDetails() {
-        return response -> new FileRecord()
-                .setType(URLConnection.guessContentTypeFromName(response.object()))
-                .setTag(response.etag())
-                .setName(response.object())
-                .setBucket(response.bucket())
-                .setVersion(response.versionId());
+    private Function<WriteResponse, FileRecord> buildFileRecord() {
+        return response -> {
+            ObjectWriteResponse writeResponse = response.getWriteResponse();
+            return new FileRecord()
+                    .setType(URLConnection.guessContentTypeFromName(writeResponse.object()))
+                    .setTag(response.getTags().get(FILE_TAG_KEY))
+                    .setName(writeResponse.object())
+                    .setBucket(writeResponse.bucket())
+                    .setVersion(writeResponse.versionId());
+        };
     }
 
-    private Consumer<FileRecord> publishUploadImageEvent() {
+    private Consumer<FileRecord> publishImageUploadEvent() {
         return record -> {
             boolean isImage = FileExtensionUtils.isImage(record.getName());
             if (isImage) {
-                var result = new FileUploadResult()
+                FileUploadResult result = new FileUploadResult()
                         .setContentType(record.getType())
                         .setBucket(record.getBucket())
                         .setEtag(record.getTag())
                         .setName(record.getName())
                         .setVersion(record.getVersion());
-                final var request = new ImageUploadEvent();
-                request.setResponse(result);
+                ImageUpload request = new ImageUpload();
+                request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                resizeImageQueueSender.publishImageUploadEvent(request);
+                imageQueuePublisher.publishImageUploadEvent(request);
             }
         };
     }

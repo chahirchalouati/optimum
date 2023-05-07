@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -9,31 +8,33 @@ import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {HomeComponent} from "./pages/home/home.component";
 import {AuthorizationComponent} from "./pages/authorization/authorization.component";
 import {ErrorComponent} from "./pages/error/error.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NoSanitizePipe} from "./shared/pipes/no-sanitize.pipe";
-import {NavbarComponent} from './components/navigation/navbar/navbar.component';
-import {SidebarComponent} from './components/navigation/sidebar/sidebar.component';
-import {IconComponent} from './components/common/icon/icon.component';
-import {SearchBarComponent} from './components/navigation/search-bar/search-bar.component';
-import {DropDownBoxComponent} from './components/common/drop-down-box/drop-down-box.component';
-import {AvatarComponent} from './components/common/avatar/avatar.component';
 import {SrcPipe} from "./shared/pipes/src.pipe";
 import {ClickOutsideDirective} from './shared/directives/click-outside.directive';
-import {PostCardComponent} from './components/posts/post-card/post-card.component';
 import {TruncatePipe} from './shared/pipes/truncate.pipe';
 import {IconSizePipe} from './shared/pipes/icon-size.pipe';
-import {CreatePostComponent} from './components/posts/create-post/create-post.component';
-import {DividerComponent} from './components/divider/divider.component';
-import {ButtonComponent} from './components/common/button/button.component';
-import {CardStoryComponent} from './components/card-story/card-story.component';
-import {CreateStoryComponent} from './components/create-story/create-story.component';
-import {CreatePostModal} from "./components/common/modal/create-post-modal.component";
 import {ModalDirective} from './shared/directives/modal.directive';
 import {DynamicComponentDirective} from './shared/directives/dynamic-component.directive';
-import {StoryComponent} from './pages/story/story.component';
-import {UserInfoBadgeComponent} from './components/common/user-info-badge/user-info-badge.component';
-import {PuffLoaderComponent} from './components/common/Loaders/puff-loader/puff-loader.component';
 import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
+import {TrackVisibilityDirective} from './shared/directives/track-visibility.directive';
+import {IndexedPipe} from './shared/pipes/indexed.pipe';
+import {CommonModule, NgOptimizedImage, registerLocaleData} from "@angular/common";
+import {it_IT, NZ_I18N} from 'ng-zorro-antd/i18n';
+import it from '@angular/common/locales/it';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzLayoutModule} from "ng-zorro-antd/layout";
+import {NzSpaceModule} from "ng-zorro-antd/space";
+import {NzAvatarModule} from "ng-zorro-antd/avatar";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {NavBarComponent} from './shared/components/nav-bar/nav-bar.component';
+import {NzImageModule} from "ng-zorro-antd/image";
+import {NzDividerModule} from "ng-zorro-antd/divider";
+import {NzGridModule} from "ng-zorro-antd/grid";
+import {NzCardModule} from "ng-zorro-antd/card";
+
+registerLocaleData(it);
 
 @NgModule({
   declarations: [
@@ -43,35 +44,35 @@ import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
     ErrorComponent,
     NoSanitizePipe,
     SrcPipe,
-    NavbarComponent,
-    SidebarComponent,
-    IconComponent,
-    SearchBarComponent,
-    DropDownBoxComponent,
-    AvatarComponent,
     ClickOutsideDirective,
-    PostCardComponent,
     TruncatePipe,
     IconSizePipe,
-    CreatePostComponent,
-    DividerComponent,
-    ButtonComponent,
-    CardStoryComponent,
-    CreateStoryComponent,
-    CreatePostModal,
     ModalDirective,
     DynamicComponentDirective,
-    StoryComponent,
-    UserInfoBadgeComponent,
-    PuffLoaderComponent,
-    ImgFallbackDirective
+    ImgFallbackDirective,
+    TrackVisibilityDirective,
+    IndexedPipe,
+    NavBarComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        CommonModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        NzInputModule,
+        NzLayoutModule,
+        NzSpaceModule,
+        NzAvatarModule,
+        NzDropDownModule,
+        NzImageModule,
+        NgOptimizedImage,
+        NzDividerModule,
+        NzGridModule,
+        NzCardModule,
+    ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: ApiInterceptor,
@@ -81,7 +82,8 @@ import {ImgFallbackDirective} from './shared/directives/img-fallback.directive';
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true,
-    }],
+    },
+    {provide: NZ_I18N, useValue: it_IT}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

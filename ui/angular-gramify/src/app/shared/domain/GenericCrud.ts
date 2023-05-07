@@ -1,8 +1,7 @@
-import {Pageable} from "./Pageable";
+
 import {Observable} from "rxjs";
-import PageRequest = Pageable.PageRequest;
-import Page = Pageable.Page;
-import Selectable = Pageable.Selectable;
+import {Page, PageRequest, Selectable} from "./Pageable";
+
 
 export default interface GenericCrud<T extends Selectable> {
   get(pageRequest: PageRequest): Observable<Page<T>>;

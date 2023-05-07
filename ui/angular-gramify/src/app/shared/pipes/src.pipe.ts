@@ -7,7 +7,7 @@ export class SrcPipe implements PipeTransform {
   constructor(private readonly fileService: FileService) {
   }
 
-  transform(name: string, etag: string): Observable<any> {
-    return this.fileService.get(name, etag);
+  transform(url: string): Observable<any> {
+    return this.fileService.get(url);
   }
 }

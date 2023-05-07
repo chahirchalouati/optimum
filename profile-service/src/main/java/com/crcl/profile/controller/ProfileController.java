@@ -3,6 +3,7 @@ package com.crcl.profile.controller;
 import com.crcl.profile.dto.ProfileDto;
 import com.crcl.profile.service.ProfileService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -19,53 +20,51 @@ public class ProfileController {
     private final ProfileService profileService;
 
     @GetMapping
-    public ResponseEntity<List<ProfileDto>> findAll() {
-        return ResponseEntity.ok(this.profileService.findAll());
-    }
+    @SneakyThrows
+    public ResponseEntity<Page<ProfileDto>> findAll(Pageable pageable) {
+        Thread.sleep(10000);
 
-    @GetMapping("/example")
-    public ResponseEntity<Page<ProfileDto>> findAll(ProfileDto pageRequest, Pageable pageable) {
-        return ResponseEntity.ok(this.profileService.findAll(pageRequest, pageable));
-    }
-
-    @GetMapping("/example/one")
-    public ResponseEntity<ProfileDto> findOne(ProfileDto pageRequest) {
-        return ResponseEntity.ok(this.profileService.findOne(pageRequest));
+        return ResponseEntity.ok(this.profileService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
+    @SneakyThrows
     public ResponseEntity<ProfileDto> findById(@PathVariable String id) {
+        Thread.sleep(10000);
+
         return ResponseEntity.ok(this.profileService.findById(id));
     }
 
-    @GetMapping("/profile/username/{username}")
-    public ResponseEntity<ProfileDto> findByUsername(@PathVariable String username) {
-        return ResponseEntity.ok(this.profileService.findByUsername(username));
-    }
-
-    @GetMapping("/profile/usernames")
-    public ResponseEntity<List<ProfileDto>> findByUserNames(@RequestParam List<String> usernames) {
-        return ResponseEntity.ok(this.profileService.findByUsernames(usernames));
-    }
-
     @PostMapping
+    @SneakyThrows
     public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto profileDto) {
+        Thread.sleep(10000);
+
         return ResponseEntity.ok(this.profileService.save(profileDto));
     }
 
-    @PostMapping("/all")
+    @PostMapping("/many")
+    @SneakyThrows
     public ResponseEntity<List<ProfileDto>> save(@Valid @RequestBody List<ProfileDto> entities) {
+        Thread.sleep(10000);
+
         return ResponseEntity.ok(this.profileService.saveAll(entities));
     }
 
     @PutMapping("/{id}")
+    @SneakyThrows
     public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto profileDto, @PathVariable String id) {
+        Thread.sleep(10000);
+
         return ResponseEntity.ok(this.profileService.update(profileDto, id));
     }
 
     @DeleteMapping("/{id}")
+    @SneakyThrows
     public ResponseEntity<?> deleteById(@PathVariable String id) {
         this.profileService.deleteById(id);
+        Thread.sleep(10000);
+
         return ResponseEntity.accepted().build();
 
     }

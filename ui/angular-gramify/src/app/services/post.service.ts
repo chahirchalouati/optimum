@@ -2,22 +2,21 @@ import {Injectable} from '@angular/core';
 import GenericCrud from "../shared/domain/GenericCrud";
 import Post from "../shared/domain/Post";
 import {HttpClient} from "@angular/common/http";
-import {Pageable} from "../shared/domain/Pageable";
+import {Page, PageRequest} from "../shared/domain/Pageable";
 import {Observable} from "rxjs";
 import {environment} from "../../environment/environment";
 
 @Injectable({providedIn: 'root'})
 export class PostService implements GenericCrud<Post> {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient) {}
+
+  get(pageRequest: PageRequest): Observable<Page<Post>> {
+    return this.httpClient.get<Page<Post>>(environment.api.post.POST_GET_PAGE, {params: {...pageRequest}});
   }
 
-  get(pageRequest: Pageable.PageRequest): Observable<Pageable.Page<Post>> {
-    return this.httpClient.get<Pageable.Page<Post>>(environment.api.post.POST_GET_PAGE, {params: {...pageRequest}});
-  }
-
-  getId(id: string | number): Observable<Pageable.Page<Post>> {
-    return this.httpClient.get<Pageable.Page<Post>>(environment.api.post.POST_GET_BY_ID, {params: {id}});
+  getId(id: string | number): Observable<Page<Post>> {
+    return this.httpClient.get<Page<Post>>(environment.api.post.POST_GET_BY_ID, {params: {id}});
   }
 
   post(payload: Post): Observable<Post> {

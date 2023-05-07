@@ -1,24 +1,47 @@
-<ng-container *ngIf="(initialState$ | async) as initialState">
-  <app-navbar [profile]="initialState.profile"></app-navbar>
-  <div class="row relative">
-    <app-sidebar class="fixed left"></app-sidebar>
-    <main class="main">
-      <app-create-story [profile]="initialState.profile"></app-create-story>
-      <app-create-post [profile]="initialState.profile"></app-create-post>
-      <ng-container *ngIf="initialState.posts">
-        <app-post-card *ngFor="let post of initialState.posts?.content" [post]="post"></app-post-card>
-      </ng-container>
-    </main>
-    <app-sidebar class="fixed right"></app-sidebar>
-  </div>
-</ng-container>
+<nz-layout *ngIf=" initialState$ | async as state ; else loadingComponent  ">
+  <app-nav-bar [profile]="state.profile"></app-nav-bar>
+  <nz-layout>
+    <nz-sider nzWidth="max-content" style="left: 0">Sider</nz-sider>
+    <nz-content>
+      <div *ngFor="let post of state.posts.content" class="card">
+        <div class="card-post-header">
+          <div class="row">
+            <nz-avatar [nzSrc]="post.creator.avatar"></nz-avatar>
+            <div class="column" style="margin-left: 0.5rem; line-height: 1rem">
+              <strong>{{post.creator.user.firstName + " " + post.creator.user.lastName}}</strong>
+              <div class="row">
+                <small style="font-style: italic;">{{post.access.toLocaleLowerCase()}}</small>.
+                <small style="font-style: italic;">{{getDate(post.createDate)}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <nz-divider nzType="horizontal"></nz-divider>
+        <div class="card-post-body">
+          <div class="card-post-body-content">{{post.content | truncate: [180]}}</div>
+          <ng-container *ngFor="let media of post.images | index : 1 | slice: 0 : 3; let i =index">
+            <div *ngIf="hasContent('image', media.contentType)" class="card-post-body-media">
+              <img [alt]="media.id" [src]="media.url | src | async" fallBack/>
+            </div>
+          </ng-container>
+        </div>
+        <div class="card-post-footer">
+          <div nz-row>
+            <div nz-col nzSpan="8">col-8</div>
+            <div nz-col nzSpan="8">col-8</div>
+            <div nz-col nzSpan="8">col-8</div>
+          </div>
+        </div>
+      </div>
+    </nz-content>
+    <nz-sider nzWidth="max-content" style="right: 0">Sider</nz-sider>
+  </nz-layout>
+</nz-layout>
+<ng-template #loadingComponent>
+  <nz-card-loading ></nz-card-loading>
+</ng-template>
 
-<ng-container *ngIf="isLoading">
-  <div class="column flex-centered w-100 h-100">
-    <div class="logo">{{appName.toUpperCase()}}</div>
-    <app-puff-loader></app-puff-loader>
-  </div>
-</ng-container>
+
 
 
 

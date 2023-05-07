@@ -51,13 +51,13 @@ public class SwaggerConfiguration {
             "api.tokenUrl"
     })
     public SecurityScheme securityScheme(ApiProperties apiProperties) {
-        final var securityScheme = new SecurityScheme();
+        var securityScheme = new SecurityScheme();
         securityScheme.setType(SecurityScheme.Type.OAUTH2);
-        final var flows = new OAuthFlows();
-        final var scopes = new Scopes();
+        var flows = new OAuthFlows();
+        var scopes = new Scopes();
         scopes.addString(DefaultScopes.OPENID, DefaultScopes.OPENID);
 
-        final var clientCredentials = new OAuthFlow();
+        var clientCredentials = new OAuthFlow();
         clientCredentials.setAuthorizationUrl(apiProperties.getAuthorizationUrl());
         clientCredentials.setTokenUrl(apiProperties.getTokenUrl());
         clientCredentials.setScopes(scopes);

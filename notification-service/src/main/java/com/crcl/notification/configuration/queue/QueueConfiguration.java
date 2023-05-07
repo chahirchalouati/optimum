@@ -1,6 +1,8 @@
 package com.crcl.notification.configuration.queue;
 
+import com.crcl.common.utils.QueueDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.Declarables;
 import org.springframework.amqp.core.Queue;
@@ -8,22 +10,18 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.cloud.openfeign.support.PageJacksonModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 @Configuration
 public class QueueConfiguration {
 
-    public static final String NOTIFY_MAIL_QUEUE = "notify_mail_queue";
-    public static final String NOTIFY_PUSH_QUEUE = "notify_push_queue";
-    public static final String NOTIFY_SMS_QUEUE = "notify_sms_queue";
-
     private static final List<String> QUEUES = List.of(
-            NOTIFY_MAIL_QUEUE,
-            NOTIFY_PUSH_QUEUE,
-            NOTIFY_SMS_QUEUE
+            QueueDefinition.NOTIFY_POST_CREATED_QUEUE
     );
 
     @Bean
@@ -49,6 +47,10 @@ public class QueueConfiguration {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new PageJacksonModule());
+        SimpleModule simpleModule = new SimpleModule();
+        simpleModule.addDeserializer(Sort.class, new SortDeserializer());
+        objectMapper.registerModule(simpleModule);
         return objectMapper;
     }
 

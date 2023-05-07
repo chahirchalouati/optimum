@@ -1,7 +1,6 @@
 package com.crcl.notification.configuration.mail;
 
 import com.crcl.notification.configuration.properties.JavaMailProperties;
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,12 +9,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 
 @Configuration
-@AllArgsConstructor
 public class JavaMailSenderConfiguration {
-    private final JavaMailProperties javaMailProperties;
 
     @Bean
-    public JavaMailSender javaMailSender() {
+    public JavaMailSender javaMailSender(JavaMailProperties javaMailProperties) {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(javaMailProperties.getHost());
         javaMailSender.setPassword(javaMailProperties.getPassword());

@@ -1,20 +1,92 @@
-import Selectable = Pageable.Selectable;
-import {Pageable} from "./Pageable";
-import Profile from "./Profile";
 
-export interface Attachment {
-  etag: string;
-  name: string;
-  bucket: string;
-  version: string;
-  additionalData: { [key: string]: Attachment };
-}
+import {Selectable} from "./Pageable";
 
 export default interface Post extends Selectable {
-  attachments: Attachment[];
-  createdAt: string;
-  content: string;
-  owner: Profile;
-  visibility: Visibility;
+  id: string
+  content: string
+  creator: Creator
+  access: string
+  videos: any[]
+  images: Image[]
+  tags: any[]
+  likes: any[]
+  commentCount: number
+  shareCount: number
+  likesCount: number
+  disLikesCount: number
+  actions: Actions
+  createDate: string
+  lastModifiedDate: string
 }
-export type Visibility = "PUBLIC" | "FRIEND" | "PRIVATE";
+
+export interface Image {
+  index: number
+  id: string
+  parent: string
+  url: string
+  contentType: string
+  imageSize: ImageSize
+  processedImages: Image[]
+}
+
+export interface ImageSize {
+  width: number
+  height: number
+  name: string
+  label: string
+}
+
+
+export interface Creator {
+  username: string
+  avatar: string
+  backgroundImage: string
+  user: User
+}
+
+export interface User {
+  firstName: string
+  lastName: string
+  username: string
+  email: string
+  password: any
+  roles: any[]
+  gender: string
+  avatar: any
+  isAccountNonExpired: boolean
+  isEnabled: boolean
+  isCredentialsNonExpired: boolean
+  isAccountNonLocked: boolean
+  enabled: boolean
+  accountNonExpired: boolean
+  credentialsNonExpired: boolean
+  accountNonLocked: boolean
+}
+
+export interface Image {
+  index: number
+  id: string
+  parent: string
+  url: string
+  contentType: string
+  imageSize: ImageSize
+  processedImages: Image[]
+}
+
+
+export interface ImageSize {
+  width: number
+  height: number
+  name: string
+  label: string
+}
+
+export interface Actions {
+  hide: boolean
+  edit: boolean
+  like: boolean
+  dislike: boolean
+  update: boolean
+  share: boolean
+  delete: boolean
+}

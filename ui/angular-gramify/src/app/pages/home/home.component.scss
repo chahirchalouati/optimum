@@ -1,1 +1,80 @@
 @import "utils";
+
+$card_padding: 0.5rem;
+:host {
+  height: 100%;
+
+  nz-content, nz-sider {
+    margin-top: 4rem;
+  }
+
+  nz-sider {
+    position: fixed;
+    height: calc(100vh - 4rem);
+    width: 16vh;
+  }
+
+  .ant-layout-content {
+    height: unset;
+  }
+
+  nz-content {
+    @extend .column;
+    @extend .flex-centered;
+    height: calc(100vh - 4rem);
+
+    .card {
+      max-width: 600px;
+      min-width: 500px;
+      height: max-content;
+      max-height: 600px;
+      border-radius: 5px;
+      box-shadow: 0 0 3px $secondary-shadow-color;
+      background: white;
+      margin: 3px 0;
+
+      nz-divider {
+        margin: 0;
+      }
+
+      .card-post-header {
+        height: max-content;
+        padding: $card_padding;
+      }
+
+      .card-post-body {
+        height: max-content;
+        overflow: hidden;
+
+        .card-post-body-content {
+          text-align: left;
+          padding: $card_padding;
+          height: 20%;
+        }
+
+        .card-post-body-media {
+
+          img, video {
+            width: 100%;
+            object-fit: contain;
+            object-position: center;
+          }
+        }
+      }
+
+      .card-post-footer {
+        height: 100px;
+      }
+    }
+  }
+
+  nz-layout {
+    margin-bottom: 48px;
+  }
+
+  nz-layout nz-layout, nz-layout:last-child {
+    margin: 0;
+  }
+}
+
+

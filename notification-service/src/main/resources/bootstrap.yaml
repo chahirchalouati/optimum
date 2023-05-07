@@ -4,5 +4,12 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888
+  thymeleaf:
+    check-template-location: false
+org:
+  springframework:
+    web:
+      filter:
+        CommonsRequestLoggingFilter: DEBUG
 endpoints:
   configuration-url:http://localhost:8888

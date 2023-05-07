@@ -90,7 +90,7 @@ export const environment: Environment = {
         PROFILE_POST: "profile/profiles",
         PROFILE_PUT: "profile/profiles/:id",
         PROFILE_DELETE: "profile/profiles/:id",
-        PROFILE_GET_USER: "profile/profiles/profile/username"
+        PROFILE_GET_USER: "profile/searches/username"
 
       },
       post: {
@@ -101,7 +101,7 @@ export const environment: Environment = {
         POST_DELETE: "post/posts/:id",
       },
       comment: {
-        COMMENT_GET_PAGE: "comment/comments",
+        COMMENT_GET_PAGE: "comment/comments/post",
         COMMENT_GET_BY_ID: "comment/comments/:id",
         COMMENT_POST: "comment/comments",
         COMMENT_PUT: "comment/comments/:id",

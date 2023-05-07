@@ -1,164 +1,179 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.post.clients.ProfileClient;
-import com.crcl.post.clients.StorageClient;
-import com.crcl.post.domain.Attachment;
+import com.crcl.common.dto.ProfileDto;
+import com.crcl.common.dto.UserDto;
+import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.post.annotations.ValidCreatePostRequest;
+import com.crcl.post.client.IdpClient;
+import com.crcl.post.client.ProfileClient;
+import com.crcl.post.client.StorageClient;
+import com.crcl.post.domain.Image;
 import com.crcl.post.domain.Post;
-import com.crcl.post.dto.FileUploadResult;
+import com.crcl.post.domain.Tag;
+import com.crcl.post.domain.Video;
+import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
-import com.crcl.post.dto.PostFormDto;
-import com.crcl.post.dto.ProfileDto;
-import com.crcl.post.exceptions.DuplicateFileNameException;
 import com.crcl.post.mapper.PostMapper;
-import com.crcl.post.repository.AttachmentRepository;
 import com.crcl.post.repository.PostRepository;
+import com.crcl.post.repository.TagRepository;
+import com.crcl.post.service.PostQueueService;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toSet;
+import static com.crcl.post.utils.CrclFileUtils.hasFiles;
+import static com.crcl.post.utils.CrclUtils.applyIf;
+import static com.crcl.post.utils.CrclUtils.applyIfNotEmpty;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostMapper postMapper;
-    private final StorageClient storageClient;
+    private final TagRepository tagRepository;
+    private final PostQueueService queueService;
     private final UserService userService;
+    private final IdpClient idpClient;
+    private final StorageClient storageClient;
     private final ProfileClient profileClient;
-    private final AttachmentRepository attachmentRepository;
+    private final PostMapper mapper;
 
+
+    @Override
     public PostDto save(PostDto postDto) {
-        Post user = this.postMapper.toEntity(postDto);
-        return postMapper.toDto(postRepository.save(user));
+        Post save = postRepository.save(mapper.toEntity(postDto));
+        return mapper.toDto(save);
     }
 
     @Override
-    public List<PostDto> saveAll(List<PostDto> entities) {
-        return entities.stream()
+    public PostDto save(@ValidCreatePostRequest CreatePostRequest request) {
+        Post post = mapper.toEntity(request);
+
+        applyIf(hasFiles(request.getFiles()), () -> addFiles(request, post));
+        applyIfNotEmpty(request.getSharedWithUsers(), () -> addSharedWithUsers(request, post));
+        applyIfNotEmpty(request.getTags(), () -> addPostTags(request, post));
+        applyIfNotEmpty(request.getTaggedUsers(), () -> addTaggedUsers(request, post));
+
+        String username = userService.getCurrentUser().getUsername();
+        ProfileDto userProfile = profileClient.findByUsername(username);
+        post.setCreator(userProfile);
+
+        Post saved = postRepository.save(post);
+        PostDto storedPost = mapper.toDto(saved);
+
+        queueService.publishCreatePostEvent(storedPost);
+
+        return storedPost;
+    }
+
+    @Override
+    public List<PostDto> saveAll(List<PostDto> entitiesDto) {
+        return entitiesDto.stream()
                 .map(this::save)
                 .toList();
     }
 
     @Override
-    public void deleteById(Long id) {
-        postRepository.findById(id).ifPresent(user -> {
-            postRepository.save(user);
-            log.info("user with id %s was disabled".formatted(user.getId()));
-        });
+    public void deleteById(String entityId) {
+        postRepository.findById(entityId)
+                .ifPresentOrElse(
+                        post -> postRepository.deleteById(entityId),
+                        EntityNotFoundException::new);
     }
 
     @Override
-    public PostDto findById(Long id) {
-        return postRepository.findById(id)
-                .map(postMapper::toDto)
-                .orElse(null);
+    public PostDto findById(String s) {
+        return postRepository.findById(s)
+                .map(mapper::toDto)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public List<PostDto> findAll() {
-        return postRepository.findAll().stream()
-                .map(postMapper::toDto)
+        return this.postRepository.findAll()
+                .stream()
+                .map(mapper::toDto)
                 .toList();
     }
 
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
-        if (!pageable.getSort().isSorted()) {
-            pageable = PageRequest.of(
-                    pageable.getPageNumber(),
-                    pageable.getPageSize(),
-                    Sort.Direction.DESC,
-                    "createdAt");
-        }
+        return postRepository.findAll(pageable).map(mapper::toDto);
 
-        final Page<Post> posts = postRepository.findByLoggedUser(pageable);
-        final Set<String> usersNames = posts.getContent().stream()
-                .map(Post::getUsername)
-                .collect(toSet());
-        List<ProfileDto> profiles = this.profileClient.findByUsernames(usersNames);
-        Map<String, ProfileDto> profileMap = profiles.stream()
-                .collect(Collectors.toMap(p -> p.getUser().getUsername(), p -> p));
-        return posts
-                .map(postMapper::toDto)
-                .map(mergePostsWithOwnerProfiles(profileMap));
     }
 
     @Override
-    public PostDto update(PostDto postDto, Long id) {
-        return postRepository.findById(id)
-                .map(user -> postMapper.toEntity(postDto))
+    public PostDto update(PostDto postDto, String entityId) {
+        return postRepository.findById(entityId)
+                .map(post -> mapper.toEntity(postDto))
                 .map(postRepository::save)
-                .map(postMapper::toDto)
-                .orElse(null);
+                .map(mapper::toDto)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
-    @Override
-    public PostDto save(PostFormDto postFormDto) {
-        final var files = postFormDto.getFiles().stream().toList();
-        validateFilesName(files);
-        final var responses = this.storageClient.saveAll(files);
-        final var post = new Post();
-        post.setAttachments(getAttachments(responses));
-        post.setContent(postFormDto.getContent());
-        post.setVisibility(postFormDto.getVisibility());
-        post.setUsername(userService.getCurrentUser().getUsername());
-        post.setUser(userService.getCurrentUser());
-        final Post save = postRepository.save(post);
-        return postMapper.toDto(save);
+    private void addSharedWithUsers(CreatePostRequest request, Post post) {
+        List<UserDto> users = idpClient.findByUsername(new LinkedHashSet<>(request.getSharedWithUsers()));
+        post.setSharedWithUsers(new LinkedHashSet<>(users));
     }
 
-    private void validateFilesName(List<MultipartFile> files) {
-        for (MultipartFile file : files) {
-            String fileName = file.getOriginalFilename();
-            log.debug("Validating file name: {}", fileName);
-            boolean fileExists = attachmentRepository.existsByNameIgnoreCase(fileName);
-            if (fileExists) {
-                log.warn("Duplicate file name found: {}", fileName);
-                throw new DuplicateFileNameException("Duplicate file name found: " + fileName);
-            }
-            log.debug("File name is unique: {}", fileName);
-        }
-        log.info("All file names are valid");
+    private void addTaggedUsers(CreatePostRequest request, Post post) {
+        var taggedUsers = this.idpClient.findByUsername(new LinkedHashSet<>(request.getTaggedUsers()));
+        var usersTags = taggedUsers.stream()
+                .map(userDto -> new Tag().setName(userDto.getUsername()))
+                .collect(Collectors.toSet());
+        post.getTags().addAll(usersTags);
     }
 
-
-    private Set<Attachment> getAttachments(List<FileUploadResult> responses) {
-        return responses.stream()
-                .map(response -> new Attachment()
-                        .setUsername(userService.getCurrentUser().getUsername())
-                        .setContentType(response.getContentType())
-                        .setName(response.getName())
-                        .setLink(response.getLink())
-                        .setBucket(response.getBucket())
-                        .setEtag(response.getEtag())
-                        .setVersion(response.getVersion()))
-                .collect(toSet());
+    private void addPostTags(CreatePostRequest request, Post post) {
+        var names = request.getTags().stream()
+                .filter(Tag::isSystem)
+                .map(Tag::getName)
+                .toList();
+        var tags = tagRepository.findByNameIn(names);
+        post.setTags(new LinkedHashSet<>(tags));
     }
 
-    private Function<PostDto, PostDto> mergePostsWithOwnerProfiles(Map<String, ProfileDto> profileMap) {
-        return postDto -> {
-            String postUsername = postDto.getUsername();
-            ProfileDto ownerProfile = profileMap.get(postUsername);
-            postDto.setOwner(ownerProfile);
-            return postDto;
-        };
+    private void addFiles(CreatePostRequest request, Post post) {
+        AtomicInteger index = new AtomicInteger(0);
+        List<FileUploadResult> results = storageClient.saveAll(request.getFiles());
+
+        results.stream()
+                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("image"))
+                .map(buildImage(index))
+                .forEach(image -> post.getImages().add(image));
+
+        index.set(0);
+
+        results.stream()
+                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("video"))
+                .map(buildVideo(index))
+                .forEach(video -> post.getVideos().add(video));
     }
 
+    private Function<FileUploadResult, Image> buildImage(AtomicInteger index) {
+        return file -> new Image()
+                .setId(file.getEtag())
+                .setIndex(index.getAndIncrement())
+                .setContentType(file.getContentType())
+                .setUrl(file.getLink());
+    }
 
+    private Function<FileUploadResult, Video> buildVideo(AtomicInteger index) {
+        return file -> new Video()
+                .setId(file.getEtag())
+                .setIndex(index.incrementAndGet())
+                .setUrl(file.getLink());
+    }
 }

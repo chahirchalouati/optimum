@@ -11,8 +11,8 @@
     <groupId>com.crcl</groupId>
     <artifactId>proxy-service</artifactId>
     <version>0.0.1</version>
-    <name>gateway</name>
-    <description>gateway</description>
+    <name>proxy-service</name>
+    <description>proxy-service</description>
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2021.0.5</spring-cloud.version>

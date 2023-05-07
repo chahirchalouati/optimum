@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.crcl.dreamer</groupId>
+    <groupId>com.crcl</groupId>
     <artifactId>gramify-ms</artifactId>
     <version>1.0.2</version>
     <name>gramify-ms</name>
@@ -19,15 +19,16 @@
 
     <modules>
         <module>common</module>
+        <module>authorization-server</module>
         <module>configuration-service</module>
         <module>proxy-service</module>
         <module>post-service</module>
-        <module>comment-service</module>
-        <module>audit-service</module>
-        <module>authentication-service</module>
         <module>notification-service</module>
         <module>profile-service</module>
         <module>storage-service</module>
-        <module>media-processor-service</module>
+        <module>processor-service</module>
+        <module>comment-service</module>
+        <module>audit-service</module>
+        <module>user-info-service</module>
     </modules>
 </project>
