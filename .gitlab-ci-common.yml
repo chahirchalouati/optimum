@@ -3,7 +3,7 @@ variables:
 
 .changes:
   only:
-    refs:
+    changes:
       - .gitlab-ci-common.yml
 
 #common-build:

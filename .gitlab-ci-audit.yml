@@ -3,7 +3,7 @@ variables:
 
 .changes:
   only:
-    refs:
+    changes:
       - .gitlab-ci-audit.yml
 
 audit-build:
