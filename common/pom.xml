@@ -120,13 +120,13 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>Chahir Chloauti</name>
-            <url>https://maven.pkg.github.com/chahirchalouati/gramify-ms</url>
-        </repository>
-    </distributionManagement>
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>github</id>-->
+<!--            <name>Chahir Chloauti</name>-->
+<!--            <url>https://maven.pkg.github.com/chahirchalouati/gramify-ms</url>-->
+<!--        </repository>-->
+<!--    </distributionManagement>-->
     <build>
         <plugins>
             <plugin>
