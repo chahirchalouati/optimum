@@ -17,6 +17,8 @@ maven:
   stage: maven
   script:
     - mvn -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true clean package -pl $MODULE_NAME
+  tags:
+    - dev
 
 docker:
   extends:
