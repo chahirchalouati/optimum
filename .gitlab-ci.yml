@@ -1,6 +1,5 @@
 services:
   - name: docker:latest
-    pull_policy: if-not-present
 
 .changes:
   only:
