@@ -15,6 +15,7 @@ stages:
 
 maven:
   stage: maven
+  image: maven:3.8.4-openjdk-17-slim
   script:
     - mvn -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true clean package -pl $MODULE_NAME
   tags:
