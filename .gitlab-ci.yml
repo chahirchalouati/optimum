@@ -10,7 +10,7 @@ variables:
       - .gitlab-ci.yml
       - .gitlab-ci-audit.yml
 before_script:
-  - echo $MODULE_NAME
+  - echo "$MODULE_NAME"
 
 stages:
   - maven
