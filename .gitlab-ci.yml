@@ -1,9 +1,4 @@
 
-.changes:
-  only:
-    refs:
-      - branches
-
 stages:
   - maven
   - docker
