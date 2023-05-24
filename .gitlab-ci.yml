@@ -9,7 +9,7 @@ stages:
       - .gitlab-ci.yml
 
 build-maven:
-  stage: maven
+  stage: build
   image:
     name: nginx
     pull_policy: if-not-present
