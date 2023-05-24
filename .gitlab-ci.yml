@@ -6,14 +6,14 @@ variables:
     refs:
       - branches
     changes:
-      - $MODULE_NAME/*
+      - $MODULE_NAME/**
 
 stages:
   - maven
   - docker
   - deploy
 
-.maven:
+maven:
   extends:
     - .changes
   stage: maven
@@ -23,7 +23,7 @@ stages:
   tags:
     - dev
 
-.docker:
+docker:
   extends:
     - .changes
   stage: docker
@@ -38,7 +38,7 @@ stages:
   tags:
     - dev
 
-.deploy:
+deploy:
   extends:
     - .changes
   stage: deploy
