@@ -1,0 +1,20 @@
+# docker build -f Dockerfile -t gramify-runner .
+# docker run gramify-runner
+FROM gitlab/gitlab-runner:v15.5.2
+
+ENV REGISTER_NON_INTERACTIVE='';
+ENV CI_SERVER_URL='';
+ENV RUNNER_NAME='';
+ENV RUNNER_EXECUTOR='';
+ENV RUNNER_TAG_LIST='';
+ENV RUNNER_REPOSITORY_URL='';
+ENV DOCKER_IMAGE='';
+ENV DOCKER_PRIVILEGED='';
+ENV DOCKER_VOLUMES='';
+ENV DOCKER_NETWORK_MODE='';
+ENV REGISTRATION_TOKEN='';
+ENV DESCRIPTION='';
+
+COPY start.sh start.sh
+
+ENTRYPOINT ["sh", "start.sh"]
