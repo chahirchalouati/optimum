@@ -15,7 +15,7 @@ stages:
   - docker
   - deploy
 
-.build_template:
+.build:
   extends:
     - .changes
   stage: maven
@@ -25,7 +25,7 @@ stages:
   tags:
     - dev
 
-.docker_template:
+.docker:
   extends:
     - .changes
   stage: docker
@@ -40,7 +40,7 @@ stages:
   tags:
     - dev
 
-.deploy_template:
+.deploy:
   extends:
     - .changes
   stage: deploy
