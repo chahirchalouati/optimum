@@ -1,50 +1,60 @@
-stages:
-  - build
-  - docker
-  - deploy
+services:
+  - name: docker:latest
+    pull_policy: if-not-present
 
 .changes:
   only:
-    changes:
-      - .gitlab-ci.yml
+    - pushes
+    - triggers
 
-build-maven:
-  stage: build
-  image:
-    name: nginx
-    pull_policy: if-not-present
+stages:
+  - maven
+  - docker
+  - deploy
+
+cache:
+  paths:
+    - .m2/repository
+
+variables:
+  MAVEN_OPTS: ""
+  MAVEN_CLI_OPTS: ""
+
+maven:
+  extends:
+    - .changes
+  stage: maven
+  image: maven:3.8.4-openjdk-17-slim
   script:
-    - echo "HELLO WORLD !!!"
+    - mvn -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true clean package
+  artifacts:
+    paths:
+      - target/*
   tags:
     - dev
 
-build-docker:
+docker:
+  extends:
+    - .changes
   stage: docker
   image:
-    name: nginx
-    pull_policy: if-not-present
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [""]
   script:
-    - echo "HELLO WORLD !!!"
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}:$CI_COMMIT_SHORT_SHA"
   tags:
     - dev
 
-deploy-compose:
+deploy:
+  extends:
+    - .changes
+  image: bitnami/kubectl:latest
   stage: deploy
-  image:
-    name: nginx
-    pull_policy: if-not-present
   script:
-    - echo "HELLO WORLD !!!"
+    - sed -i "s/latest/$CI_COMMIT_SHORT_SHA/g" "k8s-client-deployment.yaml"
+    - kubectl apply -f k8s-client-deployment.yaml
   tags:
     - dev
-
-deploy-k8s:
-  stage: deploy
-  image:
-    name: nginx
-    pull_policy: if-not-present
-  script:
-    - echo "HELLO WORLD !!!"
-  tags:
-    - dev
-
