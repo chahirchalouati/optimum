@@ -7,6 +7,8 @@ variables:
       - branches
     changes:
       - $MODULE_NAME/**
+      - .gitlab-ci.yml
+      - .gitlab-ci-audit.yml
 
 stages:
   - maven
