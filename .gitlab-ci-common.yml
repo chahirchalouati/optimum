@@ -1,7 +1,7 @@
 variables:
   MODULE_NAME: common
 
-audit-build:
+common-build:
   extends:
     - .build
 
