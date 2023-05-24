@@ -1,36 +1,22 @@
-services:
-  - name: docker:latest
+variables:
+  MODULE_NAME: ""
 
 .changes:
   only:
-    - pushes
-    - triggers
+    refs:
+      - branches
+    changes:
+      - $MODULE_NAME/*
 
 stages:
   - maven
   - docker
   - deploy
 
-cache:
-  paths:
-    - .m2/repository
-
-variables:
-  MAVEN_OPTS: ""
-  MAVEN_CLI_OPTS: ""
-
 maven:
-  extends:
-    - .changes
   stage: maven
-  image: maven:3.8.4-openjdk-17-slim
   script:
-    - mvn -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true clean package
-  artifacts:
-    paths:
-      - target/*
-  tags:
-    - dev
+    - mvn -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true clean package -pl $MODULE_NAME
 
 docker:
   extends:
@@ -42,18 +28,22 @@ docker:
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}:$CI_COMMIT_SHORT_SHA"
+      --dockerfile "${CI_PROJECT_DIR}/$MODULE_NAME/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
   tags:
     - dev
 
 deploy:
   extends:
     - .changes
-  image: bitnami/kubectl:latest
   stage: deploy
   script:
-    - sed -i "s/latest/$CI_COMMIT_SHORT_SHA/g" "k8s-client-deployment.yaml"
-    - kubectl apply -f k8s-client-deployment.yaml
-  tags:
-    - dev
+    - if [ "$CI_PIPELINE_SOURCE" == "push" ] && git diff --name-only $CI_COMMIT_BEFORE_SHA..$CI_COMMIT_REF_NAME | grep --quiet module1/; then
+      cd $MODULE_NAME;
+      ls
+      else
+      echo "No changes in module1. Skipping deployment.";
+      fi
+
+include:
+  - ".gitlab-ci-audit.yml"
