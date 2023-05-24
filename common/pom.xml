@@ -120,13 +120,22 @@
         </dependency>
     </dependencies>
 
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>github</id>-->
-<!--            <name>Chahir Chloauti</name>-->
-<!--            <url>https://maven.pkg.github.com/chahirchalouati/gramify-ms</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
+<repositories>
+  <repository>
+    <id>gitlab-registry</id>
+    <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+  </repository>
+</repositories>
+<distributionManagement>
+  <repository>
+    <id>gitlab-registry</id>
+    <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+  </repository>
+  <snapshotRepository>
+    <id>gitlab-registry</id>
+    <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+  </snapshotRepository>
+</distributionManagement>
     <build>
         <plugins>
             <plugin>
