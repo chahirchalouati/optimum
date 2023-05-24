@@ -5,14 +5,10 @@ variables:
   only:
     changes:
       - .gitlab-ci-common.yml
-
-#common-build:
-#  extends:
-#    - .build
-deploy:
+build:
   extends:
     - .changes
-  stage: deploy
+  stage: build
   image: maven:3.8.4-openjdk-17-slim
   script:
     - mvn -s ci-settings.xml deploy
