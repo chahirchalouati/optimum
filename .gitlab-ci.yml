@@ -13,7 +13,7 @@ stages:
   - docker
   - deploy
 
-maven:
+.maven:
   extends:
     - .changes
   stage: maven
@@ -23,7 +23,7 @@ maven:
   tags:
     - dev
 
-docker:
+.docker:
   extends:
     - .changes
   stage: docker
@@ -38,7 +38,7 @@ docker:
   tags:
     - dev
 
-deploy:
+.deploy:
   extends:
     - .changes
   stage: deploy
