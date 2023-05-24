@@ -1,6 +1,11 @@
 variables:
   MODULE_NAME: audit-service
 
+.changes:
+  only:
+    refs:
+      - .gitlab-ci-audit.yml
+
 audit-build:
   extends:
     - .build
