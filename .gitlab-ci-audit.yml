@@ -6,8 +6,6 @@ audit-build:
 
 audit-docker:
   <<: *docker_template
-  needs: ["audit-build"]
 
 deploy:
   <<: *deploy_template
-  needs: ["audit-docker"]
