@@ -2,10 +2,13 @@ variables:
   MODULE_NAME: audit-service
 
 audit-build:
-  <<: *build_template
+  extends:
+    - .build
 
 audit-docker:
-  <<: *docker_template
+  extends:
+    - .docker
 
-deploy:
-  <<: *deploy_template
+audit-deploy:
+  extends:
+    - .deploy
