@@ -52,3 +52,4 @@ stages:
 
 include:
   - local: ".gitlab-ci-audit.yml"
+  - local: ".gitlab-ci-common.yml"
