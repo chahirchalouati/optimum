@@ -1,14 +1,13 @@
 variables:
   MODULE_NAME: audit-service
 
-#audit-maven:
-#  extends:
-#    - .maven
-#
-#audit-docker:
-#  extends:
-#    - .docker
-#
-#audit-deploy:
-#  extends:
-#    - .deploy
+audit-build:
+  <<: *build_template
+
+audit-docker:
+  <<: *docker_template
+  needs: ["audit-build"]
+
+deploy:
+  <<: *deploy_template
+  needs: ["audit-docker"]

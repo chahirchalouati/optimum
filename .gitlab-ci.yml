@@ -13,7 +13,7 @@ stages:
   - docker
   - deploy
 
-maven:
+.build_template: &build_template
   extends:
     - .changes
   stage: maven
@@ -23,13 +23,13 @@ maven:
   tags:
     - dev
 
-docker:
+.docker_template: &docker_template
   extends:
     - .changes
   stage: docker
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [""]
+    entrypoint: [ "" ]
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
@@ -38,7 +38,7 @@ docker:
   tags:
     - dev
 
-deploy:
+.deploy_template: &deploy_template
   extends:
     - .changes
   stage: deploy
