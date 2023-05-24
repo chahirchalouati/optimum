@@ -51,4 +51,4 @@ stages:
       fi
 
 include:
-  - ".gitlab-ci-audit.yml"
+  - local: ".gitlab-ci-audit.yml"
