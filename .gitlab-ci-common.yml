@@ -12,6 +12,6 @@ build:
   stage: maven
   image: maven:3.8.4-openjdk-17-slim
   script:
-    - mvn -s ci-settings.xml deploy
+    - mvn -s ci-settings.xml deploy -pl $MODULE_NAME
   tags:
     - dev
