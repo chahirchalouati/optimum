@@ -8,7 +8,7 @@ variables:
 build:
   extends:
     - .changes
-  stage: build
+  stage: maven
   image: maven:3.8.4-openjdk-17-slim
   script:
     - mvn -s ci-settings.xml deploy
