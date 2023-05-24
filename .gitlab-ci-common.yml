@@ -9,7 +9,6 @@ variables:
 #common-build:
 #  extends:
 #    - .build
-
 deploy:
   extends:
     - .changes
