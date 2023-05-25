@@ -5,7 +5,7 @@ stages:
   - deploy
 cache:
   paths:
-    - $CI_PROJECT_DIR/.m2/repository
+    - .m2/repository
 
 .build:
   before_script:
@@ -30,7 +30,7 @@ cache:
   stage: maven
   image: maven:3.8.4-openjdk-17-slim
   script:
-    - mvn -s settings.xml -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true deploy -pl $MODULE_NAME
+    - mvn -s settings.xml -Dmaven.repo.local=.m2/repository -DskipTests=true deploy -pl $MODULE_NAME
   tags:
     - dev
   when: manual
