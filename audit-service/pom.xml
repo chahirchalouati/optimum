@@ -25,16 +25,6 @@
         <lombok.version>1.18.24</lombok.version>
         <spring.security.version>2.3.4.RELEASE</spring.security.version>
     </properties>
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/libs-milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -123,13 +113,30 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <distributionManagement>
-
+    <repositories>
         <repository>
-            <id>github</id>
-            <name>Chahir Chaloauti</name>
-            <url>https://maven.pkg.github.com/chahirchalouati/gramify-ms</url>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+        </repository>
+        <snapshotRepository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+        </snapshotRepository>
     </distributionManagement>
     <build>
         <plugins>
