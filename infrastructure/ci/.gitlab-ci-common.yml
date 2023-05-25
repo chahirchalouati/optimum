@@ -1,23 +1,27 @@
-variables:
-  MODULE_NAME: common
-
+# Update n.0
 .changes:
   only:
     changes:
-      - .gitlab-ci-common.yml
-      - .gitlab-ci.yml
       - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
 common-build:
+  variables:
+    MODULE_NAME: common
   extends:
     - .build
 
 common-docker:
+  variables:
+    MODULE_NAME: common
   extends:
     - .docker
 
 common-deploy:
+  variables:
+    MODULE_NAME: common
   extends:
     - .deploy
+

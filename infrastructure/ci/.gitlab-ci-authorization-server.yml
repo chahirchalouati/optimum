@@ -1,22 +1,27 @@
-variables:
-  MODULE_NAME: authorization-server
-
+# Update n.0
 .changes:
   only:
     changes:
-      - .gitlab-ci-authorization-server.yml
       - $MODULE_NAME/**
+      - .gitlab-ci-authorization-server.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
 authorization-server-build:
+  variables:
+    MODULE_NAME: authorization-server
   extends:
     - .build
 
 authorization-server-docker:
+  variables:
+    MODULE_NAME: authorization-server
   extends:
     - .docker
 
 authorization-server-deploy:
+  variables:
+    MODULE_NAME: authorization-server
   extends:
     - .deploy
+
