@@ -3,6 +3,9 @@ stages:
   - maven
   - docker
   - deploy
+cache:
+  paths:
+    - $CI_PROJECT_DIR/.m2/repository
 
 .build:
   before_script:
