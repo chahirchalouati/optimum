@@ -5,7 +5,10 @@ variables:
   only:
     changes:
       - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
       - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
 
 common-build:
   extends:
