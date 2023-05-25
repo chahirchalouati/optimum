@@ -44,5 +44,6 @@ stages:
       else
       echo "No changes in module1. Skipping deployment.";
       fi
+  when: manual
 
 include: "infrastructure/ci/**.yml"
