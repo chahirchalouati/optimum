@@ -5,6 +5,7 @@ variables:
   only:
     changes:
       - .gitlab-ci-audit.yml
+      - $MODULE_NAME/**
 
 audit-build:
   extends:
