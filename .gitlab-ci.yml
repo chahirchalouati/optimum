@@ -13,6 +13,7 @@ stages:
     - mvn -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -DskipTests=true clean package -pl $MODULE_NAME
   tags:
     - dev
+  when: manual
 
 .docker:
   extends:
@@ -28,6 +29,7 @@ stages:
       --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
   tags:
     - dev
+  when: manual
 
 .deploy:
   extends:

@@ -13,15 +13,3 @@ common-build:
   extends:
     - .build
 
-common-docker:
-  variables:
-    MODULE_NAME: common
-  extends:
-    - .docker
-
-common-deploy:
-  variables:
-    MODULE_NAME: common
-  extends:
-    - .deploy
-
