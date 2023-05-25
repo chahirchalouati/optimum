@@ -64,4 +64,16 @@ cache:
       fi
   when: manual
 
-include: "infrastructure/ci/**.yml"
+include:
+ - local: ".gitlab-ci-audit-service.yml"
+ - local: ".gitlab-ci-authorization-server.yml"
+ - local: ".gitlab-ci-comment-service.yml"
+ - local: ".gitlab-ci-common.yml"
+ - local: ".gitlab-ci-configuration-service.yml"
+ - local: ".gitlab-ci-notification-service.yml"
+ - local: ".gitlab-ci-post-service.yml"
+ - local: ".gitlab-ci-processor-service.yml"
+ - local: ".gitlab-ci-profile-service.yml"
+ - local: ".gitlab-ci-proxy-service.yml"
+ - local: ".gitlab-ci-storage-service.yml"
+ - local: ".gitlab-ci-user-info-service.yml"
