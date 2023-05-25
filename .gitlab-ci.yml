@@ -5,6 +5,8 @@ stages:
   - deploy
 
 .build:
+  before_script:
+    - echo "Start build $MODULE_NAME"
   extends:
     - .changes
   stage: maven
