@@ -41,18 +41,4 @@ stages:
       echo "No changes in module1. Skipping deployment.";
       fi
 
-include:
-  - project:
-    file:
-      - "infrastructure/ci/.gitlab-ci-common.yml"
-      - "infrastructure/ci/.gitlab-ci-audit-service.yml"
-      - "infrastructure/ci/.gitlab-ci-authorization-server.yml"
-      - "infrastructure/ci/.gitlab-ci-comment-service.yml"
-      - "infrastructure/ci/.gitlab-ci-configuration-service.yml"
-      - "infrastructure/ci/.gitlab-ci-notification-service.yml"
-      - "infrastructure/ci/.gitlab-ci-post-service.yml"
-      - "infrastructure/ci/.gitlab-ci-processor-service.yml"
-      - "infrastructure/ci/.gitlab-ci-profile-service.yml"
-      - "infrastructure/ci/.gitlab-ci-proxy-service.yml"
-      - "infrastructure/ci/.gitlab-ci-storage-service.yml"
-      - "infrastructure/ci/.gitlab-ci-user-info-service.yml"
+include: "infrastructure/ci/**.yml"
