@@ -1,0 +1,20 @@
+variables:
+  MODULE_NAME: proxy-service
+
+.changes:
+  only:
+    changes:
+      - .gitlab-ci-proxy-service.yml
+      - $MODULE_NAME/**
+
+proxy-service-build:
+  extends:
+    - .build
+
+proxy-service-docker:
+  extends:
+    - .docker
+
+proxy-service-deploy:
+  extends:
+    - .deploy
