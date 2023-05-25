@@ -6,6 +6,8 @@ variables:
     changes:
       - .gitlab-ci-post-service.yml
       - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
 
 post-service-build:
   extends:

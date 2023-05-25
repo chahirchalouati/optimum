@@ -6,6 +6,8 @@ variables:
     changes:
       - .gitlab-ci-proxy-service.yml
       - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
 
 proxy-service-build:
   extends:
