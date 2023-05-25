@@ -1,0 +1,20 @@
+variables:
+  MODULE_NAME: storage-service
+
+.changes:
+  only:
+    changes:
+      - .gitlab-ci-storage-service.yml
+      - $MODULE_NAME/**
+
+storage-service-build:
+  extends:
+    - .build
+
+storage-service-docker:
+  extends:
+    - .docker
+
+storage-service-deploy:
+  extends:
+    - .deploy

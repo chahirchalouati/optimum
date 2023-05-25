@@ -4,17 +4,17 @@ variables:
 .changes:
   only:
     changes:
-      - .gitlab-ci-audit.yml
+      - .gitlab-ci-audit-service.yml
       - $MODULE_NAME/**
 
-audit-build:
+audit-service-build:
   extends:
     - .build
 
-audit-docker:
+audit-service-docker:
   extends:
     - .docker
 
-audit-deploy:
+audit-service-deploy:
   extends:
     - .deploy
