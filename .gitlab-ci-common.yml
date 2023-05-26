@@ -4,7 +4,6 @@
     changes:
       - $MODULE_NAME/**
       - .gitlab-ci-common.yml
-      - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
 common-build:
@@ -16,5 +15,6 @@ common-build:
     - mvn -s settings.xml -Dmaven.repo.local=.m2/repository -DskipTests=true deploy -pl $MODULE_NAME
   rules:
     - changes:
-        - $MODULE_NAME/**
+        paths:
+          - $MODULE_NAME/**
 
