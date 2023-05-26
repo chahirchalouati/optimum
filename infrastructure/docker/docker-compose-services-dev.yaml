@@ -1,13 +1,8 @@
 version: '3.3'
 services:
+
   configuration-service:
-    build:
-      context: ../../configuration-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.profiles.active":"docker"
@@ -18,13 +13,7 @@ services:
       - l_net
 
   audit-service:
-    build:
-      context: ../../audit-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -39,13 +28,7 @@ services:
       - l_net
 
   authentication-service:
-    build:
-      context: ../../authentication-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -59,13 +42,7 @@ services:
       - l_net
 
   post-service:
-    build:
-      context: ../../post-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -80,13 +57,7 @@ services:
       - l_net
 
   proxy-service:
-    build:
-      context: ../../proxy-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -99,14 +70,9 @@ services:
       - '9999:9999'
     networks:
       - l_net
+
   notification-service:
-    build:
-      context: ../../notification-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -119,14 +85,9 @@ services:
       - '7008:7008'
     networks:
       - l_net
+
   storage-service:
-    build:
-      context: ../../storage-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: ${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -140,26 +101,10 @@ services:
     networks:
       - l_net
 
-  social-service:
-    build:
-      context: ../../clients/social/
-      dockerfile: DockerFile
-    container_name: client
-    environment:
-      - OAUTH_CALLBACK_URL=http://social-service:4200/authorized
-      - OAUTH_AUTHORIZE_URL=http://authentication-service:9000/oauth2/authorize
-      - PROXY_URL=http://proxy-service:9999
-    ports:
-      - "4200:4200"
-      - '49153:49153'
-    volumes:
-      - ../../clients/social:/app
-      - nodemodules:/app/node_modules
-    networks:
-      - l_net
 networks:
   l_net:
     driver: bridge
+
 volumes:
   mysql-db:
   postgres-db:
