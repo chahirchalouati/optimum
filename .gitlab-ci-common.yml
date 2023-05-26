@@ -14,4 +14,7 @@ common-build:
     - .build
   script:
     - mvn -s settings.xml -Dmaven.repo.local=.m2/repository -DskipTests=true deploy -pl $MODULE_NAME
+  rules:
+    - changes:
+        - $MODULE_NAME/**
 
