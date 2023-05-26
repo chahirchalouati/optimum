@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.comment-service-build-vars:
+  variables:
+    MODULE_NAME: comment-service
+
+.comment-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-comment-service-build:
-  variables:
-    MODULE_NAME: comment-service
+build-comment-service:
   extends:
+    - .comment-service-build-vars
+    - .comment-service-build-changes
     - .build
 
-comment-service-docker:
-  variables:
-    MODULE_NAME: comment-service
+docker-comment-service:
   extends:
+    - .comment-service-build-vars
+    - .comment-service-build-changes
     - .docker
 
-comment-service-deploy:
-  variables:
-    MODULE_NAME: comment-service
+deploy-comment-service:
   extends:
+    - .comment-service-build-vars
+    - .comment-service-build-changes
     - .deploy
 

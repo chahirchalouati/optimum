@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.storage-service-build-vars:
+  variables:
+    MODULE_NAME: storage-service
+
+.storage-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-storage-service-build:
-  variables:
-    MODULE_NAME: storage-service
+build-storage-service:
   extends:
+    - .storage-service-build-vars
+    - .storage-service-build-changes
     - .build
 
-storage-service-docker:
-  variables:
-    MODULE_NAME: storage-service
+docker-storage-service:
   extends:
+    - .storage-service-build-vars
+    - .storage-service-build-changes
     - .docker
 
-storage-service-deploy:
-  variables:
-    MODULE_NAME: storage-service
+deploy-storage-service:
   extends:
+    - .storage-service-build-vars
+    - .storage-service-build-changes
     - .deploy
 

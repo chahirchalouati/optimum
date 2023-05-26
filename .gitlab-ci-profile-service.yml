@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.profile-service-build-vars:
+  variables:
+    MODULE_NAME: profile-service
+
+.profile-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-profile-service-build:
-  variables:
-    MODULE_NAME: profile-service
+build-profile-service:
   extends:
+    - .profile-service-build-vars
+    - .profile-service-build-changes
     - .build
 
-profile-service-docker:
-  variables:
-    MODULE_NAME: profile-service
+docker-profile-service:
   extends:
+    - .profile-service-build-vars
+    - .profile-service-build-changes
     - .docker
 
-profile-service-deploy:
-  variables:
-    MODULE_NAME: profile-service
+deploy-profile-service:
   extends:
+    - .profile-service-build-vars
+    - .profile-service-build-changes
     - .deploy
 

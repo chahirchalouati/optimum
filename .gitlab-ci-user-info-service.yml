@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.user-info-service-build-vars:
+  variables:
+    MODULE_NAME: user-info-service
+
+.user-info-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-user-info-service-build:
-  variables:
-    MODULE_NAME: user-info-service
+build-user-info-service:
   extends:
+    - .user-info-service-build-vars
+    - .user-info-service-build-changes
     - .build
 
-user-info-service-docker:
-  variables:
-    MODULE_NAME: user-info-service
+docker-user-info-service:
   extends:
+    - .user-info-service-build-vars
+    - .user-info-service-build-changes
     - .docker
 
-user-info-service-deploy:
-  variables:
-    MODULE_NAME: user-info-service
+deploy-user-info-service:
   extends:
+    - .user-info-service-build-vars
+    - .user-info-service-build-changes
     - .deploy
 

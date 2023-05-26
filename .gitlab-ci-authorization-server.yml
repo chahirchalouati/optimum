@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.authorization-server-build-vars:
+  variables:
+    MODULE_NAME: authorization-server
+
+.authorization-server-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-authorization-server-build:
-  variables:
-    MODULE_NAME: authorization-server
+build-authorization-server:
   extends:
+    - .authorization-server-build-vars
+    - .authorization-server-build-changes
     - .build
 
-authorization-server-docker:
-  variables:
-    MODULE_NAME: authorization-server
+docker-authorization-server:
   extends:
+    - .authorization-server-build-vars
+    - .authorization-server-build-changes
     - .docker
 
-authorization-server-deploy:
-  variables:
-    MODULE_NAME: authorization-server
+deploy-authorization-server:
   extends:
+    - .authorization-server-build-vars
+    - .authorization-server-build-changes
     - .deploy
 

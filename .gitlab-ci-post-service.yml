@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.post-service-build-vars:
+  variables:
+    MODULE_NAME: post-service
+
+.post-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-post-service-build:
-  variables:
-    MODULE_NAME: post-service
+build-post-service:
   extends:
+    - .post-service-build-vars
+    - .post-service-build-changes
     - .build
 
-post-service-docker:
-  variables:
-    MODULE_NAME: post-service
+docker-post-service:
   extends:
+    - .post-service-build-vars
+    - .post-service-build-changes
     - .docker
 
-post-service-deploy:
-  variables:
-    MODULE_NAME: post-service
+deploy-post-service:
   extends:
+    - .post-service-build-vars
+    - .post-service-build-changes
     - .deploy
 
