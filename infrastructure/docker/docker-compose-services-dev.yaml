@@ -160,3 +160,13 @@ services:
 networks:
   l_net:
     driver: bridge
+volumes:
+  mysql-db:
+  postgres-db:
+  cassandra-db:
+  mongo-db:
+  minio:
+  elasticsearch-db:
+  rabbit-log:
+  rabbit-conf:
+  nodemodules:
