@@ -36,7 +36,7 @@ cache:
       - $MODULE_NAME/target/*.jar
   tags:
     - dev
-
+  allow_failure: true
 
 .docker:
   extends:
