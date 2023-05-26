@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     oauthCallbackUrl: "http://127.0.0.1:4200/authorized",
-    oauthAuthorizeUrl: "http://auth-server:9000/oauth2/authorize",
+    oauthAuthorizeUrl: "http://proxy-service:9999/authentication/oauth2/authorize",
     oauthClientId: "ui-service",
     oauthTokenUrl: "authentication/oauth2/token",
     oauthClientSecret: "secret",
