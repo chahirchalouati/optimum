@@ -9,6 +9,7 @@ variables:
   CACHE_DIR: /cache
 
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - .m2/repository
     - ${CACHE_DIR}
