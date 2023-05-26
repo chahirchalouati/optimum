@@ -6,7 +6,7 @@
 .authorization-server-build-changes:
   only:
     changes:
-      - $MODULE_NAME/**
+      - $MODULE_NAME/**/*
       - .gitlab-ci-authorization-server.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml

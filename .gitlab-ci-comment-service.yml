@@ -6,7 +6,7 @@
 .comment-service-build-changes:
   only:
     changes:
-      - $MODULE_NAME/**
+      - $MODULE_NAME/**/*
       - .gitlab-ci-comment-service.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
