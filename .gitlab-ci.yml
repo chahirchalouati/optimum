@@ -5,9 +5,13 @@ stages:
   - docker
   - deploy
 
+variables:
+  CACHE_DIR: /cache
+
 cache:
   paths:
     - .m2/repository
+    - ${CACHE_DIR}
 
 .build:
   before_script:
@@ -48,6 +52,8 @@ cache:
       --context "${CI_PROJECT_DIR}/$MODULE_NAME"
       --dockerfile "Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
+      --cache=true 
+      --cache-dir=$CACHE_DIR
   tags:
     - dev
 
