@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.processor-service-build-vars:
+  variables:
+    MODULE_NAME: processor-service
+
+.processor-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-processor-service-build:
-  variables:
-    MODULE_NAME: processor-service
+build-processor-service:
   extends:
+    - .processor-service-build-vars
+    - .processor-service-build-changes
     - .build
 
-processor-service-docker:
-  variables:
-    MODULE_NAME: processor-service
+docker-processor-service:
   extends:
+    - .processor-service-build-vars
+    - .processor-service-build-changes
     - .docker
 
-processor-service-deploy:
-  variables:
-    MODULE_NAME: processor-service
+deploy-processor-service:
   extends:
+    - .processor-service-build-vars
+    - .processor-service-build-changes
     - .deploy
 

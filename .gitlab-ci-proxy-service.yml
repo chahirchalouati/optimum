@@ -1,5 +1,9 @@
 # Update n.0
-.changes:
+.proxy-service-build-vars:
+  variables:
+    MODULE_NAME: proxy-service
+
+.proxy-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-proxy-service-build:
-  variables:
-    MODULE_NAME: proxy-service
+build-proxy-service:
   extends:
+    - .proxy-service-build-vars
+    - .proxy-service-build-changes
     - .build
 
-proxy-service-docker:
-  variables:
-    MODULE_NAME: proxy-service
+docker-proxy-service:
   extends:
+    - .proxy-service-build-vars
+    - .proxy-service-build-changes
     - .docker
 
-proxy-service-deploy:
-  variables:
-    MODULE_NAME: proxy-service
+deploy-proxy-service:
   extends:
+    - .proxy-service-build-vars
+    - .proxy-service-build-changes
     - .deploy
 

@@ -1,5 +1,9 @@
-# Update n.2
-.changes:
+# Update n.0
+.audit-service-build-vars:
+  variables:
+    MODULE_NAME: audit-service
+
+.audit-service-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
@@ -7,21 +11,21 @@
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-audit-service-build:
-  variables:
-    MODULE_NAME: audit-service
+build-audit-service:
   extends:
+    - .audit-service-build-vars
+    - .audit-service-build-changes
     - .build
 
-audit-service-docker:
-  variables:
-    MODULE_NAME: audit-service
+docker-audit-service:
   extends:
+    - .audit-service-build-vars
+    - .audit-service-build-changes
     - .docker
 
-audit-service-deploy:
-  variables:
-    MODULE_NAME: audit-service
+deploy-audit-service:
   extends:
+    - .audit-service-build-vars
+    - .audit-service-build-changes
     - .deploy
 

@@ -1,16 +1,30 @@
 # Update n.0
-.changes:
+.common-build-vars:
+  variables:
+    MODULE_NAME: common
+
+.common-build-changes:
   only:
     changes:
       - $MODULE_NAME/**
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
-common-build:
-  variables:
-    MODULE_NAME: common
+build-common:
   extends:
+    - .common-build-vars
+    - .common-build-changes
     - .build
-  script:
-    - mvn -s settings.xml -Dmaven.repo.local=.m2/repository -DskipTests=true deploy -pl $MODULE_NAME
+
+docker-common:
+  extends:
+    - .common-build-vars
+    - .common-build-changes
+    - .docker
+
+deploy-common:
+  extends:
+    - .common-build-vars
+    - .common-build-changes
+    - .deploy
 

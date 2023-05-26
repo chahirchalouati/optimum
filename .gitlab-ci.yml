@@ -1,8 +1,10 @@
-# 3
+# Update n.0
+
 stages:
   - maven
   - docker
   - deploy
+
 cache:
   paths:
     - .m2/repository
@@ -25,8 +27,6 @@ cache:
           </servers>
       </settings>
       EOF
-  extends:
-    - .changes
   stage: maven
   image: maven:3.8.4-openjdk-17-slim
   script:
@@ -39,8 +39,6 @@ cache:
   allow_failure: true
 
 .docker:
-  extends:
-    - .changes
   stage: docker
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
