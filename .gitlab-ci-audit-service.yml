@@ -6,7 +6,7 @@
 .audit-service-build-changes:
   only:
     changes:
-      - $MODULE_NAME/**
+      -  audit-service/**/*
       - .gitlab-ci-audit-service.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
