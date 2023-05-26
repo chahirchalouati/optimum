@@ -6,7 +6,7 @@
 .profile-service-build-changes:
   only:
     changes:
-      - $MODULE_NAME/**
+      - $MODULE_NAME/**/*
       - .gitlab-ci-profile-service.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml

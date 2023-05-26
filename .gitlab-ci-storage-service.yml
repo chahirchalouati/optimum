@@ -6,7 +6,7 @@
 .storage-service-build-changes:
   only:
     changes:
-      - $MODULE_NAME/**
+      - $MODULE_NAME/**/*
       - .gitlab-ci-storage-service.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
