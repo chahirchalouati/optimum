@@ -47,8 +47,8 @@ cache:
     entrypoint: [ "" ]
   script:
     - /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
-      --dockerfile "${CI_PROJECT_DIR}/$MODULE_NAME/Dockerfile"
+      --context "${CI_PROJECT_DIR}/$MODULE_NAME"
+      --dockerfile "Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
   tags:
     - dev
