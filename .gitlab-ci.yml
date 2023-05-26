@@ -65,6 +65,8 @@ cache:
       else
       echo "No changes in module1. Skipping deployment.";
       fi
+  tags:
+    - dev
   when: manual
 
 include:
