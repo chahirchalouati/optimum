@@ -42,6 +42,7 @@ cache:
   tags:
     - dev
   allow_failure: true
+  when: manual
 
 .docker:
   stage: docker
@@ -58,6 +59,7 @@ cache:
   tags:
     - dev
   allow_failure: true
+  when: manual
 
 .deploy:
   image: docker:latest
@@ -69,6 +71,7 @@ cache:
   tags:
     - dev
   allow_failure: true
+  when: manual
 
 include:
  - local: ".gitlab-ci-audit-service.yml"
