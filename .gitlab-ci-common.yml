@@ -12,4 +12,6 @@ common-build:
     MODULE_NAME: common
   extends:
     - .build
+  script:
+    - mvn -s settings.xml -Dmaven.repo.local=.m2/repository -DskipTests=true deploy -pl $MODULE_NAME
 
