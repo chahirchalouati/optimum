@@ -52,7 +52,6 @@ cache:
       --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
   tags:
     - dev
-  when: manual
 
 .deploy:
   image: docker:latest
@@ -63,7 +62,6 @@ cache:
     - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $MODULE_NAME
   tags:
     - dev
-  when: manual
 
 include:
  - local: ".gitlab-ci-audit-service.yml"
