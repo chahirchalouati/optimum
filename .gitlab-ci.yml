@@ -55,14 +55,17 @@ cache:
   when: manual
 
 .deploy:
-  extends:
-    - .changes
-  stage: deploy
+  image: docker:latest
+  stage: run
   script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
     - docker-compose -f ./infrastructure/docker/docker-compose-services.yaml up -d $MODULE_NAME
   tags:
     - dev
   when: manual
+
+
 
 include:
  - local: ".gitlab-ci-audit-service.yml"
