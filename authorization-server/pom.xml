@@ -50,7 +50,6 @@
             <groupId>com.crcl</groupId>
             <artifactId>common</artifactId>
             <version>1.0.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,12 +107,23 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+        </repository>
+    </repositories>
+
     <distributionManagement>
         <repository>
-            <id>github</id>
-            <name>Chahir Chloauti</name>
-            <url>https://maven.pkg.github.com/chahirchalouati/gramify-ms</url>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
         </repository>
+
+        <snapshotRepository>
+            <id>gitlab-maven</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+        </snapshotRepository>
     </distributionManagement>
     <build>
         <plugins>
