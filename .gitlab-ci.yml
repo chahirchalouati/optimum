@@ -57,6 +57,7 @@ cache:
       --cache-dir=$CACHE_DIR
   tags:
     - dev
+  allow_failure: true
 
 .deploy:
   image: docker:latest
@@ -67,6 +68,7 @@ cache:
     - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $MODULE_NAME
   tags:
     - dev
+  allow_failure: true
 
 include:
  - local: ".gitlab-ci-audit-service.yml"
