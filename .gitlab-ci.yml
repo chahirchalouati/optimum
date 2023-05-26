@@ -9,7 +9,6 @@ variables:
   CACHE_DIR: cache
 
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - .m2/repository
     - ${CACHE_DIR}
@@ -42,7 +41,6 @@ cache:
   tags:
     - dev
   allow_failure: true
-  when: manual
 
 .docker:
   stage: docker
