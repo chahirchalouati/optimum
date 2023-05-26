@@ -59,12 +59,7 @@ cache:
     - .changes
   stage: deploy
   script:
-    - if [ "$CI_PIPELINE_SOURCE" == "push" ] && git diff --name-only $CI_COMMIT_BEFORE_SHA..$CI_COMMIT_REF_NAME | grep --quiet module1/; then
-      cd $MODULE_NAME;
-      ls
-      else
-      echo "No changes in module1. Skipping deployment.";
-      fi
+    - docker-compose -f ./infrastructure/docker/docker-compose-services.yaml up -d $MODULE_NAME
   tags:
     - dev
   when: manual
