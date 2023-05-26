@@ -31,7 +31,6 @@ services:
         "spring.profiles.active":"docker"
       }'
     depends_on:
-      - mongo
       - configuration-service
       - authentication-service
     ports:
@@ -54,7 +53,6 @@ services:
       }'
     depends_on:
       - configuration-service
-      - mongo
     ports:
       - '9000:9000'
     networks:
@@ -74,7 +72,6 @@ services:
          "spring.profiles.active":"docker"
       }'
     depends_on:
-      - mysql-db
       - configuration-service
       - authentication-service
     ports:
@@ -102,26 +99,26 @@ services:
       - '9999:9999'
     networks:
       - l_net
-  #  notification-service:
-  #    build:
-  #      context: ../../notification-service/
-  #      dockerfile: DockerFile
-  #      args:
-  #        USER_NAME: chahirchaloauti
-  #        PASSWORD: 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
-  #        ID: github
-  #    environment:
-  #      SPRING_APPLICATION_JSON: '{
-  #        "spring.cloud.config.uri": "http://configuration-service:8888",
-  #         "spring.profiles.active":"docker"
-  #      }'
-  #    depends_on:
-  #      - configuration-service
-  #      - authentication-service
-  #    ports:
-  #      - '7008:7008'
-  #    networks:
-  #      - l_net
+  notification-service:
+    build:
+      context: ../../notification-service/
+      dockerfile: DockerFile
+      args:
+        USER_NAME: chahirchaloauti
+        PASSWORD: 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
+        ID: github
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+         "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+      - authentication-service
+    ports:
+      - '7008:7008'
+    networks:
+      - l_net
   storage-service:
     build:
       context: ../../storage-service/
@@ -138,7 +135,6 @@ services:
     depends_on:
       - configuration-service
       - authentication-service
-      - minio
     ports:
       - '7010:7010'
     networks:
