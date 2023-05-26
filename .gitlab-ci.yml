@@ -36,7 +36,6 @@ cache:
       - $MODULE_NAME/target/*.jar
   tags:
     - dev
-  when: manual
 
 .docker:
   extends:
