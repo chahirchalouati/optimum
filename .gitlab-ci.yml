@@ -65,8 +65,6 @@ cache:
     - dev
   when: manual
 
-
-
 include:
  - local: ".gitlab-ci-audit-service.yml"
  - local: ".gitlab-ci-authorization-server.yml"
