@@ -1,8 +1,8 @@
 package com.crcl.profile.configuration.security;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
@@ -17,13 +17,12 @@ import static org.springframework.security.oauth2.core.AuthorizationGrantType.CL
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
 
 @Component
+@RequiredArgsConstructor
 public class Oauth2TokenInterceptorHelper {
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private OAuth2ClientProperties oAuth2ClientProperties;
-    @Value("${client.authentication.url}")
-    private String IDP_URL;
+    private final RestTemplate restTemplate;
+    private final OAuth2ClientProperties oAuth2ClientProperties;
+    private final AuthorizationProperties authorizationProperties;
+
 
     public String getClientAccessToken(String clientId, String password) {
         try {
@@ -35,7 +34,7 @@ public class Oauth2TokenInterceptorHelper {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             HttpEntity<?> request = new HttpEntity<>(formValues, headers);
-            var response = restTemplate.exchange("%s/oauth2/token".formatted(IDP_URL), HttpMethod.POST, request, String.class);
+            var response = restTemplate.exchange(authorizationProperties.getTokenUrl(), HttpMethod.POST, request, String.class);
             return new JSONObject(response.getBody()).getString("access_token");
         } catch (JSONException e) {
             return StringUtils.EMPTY;

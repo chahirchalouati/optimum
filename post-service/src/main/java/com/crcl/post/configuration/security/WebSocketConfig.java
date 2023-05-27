@@ -1,4 +1,4 @@
-package com.crcl.comment.configuration;
+package com.crcl.post.configuration.security;
 
 import com.crcl.common.configuration.properties.WebSocketProperties;
 import lombok.RequiredArgsConstructor;
