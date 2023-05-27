@@ -6,7 +6,21 @@ stages:
   - deploy
 
 variables:
-  CACHE_DIR: cache
+  CACHE_DIR: docker-cache
+  MAVEN_OPTS: >-
+    -Dhttps.protocols=TLSv1.2
+    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
+    -Dorg.slf4j.simpleLogger.showDateTime=true
+    -Djava.awt.headless=true
+  MAVEN_CLI_OPTS: >-
+    --batch-mode
+    --errors
+    --fail-at-end
+    --show-version
+    --no-transfer-progress
+    -DinstallAtEnd=true
+    -DdeployAtEnd=true
+
 
 cache:
   paths:
@@ -19,7 +33,10 @@ cache:
   stage: maven
   image: maven:3.8.4-openjdk-17-slim
   script:
-    - mvn -s ci-cd-settings.xml -Dmaven.repo.local=.m2/repository -DskipTests=true clean package -pl $MODULE_NAME
+    - if [ ! -f ci_settings.xml ]; then
+        echo "CI settings missing";
+        fi
+    - mvn --settings ci_settings.xml $MAVEN_CLI_OPTS clean package -pl "$MODULE_NAME"
   artifacts:
     paths:
       - $MODULE_NAME/target/*.jar
