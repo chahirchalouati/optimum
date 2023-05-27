@@ -1,12 +1,14 @@
 package com.crcl.profile.configuration;
 
+import com.crcl.common.configuration.properties.WebSocketProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-
+@Import(WebSocketProperties.class)
 @Configuration
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
