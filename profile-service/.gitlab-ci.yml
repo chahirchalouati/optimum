@@ -1,0 +1,26 @@
+# Update n.0
+.changes:
+  only:
+    changes:
+      - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
+
+profile-service-build:
+  variables:
+    MODULE_NAME: profile-service
+  extends:
+    - .build
+
+profile-service-docker:
+  variables:
+    MODULE_NAME: profile-service
+  extends:
+    - .docker
+
+profile-service-deploy:
+  variables:
+    MODULE_NAME: profile-service
+  extends:
+    - .deploy
+
