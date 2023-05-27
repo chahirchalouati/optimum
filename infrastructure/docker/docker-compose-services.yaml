@@ -1,13 +1,7 @@
 version: '3.3'
 services:
   configuration-service:
-    build:
-      context: ../../configuration-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: registry.gitlab.com/chehhhir/gramify-ms/configuration-service
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.profiles.active":"docker"
@@ -18,13 +12,7 @@ services:
       - l_net
 
   audit-service:
-    build:
-      context: ../../audit-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: registry.gitlab.com/chehhhir/gramify-ms/audit-service
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -40,13 +28,7 @@ services:
       - l_net
 
   authentication-service:
-    build:
-      context: ../../authentication-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: registry.gitlab.com/chehhhir/gramify-ms/authorization-server
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -61,13 +43,7 @@ services:
       - l_net
 
   post-service:
-    build:
-      context: ../../post-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: registry.gitlab.com/chehhhir/gramify-ms/post-service
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -83,13 +59,7 @@ services:
       - l_net
 
   proxy-service:
-    build:
-      context: ../../proxy-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: registry.gitlab.com/chehhhir/gramify-ms/proxy-service
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -102,34 +72,9 @@ services:
       - '9999:9999'
     networks:
       - l_net
-  #  notification-service:
-  #    build:
-  #      context: ../../notification-service/
-  #      dockerfile: DockerFile
-  #      args:
-  #        USER_NAME: chahirchaloauti
-  #        PASSWORD: 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
-  #        ID: github
-  #    environment:
-  #      SPRING_APPLICATION_JSON: '{
-  #        "spring.cloud.config.uri": "http://configuration-service:8888",
-  #         "spring.profiles.active":"docker"
-  #      }'
-  #    depends_on:
-  #      - configuration-service
-  #      - authentication-service
-  #    ports:
-  #      - '7008:7008'
-  #    networks:
-  #      - l_net
+
   storage-service:
-    build:
-      context: ../../storage-service/
-      dockerfile: DockerFile
-      args:
-        USER_NAME: chahirchaloauti
-        PASSWORD: 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
-        ID: github
+    image: registry.gitlab.com/chehhhir/gramify-ms/storage-service
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
@@ -145,10 +90,7 @@ services:
       - l_net
 
   social-service:
-    build:
-      context: ../../clients/social/
-      dockerfile: DockerFile
-    container_name: client
+    image: registry.gitlab.com/chehhhir/gramify-ms/client
     environment:
       - OAUTH_CALLBACK_URL=http://social-service:4200/authorized
       - OAUTH_AUTHORIZE_URL=http://authentication-service:9000/oauth2/authorize

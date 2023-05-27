@@ -22,7 +22,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/chahirchalouati/gramify-ms-configurations.git
+          uri: https://gitlab.com/chehhhir/gramify-ms-configurations.git
           default-label: main
           force-pull: true
           refresh-rate: 5
