@@ -1,0 +1,26 @@
+# Update n.0
+.changes:
+  only:
+    changes:
+      - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
+
+processor-service-build:
+  variables:
+    MODULE_NAME: processor-service
+  extends:
+    - .build
+
+processor-service-docker:
+  variables:
+    MODULE_NAME: processor-service
+  extends:
+    - .docker
+
+processor-service-deploy:
+  variables:
+    MODULE_NAME: processor-service
+  extends:
+    - .deploy
+

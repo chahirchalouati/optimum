@@ -1,0 +1,13 @@
+# Update n.0
+.changes:
+  only:
+    changes:
+      - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
+
+common-build:
+  variables:
+    MODULE_NAME: common
+  extends:
+    - .build

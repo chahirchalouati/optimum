@@ -1,0 +1,26 @@
+# Update n.0
+.changes:
+  only:
+    changes:
+      - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
+
+ui-build:
+  variables:
+    MODULE_NAME: ui
+  extends:
+    - .build
+
+ui-docker:
+  variables:
+    MODULE_NAME: ui
+  extends:
+    - .docker
+
+ui-deploy:
+  variables:
+    MODULE_NAME: ui
+  extends:
+    - .deploy
+

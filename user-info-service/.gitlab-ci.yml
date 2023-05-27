@@ -1,0 +1,26 @@
+# Update n.0
+.changes:
+  only:
+    changes:
+      - $MODULE_NAME/**
+      - .gitlab-ci-common.yml
+      - .gitlab-ci.yml
+
+user-info-service-build:
+  variables:
+    MODULE_NAME: user-info-service
+  extends:
+    - .build
+
+user-info-service-docker:
+  variables:
+    MODULE_NAME: user-info-service
+  extends:
+    - .docker
+
+user-info-service-deploy:
+  variables:
+    MODULE_NAME: user-info-service
+  extends:
+    - .deploy
+
