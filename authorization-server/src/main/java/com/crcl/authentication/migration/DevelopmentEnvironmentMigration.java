@@ -22,7 +22,7 @@ import java.util.Set;
 
 import static org.springframework.security.oauth2.core.ClientAuthenticationMethod.CLIENT_SECRET_POST;
 
-@Profile("dev")
+@Profile({"dev", "docker"})
 @Slf4j
 @ChangeLog
 public class DevelopmentEnvironmentMigration {

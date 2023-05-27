@@ -17,7 +17,7 @@ import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
-@Profile("dev")
+@Profile({"dev", "docker"})
 @Slf4j
 public class DevUtilities {
     private final SrvIdpClient srvIdpClient;
