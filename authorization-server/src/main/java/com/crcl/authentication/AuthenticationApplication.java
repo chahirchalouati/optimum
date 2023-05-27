@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
 
 @EnableFeignClients
 @SpringBootApplication
-@ConfigurationPropertiesScan({"com.crcl.authentication.configuration.*","com.crcl.common.configuration.properties"})
+@ConfigurationPropertiesScan({"com.crcl.authentication.configuration.*"})
 @EnableMongoAuditing
 public class AuthenticationApplication {
 

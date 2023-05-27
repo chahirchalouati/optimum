@@ -8,7 +8,9 @@ import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
@@ -22,16 +24,20 @@ public class BucketsConfiguration {
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void handleApplicationReadyEvent() {
-        List<BucketProperties> buckets = minioProperties.getBuckets();
+    @Bean
+    public CommandLineRunner handleApplicationReadyEvent() {
+        System.out.println(minioProperties);
 
-        if (buckets.isEmpty()) {
-            log.info("The buckets list is empty.");
-            return;
-        }
+        return args -> {
+            List<BucketProperties> buckets = minioProperties.getBuckets();
 
-        buckets.forEach(this::createBucketIfNotExists);
+            if (buckets.isEmpty()) {
+                log.info("The buckets list is empty.");
+                return;
+            }
+
+            buckets.forEach(this::createBucketIfNotExists);
+        };
     }
 
     private void createBucketIfNotExists(BucketProperties bucketProperties) {

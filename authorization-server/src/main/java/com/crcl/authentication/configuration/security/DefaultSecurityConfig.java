@@ -32,6 +32,7 @@ public class DefaultSecurityConfig {
         OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
         http.authorizeRequests()
                 .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                .antMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
                 .antMatchers(HttpMethod.POST, "/users/**").permitAll()
                 .antMatchers("/authentication/login/**").permitAll()
                 .antMatchers("/authentication/register/**").permitAll()

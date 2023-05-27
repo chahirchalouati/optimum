@@ -1,4 +1,4 @@
-package com.crcl.common.configuration.properties;
+package com.crcl.authentication.configuration.props;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
