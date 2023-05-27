@@ -12,6 +12,11 @@ services:
     image: minio/minio
     container_name: minio
     command: server --console-address ":9001" /export
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     ports:
       - "47017:9000"
       - "47018:9001"
@@ -27,6 +32,11 @@ services:
   mysql-db:
     image: mysql:8
     container_name: mysql-container
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h mysql --silent" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
@@ -36,27 +46,14 @@ services:
     networks:
       - l_net
 
-#  postgres-db:
-#    image: postgres:14.1-alpine
-#    container_name: postgres-container
-#    healthcheck:
-#      test: [ "CMD-SHELL", "pg_isready" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
-#    environment:
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    ports:
-#      - '5432:5432'
-#    volumes:
-#      - postgres-db:/var/lib/postgres
-#    networks:
-#      - l_net
-
   rabbitmq:
     build: rabbitMQ/.
     container_name: rabbitmq-container
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -71,8 +68,8 @@ services:
     image: mongo:6.0.2
     container_name: mongo-container
     healthcheck:
-      test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin --quiet | grep 1
-      interval: 10s
+      test: [ "CMD-SHELL", "mongo --quiet --eval \"db.adminCommand('ping')\"" ]
+      interval: 30s
       timeout: 10s
       retries: 3
     ports:

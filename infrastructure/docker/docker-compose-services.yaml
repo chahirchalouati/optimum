@@ -2,6 +2,11 @@ version: '3.3'
 services:
   configuration-service:
     image: registry.gitlab.com/chehhhir/gramify-ms/configuration-service
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail http://localhost:8888/actuator/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.profiles.active":"docker"
@@ -32,11 +37,13 @@ services:
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
-        "spring.profiles.active":"docker"
+        "spring.profiles.active":"docker",
+        "minio.url":"http://minio:9000"
       }'
     depends_on:
       - configuration-service
       - mongo
+      - minio
     ports:
       - '9000:9000'
     networks:
@@ -89,6 +96,54 @@ services:
     networks:
       - l_net
 
+  profile-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/profile-service
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+         "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+      - authentication-service
+      - minio
+    ports:
+      - '7009:7009'
+    networks:
+      - l_net
+
+  processor-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/processor-service
+    environment:
+      SPRING_APPLICATION_JSON: '{
+       "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+     }'
+    depends_on:
+      - configuration-service
+      - authentication-service
+      - minio
+    ports:
+      - '7012:7012'
+    networks:
+      - l_net
+
+  comment-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/comment-service
+    environment:
+      SPRING_APPLICATION_JSON: '{
+       "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+     }'
+    depends_on:
+      - configuration-service
+      - authentication-service
+      - minio
+    ports:
+      - '7012:7012'
+    networks:
+      - l_net
+
   social-service:
     image: registry.gitlab.com/chehhhir/gramify-ms/client
     environment:
@@ -96,10 +151,94 @@ services:
       - OAUTH_AUTHORIZE_URL=http://authentication-service:9000/oauth2/authorize
       - PROXY_URL=http://proxy-service:9999
     ports:
-      - "4200:4200"
-      - '49153:49153'
-    volumes:
-      - ../../clients/social:/app
-      - nodemodules:/app/node_modules
+      - "4200:80"
+    #    volumes:
+    #      - ../../clients/social:/app
+    #      - nodemodules:/app/node_modules
     networks:
       - l_net
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    command: server --console-address ":9001" /export
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/live" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "47017:9000"
+      - "47018:9001"
+    environment:
+      MINIO_ROOT_USER: myaccesskey
+      MINIO_ROOT_PASSWORD: mysecretkey
+      MINIO_BUCKET: processor
+    volumes:
+      - minio:/export
+    networks:
+      - l_net
+
+  mysql-db:
+    image: mysql:8
+    container_name: mysql-container
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h mysql --silent" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-db:/var/lib/mysql
+    networks:
+      - l_net
+
+  rabbitmq:
+    build: rabbitMQ/.
+    container_name: rabbitmq-container
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+    volumes:
+      - rabbit-conf:/var/lib/rabbitmq/
+      - rabbit-log:/var/log/rabbitmq
+    networks:
+      - l_net
+
+  mongo:
+    image: mongo:6.0.2
+    container_name: mongo-container
+    healthcheck:
+      test: [ "CMD-SHELL", "mongo --quiet --eval \"db.adminCommand('ping')\"" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-db:/var/lib/mongo
+    networks:
+      - l_net
+
+networks:
+  l_net:
+
+volumes:
+  mysql-db:
+  postgres-db:
+  cassandra-db:
+  mongo-db:
+  minio:
+  elasticsearch-db:
+  rabbit-log:
+  rabbit-conf:
+  nodemodules:

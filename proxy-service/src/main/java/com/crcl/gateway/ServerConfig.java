@@ -13,8 +13,9 @@ public class ServerConfig implements WebFluxConfigurer {
     public GlobalFilter globalFilter() {
         return (exchange, chain) -> {
             HttpHeaders headers = exchange.getRequest().getHeaders();
-
             return chain.filter(exchange);
         };
     }
+
+
 }
