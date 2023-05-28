@@ -6,7 +6,7 @@ import com.crcl.common.utils.CrclObjectUtils;
 import com.crcl.common.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
