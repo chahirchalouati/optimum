@@ -8,8 +8,9 @@ for dir in "$directory"/*; do
     # Extract the directory name
     dir_name=$(basename "$dir")
 
+     rm -f "$dir_name/.gitlab-ci-$dir_name.yml"
     # Create a file with the directory name and write the content
-    file_path=".gitlab-ci-$dir_name.yml"
+    file_path="$dir_name/.gitlab-ci.yml"
 
     # Add additional content to the file using a Here Document
     cat <<EOF > "$file_path"
@@ -18,7 +19,6 @@ for dir in "$directory"/*; do
   only:
     changes:
       - \$MODULE_NAME/**
-      - .gitlab-ci-$dir_name.yml
       - .gitlab-ci-common.yml
       - .gitlab-ci.yml
 
@@ -42,7 +42,7 @@ $dir_name-deploy:
 
 EOF
 
-    echo "Created file: $file_path"
+    echo "$file_path"
   fi
 done
 
