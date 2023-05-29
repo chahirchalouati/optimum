@@ -1,5 +1,6 @@
 package com.crcl.profile.utils;
 
+import com.crcl.common.dto.UserDto;
 import com.crcl.profile.domain.*;
 import com.crcl.profile.dto.ProfileDto;
 import org.jetbrains.annotations.NotNull;
@@ -151,10 +152,4 @@ public class ProfileUtils {
     public static <T> Set<T> createRandomObjects(int count, Supplier<T> object) {
         return createRandomObjects(count, 0, object);
     }
-//
-//    public static void main(String[] args) {
-//        UserDto user = new UserDto();
-//        user.setGender("MALE");
-//        ProfileDto defaultProfile = ProfileUtils.getDefaultProfile(user);
-//    }
 }

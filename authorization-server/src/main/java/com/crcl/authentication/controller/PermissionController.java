@@ -22,11 +22,6 @@ public class PermissionController {
         return ResponseEntity.ok(this.permissionService.findAll(pageable));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<PermissionDto>> findAll() {
-        return ResponseEntity.ok(this.permissionService.findAll());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<PermissionDto> findById(@PathVariable String id) {
         return ResponseEntity.ok(this.permissionService.findById(id));

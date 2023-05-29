@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,7 +29,7 @@ public class DefaultSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         this.corsCustomizer.corsCustomizer(http);
-        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
+        OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<HttpSecurity>();
         http.authorizeRequests()
                 .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
                 .antMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
@@ -39,8 +39,8 @@ public class DefaultSecurityConfig {
                 .antMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable()
-                .formLogin(fm -> fm.loginPage("/authentication/login"));
-        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .formLogin(fm -> fm.loginPage("/authentication/login"))
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
                 .apply(authorizationServerConfigurer);
 
         return http.build();

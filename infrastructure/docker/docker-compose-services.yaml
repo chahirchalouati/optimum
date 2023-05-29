@@ -2,11 +2,6 @@ version: '3.3'
 services:
   configuration-service:
     image: registry.gitlab.com/chehhhir/gramify-ms/configuration-service
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --fail http://localhost:8888/actuator/health || exit 1" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.profiles.active":"docker"
@@ -41,12 +36,9 @@ services:
         "minio.url":"http://minio:9000"
       }'
     depends_on:
-      configuration-service:
-        condition: service_healthy
-      mongo:
-        condition: service_healthy
-      minio:
-        condition: service_healthy
+      - configuration-service
+      - mongo
+      - minio
     ports:
       - '9000:9000'
     networks:
@@ -218,13 +210,8 @@ services:
       - l_net
 
   mongo:
-    image: mongo:6.0.2
+    image: mongo:6.0.5
     container_name: mongo-container
-    healthcheck:
-      test: [ "CMD-SHELL", "mongo --quiet --eval \"db.adminCommand('ping')\"" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     ports:
       - "27017:27017"
     volumes:

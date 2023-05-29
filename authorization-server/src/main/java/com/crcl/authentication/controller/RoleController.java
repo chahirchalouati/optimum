@@ -22,11 +22,6 @@ public class RoleController {
         return ResponseEntity.ok(this.roleService.findAll(pageable));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<RoleDto>> findAll() {
-        return ResponseEntity.ok(this.roleService.findAll());
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<RoleDto> findById(@PathVariable String id) {
         return ResponseEntity.ok(this.roleService.findById(id));
