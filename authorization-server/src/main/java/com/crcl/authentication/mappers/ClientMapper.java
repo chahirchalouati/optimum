@@ -3,7 +3,7 @@ package com.crcl.authentication.mappers;
 import com.crcl.authentication.domain.GramifyClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;

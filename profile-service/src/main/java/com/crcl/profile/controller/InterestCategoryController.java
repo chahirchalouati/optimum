@@ -29,7 +29,7 @@ public class InterestCategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteById(@PathVariable String id) {
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         return ResponseEntity.noContent().build();
     }
 

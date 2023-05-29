@@ -3,7 +3,15 @@ package com.crcl.profile.configuration.security;
 import com.crcl.common.configuration.SwaggerConfiguration;
 import com.crcl.common.properties.ApiProperties;
 import com.crcl.common.utils.EndpointsUtils;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.openfeign.support.PageJacksonModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,5 +35,17 @@ public class ResourceServerConfig {
                 )
                 .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
         return http.build();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper()
+                .registerModule(new PageJacksonModule())
+                .registerModule(new SimpleModule())
+                .registerModule(new JavaTimeModule())
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+                .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+
     }
 }

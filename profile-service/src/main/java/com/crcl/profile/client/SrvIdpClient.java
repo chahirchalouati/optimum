@@ -1,12 +1,12 @@
 package com.crcl.profile.client;
 
+import com.crcl.common.dto.RestPage;
+import com.crcl.common.dto.UserDto;
 import com.crcl.profile.configuration.SrvConfiguration;
-import com.crcl.profile.domain.UserDto;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.util.List;
 
 @FeignClient(
         name = "${client.srvAuthentication.name}",
@@ -18,6 +18,6 @@ public interface SrvIdpClient {
     @GetMapping("/users/username/{username}")
     UserDto findByUsername(@PathVariable String username);
 
-    @GetMapping("/users/all")
-    List<UserDto> findAll();
+    @GetMapping("/users")
+    RestPage<UserDto> findAll(Pageable pageable);
 }

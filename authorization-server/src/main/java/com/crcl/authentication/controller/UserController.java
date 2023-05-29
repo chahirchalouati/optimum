@@ -32,12 +32,6 @@ public class UserController {
         return page;
     }
 
-    @GetMapping("/all")
-    @JsonView(UserView.UserResponseView.class)
-    public ResponseEntity<List<UserDto>> findAll() {
-        return ResponseEntity.ok(this.userService.findAll());
-    }
-
     @GetMapping("/usernames")
     @JsonView(UserView.UserResponseView.class)
     public ResponseEntity<Set<UserDto>> findByUserNames(@RequestParam("usernames") Set<String> userNames) {
@@ -57,8 +51,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> save(@Valid @RequestBody
-                                        @JsonView(UserView.CreateUserView.class) UserDto userDto) {
+    public ResponseEntity<UserDto> save(@Valid @RequestBody @JsonView(UserView.CreateUserView.class) UserDto userDto) {
         return ResponseEntity.ok(this.userService.save(userDto));
     }
 
@@ -73,7 +66,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable String id) {
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         this.userService.deleteById(id);
         return ResponseEntity.accepted().build();
     }

@@ -66,7 +66,7 @@ public class Profile {
     private Set<Certification> certifications = new HashSet<>();
 
     @Field(name = "user")
-    private UserDto user;
+    private com.crcl.common.dto.UserDto user;
 
 
 }

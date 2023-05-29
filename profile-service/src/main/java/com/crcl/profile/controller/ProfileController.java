@@ -22,40 +22,30 @@ public class ProfileController {
     @GetMapping
     @SneakyThrows
     public ResponseEntity<Page<ProfileDto>> findAll(Pageable pageable) {
-        Thread.sleep(10000);
-
         return ResponseEntity.ok(this.profileService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
     @SneakyThrows
     public ResponseEntity<ProfileDto> findById(@PathVariable String id) {
-        Thread.sleep(10000);
-
         return ResponseEntity.ok(this.profileService.findById(id));
     }
 
     @PostMapping
     @SneakyThrows
     public ResponseEntity<ProfileDto> save(@Valid @RequestBody ProfileDto profileDto) {
-        Thread.sleep(10000);
-
         return ResponseEntity.ok(this.profileService.save(profileDto));
     }
 
     @PostMapping("/many")
     @SneakyThrows
     public ResponseEntity<List<ProfileDto>> save(@Valid @RequestBody List<ProfileDto> entities) {
-        Thread.sleep(10000);
-
         return ResponseEntity.ok(this.profileService.saveAll(entities));
     }
 
     @PutMapping("/{id}")
     @SneakyThrows
     public ResponseEntity<ProfileDto> update(@Valid @RequestBody ProfileDto profileDto, @PathVariable String id) {
-        Thread.sleep(10000);
-
         return ResponseEntity.ok(this.profileService.update(profileDto, id));
     }
 
@@ -63,9 +53,6 @@ public class ProfileController {
     @SneakyThrows
     public ResponseEntity<?> deleteById(@PathVariable String id) {
         this.profileService.deleteById(id);
-        Thread.sleep(10000);
-
         return ResponseEntity.accepted().build();
-
     }
 }

@@ -1,5 +1,6 @@
 package com.crcl.notification.configuration.queue;
 
+import com.crcl.common.queue.SortDeserializer;
 import com.crcl.common.utils.QueueDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
