@@ -2,7 +2,6 @@ package com.crcl.profile.configuration.security;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
