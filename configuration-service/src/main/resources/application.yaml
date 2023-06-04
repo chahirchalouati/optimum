@@ -13,6 +13,9 @@ logging:
         cloud:
           gateway:
             filter: INFO
+spring:
+  application:
+    name: configuration-service
 ---
 spring:
   config:
