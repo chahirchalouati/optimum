@@ -1,0 +1,87 @@
+package com.crcl.am.service.impl;
+
+import com.crcl.am.domain.GramifyPermission;
+import com.crcl.am.dto.PermissionDto;
+import com.crcl.am.mappers.PermissionMapper;
+import com.crcl.am.repository.PermissionRepository;
+import com.crcl.am.service.PermissionService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Slf4j
+@AllArgsConstructor
+public class PermissionServiceImpl implements PermissionService {
+    private final PermissionRepository permissionRepository;
+    private final PermissionMapper permissionMapper;
+
+    @Override
+    public PermissionDto save(PermissionDto permissionDto) {
+        log.debug("Saving permission: {}", permissionDto);
+        GramifyPermission gramifyPermission = this.permissionMapper.toEntity(permissionDto);
+        GramifyPermission savedGramifyPermission = permissionRepository.save(gramifyPermission);
+        PermissionDto savedPermissionDto = permissionMapper.toDto(savedGramifyPermission);
+        log.debug("Saved permission: {}", savedPermissionDto);
+        return savedPermissionDto;
+    }
+
+    @Override
+    public List<PermissionDto> saveAll(List<PermissionDto> entities) {
+        log.debug("Saving permissions: {}", entities);
+        List<PermissionDto> savedEntities = entities.stream().map(this::save).toList();
+        log.debug("Saved permissions: {}", savedEntities);
+        return savedEntities;
+    }
+
+    @Override
+    public void deleteById(String id) {
+        permissionRepository.findById(id).ifPresent(permission -> {
+            permission.setEnabled(false);
+            GramifyPermission savedGramifyPermission = permissionRepository.save(permission);
+            log.debug("Disabled permission with id {}: {}", savedGramifyPermission.getId(), savedGramifyPermission);
+        });
+    }
+
+    @Override
+    public PermissionDto findById(String id) {
+        log.debug("Finding permission by id: {}", id);
+        return permissionRepository.findById(id)
+                .map(permissionMapper::toDto)
+                .orElse(null);
+    }
+
+    @Override
+    public List<PermissionDto> findAll() {
+        log.debug("Finding all permissions");
+        List<PermissionDto> permissionDtos = permissionRepository.findAll().stream()
+                .map(permissionMapper::toDto)
+                .toList();
+        log.debug("Found {} permissions", permissionDtos.size());
+        return permissionDtos;
+    }
+
+    @Override
+    public Page<PermissionDto> findAll(Pageable pageable) {
+        log.debug("Finding permissions by page: {}", pageable);
+        Page<PermissionDto> permissionDtoPage = permissionRepository.findAll(pageable)
+                .map(permissionMapper::toDto);
+        log.debug("Found {} permissions", permissionDtoPage.getNumberOfElements());
+        return permissionDtoPage;
+    }
+
+    @Override
+    public PermissionDto update(PermissionDto permissionDto, String id) {
+        log.debug("Updating permission with id {}: {}", id, permissionDto);
+        return permissionRepository.findById(id)
+                .map(permission -> permissionMapper.toEntity(permissionDto))
+                .map(permissionRepository::save)
+                .map(permissionMapper::toDto)
+                .orElse(null);
+    }
+
+}
