@@ -13,6 +13,7 @@ variables:
     -Dorg.slf4j.simpleLogger.showDateTime=true
     -Djava.awt.headless=true
   MAVEN_CLI_OPTS: >-
+    --settings ci_settings.xml
     --batch-mode
     --errors
     --fail-at-end
@@ -36,7 +37,7 @@ cache:
     - if [ ! -f ci_settings.xml ]; then
         echo "CI settings missing";
         fi
-    - mvn --settings ci_settings.xml $MAVEN_CLI_OPTS clean package -pl "$MODULE_NAME"
+    - mvn $MAVEN_CLI_OPTS $MAVEN_OPTS clean package -pl "$MODULE_NAME"
   artifacts:
     paths:
       - $MODULE_NAME/target/*.jar
