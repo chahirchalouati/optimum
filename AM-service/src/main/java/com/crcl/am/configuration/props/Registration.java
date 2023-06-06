@@ -1,6 +1,5 @@
 package com.crcl.am.configuration.props;
 
-import com.crcl.am.utils.GramifyClientScopes;
 import lombok.Data;
 
 import java.util.ArrayList;

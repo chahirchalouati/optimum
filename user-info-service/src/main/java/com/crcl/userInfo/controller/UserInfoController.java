@@ -3,14 +3,13 @@ package com.crcl.userInfo.controller;
 
 import com.crcl.userInfo.domain.UserInfo;
 import com.crcl.userInfo.service.UserInfoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("users")

@@ -1,9 +1,9 @@
 package com.crcl.am.annotation;
 
 import com.crcl.am.annotation.validators.UserNameValidator;
-
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
+
 import java.lang.annotation.*;
 
 @Documented

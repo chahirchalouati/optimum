@@ -3,9 +3,8 @@ package com.crcl.profile.annotation.validators;
 
 import com.crcl.profile.annotation.UniqueUserName;
 import com.crcl.profile.repository.ProfileRepository;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class UserNameValidator implements ConstraintValidator<UniqueUserName, Object> {
     private final ProfileRepository userRepository;

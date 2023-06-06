@@ -2,7 +2,6 @@ package com.crcl.am.annotation.validators;
 
 import com.crcl.am.annotation.UniqueEmail;
 import com.crcl.am.repository.UserRepository;
-
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

@@ -1,13 +1,13 @@
 package com.crcl.notification.service;
 
 import com.crcl.notification.configuration.properties.JavaMailProperties;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.MimeMessage;
 import java.util.Objects;
 
 @Service

@@ -5,14 +5,13 @@ import com.crcl.am.dto.UserDto;
 import com.crcl.am.service.UserService;
 import com.crcl.am.views.UserView;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/authentication")

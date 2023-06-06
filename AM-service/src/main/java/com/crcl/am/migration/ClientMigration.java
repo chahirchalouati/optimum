@@ -18,6 +18,25 @@ import static org.springframework.security.oauth2.core.ClientAuthenticationMetho
 @ChangeLog
 public class ClientMigration {
 
+    protected static GramifyClient getClient(MigrationProvider migrationProvider, Registration registration) {
+        List<AuthorizationGrantType> grantTypes = registration.getGrantTypes().stream()
+                .map(AuthorizationGrantType::new)
+                .toList();
+
+        List<String> redirectUris = registration.getUris().stream()
+                .map(uri -> uri.contains("/callback") ? uri : uri.concat("/authorized"))
+                .toList();
+
+        return new GramifyClient()
+                .setId(registration.getId())
+                .setClientId(registration.getId())
+                .setClientSecret(migrationProvider.getPasswordEncoder().encode("secret"))
+                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
+                .setAuthorizationGrantTypes(grantTypes)
+                .setRedirectUris(redirectUris)
+                .setScopes(registration.getScopes());
+    }
+
     @ChangeSet(order = "001", id = "save_default_clients", author = "@chahir_chalouati")
     public void saveClients(MigrationProvider migrationProvider) {
         migrationProvider.getSecurityProperties()
@@ -40,25 +59,6 @@ public class ClientMigration {
                 .setScopes(GramifyClientScopes.UI_SCOPES);
 
         migrationProvider.getClientRepository().save(gramifyClient);
-    }
-
-    protected static GramifyClient getClient(MigrationProvider migrationProvider, Registration registration) {
-        List<AuthorizationGrantType> grantTypes = registration.getGrantTypes().stream()
-                .map(AuthorizationGrantType::new)
-                .toList();
-
-        List<String> redirectUris = registration.getUris().stream()
-                .map(uri -> uri.contains("/callback") ? uri : uri.concat("/authorized"))
-                .toList();
-
-        return new GramifyClient()
-                .setId(registration.getId())
-                .setClientId(registration.getId())
-                .setClientSecret(migrationProvider.getPasswordEncoder().encode("secret"))
-                .setClientAuthenticationMethods(Set.of(CLIENT_SECRET_POST))
-                .setAuthorizationGrantTypes(grantTypes)
-                .setRedirectUris(redirectUris)
-                .setScopes(registration.getScopes());
     }
 
     private GramifyClient buildClient(MigrationProvider migrationProvider, Registration registration) {

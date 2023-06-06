@@ -4,13 +4,13 @@ import com.crcl.comment.converters.ProfileDtoConverter;
 import com.crcl.comment.converters.UserDtoConverter;
 import com.crcl.comment.dto.ProfileDto;
 import com.crcl.comment.dto.UserDto;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
 import java.util.Objects;
 
 @MappedSuperclass

@@ -1,7 +1,7 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.configuration.filters.JwtFilterInterceptor;
 import com.crcl.processor.service.UserService;

@@ -1,6 +1,8 @@
 package com.crcl.comment.domain;
 
 import com.crcl.comment.validators.annotation.ModifiedBy;
+import jakarta.annotation.PostConstruct;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,8 +14,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

@@ -1,9 +1,9 @@
 package com.crcl.comment.validators.annotation;
 
 import com.crcl.comment.validators.UniqueNameValidator;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)

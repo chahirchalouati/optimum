@@ -4,7 +4,7 @@ import com.crcl.userInfo.domain.UserInfo;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 
-public interface UserInfoRepository extends ReactiveMongoRepository<UserInfo, String> , CustomUserInfoRepository{
+public interface UserInfoRepository extends ReactiveMongoRepository<UserInfo, String>, CustomUserInfoRepository {
 
     Mono<Boolean> existsByUserId(String userId);
 

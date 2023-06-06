@@ -6,13 +6,12 @@ import com.crcl.am.dto.UserDto;
 import com.crcl.am.service.FriendShipService;
 import com.crcl.am.views.UserView;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("friends")

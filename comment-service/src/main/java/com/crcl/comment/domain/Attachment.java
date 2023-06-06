@@ -3,11 +3,11 @@ package com.crcl.comment.domain;
 import com.crcl.comment.converters.AdditionalDataConverter;
 import com.crcl.common.domain.Orientation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 
-import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

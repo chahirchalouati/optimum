@@ -1,7 +1,5 @@
 package com.crcl.common.utils;
 
-import org.springframework.http.HttpMethod;
-
 public class EndpointsUtils {
 
     public interface Permitted {

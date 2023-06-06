@@ -1,9 +1,9 @@
 package com.crcl.profile.annotation;
 
 import com.crcl.profile.annotation.validators.UniqueEmailValidator;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.*;
 
 /**

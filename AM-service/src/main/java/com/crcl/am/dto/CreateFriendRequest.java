@@ -1,8 +1,7 @@
 package com.crcl.am.dto;
 
-import lombok.Data;
-
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 @Data
 public class CreateFriendRequest {

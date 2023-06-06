@@ -6,9 +6,9 @@ import com.crcl.common.utils.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
@@ -21,11 +21,11 @@ public class ResourceServerConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         corsCustomizer.corsCustomizer(http);
         http.authorizeHttpRequests(authorize -> authorize
-                        .antMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
-                        .antMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                        .requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                        .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+                .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()));
         return http.build();
     }
 }

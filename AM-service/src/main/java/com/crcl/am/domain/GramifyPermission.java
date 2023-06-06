@@ -1,11 +1,10 @@
 package com.crcl.am.domain;
 
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import jakarta.validation.constraints.NotBlank;
 
 @Document("permissions")
 @Data

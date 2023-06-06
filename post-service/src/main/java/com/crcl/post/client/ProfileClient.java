@@ -1,9 +1,9 @@
 package com.crcl.post.client;
 
 import com.crcl.common.dto.ProfileDto;
-import com.crcl.post.fallbacks.ProfileClientFallbackFactory;
 import com.crcl.post.configuration.security.FeignFormConfig;
 import com.crcl.post.configuration.security.OAuthFeignConfig;
+import com.crcl.post.fallbacks.ProfileClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

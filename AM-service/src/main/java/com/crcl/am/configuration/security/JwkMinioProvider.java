@@ -5,12 +5,12 @@ import com.crcl.am.domain.KeyFile;
 import com.crcl.am.repository.KeyFileRepository;
 import com.crcl.common.utils.FileUtils;
 import io.minio.*;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;

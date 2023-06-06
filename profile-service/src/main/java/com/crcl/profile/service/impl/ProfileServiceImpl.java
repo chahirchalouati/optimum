@@ -1,8 +1,8 @@
 package com.crcl.profile.service.impl;
 
+import com.crcl.common.dto.UserDto;
 import com.crcl.profile.client.IdpClient;
 import com.crcl.profile.domain.Profile;
-import com.crcl.common.dto.UserDto;
 import com.crcl.profile.dto.ProfileDto;
 import com.crcl.profile.mappers.ProfileMapper;
 import com.crcl.profile.repository.ProfileRepository;

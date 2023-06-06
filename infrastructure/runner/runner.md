@@ -1,8 +1,12 @@
 # Docker Image Documentation: gitlab-runner-custom
+
 ## Overview
-The gitlab-runner-custom Docker image is based on the gitlab/gitlab-runner image with additional customization options. It provides a configurable environment for running GitLab CI/CD jobs using GitLab Runner.
+
+The gitlab-runner-custom Docker image is based on the gitlab/gitlab-runner image with additional customization options.
+It provides a configurable environment for running GitLab CI/CD jobs using GitLab Runner.
 
 ## Usage
+
 Building the Image
 To build the gitlab-runner-custom image, use the following command:
 
@@ -11,7 +15,8 @@ docker build -t gitlab-runner-custom .
 ```
 
 Running the Container
-To run a container using the gitlab-runner-custom image, provide the necessary environment variables and mount any required volumes. Here's an example:
+To run a container using the gitlab-runner-custom image, provide the necessary environment variables and mount any
+required volumes. Here's an example:
 
 ```shell 
 docker run -d \
@@ -31,7 +36,8 @@ docker run -d \
 gitlab-runner-custom
 ```
 
-Replace the environment variables (ENV_VARIABLE) with your desired values. Mount any required volumes (/path/to/workspace) to the appropriate container paths.
+Replace the environment variables (ENV_VARIABLE) with your desired values. Mount any required volumes (
+/path/to/workspace) to the appropriate container paths.
 
 Environment Variables
 The gitlab-runner-custom image supports the following environment variables:
@@ -48,13 +54,20 @@ The gitlab-runner-custom image supports the following environment variables:
 * DOCKER_NETWORK_MODE: The network mode to be used for Docker containers (e.g., bridge, host).
 * REGISTRATION_TOKEN: The registration token for the runner.
 * DESCRIPTION: A description for the runner.
+
 ### Entrypoint
-The entrypoint of the gitlab-runner-custom image is set to /bin/sh, and the startup script /startup-script.sh is executed.
+
+The entrypoint of the gitlab-runner-custom image is set to /bin/sh, and the startup script /startup-script.sh is
+executed.
 
 ## Customization
-You can customize the behavior of the gitlab-runner-custom image by modifying the startup-script.sh file. This file is copied to the image during the build process and executed as the entrypoint.
+
+You can customize the behavior of the gitlab-runner-custom image by modifying the startup-script.sh file. This file is
+copied to the image during the build process and executed as the entrypoint.
 
 ## License
+
 This Docker image is distributed under the MIT License.
 
-Feel free to modify the documentation to fit your specific requirements. Provide additional instructions or explanations as necessary.
+Feel free to modify the documentation to fit your specific requirements. Provide additional instructions or explanations
+as necessary.

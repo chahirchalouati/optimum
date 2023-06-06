@@ -2,6 +2,8 @@ package com.crcl.am.domain;
 
 import com.crcl.am.annotation.UniqueEmail;
 import com.crcl.am.annotation.UniqueUserName;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.annotation.Id;
@@ -11,8 +13,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -58,6 +58,7 @@ public class GramifyUser implements UserDetails {
     public boolean isSuperAdmin() {
         return this.getRoles().stream().anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.getRoles().stream()

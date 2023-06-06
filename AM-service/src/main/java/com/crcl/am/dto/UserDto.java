@@ -5,10 +5,10 @@ import com.crcl.am.annotation.UniqueUserName;
 import com.crcl.am.views.UserView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.Data;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
 import java.util.HashSet;
 import java.util.Set;
 

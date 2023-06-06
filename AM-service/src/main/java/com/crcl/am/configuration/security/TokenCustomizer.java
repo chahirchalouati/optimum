@@ -1,7 +1,7 @@
 package com.crcl.am.configuration.security;
 
-import com.crcl.am.domain.GramifyRole;
 import com.crcl.am.domain.GramifyPermission;
+import com.crcl.am.domain.GramifyRole;
 import com.crcl.am.domain.GramifyUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

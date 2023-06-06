@@ -35,8 +35,8 @@ cache:
   image: maven:3.8.4-openjdk-17-slim
   script:
     - if [ ! -f ci_settings.xml ]; then
-        echo "CI settings missing";
-        fi
+      echo "CI settings missing";
+      fi
     - mvn $MAVEN_CLI_OPTS $MAVEN_OPTS clean package -pl "$MODULE_NAME"
   artifacts:
     paths:
@@ -55,7 +55,7 @@ cache:
       --context "${CI_PROJECT_DIR}/$MODULE_NAME"
       --dockerfile "Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
-      --cache=true 
+      --cache=true
       --cache-dir=$CACHE_DIR
   tags:
     - dev

@@ -2,6 +2,13 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.0</version>
+        <relativePath/>
+    </parent>
+
     <groupId>com.crcl</groupId>
     <artifactId>common</artifactId>
     <version>1.0.2</version>
@@ -9,7 +16,7 @@
     <description>common</description>
     <properties>
         <java.version>17</java.version>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
         <org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
         <org.projectlombok.version>${lombok.version}</org.projectlombok.version>
         <spring-cloud-starter.version>3.1.5</spring-cloud-starter.version>
@@ -173,12 +180,12 @@
         <repository>
             <id>gitlab-registry</id>
             <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
-  </repository>
-  <snapshotRepository>
-    <id>gitlab-registry</id>
-    <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
-  </snapshotRepository>
-</distributionManagement>
+        </repository>
+        <snapshotRepository>
+            <id>gitlab-registry</id>
+            <url>https://gitlab.com/api/v4/projects/46264638/packages/maven</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>

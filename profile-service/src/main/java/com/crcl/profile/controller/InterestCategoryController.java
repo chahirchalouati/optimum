@@ -2,13 +2,13 @@ package com.crcl.profile.controller;
 
 import com.crcl.profile.dto.InterestCategoryDto;
 import com.crcl.profile.service.InterestCategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor

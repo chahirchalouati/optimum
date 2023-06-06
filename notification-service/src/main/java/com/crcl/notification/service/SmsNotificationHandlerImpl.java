@@ -14,22 +14,6 @@ public class SmsNotificationHandlerImpl extends NotificationHandler {
         super(notificationQueuePublisher);
     }
 
-    @Override
-    public NotificationResponse notifySync(NotificationRequest request, NotificationType type) {
-        return null;
-    }
-
-
-    @Override
-    public void notifyAsync(NotificationRequest request, NotificationType type) {
-
-    }
-
-    @Override
-    public boolean canHandle(NotificationType type) {
-        return type.isSms();
-    }
-
     public static void main(String[] args) throws InterruptedException {
         Flux.range(1, 100)
                 .parallel()
@@ -47,5 +31,20 @@ public class SmsNotificationHandlerImpl extends NotificationHandler {
             e.printStackTrace();
         }
         System.out.println("Processed number: " + number + " - Thread: " + Thread.currentThread().getName());
+    }
+
+    @Override
+    public NotificationResponse notifySync(NotificationRequest request, NotificationType type) {
+        return null;
+    }
+
+    @Override
+    public void notifyAsync(NotificationRequest request, NotificationType type) {
+
+    }
+
+    @Override
+    public boolean canHandle(NotificationType type) {
+        return type.isSms();
     }
 }

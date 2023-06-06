@@ -1,9 +1,9 @@
 package com.crcl.comment.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Data

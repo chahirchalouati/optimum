@@ -1,10 +1,10 @@
 package com.crcl.profile.domain;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 
 @Data

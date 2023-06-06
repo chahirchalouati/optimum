@@ -3,6 +3,7 @@ package com.crcl.comment.controller;
 import com.crcl.comment.dto.CommentDto;
 import com.crcl.comment.dto.CommentFormDto;
 import com.crcl.comment.service.CommentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

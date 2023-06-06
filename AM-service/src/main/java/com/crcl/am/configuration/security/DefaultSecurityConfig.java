@@ -34,13 +34,13 @@ public class DefaultSecurityConfig {
         this.corsCustomizer.corsCustomizer(http);
         OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
         http.authorizeHttpRequests(
-                registry ->  registry.requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
-                        .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
-                        .requestMatchers("/authentication/login/**").permitAll()
-                        .requestMatchers("/authentication/register/**").permitAll()
-                        .requestMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ADMIN")
-                        .anyRequest().authenticated()
+                        registry -> registry.requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                                .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                                .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
+                                .requestMatchers("/authentication/login/**").permitAll()
+                                .requestMatchers("/authentication/register/**").permitAll()
+                                .requestMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ADMIN")
+                                .anyRequest().authenticated()
                 ).csrf(AbstractHttpConfigurer::disable)
                 .formLogin(loginConfigurer -> loginConfigurer
                         .loginPage(securityProperties.getLoginPage())

@@ -2,9 +2,9 @@ package com.crcl.profile.annotation.validators;
 
 import com.crcl.profile.annotation.UniqueEmail;
 import com.crcl.profile.repository.ProfileRepository;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, Object> {
 
