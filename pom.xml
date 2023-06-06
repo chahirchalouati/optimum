@@ -11,7 +11,7 @@
     <description>gramify-ms</description>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>20</java.version>
         <spring.security.version>2.3.4.RELEASE</spring.security.version>
     </properties>
 
