@@ -19,7 +19,7 @@
 
     <modules>
         <module>common</module>
-        <module>AM-service</module>
+        <module>authentication-service</module>
         <module>configuration-service</module>
         <module>proxy-service</module>
         <module>post-service</module>
