@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -29,14 +30,14 @@ public class ResourceServerConfig {
     @Bean
     public SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
         corsCustomizer.corsCustomizer(http);
-        http.csrf().disable()
-                .authorizeExchange()
-                .pathMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
-                .pathMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
-                .anyExchange().authenticated()
-                .and()
-                .oauth2ResourceServer()
-                .jwt();
+        http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .authorizeExchange(
+                        authorizeExchangeSpec -> authorizeExchangeSpec
+                                .pathMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                                .pathMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                                .anyExchange().authenticated()
+                )
+                .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec.jwt(Customizer.withDefaults()));
         return http.build();
     }
 

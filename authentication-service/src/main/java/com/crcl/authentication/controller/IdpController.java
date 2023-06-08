@@ -14,24 +14,25 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/authentication")
+@RequestMapping("authentication")
 @AllArgsConstructor
 public class IdpController {
     private final UserService userService;
 
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String login() {
+        System.out.println("IdpController.login");
         return "login";
     }
 
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public String loginFailed() {
         return "redirect:/authenticate?error=invalid username or password";
     }
 
-    @GetMapping("/register")
+    @GetMapping("register")
     public String registerPage(Model model) {
         model.addAttribute("formData", new CreateUserRequest());
         return "register";

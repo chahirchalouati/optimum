@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("notifications")
 @AllArgsConstructor
 public class NotificationController {
+
     private final NotificationService notificationService;
 
     @PostMapping

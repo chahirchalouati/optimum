@@ -11,19 +11,17 @@
     <form method="post" th:action="@{/authentication/register}" th:object="${formData}">
         <div>
             <label for="givenName">Given name</label>
-            <input id="givenName" th:field="*{username}"
-                   type="text">
+            <input id="givenName" th:field="*{username}" type="text">
             <p th:if="${#fields.hasErrors('username')}"
                th:text="${#strings.listJoin(#fields.errors('username'), ', ')}"></p>
         </div>
         <div>
             <label for="familyName">Family name</label>
-            <input id="familyName" th:field="*{email}"
-                   type="text">
+            <input id="familyName" th:field="*{email}" type="text">
             <p th:if="${#fields.hasErrors('email')}"
                th:text="${#strings.listJoin(#fields.errors('email'), ', ')}"></p>
         </div>
-        <button type="submit">Create gramifyUser</button>
+        <button type="submit">Create User</button>
     </form>
 </main>
 
