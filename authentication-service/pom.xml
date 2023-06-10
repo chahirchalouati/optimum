@@ -11,8 +11,8 @@
     <groupId>com.crcl</groupId>
     <artifactId>authentication-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>AM</name>
-    <description>AM</description>
+    <name>authentication-service</name>
+    <description>authentication-service</description>
     <properties>
         <java.version>20</java.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
