@@ -22,7 +22,6 @@ public class IdpController {
 
     @GetMapping("login")
     public String login() {
-        System.out.println("IdpController.login");
         return "login";
     }
 

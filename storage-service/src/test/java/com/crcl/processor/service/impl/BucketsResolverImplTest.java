@@ -33,7 +33,6 @@ public class BucketsResolverImplTest extends MinioTestConfiguration {
     @Test
     void messageTest() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         List<Bucket> buckets = minioClient.listBuckets();
-        System.out.println(buckets.size());
         Assertions.assertNotNull(buckets);
 
     }

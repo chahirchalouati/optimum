@@ -22,7 +22,7 @@ public class NotificationServiceImpl extends QueuePublisher implements Notificat
     public void notifyCreatedPost(PostDto payload) {
         var request = new NotificationRequest<PostDto>()
                 .setSender(payload.getCreator().getUser().getUsername())
-                .setType(NotificationDefinition.NOTIFY_POST_CREATED)
+                .setNotificationDefinition(NotificationDefinition.NOTIFY_POST_CREATED)
                 .setPayload(payload);
         QEvent<NotificationRequest<PostDto>> event = new DefaultQEvent<NotificationRequest<PostDto>>()
                 .setPayload(request);

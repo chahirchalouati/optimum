@@ -21,9 +21,9 @@ services:
       - "47017:9000"
       - "47018:9001"
     environment:
-      MINIO_ROOT_USER: myaccesskey
-      MINIO_ROOT_PASSWORD: mysecretkey
-      MINIO_BUCKET: processor
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET: ${MINIO_BUCKET}
     volumes:
       - minio:/export
     networks:
@@ -38,7 +38,7 @@ services:
       timeout: 10s
       retries: 3
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - '3306:3306'
     volumes:
@@ -80,7 +80,7 @@ services:
       - l_net
 
   #  prometheus:
-  #    container_name: prometheus
+  #    platform: linux/amd64
   #    image: 'prom/prometheus:v2.14.0'
   #    ports:
   #      - '9090:9090'
@@ -91,7 +91,7 @@ services:
   #      - l_net
 
   #  grafana:
-  #    container_name: grafana
+  #    platform: linux/amd64
   #    image: 'grafana/grafana:6.5.0'
   #    restart: "no"
   #    volumes:
@@ -103,7 +103,6 @@ services:
   #      - l_net
   #
   elasticsearch:
-    container_name: es-container
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
     environment:
       - xpack.security.enabled=false
@@ -112,6 +111,7 @@ services:
       - l_net
     ports:
       - "9200:9200"
+
   logstash:
     image: docker.elastic.co/logstash/logstash:7.11.0
     volumes:
@@ -124,10 +124,10 @@ services:
       - l_net
 
   kibana:
-    container_name: kb-container
+    platform: linux/amd64
     image: docker.elastic.co/kibana/kibana:7.11.0
     environment:
-      - ELASTICSEARCH_HOSTS=http://es-container:9200
+      - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}
     networks:
       - l_net
     depends_on:
@@ -135,10 +135,39 @@ services:
     ports:
       - "5601:5601"
 
+  postgres:
+    image: docker.io/bitnami/postgresql
+    environment:
+      POSTGRESQL_USERNAME: keycloak
+      POSTGRESQL_PASSWORD: keycloak
+      POSTGRESQL_DATABASE: keycloak
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-db:/bitnami/postgresql
+    networks:
+      - l_net
+
+  keycloak:
+    image: docker.io/bitnami/keycloak
+    depends_on:
+      - postgres
+    environment:
+      KEYCLOAK_CREATE_ADMIN_USER: true
+      KEYCLOAK_DATABASE_HOST: postgres
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_DATABASE_USER: keycloak
+      KEYCLOAK_DATABASE_PASSWORD: keycloak
+      KEYCLOAK_ADMIN_USER: root
+      KEYCLOAK_ADMIN_PASSWORD: root
+    ports:
+      - "9080:8080"
+    networks:
+      - l_net
 
 networks:
   l_net:
-    driver: bridge
+
 
 volumes:
   mysql-db:

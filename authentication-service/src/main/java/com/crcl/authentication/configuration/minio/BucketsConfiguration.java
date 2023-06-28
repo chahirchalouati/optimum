@@ -24,8 +24,6 @@ public class BucketsConfiguration {
 
     @Bean
     public CommandLineRunner handleApplicationReadyEvent() {
-        System.out.println(minioProperties);
-
         return args -> {
             List<BucketProperties> buckets = minioProperties.getBuckets();
 

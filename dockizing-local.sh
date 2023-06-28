@@ -8,7 +8,7 @@ for dir in "$directory"/*; do
       echo "Start building docker image for $dir_name"
       $dir_name/mvnw -DskipTests=true clean install -pl $dir_name
       docker build -f $dir_name/Dockerfile -t registry.gitlab.com/chehhhir/gramify-ms/$dir_name ./$dir_name
-     docker push registry.gitlab.com/chehhhir/gramify-ms/$dir_name:latest
+      docker push registry.gitlab.com/chehhhir/gramify-ms/$dir_name:latest
       echo "End building docker image for $dir_name"
     fi
     echo "$file_path"

@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
         url = "${client.srvAuthentication.url}",
         configuration = OAuthServerFeignConfig.class
 )
-public interface SrvIdpClient {
+public interface srvAuthentication {
     @GetMapping("/friends/user/{username}")
     Mono<Page<UserDto>> findFriends(@PathVariable("username") String username, Pageable pageable);
 }

@@ -3,6 +3,7 @@ package com.crcl.notification.service;
 import com.crcl.common.dto.requests.NotificationRequest;
 import com.crcl.common.dto.responses.NotificationResponse;
 import com.crcl.notification.domain.NotificationType;
+import com.crcl.notification.hanlder.NotificationHandler;
 import com.crcl.notification.repository.NotificationTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Mono notify(NotificationRequest request) {
         List<NotificationResponse> responses = new ArrayList<>();
-        Mono<NotificationType> notificationType = notificationTypeRepository.findByType(request.getType());
+        Mono<NotificationType> notificationType = notificationTypeRepository.findByType(request.getNotificationDefinition());
 
         return notificationType.mapNotNull(
                 type -> handlers.stream()

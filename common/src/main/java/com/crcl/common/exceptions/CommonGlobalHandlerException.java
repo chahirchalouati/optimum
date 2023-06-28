@@ -33,7 +33,6 @@ public class CommonGlobalHandlerException {
 
         ex.getFieldErrors().stream()
                 .filter(field -> field.getDefaultMessage() != null)
-                .peek(field -> System.out.println(field.getDefaultMessage()))
                 .forEach(fieldError -> errors.put(fieldError.getField(), fieldError.getDefaultMessage()));
 
         ex.getGlobalErrors().stream()
