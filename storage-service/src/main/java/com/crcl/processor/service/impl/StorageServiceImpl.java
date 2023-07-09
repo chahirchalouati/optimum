@@ -1,12 +1,13 @@
 package com.crcl.processor.service.impl;
 
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
+import com.crcl.common.dto.queue.ProcessableVideo;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.processor.domain.FileRecord;
 import com.crcl.processor.dto.WriteResponse;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
-import com.crcl.processor.queue.ResizeImageQueuePublisher;
+import com.crcl.processor.queue.ProcessableQueuePublisher;
 import com.crcl.processor.repository.RecordRepository;
 import com.crcl.processor.service.StorageService;
 import com.crcl.processor.utils.FileExtensionUtils;
@@ -43,7 +44,7 @@ public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
-    private final ResizeImageQueuePublisher imageQueuePublisher;
+    private final ProcessableQueuePublisher imageQueuePublisher;
 
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {
@@ -64,6 +65,7 @@ public class StorageServiceImpl implements StorageService {
         return inputStreamResult.map(doUpload)
                 .flatMap(recordRepository::save)
                 .doOnNext(publishImageUploadEvent())
+                .doOnNext(publishVideoUploadEvent())
                 .map(createFileUploadResponse())
                 .switchIfEmpty(Mono.error(CreateRecordException::new));
     }
@@ -160,7 +162,7 @@ public class StorageServiceImpl implements StorageService {
 
     private Consumer<FileRecord> publishImageUploadEvent() {
         return record -> {
-            boolean isImage = FileExtensionUtils.isImage(record.getName());
+            final boolean isImage = FileExtensionUtils.isImage(record.getName());
             if (isImage) {
                 FileUploadResult result = new FileUploadResult()
                         .setContentType(record.getType())
@@ -168,10 +170,28 @@ public class StorageServiceImpl implements StorageService {
                         .setEtag(record.getTag())
                         .setName(record.getName())
                         .setVersion(record.getVersion());
-                ImageUpload request = new ImageUpload();
+                ProcessableImage request = new ProcessableImage();
                 request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                imageQueuePublisher.publishImageUploadEvent(request);
+                imageQueuePublisher.publishProcessableImageEvent(request);
+            }
+        };
+    }
+
+    private Consumer<FileRecord> publishVideoUploadEvent() {
+        return record -> {
+            final boolean isVideo = FileExtensionUtils.isVideo(record.getName());
+            if (isVideo) {
+                FileUploadResult result = new FileUploadResult()
+                        .setContentType(record.getType())
+                        .setBucket(record.getBucket())
+                        .setEtag(record.getTag())
+                        .setName(record.getName())
+                        .setVersion(record.getVersion());
+                ProcessableVideo request = new ProcessableVideo();
+                request.setResult(result);
+                request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
+                imageQueuePublisher.publishProcessableVideoEvent(request);
             }
         };
     }

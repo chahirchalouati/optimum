@@ -9,7 +9,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Data
-public class ImageUpload {
+public class ProcessableImage {
     protected LocalDateTime localDateTime = LocalDateTime.now(Clock.systemDefaultZone());
     private FileUploadResult result;
     private ImageSize size;

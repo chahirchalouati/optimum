@@ -4,12 +4,9 @@ for dir in "$directory"/*; do
   if [ -d "$dir" ]; then
 
     dir_name=$(basename "$dir")
-    if [ -f $dir_name/Dockerfile ]; then
-      echo "Start building docker image for $dir_name"
-      $dir_name/mvnw -DskipTests=true clean install -pl $dir_name
-      docker build -f $dir_name/Dockerfile -t registry.gitlab.com/chehhhir/gramify-ms/$dir_name ./$dir_name
-      docker push registry.gitlab.com/chehhhir/gramify-ms/$dir_name:latest
-      echo "End building docker image for $dir_name"
+    if [ -f "$dir_name/src/main/resources/logback-spring.xml" ]; then
+      echo "$dir_name/src/main/resources/logback-spring.xml"
+      rm -r "$dir_name/src/main/resources/logback-spring.xml"
     fi
     echo "$file_path"
   fi

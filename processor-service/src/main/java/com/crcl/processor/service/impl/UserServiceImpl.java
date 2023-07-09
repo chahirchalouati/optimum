@@ -1,7 +1,8 @@
-package com.crcl.processor.service;
+package com.crcl.processor.service.impl;
 
 import com.crcl.common.dto.UserDto;
 import com.crcl.processor.clients.IdpClient;
+import com.crcl.processor.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

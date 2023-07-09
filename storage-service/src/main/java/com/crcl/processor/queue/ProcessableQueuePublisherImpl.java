@@ -1,6 +1,7 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
+import com.crcl.common.dto.queue.ProcessableVideo;
 import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.configuration.filters.JwtFilterInterceptor;
@@ -11,10 +12,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class ResizeImageQueuePublisherImpl extends ResizeImageQueuePublisher {
+public class ProcessableQueuePublisherImpl extends ProcessableQueuePublisher {
     private final JwtFilterInterceptor jwtFilterInterceptor;
 
-    public ResizeImageQueuePublisherImpl(RabbitTemplate rabbitTemplate,
+    public ProcessableQueuePublisherImpl(RabbitTemplate rabbitTemplate,
                                          UserService userService,
                                          JwtFilterInterceptor jwtFilterInterceptor) {
         super(rabbitTemplate, userService);
@@ -22,18 +23,33 @@ public class ResizeImageQueuePublisherImpl extends ResizeImageQueuePublisher {
     }
 
     @Override
-    public void publishImageUploadEvent(ImageUpload event) {
+    public void publishProcessableImageEvent(ProcessableImage event) {
         final boolean present = jwtFilterInterceptor.getJwt().isPresent();
         if (present) {
             var jwt = jwtFilterInterceptor.getJwt().get();
             var message = new AuthenticatedQEvent<>();
             message.setToken(jwt.getTokenValue())
                     .setPayload(event);
-            this.publishAuthenticatedMessage(message, QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE);
+            this.publishAuthenticatedMessage(message, QueueDefinition.PROCESSABLE_IMAGE_QUEUE);
             log.debug("Resized image successfully");
             return;
         }
         log.debug("Unable to resize image due to missing JWT token");
+    }
+
+    @Override
+    public void publishProcessableVideoEvent(ProcessableVideo event) {
+        final boolean present = jwtFilterInterceptor.getJwt().isPresent();
+        if (present) {
+            var jwt = jwtFilterInterceptor.getJwt().get();
+            var message = new AuthenticatedQEvent<>();
+            message.setToken(jwt.getTokenValue())
+                    .setPayload(event);
+            this.publishAuthenticatedMessage(message, QueueDefinition.PROCESSABLE_VIDEO_QUEUE);
+            log.debug("VideoUpload image successfully");
+            return;
+        }
+        log.debug("Unable to VideoUpload to missing JWT token");
     }
 
 }

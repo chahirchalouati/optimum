@@ -148,22 +148,22 @@ services:
     networks:
       - l_net
 
-  keycloak:
-    image: docker.io/bitnami/keycloak
-    depends_on:
-      - postgres
-    environment:
-      KEYCLOAK_CREATE_ADMIN_USER: true
-      KEYCLOAK_DATABASE_HOST: postgres
-      KEYCLOAK_DATABASE_NAME: keycloak
-      KEYCLOAK_DATABASE_USER: keycloak
-      KEYCLOAK_DATABASE_PASSWORD: keycloak
-      KEYCLOAK_ADMIN_USER: root
-      KEYCLOAK_ADMIN_PASSWORD: root
-    ports:
-      - "9080:8080"
-    networks:
-      - l_net
+#  keycloak:
+#    image: docker.io/bitnami/keycloak
+#    depends_on:
+#      - postgres
+#    environment:
+#      KEYCLOAK_CREATE_ADMIN_USER: true
+#      KEYCLOAK_DATABASE_HOST: postgres
+#      KEYCLOAK_DATABASE_NAME: keycloak
+#      KEYCLOAK_DATABASE_USER: keycloak
+#      KEYCLOAK_DATABASE_PASSWORD: keycloak
+#      KEYCLOAK_ADMIN_USER: root
+#      KEYCLOAK_ADMIN_PASSWORD: root
+#    ports:
+#      - "9080:8080"
+#    networks:
+#      - l_net
 
 networks:
   l_net:

@@ -1,18 +1,16 @@
 package com.crcl.post.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
-public
-class Video {
-    private int index;
-    private String id;
+public class Video extends GenericFile {
     private String title;
     private String description;
     private int lengthInSeconds;
-    private String url;
     private boolean isPublic;
     private String[] tags;
     private String resolution;

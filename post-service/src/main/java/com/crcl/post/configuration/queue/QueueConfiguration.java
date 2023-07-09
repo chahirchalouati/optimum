@@ -20,7 +20,8 @@ import java.util.List;
 @Configuration
 public class QueueConfiguration {
     private static final List<String> QUEUES = List.of(
-            QueueDefinition.POST_CREATED_QUEUE
+            QueueDefinition.POST_CREATED_QUEUE,
+            QueueDefinition.PROCESSABLE_VIDEO_QUEUE
     );
 
     @Bean

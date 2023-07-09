@@ -3,7 +3,13 @@ package com.crcl.processor.repository;
 import com.crcl.processor.service.BaseRepositoryConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class RecordRepositoryTest extends BaseRepositoryConfiguration {
+public  class RecordRepositoryTest extends BaseRepositoryConfiguration {
     @Autowired
-    RecordRepository recordRepository;
+   private final RecordRepository recordRepository;
+
+    RecordRepositoryTest(RecordRepository recordRepository) {
+        super();
+        this.recordRepository = recordRepository;
+
+    }
 }

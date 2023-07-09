@@ -20,7 +20,7 @@ import java.util.List;
 @Configuration
 public class QueueConfiguration {
     private static final List<String> QUEUES = List.of(
-            QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE,
+            QueueDefinition.PROCESSABLE_IMAGE_QUEUE,
             QueueDefinition.UPDATE_IMAGES_QUEUE
     );
 

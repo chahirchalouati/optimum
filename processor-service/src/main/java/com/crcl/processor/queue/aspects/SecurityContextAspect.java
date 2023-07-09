@@ -1,6 +1,6 @@
 package com.crcl.processor.queue.aspects;
 
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
 import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class SecurityContextAspect {
     public Object applySecurityContext(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Applying security context to message");
         Object[] args = joinPoint.getArgs();
-        AuthenticatedQEvent<ImageUpload> payload = (AuthenticatedQEvent<ImageUpload>) args[0];
+        AuthenticatedQEvent<ProcessableImage> payload = (AuthenticatedQEvent<ProcessableImage>) args[0];
         try {
             Jwt jwt = decoder.decode(payload.getToken());
             if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {

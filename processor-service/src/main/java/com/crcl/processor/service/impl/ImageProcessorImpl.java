@@ -1,9 +1,9 @@
-package com.crcl.processor.service;
+package com.crcl.processor.service.impl;
 
 
 import com.crcl.common.domain.Orientation;
 import com.crcl.common.dto.UserDto;
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
 import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.common.dto.queue.events.DefaultQEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
@@ -12,6 +12,8 @@ import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.clients.StorageClient;
 import com.crcl.processor.configuration.properties.ImageSizesProperties;
 import com.crcl.processor.queue.EventQueuePublisher;
+import com.crcl.processor.service.ImageProcessor;
+import com.crcl.processor.service.UserService;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
@@ -47,7 +49,7 @@ public class ImageProcessorImpl implements ImageProcessor {
     private final EventQueuePublisher eventQueuePublisher;
 
     @Override
-    public void process(AuthenticatedQEvent<ImageUpload> event) {
+    public void process(AuthenticatedQEvent<ProcessableImage> event) {
         FileUploadResult result = event.getPayload().getResult();
         Collection<ImageSize> sizes = imageSizesProperties.getSizes().values();
 
@@ -67,13 +69,13 @@ public class ImageProcessorImpl implements ImageProcessor {
                 var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
                 var orientation = getOrientation(inputStream);
 
-                var uploadEvent = new ImageUpload();
+                var uploadEvent = new ProcessableImage();
                 uploadEvent.setSize(imageSize);
                 uploadEvent.setOrientation(orientation);
                 uploadEvent.setResult(buildFileUploadResponse(uploadFileResponse));
                 uploadEvent.setId(response.getEtag());
 
-                var message = new DefaultQEvent<ImageUpload>();
+                var message = new DefaultQEvent<ProcessableImage>();
                 message.setPayload(uploadEvent);
 
                 eventQueuePublisher.publish(message, QueueDefinition.UPDATE_IMAGES_QUEUE);

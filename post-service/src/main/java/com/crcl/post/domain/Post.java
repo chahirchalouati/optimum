@@ -24,6 +24,7 @@ public class Post {
     private Access access = Access.PUBLIC;
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();
+    private Set<GenericFile> genericFiles = new HashSet<>();
     private Set<Tag> tags = new HashSet<>();
     private Set<Like> likes = new HashSet<>();
     private Set<UserDto> sharedWithUsers = new HashSet<>();

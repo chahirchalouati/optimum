@@ -42,12 +42,14 @@ public abstract class PostMapper implements GenericMapper<Post, PostDto> {
         postDto.setDisLikesCount(postDto.getDisLikesCount());
         postDto.setShareCount(postDto.getShareCount());
         postDto.setCommentCount(commentClient.countByPost(entity.getId()));
+        postDto.setCommentCount(commentClient.countByPost(entity.getId()));
 
-        CrclUtils.applyIfNotNull(entity.getVideos(), postDto::setVideos);
-        CrclUtils.applyIfNotNull(entity.getImages(), postDto::setImages);
-        CrclUtils.applyIfNotNull(entity.getTags(), postDto::setTags);
-        CrclUtils.applyIfNotNull(entity.getLikes(), postDto::setLikes);
-        CrclUtils.applyIfNotNull(entity.getSharedWithUsers(), postDto::setSharedWithUsers);
+        CrclUtils.applyIfNotEmpty(entity.getVideos(), postDto::setVideos);
+        CrclUtils.applyIfNotEmpty(entity.getImages(), postDto::setImages);
+        CrclUtils.applyIfNotEmpty(entity.getTags(), postDto::setTags);
+        CrclUtils.applyIfNotEmpty(entity.getLikes(), postDto::setLikes);
+        CrclUtils.applyIfNotEmpty(entity.getGenericFiles(), postDto::setGenericFiles);
+        CrclUtils.applyIfNotEmpty(entity.getSharedWithUsers(), postDto::setSharedWithUsers);
 
         validators.forEach(actionValidator -> actionValidator.validate(postDto));
 

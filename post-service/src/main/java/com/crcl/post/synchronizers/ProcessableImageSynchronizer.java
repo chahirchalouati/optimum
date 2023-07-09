@@ -1,6 +1,6 @@
 package com.crcl.post.synchronizers;
 
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
 import com.crcl.common.dto.queue.events.QEvent;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.properties.ImageSize;
@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ImageUploadSynchronizer implements Synchronizer<ImageUpload> {
+public class ProcessableImageSynchronizer implements Synchronizer<ProcessableImage> {
     private final PostRepository postRepository;
 
     @NotNull
@@ -28,7 +28,7 @@ public class ImageUploadSynchronizer implements Synchronizer<ImageUpload> {
     }
 
     @Override
-    public void synchronize(QEvent<ImageUpload> event) {
+    public void synchronize(QEvent<ProcessableImage> event) {
         String imageId = event.getPayload().getId();
         FileUploadResult fileUploadResult = event.getPayload().getResult();
         ImageSize imageSize = event.getPayload().getSize();

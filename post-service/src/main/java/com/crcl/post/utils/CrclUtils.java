@@ -10,6 +10,10 @@ public class CrclUtils {
         if (Objects.nonNull(collection) && !collection.isEmpty()) {
             runnable.run();
         }
+    }    public static <T extends Collection> void applyIfNotEmpty(T collection, Consumer<T> consumable) {
+        if (Objects.nonNull(collection) && !collection.isEmpty()) {
+            consumable.accept(collection);
+        }
     }
 
     public static <T> void applyIf(boolean shouldApply, Runnable runnable) {

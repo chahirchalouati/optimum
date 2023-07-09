@@ -1,11 +1,13 @@
 package com.crcl.processor.queue.impl;
 
 import com.crcl.common.annotation.SecurityContextInterceptor;
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
+import com.crcl.common.dto.queue.ProcessableVideo;
 import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.processor.queue.EventQueueConsumer;
 import com.crcl.processor.service.ImageProcessor;
+import com.crcl.processor.service.VideoProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -14,11 +16,18 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class EventQueueConsumerImpl implements EventQueueConsumer {
     private final ImageProcessor imageProcessor;
+    private final VideoProcessor videoProcessor;
 
     @SecurityContextInterceptor
-    @RabbitListener(queues = QueueDefinition.STORAGE_RESIZE_IMAGES_QUEUE, messageConverter = "jsonMessageConverter")
-    public void onReceiveResizeImage(AuthenticatedQEvent<ImageUpload> message) {
+    @RabbitListener(queues = QueueDefinition.PROCESSABLE_IMAGE_QUEUE, messageConverter = "jsonMessageConverter")
+    public void consumeProcessableImageEvent(AuthenticatedQEvent<ProcessableImage> message) {
         imageProcessor.process(message);
+    }
+
+    @SecurityContextInterceptor
+    @RabbitListener(queues = QueueDefinition.PROCESSABLE_VIDEO_QUEUE, messageConverter = "jsonMessageConverter")
+    public void consumeProcessableVideoEvent(AuthenticatedQEvent<ProcessableVideo> message) {
+        videoProcessor.process(message);
     }
 }
 

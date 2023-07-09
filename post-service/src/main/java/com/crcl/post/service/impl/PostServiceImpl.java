@@ -1,19 +1,16 @@
 package com.crcl.post.service.impl;
 
 import com.crcl.common.dto.ProfileDto;
-import com.crcl.common.dto.UserDto;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.exceptions.EntityNotFoundException;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
 import com.crcl.post.client.StorageClient;
-import com.crcl.post.domain.Image;
-import com.crcl.post.domain.Post;
-import com.crcl.post.domain.Tag;
-import com.crcl.post.domain.Video;
+import com.crcl.post.domain.*;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
+import com.crcl.post.mapper.FileMapperRegistry;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;
@@ -22,14 +19,14 @@ import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.crcl.post.utils.CrclFileUtils.hasFiles;
@@ -49,6 +46,7 @@ public class PostServiceImpl implements PostService {
     private final StorageClient storageClient;
     private final ProfileClient profileClient;
     private final PostMapper mapper;
+    private final FileMapperRegistry fileMapperRegistry;
 
 
     @Override
@@ -66,7 +64,7 @@ public class PostServiceImpl implements PostService {
         applyIfNotEmpty(request.getTags(), () -> addPostTags(request, post));
         applyIfNotEmpty(request.getTaggedUsers(), () -> addTaggedUsers(request, post));
 
-        String username = userService.getCurrentUser().getUsername();
+        final var username = userService.getCurrentUser().getUsername();
         ProfileDto userProfile = profileClient.findByUsername(username);
         post.setCreator(userProfile);
 
@@ -74,6 +72,7 @@ public class PostServiceImpl implements PostService {
         PostDto storedPost = mapper.toDto(saved);
 
         queueService.publishCreatePostEvent(storedPost);
+
 
         return storedPost;
     }
@@ -124,56 +123,49 @@ public class PostServiceImpl implements PostService {
     }
 
     private void addSharedWithUsers(CreatePostRequest request, Post post) {
-        List<UserDto> users = idpClient.findByUsername(new LinkedHashSet<>(request.getSharedWithUsers()));
+        final var users = idpClient.findByUsername(new LinkedHashSet<>(request.getSharedWithUsers()));
         post.setSharedWithUsers(new LinkedHashSet<>(users));
     }
 
     private void addTaggedUsers(CreatePostRequest request, Post post) {
-        var taggedUsers = this.idpClient.findByUsername(new LinkedHashSet<>(request.getTaggedUsers()));
-        var usersTags = taggedUsers.stream()
+        final var taggedUsers = this.idpClient.findByUsername(new LinkedHashSet<>(request.getTaggedUsers()));
+        final var usersTags = taggedUsers.stream()
                 .map(userDto -> new Tag().setName(userDto.getUsername()))
                 .collect(Collectors.toSet());
         post.getTags().addAll(usersTags);
     }
 
     private void addPostTags(CreatePostRequest request, Post post) {
-        var names = request.getTags().stream()
+        final var names = request.getTags().stream()
                 .filter(Tag::isSystem)
                 .map(Tag::getName)
                 .toList();
-        var tags = tagRepository.findByNameIn(names);
+        final var tags = tagRepository.findByNameIn(names);
         post.setTags(new LinkedHashSet<>(tags));
     }
 
     private void addFiles(CreatePostRequest request, Post post) {
-        AtomicInteger index = new AtomicInteger(0);
-        List<FileUploadResult> results = storageClient.saveAll(request.getFiles());
+        final var results = storageClient.saveAll(request.getFiles());
+        final var removables = new ArrayList<FileUploadResult>();
 
         results.stream()
-                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("image"))
-                .map(buildImage(index))
-                .forEach(image -> post.getImages().add(image));
-
-        index.set(0);
+                .filter(result -> StringUtils.containsIgnoreCase(result.getContentType(), "image"))
+                .peek(removables::add)
+                .map(fileMapperRegistry.getMapper(FileMapperType.IMAGE))
+                .forEach(image -> post.getImages().add((Image) image));
 
         results.stream()
-                .filter(fileUploadResult -> fileUploadResult.getContentType().toLowerCase().startsWith("video"))
-                .map(buildVideo(index))
-                .forEach(video -> post.getVideos().add(video));
+                .filter(result -> StringUtils.containsIgnoreCase(result.getContentType(), "video"))
+                .peek(removables::add)
+                .map(fileMapperRegistry.getMapper(FileMapperType.VIDEO))
+                .forEach(video -> post.getVideos().add((Video) video));
+
+        results.removeAll(removables);
+
+        results.stream()
+                .map(fileMapperRegistry.getMapper(FileMapperType.GENERIC))
+                .forEach(file -> post.getGenericFiles().add(file));
     }
 
-    private Function<FileUploadResult, Image> buildImage(AtomicInteger index) {
-        return file -> new Image()
-                .setId(file.getEtag())
-                .setIndex(index.getAndIncrement())
-                .setContentType(file.getContentType())
-                .setUrl(file.getLink());
-    }
 
-    private Function<FileUploadResult, Video> buildVideo(AtomicInteger index) {
-        return file -> new Video()
-                .setId(file.getEtag())
-                .setIndex(index.incrementAndGet())
-                .setUrl(file.getLink());
-    }
 }

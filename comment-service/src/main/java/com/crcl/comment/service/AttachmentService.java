@@ -1,7 +1,7 @@
 package com.crcl.comment.service;
 
-import com.crcl.common.dto.queue.ImageUpload;
+import com.crcl.common.dto.queue.ProcessableImage;
 
 public interface AttachmentService {
-    void updateByEtag(ImageUpload message);
+    void updateByEtag(ProcessableImage message);
 }

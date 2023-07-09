@@ -19,22 +19,25 @@ import java.util.Set;
 @Accessors(chain = true)
 public class PostDto {
     private String id;
+    private int commentCount = 0;
+    private int shareCount = 0;
+    private int likesCount = 0;
+    private int disLikesCount = 0;
     private String content;
     private ProfileDto creator;
     private Access access = Access.PUBLIC;
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();
+    private Set<GenericFile> genericFiles = new HashSet<>();
     private Set<Tag> tags = new HashSet<>();
     private Set<Like> likes = new HashSet<>();
     private Set<UserDto> sharedWithUsers = new HashSet<>();
-    private int commentCount = 0;
-    private int shareCount = 0;
-    private int likesCount = 0;
-    private int disLikesCount = 0;
     private Map<String, Boolean> actions = new HashMap<>();
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDateTime createDate;
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDateTime lastModifiedDate;
