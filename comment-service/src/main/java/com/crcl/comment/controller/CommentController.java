@@ -3,6 +3,7 @@ package com.crcl.comment.controller;
 import com.crcl.comment.dto.CommentDto;
 import com.crcl.comment.dto.CommentFormDto;
 import com.crcl.comment.service.CommentService;
+import com.crcl.common.dto.EntityCountDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("comments")
@@ -28,6 +30,11 @@ public class CommentController {
     @GetMapping("/{postId}/count")
     public ResponseEntity<Integer> countByPost(@PathVariable("postId") String postId) {
         return ResponseEntity.ok(this.commentService.countByPost(postId));
+    }
+
+    @GetMapping("/posts/count")
+    public ResponseEntity<Map<String, Long>> countByPosts(@RequestParam("postIds") List<String> postIds) {
+        return ResponseEntity.ok(this.commentService.countByPosts(postIds));
     }
 
     @GetMapping("/{id}")

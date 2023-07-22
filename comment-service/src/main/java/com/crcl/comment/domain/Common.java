@@ -30,7 +30,7 @@ public class Common extends BaseEntity {
     @Column(columnDefinition = "JSON")
     protected ProfileDto profile;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     protected String content;
 
     @Enumerated(EnumType.STRING)

@@ -15,6 +15,7 @@ import com.crcl.comment.repository.AttachmentRepository;
 import com.crcl.comment.repository.CommentRepository;
 import com.crcl.comment.service.CommentService;
 import com.crcl.comment.service.UserService;
+import com.crcl.common.dto.EntityCountDto;
 import com.crcl.common.dto.PostDto;
 import com.crcl.common.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 @Service
@@ -148,6 +150,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Integer countByPost(String postId) {
         return commentRepository.countByPostId(postId);
+    }
+
+    @Override
+    public Map<String, Long> countByPosts(List<String> postIds) {
+        return commentRepository.getCounts(postIds, Sort.unsorted())
+                .stream()
+                .collect(toMap(EntityCountDto::getId, EntityCountDto::getCount));
     }
 
     private void validateFilesName(List<MultipartFile> files) {

@@ -4,6 +4,7 @@ import com.crcl.common.dto.ProfileDto;
 import com.crcl.common.dto.responses.FileUploadResult;
 import com.crcl.common.exceptions.EntityNotFoundException;
 import com.crcl.post.annotations.ValidCreatePostRequest;
+import com.crcl.post.client.CommentClient;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
 import com.crcl.post.client.StorageClient;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.crcl.post.utils.CrclFileUtils.hasFiles;
@@ -45,9 +47,9 @@ public class PostServiceImpl implements PostService {
     private final IdpClient idpClient;
     private final StorageClient storageClient;
     private final ProfileClient profileClient;
+    private final CommentClient commentClient;
     private final PostMapper mapper;
     private final FileMapperRegistry fileMapperRegistry;
-
 
     @Override
     public PostDto save(PostDto postDto) {
@@ -57,7 +59,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto save(@ValidCreatePostRequest CreatePostRequest request) {
-        Post post = mapper.toEntity(request);
+        final var post = mapper.toEntity(request);
 
         applyIf(hasFiles(request.getFiles()), () -> addFiles(request, post));
         applyIfNotEmpty(request.getSharedWithUsers(), () -> addSharedWithUsers(request, post));
@@ -68,17 +70,16 @@ public class PostServiceImpl implements PostService {
         ProfileDto userProfile = profileClient.findByUsername(username);
         post.setCreator(userProfile);
 
-        Post saved = postRepository.save(post);
-        PostDto storedPost = mapper.toDto(saved);
-
+        final var saved = postRepository.save(post);
+        final var storedPost = mapper.toDto(saved);
         queueService.publishCreatePostEvent(storedPost);
-
 
         return storedPost;
     }
 
     @Override
     public List<PostDto> saveAll(List<PostDto> entitiesDto) {
+
         return entitiesDto.stream()
                 .map(this::save)
                 .toList();
@@ -109,12 +110,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
-        return postRepository.findAll(pageable).map(mapper::toDto);
+        final Page<Post> posts = postRepository.findAll(pageable);
+        final var ids = posts.get()
+                .map(Post::getId)
+                .toList();
+        final Map<String, Long> countByPosts = commentClient.countByPosts(ids);
 
+        return posts.map(mapper::toDto)
+                .map(postDto -> postDto.setCommentCount(Math.toIntExact(countByPosts.getOrDefault(postDto.getId(), 0L))));
     }
 
     @Override
     public PostDto update(PostDto postDto, String entityId) {
+
         return postRepository.findById(entityId)
                 .map(post -> mapper.toEntity(postDto))
                 .map(postRepository::save)

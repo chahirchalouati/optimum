@@ -22,8 +22,7 @@ public abstract class PostMapper implements GenericMapper<Post, PostDto> {
 
     @Autowired
     private Set<ActionValidator> validators;
-    @Autowired
-    private CommentClient commentClient;
+
 
     @Override
     public PostDto toDto(Post entity) {
@@ -41,8 +40,6 @@ public abstract class PostMapper implements GenericMapper<Post, PostDto> {
         postDto.setLikesCount(postDto.getLikesCount());
         postDto.setDisLikesCount(postDto.getDisLikesCount());
         postDto.setShareCount(postDto.getShareCount());
-        postDto.setCommentCount(commentClient.countByPost(entity.getId()));
-        postDto.setCommentCount(commentClient.countByPost(entity.getId()));
 
         CrclUtils.applyIfNotEmpty(entity.getVideos(), postDto::setVideos);
         CrclUtils.applyIfNotEmpty(entity.getImages(), postDto::setImages);
