@@ -5,10 +5,10 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.crcl</groupId>
-    <artifactId>gramify-ms</artifactId>
-    <version>1.0.2</version>
-    <name>gramify-ms</name>
-    <description>gramify-ms</description>
+    <artifactId>gramify</artifactId>
+    <version>1.0.1</version>
+    <name>gramify</name>
+    <description>gramify</description>
 
     <properties>
         <java.version>20</java.version>

@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>audit-service</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.1</version>
     <name>audit-service</name>
     <description>audit-service</description>
     <properties>

@@ -17,41 +17,42 @@ import java.util.List;
 @RequestMapping("comments")
 @AllArgsConstructor
 public class CommentController {
-    private final CommentService postService;
 
-    @GetMapping
-    public ResponseEntity<Page<CommentDto>> findAll(Pageable pageable) {
-        return ResponseEntity.ok(this.postService.findAll(pageable));
+    private final CommentService commentService;
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<Page<CommentDto>> findAll(@PathVariable("postId") String postId, Pageable pageable) {
+        return ResponseEntity.ok(this.commentService.findByPostId(postId, pageable));
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<CommentDto>> findAll() {
-        return ResponseEntity.ok(this.postService.findAll());
+    @GetMapping("/{postId}/count")
+    public ResponseEntity<Integer> countByPost(@PathVariable("postId") String postId) {
+        return ResponseEntity.ok(this.commentService.countByPost(postId));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CommentDto> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(this.postService.findById(id));
+        return ResponseEntity.ok(this.commentService.findById(id));
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> save(@ModelAttribute @Valid CommentFormDto commentFormDto) {
-        return ResponseEntity.ok(this.postService.save(commentFormDto));
+        return ResponseEntity.ok(this.commentService.save(commentFormDto));
     }
 
     @PostMapping("/many")
     public ResponseEntity<List<CommentDto>> save(@Valid @RequestBody List<CommentDto> entities) {
-        return ResponseEntity.ok(this.postService.saveAll(entities));
+        return ResponseEntity.ok(this.commentService.saveAll(entities));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CommentDto> update(@Valid @RequestBody CommentDto userDto, Long id) {
-        return ResponseEntity.ok(this.postService.update(userDto, id));
+        return ResponseEntity.ok(this.commentService.update(userDto, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        this.postService.deleteById(id);
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        this.commentService.deleteById(id);
         return ResponseEntity.accepted().build();
 
     }

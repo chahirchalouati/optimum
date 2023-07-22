@@ -25,12 +25,12 @@ public class ProfileSearchRestController {
     }
 
     @GetMapping("/username")
-    public ResponseEntity<ProfileDto> findByUsername(@RequestParam String username) {
-        return ResponseEntity.ok(this.profileService.findByUsername(username));
+    public ResponseEntity<ProfileDto> findByUsername(@RequestParam("username") String username) {
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/usernames")
-    public ResponseEntity<List<ProfileDto>> findByUserNames(@RequestParam List<String> usernames) {
+    public ResponseEntity<List<ProfileDto>> findByUserNames(@RequestParam("usernames") List<String> usernames) {
         return ResponseEntity.ok(this.profileService.findByUsernames(usernames));
     }
 }

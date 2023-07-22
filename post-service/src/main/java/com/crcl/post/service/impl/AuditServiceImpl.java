@@ -1,4 +1,4 @@
-package com.crcl.post.service;
+package com.crcl.post.service.impl;
 
 import com.crcl.common.dto.queue.events.DefaultQEvent;
 import com.crcl.common.dto.queue.events.QEvent;
@@ -7,6 +7,8 @@ import com.crcl.common.queue.QueuePublisher;
 import com.crcl.common.utils.AuditAction;
 import com.crcl.common.utils.QueueDefinition;
 import com.crcl.post.dto.PostDto;
+import com.crcl.post.service.AuditService;
+import com.crcl.post.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

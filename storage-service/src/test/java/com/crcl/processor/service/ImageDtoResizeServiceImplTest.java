@@ -14,7 +14,7 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 
-public class ImageResizeServiceImplTest extends BaseRepositoryConfiguration {
+public class ImageDtoResizeServiceImplTest extends BaseRepositoryConfiguration {
 
     @Autowired
     private RecordRepository recordRepository;

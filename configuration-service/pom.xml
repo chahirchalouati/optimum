@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.crcl</groupId>
     <artifactId>configuration-service</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.1</version>
     <name>configuration-service</name>
     <description>configuration-service</description>
     <properties>

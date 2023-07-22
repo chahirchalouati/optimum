@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.crcl</groupId>
     <artifactId>proxy-service</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.1</version>
     <name>proxy-service</name>
     <description>proxy-service</description>
     <properties>
@@ -26,9 +26,19 @@
             <groupId>com.crcl</groupId>
             <artifactId>common</artifactId>
             <version>1.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-openfeign</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.playtika.reactivefeign</groupId>
+            <artifactId>feign-reactor-spring-cloud-starter</artifactId>
+            <version>4.0.0</version>
+            <type>pom</type>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

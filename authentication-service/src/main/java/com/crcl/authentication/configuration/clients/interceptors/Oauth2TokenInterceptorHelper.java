@@ -10,14 +10,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import static org.springframework.security.oauth2.core.AuthorizationGrantType.CLIENT_CREDENTIALS;
-import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.*;
+import static com.crcl.common.utils.GramifyConstants.*;
 
 @Component
 @RequiredArgsConstructor
 public class Oauth2TokenInterceptorHelper {
-    public final static String AUTHORIZATION_HEADER = "Authorization";
-    public final static String BEARER_TOKEN_TYPE = "Bearer";
+
     private final RestTemplate restTemplate;
     private final AuthorizationProperties authorizationProperties;
 
@@ -27,7 +25,7 @@ public class Oauth2TokenInterceptorHelper {
                 return StringUtils.EMPTY;
 
             LinkedMultiValueMap<Object, Object> formValues = new LinkedMultiValueMap<>();
-            formValues.add(GRANT_TYPE, CLIENT_CREDENTIALS.getValue());
+            formValues.add(GRANT_TYPE, CLIENT_CREDENTIALS);
             formValues.add(CLIENT_ID, clientId);
             formValues.add(CLIENT_SECRET, password);
             HttpHeaders headers = new HttpHeaders();

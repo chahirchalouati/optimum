@@ -10,8 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
 
-import static com.crcl.authentication.configuration.clients.interceptors.Oauth2TokenInterceptorHelper.AUTHORIZATION_HEADER;
-import static com.crcl.authentication.configuration.clients.interceptors.Oauth2TokenInterceptorHelper.BEARER_TOKEN_TYPE;
+import static com.crcl.common.utils.GramifyConstants.AUTHORIZATION_HEADER;
+import static com.crcl.common.utils.GramifyConstants.BEARER_TOKEN_TYPE;
 
 @Slf4j
 @AllArgsConstructor

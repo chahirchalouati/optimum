@@ -11,4 +11,5 @@ public interface CommentService extends GenericService<CommentDto, Long> {
     Page<CommentDto> findByPostId(String id, Pageable pageable);
 
     Integer countByPost(String postId);
+
 }

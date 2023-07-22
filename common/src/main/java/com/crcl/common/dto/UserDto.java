@@ -1,5 +1,6 @@
 package com.crcl.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -8,6 +9,7 @@ import java.util.Set;
 
 @Data
 @Accessors(chain = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
     private String firstName;
     private String lastName;

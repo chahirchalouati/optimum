@@ -1,5 +1,6 @@
 package com.crcl.comment.service.impl;
 
+import com.crcl.comment.clients.PostClient;
 import com.crcl.comment.clients.ProfileClient;
 import com.crcl.comment.clients.StorageClient;
 import com.crcl.comment.domain.Attachment;
@@ -14,6 +15,8 @@ import com.crcl.comment.repository.AttachmentRepository;
 import com.crcl.comment.repository.CommentRepository;
 import com.crcl.comment.service.CommentService;
 import com.crcl.comment.service.UserService;
+import com.crcl.common.dto.PostDto;
+import com.crcl.common.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,12 +24,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -38,12 +41,13 @@ import static java.util.stream.Collectors.toSet;
 @Slf4j
 public class CommentServiceImpl implements CommentService {
 
+    private final UserService userService;
     private final CommentRepository commentRepository;
+    private final AttachmentRepository attachmentRepository;
     private final CommentMapper commentMapper;
     private final StorageClient storageClient;
-    private final UserService userService;
     private final ProfileClient profileClient;
-    private final AttachmentRepository attachmentRepository;
+    private final PostClient postClient;
 
     @Override
     public CommentDto save(CommentDto postDto) {
@@ -75,9 +79,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentDto> findAll() {
-        return commentRepository.findAll().stream()
-                .map(commentMapper::toDto)
-                .toList();
+        return List.of();
     }
 
     @Override
@@ -90,14 +92,14 @@ public class CommentServiceImpl implements CommentService {
                     "createdAt");
         }
 
-        final Page<Comment> posts = commentRepository.findByLoggedUser(pageable);
-        final Set<String> usersNames = posts.getContent().stream()
+        final Page<Comment> comments = commentRepository.findByLoggedUser(pageable);
+        final Set<String> usersNames = comments.getContent().stream()
                 .map(Comment::getUsername)
                 .collect(toSet());
         List<ProfileDto> profiles = this.profileClient.findByUsernames(usersNames);
         Map<String, ProfileDto> profileMap = profiles.stream()
                 .collect(Collectors.toMap(p -> p.getUser().getUsername(), p -> p));
-        return posts
+        return comments
                 .map(commentMapper::toDto)
                 .map(mergePostsWithOwnerProfiles(profileMap));
     }
@@ -112,9 +114,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    @Transactional
     public CommentDto save(CommentFormDto commentFormDto) {
-        var comment = new Comment();
+        final Optional<PostDto> postDtoOptional = this.postClient.getPostById(commentFormDto.getPostId());
+        if (postDtoOptional.isEmpty())
+            throw new EntityNotFoundException("Unable to find post with id: " + commentFormDto.getPostId());
+
+        final var comment = new Comment();
         comment.setContent(commentFormDto.getContent());
         comment.setUsername(userService.getCurrentUser().getUsername());
         comment.setUser(userService.getCurrentUser());
@@ -131,6 +136,7 @@ public class CommentServiceImpl implements CommentService {
         final Comment save = commentRepository.save(comment);
 
         return commentMapper.toDto(save);
+
     }
 
     @Override
