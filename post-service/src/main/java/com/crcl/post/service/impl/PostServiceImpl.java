@@ -111,7 +111,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostDto> findAll(Pageable pageable) {
         final Page<Post> posts = postRepository.findAll(pageable);
-        final var ids = posts.get()
+        final List<String> ids = posts.get()
                 .map(Post::getId)
                 .toList();
         final Map<String, Long> countByPosts = commentClient.countByPosts(ids);

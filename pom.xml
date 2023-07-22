@@ -29,5 +29,6 @@
         <module>comment-service</module>
         <module>audit-service</module>
         <module>user-info-service</module>
+        <module>utilties-service</module>
     </modules>
 </project>

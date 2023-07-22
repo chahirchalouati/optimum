@@ -16,7 +16,7 @@
 === Source Code
 
 ****
-If you'd like to get right to it, the https://github.com/chahirchalouati/gramify-ms[source is on GitHub].
+If you'd reaction to get right to it, the https://github.com/chahirchalouati/gramify-ms[source is on GitHub].
 ****
 
 toc::[]
@@ -34,7 +34,7 @@ Posts should be displayed in a timeline format, with the most recent posts appea
 * Users should be able to leave comments on posts, and view comments left by other gramifyUsers.
 
 4. *Likes*
-* Users should be able to like posts and view the number of likes on a post.
+* Users should be able to reaction posts and view the number of likes on a post.
 
 5. *Profile*
 * Each gramifyUser should have a profile page that displays their posts, friends, and other information.
