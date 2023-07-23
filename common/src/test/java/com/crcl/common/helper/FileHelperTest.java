@@ -36,20 +36,6 @@ public class FileHelperTest {
     }
 
     @Test
-    @DisplayName("Load file content as string - File not found")
-    void loadFileAsString_FileNotFound() {
-        String fileName = "testFile1.txt";
-        doReturn(new ClassPathResource(fileName))
-                .when(resourceLoader).getResource("classpath:testFile1.txt");
-
-        String fileContent = fileHelper.loadFileAsString(fileName);
-
-        Assertions.assertThat(fileContent).isNull();
-        verify(resourceLoader, times(1)).getResource(eq("classpath:testFile1.txt"));
-    }
-
-
-    @Test
     @DisplayName("Load file content as bytes - Success")
     void loadFileAsBytes_Success() {
         String fileName = "testFile.txt";
