@@ -3,7 +3,6 @@ package com.crcl.comment.controller;
 import com.crcl.comment.dto.CommentDto;
 import com.crcl.comment.dto.CommentFormDto;
 import com.crcl.comment.service.CommentService;
-import com.crcl.common.dto.EntityCountDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

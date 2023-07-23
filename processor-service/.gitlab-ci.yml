@@ -1,9 +1,5 @@
 # Update n.0
-.changes:
-  only:
-    changes:
-      - $MODULE_NAME/**
-      - .gitlab-ci.yml
+
 
 processor-service-build:
   variables:

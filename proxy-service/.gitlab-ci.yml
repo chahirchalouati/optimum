@@ -1,10 +1,5 @@
 # Update n.0
-.changes:
-  only:
-    changes:
-      - $MODULE_NAME/**
 
-      - .gitlab-ci.yml
 
 proxy-service-build:
   variables:

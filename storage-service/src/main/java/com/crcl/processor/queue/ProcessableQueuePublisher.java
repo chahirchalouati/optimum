@@ -14,5 +14,5 @@ public abstract class ProcessableQueuePublisher extends EventQueuePublisher {
 
     public abstract void publishProcessableImageEvent(ProcessableImage event);
 
-    public abstract void publishProcessableVideoEvent(ProcessableVideo event) ;
+    public abstract void publishProcessableVideoEvent(ProcessableVideo event);
 }

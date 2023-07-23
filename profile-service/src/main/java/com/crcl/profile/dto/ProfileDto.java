@@ -1,6 +1,5 @@
 package com.crcl.profile.dto;
 
-import com.crcl.common.dto.UserDto;
 import com.crcl.profile.annotation.UniqueUserName;
 import com.crcl.profile.domain.*;
 import com.fasterxml.jackson.annotation.JsonProperty;

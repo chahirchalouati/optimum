@@ -23,6 +23,20 @@ public class Comment extends Common implements Serializable {
     public static final String ENTITY_NAME = "Comment";
     @Serial
     private static final long serialVersionUID = -6483377583531145808L;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "comment_id")
+    @ToString.Exclude
+    protected Set<Attachment> attachments = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "comment_id")
+    @ToString.Exclude
+    protected Set<Tag> tags = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "comment_id")
+    @ToString.Exclude
+    protected Set<Tag> likes = new HashSet<>();
+    @Column(name = "post_id", nullable = false, updatable = false)
+    protected String postId;
 
     @Override
     public final boolean equals(Object o) {
@@ -39,21 +53,4 @@ public class Comment extends Common implements Serializable {
     public final int hashCode() {
         return getClass().hashCode();
     }
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_id")
-    @ToString.Exclude
-    protected Set<Attachment> attachments = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_id")
-    @ToString.Exclude
-    protected Set<Tag> tags = new HashSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "comment_id")
-    @ToString.Exclude
-    protected Set<Tag> likes = new HashSet<>();
-    @Column(name = "post_id", nullable = false, updatable = false)
-    protected String postId;
 }

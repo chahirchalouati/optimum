@@ -104,7 +104,7 @@ public class ImageProcessorImpl implements ImageProcessor {
             }
 
         } catch (IOException e) {
-            log.error("Failed to read image file: {} " , e.getMessage());
+            log.error("Failed to read image file: {} ", e.getMessage());
         }
         return Orientation.LANDSCAPE;
     }

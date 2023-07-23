@@ -5,6 +5,7 @@ stages:
   - docker
   - deploy
 
+
 variables:
   CACHE_DIR: docker-cache
   MAVEN_OPTS: >-
@@ -29,7 +30,14 @@ cache:
     - .m2/repository
     - ${CACHE_DIR}
 
+.changes:
+  only:
+    changes:
+      - $MODULE_NAME/**
+      - .gitlab-ci.yml
+
 .build:
+  extends: .changes
   before_script:
     - echo "Start build $MODULE_NAME"
   stage: maven

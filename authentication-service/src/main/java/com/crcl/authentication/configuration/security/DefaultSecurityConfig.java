@@ -24,6 +24,17 @@ public class DefaultSecurityConfig {
     private final CorsCustomizer corsCustomizer;
     private final SecurityProperties securityProperties;
 
+    @NotNull
+    private static Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> getHttpRequestsCustomizer() {
+        return registry -> registry.requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
+                .requestMatchers("/authentication/login/**").permitAll()
+                .requestMatchers("/authentication/register/**").permitAll()
+                .requestMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ADMIN")
+                .anyRequest().authenticated();
+    }
+
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
@@ -50,17 +61,6 @@ public class DefaultSecurityConfig {
                 .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()));
 
         return http.build();
-    }
-
-    @NotNull
-    private static Customizer<AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry> getHttpRequestsCustomizer() {
-        return registry -> registry.requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
-                .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
-                .requestMatchers(HttpMethod.POST, "/users/**").permitAll()
-                .requestMatchers("/authentication/login/**").permitAll()
-                .requestMatchers("/authentication/register/**").permitAll()
-                .requestMatchers("/authentication/roles/**", "/authentication/permissions/**").hasAnyRole("ADMIN")
-                .anyRequest().authenticated();
     }
 }
 

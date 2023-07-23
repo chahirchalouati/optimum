@@ -2,7 +2,6 @@ package com.crcl.comment.service;
 
 import com.crcl.comment.dto.CommentDto;
 import com.crcl.comment.dto.CommentFormDto;
-import com.crcl.common.dto.EntityCountDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

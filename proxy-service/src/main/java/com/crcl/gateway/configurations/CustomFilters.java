@@ -49,7 +49,7 @@ public class CustomFilters {
                         .map(jsonObject -> CastUtils.<String>cast(jsonObject.get("access_token")))
                         .log("Setting token for an unauthenticated request", Level.INFO)
                         .flatMap(token -> {
-                            final var  modifiedHeaders = new HttpHeaders();
+                            final var modifiedHeaders = new HttpHeaders();
                             modifiedHeaders.set(HttpHeaders.AUTHORIZATION, BEARER + SPACE + token);
 
                             ServerHttpRequest serverHttpRequest = exchange.getRequest()
