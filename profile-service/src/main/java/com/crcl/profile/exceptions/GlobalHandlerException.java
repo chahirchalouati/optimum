@@ -58,7 +58,7 @@ class ErrorResponse {
     private String defaultErrorMessage = "bad request";
     @JsonProperty(value = "errors", index = 2)
     private Map<String, String> errors;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:SS", shape = JsonFormat.Shape.STRING)
+
     @JsonProperty(index = 3)
     private LocalDateTime timestamp = LocalDateTime.now(Clock.systemDefaultZone());
 

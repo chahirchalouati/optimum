@@ -1,8 +1,10 @@
 package com.crcl.authentication.configuration.datasource;
 
+import com.crcl.common.helper.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.cloudyrock.spring.v5.EnableMongock;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,8 @@ import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
+import java.time.LocalDateTime;
+
 
 @Configuration
 @AllArgsConstructor
@@ -21,7 +25,8 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 public class MongoConfiguration {
 
     @Bean
-    public MappingMongoConverter mongoConverter(MongoDatabaseFactory mongoFactory, MongoMappingContext mongoMappingContext) {
+    public MappingMongoConverter mongoConverter(MongoDatabaseFactory mongoFactory,
+                                                MongoMappingContext mongoMappingContext) {
         DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoFactory);
         MappingMongoConverter mongoConverter = new MappingMongoConverter(dbRefResolver, mongoMappingContext);
         mongoConverter.setMapKeyDotReplacement("-DOT-");
@@ -30,7 +35,12 @@ public class MongoConfiguration {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper().registerModule(new JavaTimeModule())
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+
+        return new ObjectMapper()
+                .registerModule(module)
+                .registerModule(new JavaTimeModule())
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 

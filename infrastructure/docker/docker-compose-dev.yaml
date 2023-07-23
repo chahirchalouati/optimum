@@ -1,13 +1,13 @@
 version: '3.3'
 services:
-  #  gitlab-runner:
-  #    image: dev-gramify-runner
-  #    restart: no
-  #    volumes:
-  #      - /var/run/docker.sock:/var/run/docker.sock
-  #      - /srv/gitlab-runner/config:/etc/gitlab-runner
-  #    env_file:
-  #      - ../runner/.env
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    restart: no
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./srv/gitlab-runner/config:/etc/gitlab-runner
+    env_file:
+      - ../runner/.env
   minio:
     image: minio/minio
     container_name: minio

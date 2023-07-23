@@ -16,7 +16,7 @@ public class CommentDto {
     private List<AttachmentDto> attachments;
     private ProfileDto profile;
     private Comment.Visibility visibility;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+
     private LocalDateTime createdAt;
     @JsonIgnore
     private String username;

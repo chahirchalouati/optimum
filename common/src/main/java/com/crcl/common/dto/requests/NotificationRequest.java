@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Accessors(chain = true)
-public class NotificationRequest<T>  {
+public class NotificationRequest<T> {
     private UUID id = UUID.randomUUID();
     private T payload;
     @NotNull

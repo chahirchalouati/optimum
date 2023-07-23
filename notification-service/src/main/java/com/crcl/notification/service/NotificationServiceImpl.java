@@ -23,7 +23,7 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationTypeRepository notificationTypeRepository;
 
     @NotNull
-    private static Function<NotificationHandler, List<NotificationResponse>> handleNotificationRequest(
+    private  Function<NotificationHandler, List<NotificationResponse>> handleNotificationRequest(
             NotificationRequest request,
             List<NotificationResponse> responses,
             NotificationType type) {

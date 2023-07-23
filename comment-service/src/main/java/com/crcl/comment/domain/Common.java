@@ -35,6 +35,7 @@ public class Common extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     protected Visibility visibility = Visibility.PRIVATE;
+    protected boolean deleted = false;
 
     @Override
     public boolean equals(Object o) {

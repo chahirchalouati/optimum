@@ -1,5 +1,6 @@
 package com.crcl.profile.configuration;
 
+import com.crcl.common.helper.LocalDateTimeSerializer;
 import com.crcl.common.queue.SortDeserializer;
 import com.crcl.profile.configuration.security.Oauth2TokenInterceptorHelper;
 import com.crcl.profile.configuration.security.ServerRequestInterceptor;
@@ -15,6 +16,8 @@ import org.springframework.cloud.openfeign.support.PageJacksonModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
+
 
 public class SrvConfiguration {
 
@@ -27,7 +30,11 @@ public class SrvConfiguration {
     public ObjectMapper objectMapper() {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(Sort.class, new SortDeserializer());
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+
         return new ObjectMapper()
+                .registerModule(module)
                 .registerModule(new PageJacksonModule())
                 .registerModule(simpleModule)
                 .registerModule(new JavaTimeModule())

@@ -35,10 +35,10 @@ public class PostDto {
     private Map<String, Boolean> actions = new HashMap<>();
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+
     private LocalDateTime createDate;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
+
     private LocalDateTime lastModifiedDate;
 }

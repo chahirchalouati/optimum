@@ -28,7 +28,7 @@ public class Post {
     private Set<Tag> tags = new HashSet<>();
     private Set<Like> likes = new HashSet<>();
     private Set<UserDto> sharedWithUsers = new HashSet<>();
-
+    private boolean deleted = false;
     @CreatedDate
     private LocalDateTime createDate;
     @LastModifiedDate

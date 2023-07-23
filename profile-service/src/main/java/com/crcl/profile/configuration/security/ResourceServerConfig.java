@@ -1,6 +1,7 @@
 package com.crcl.profile.configuration.security;
 
 import com.crcl.common.configuration.SwaggerConfiguration;
+import com.crcl.common.helper.LocalDateTimeSerializer;
 import com.crcl.common.properties.ApiProperties;
 import com.crcl.common.utils.EndpointsUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -19,6 +20,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+
+import java.time.LocalDateTime;
 
 @EnableWebSecurity
 @AllArgsConstructor
@@ -40,7 +43,11 @@ public class ResourceServerConfig {
 
     @Bean
     public ObjectMapper objectMapper() {
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+
         return new ObjectMapper()
+                .registerModule(module)
                 .registerModule(new PageJacksonModule())
                 .registerModule(new SimpleModule())
                 .registerModule(new JavaTimeModule())

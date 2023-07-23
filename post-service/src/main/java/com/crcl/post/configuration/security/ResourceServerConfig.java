@@ -19,6 +19,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ResourceServerConfig {
     private final CorsCustomizer corsCustomizer;
 
+    private static void setAuthorizeHttpRequests(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
+                        .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
+                        .requestMatchers("/websocket/**").permitAll()
+                        .anyRequest().authenticated());
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         corsCustomizer.corsCustomizer(httpSecurity);
@@ -27,14 +36,5 @@ public class ResourceServerConfig {
         return httpSecurity
                 .oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()))
                 .build();
-    }
-
-    private static void setAuthorizeHttpRequests(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(EndpointsUtils.Permitted.SWAGGER_END_POINTS).permitAll()
-                .requestMatchers(EndpointsUtils.Permitted.ACTUATOR_END_POINTS).permitAll()
-                .requestMatchers("/websocket/**").permitAll()
-                .anyRequest().authenticated());
     }
 }

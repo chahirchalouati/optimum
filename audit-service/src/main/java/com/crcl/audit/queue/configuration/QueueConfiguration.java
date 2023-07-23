@@ -1,5 +1,6 @@
 package com.crcl.audit.queue.configuration;
 
+import com.crcl.common.helper.LocalDateTimeSerializer;
 import com.crcl.common.queue.SortDeserializer;
 import com.crcl.common.utils.QueueDefinition;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -53,7 +55,10 @@ public class QueueConfiguration {
     public ObjectMapper objectMapper() {
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(Sort.class, new SortDeserializer());
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
         return new ObjectMapper()
+                .registerModule(module)
                 .registerModule(new PageJacksonModule())
                 .registerModule(simpleModule)
                 .registerModule(new JavaTimeModule())

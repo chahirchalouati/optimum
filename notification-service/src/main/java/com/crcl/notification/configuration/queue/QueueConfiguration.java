@@ -1,5 +1,6 @@
 package com.crcl.notification.configuration.queue;
 
+import com.crcl.common.helper.LocalDateTimeSerializer;
 import com.crcl.common.queue.SortDeserializer;
 import com.crcl.common.utils.QueueDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -46,12 +48,16 @@ public class QueueConfiguration {
 
     @Bean
     public ObjectMapper objectMapper() {
+
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.registerModule(new PageJacksonModule());
         SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(Sort.class, new SortDeserializer());
         objectMapper.registerModule(simpleModule);
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+        objectMapper.registerModule(module);
         return objectMapper;
     }
 
