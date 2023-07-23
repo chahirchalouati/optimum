@@ -3,7 +3,7 @@
   only:
     changes:
       - $MODULE_NAME/**
-      - .gitlab-ci-common.yml
+
       - .gitlab-ci.yml
 
 utilities-service-build:

@@ -23,6 +23,7 @@ variables:
     -DdeployAtEnd=true
 
 
+
 cache:
   paths:
     - .m2/repository
