@@ -1,13 +1,7 @@
-# Update n.2
-
-variables:
-  MODULE_NAME: common
-
-.changes:
-  only:
-    changes:
-      - $MODULE_NAME/**
+# Update n.3
 
 common-build:
+  variables:
+    MODULE_NAME: common
   extends:
     - .build
