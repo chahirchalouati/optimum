@@ -32,7 +32,7 @@ cache:
   before_script:
     - echo "Start build $MODULE_NAME"
   stage: maven
-  image: maven:3-eclipse-temurin-20-alpine
+  image: maven:3.9.3-eclipse-temurin-20
   script:
     - if [ ! -f ci_settings.xml ]; then
       echo "CI settings missing";
