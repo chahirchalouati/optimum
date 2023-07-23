@@ -1,6 +1,6 @@
-# docker build -f Dockerfile -t gramify-runner .
-# docker run gramify-runner
-FROM gitlab/gitlab-runner:v15.5.2
+# docker build -f Dockerfile -t crcl-gitlab-runner .
+# docker run crcl-gitlab-runner
+FROM gitlab/gitlab-runner:latest
 
 ENV REGISTER_NON_INTERACTIVE='';
 ENV CI_SERVER_URL='';
@@ -15,6 +15,8 @@ ENV DOCKER_NETWORK_MODE='';
 ENV REGISTRATION_TOKEN='';
 ENV DESCRIPTION='';
 
-COPY start.sh start.sh
+COPY runner_boostrap.bash /runner_boostrap.bash
+RUN sed -i 's/\r$//' runner_boostrap.bash
+RUN chmod u+x runner_boostrap.bash
 
-ENTRYPOINT ["sh", "start.sh"]
+ENTRYPOINT ["/bin/bash", "-c", "/runner_boostrap.bash"]

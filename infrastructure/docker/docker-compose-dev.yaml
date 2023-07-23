@@ -1,11 +1,12 @@
 version: '3.3'
 services:
   gitlab-runner:
-    image: gitlab/gitlab-runner
+    build:
+      context: ../runner/.
+      dockerfile: Dockerfile
     restart: no
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./srv/gitlab-runner/config:/etc/gitlab-runner
     env_file:
       - ../runner/.env
   minio:
