@@ -54,6 +54,7 @@ cache:
   allow_failure: true
 
 .docker:
+  extends: .changes
   stage: docker
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
@@ -71,6 +72,7 @@ cache:
   when: manual
 
 .deploy:
+  extends: .changes
   image: docker:latest
   stage: deploy
   script:
