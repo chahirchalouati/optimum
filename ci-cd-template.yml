@@ -28,6 +28,7 @@ cache:
       - $MODULE_NAME/**
 
 .build:
+  extends: .changes
   before_script:
     - echo "Start build $MODULE_NAME"
   stage: maven
