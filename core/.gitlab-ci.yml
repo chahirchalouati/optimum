@@ -2,6 +2,6 @@
 
 common-build:
   variables:
-    MODULE_NAME: common-service
+    MODULE_NAME: core
   extends:
     - .build
