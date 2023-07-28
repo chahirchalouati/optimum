@@ -1,5 +1,19 @@
 # Update n.1
 
+include:
+  - local: "audit-service/.gitlab-ci.yml"
+  - local: "authentication-service/.gitlab-ci.yml"
+  - local: "comment-service/.gitlab-ci.yml"
+  - local: "core/.gitlab-ci.yml"
+  - local: "configuration-service/.gitlab-ci.yml"
+  - local: "notification-service/.gitlab-ci.yml"
+  - local: "post-service/.gitlab-ci.yml"
+  - local: "processor-service/.gitlab-ci.yml"
+  - local: "profile-service/.gitlab-ci.yml"
+  - local: "proxy-service/.gitlab-ci.yml"
+  - local: "storage-service/.gitlab-ci.yml"
+  - local: "user-info-service/.gitlab-ci.yml"
+
 stages:
   - maven
   - docker
@@ -83,16 +97,4 @@ cache:
   allow_failure: true
   when: manual
 
-include:
-  - local: "audit-service/.gitlab-ci.yml"
-  - local: "authentication-service/.gitlab-ci.yml"
-  - local: "comment-service/.gitlab-ci.yml"
-  - local: "core/.gitlab-ci.yml"
-  - local: "configuration-service/.gitlab-ci.yml"
-  - local: "notification-service/.gitlab-ci.yml"
-  - local: "post-service/.gitlab-ci.yml"
-  - local: "processor-service/.gitlab-ci.yml"
-  - local: "profile-service/.gitlab-ci.yml"
-  - local: "proxy-service/.gitlab-ci.yml"
-  - local: "storage-service/.gitlab-ci.yml"
-  - local: "user-info-service/.gitlab-ci.yml"
+
