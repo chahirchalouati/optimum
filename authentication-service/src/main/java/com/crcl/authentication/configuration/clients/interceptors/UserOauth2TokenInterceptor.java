@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 
 import java.util.Objects;
 
-import static com.crcl.common.utils.GramifyConstants.AUTHORIZATION_HEADER;
-import static com.crcl.common.utils.GramifyConstants.BEARER_TOKEN_TYPE;
+import static com.crcl.core.utils.GramifyConstants.AUTHORIZATION_HEADER;
+import static com.crcl.core.utils.GramifyConstants.BEARER_TOKEN_TYPE;
 import static java.util.Objects.isNull;
 
 @Slf4j

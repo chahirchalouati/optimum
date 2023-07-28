@@ -2,7 +2,7 @@ package com.crcl.comment.mapper;
 
 import com.crcl.comment.domain.Comment;
 import com.crcl.comment.dto.CommentDto;
-import com.crcl.common.utils.generic.GenericMapper;
+import com.crcl.core.utils.generic.GenericMapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 

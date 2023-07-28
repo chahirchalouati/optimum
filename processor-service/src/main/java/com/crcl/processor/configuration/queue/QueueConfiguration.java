@@ -1,7 +1,7 @@
 package com.crcl.processor.configuration.queue;
 
-import com.crcl.common.helper.LocalDateTimeSerializer;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.helper.LocalDateTimeSerializer;
+import com.crcl.core.utils.QueueDefinition;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

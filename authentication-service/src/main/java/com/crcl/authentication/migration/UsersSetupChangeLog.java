@@ -8,7 +8,7 @@ import com.crcl.authentication.repository.RoleRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.DefaultRoles;
 import com.crcl.authentication.utils.ProfileUtils;
-import com.crcl.common.exceptions.RoleNotFoundException;
+import com.crcl.core.exceptions.RoleNotFoundException;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

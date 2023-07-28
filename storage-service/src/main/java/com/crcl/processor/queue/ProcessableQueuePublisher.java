@@ -1,8 +1,8 @@
 package com.crcl.processor.queue;
 
 
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableVideo;
 import com.crcl.processor.service.UserService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 

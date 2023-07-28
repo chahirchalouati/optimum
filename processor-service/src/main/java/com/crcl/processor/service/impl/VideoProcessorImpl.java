@@ -1,8 +1,8 @@
 package com.crcl.processor.service.impl;
 
-import com.crcl.common.dto.queue.ProcessableVideo;
-import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
-import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.processor.clients.StorageClient;
 import com.crcl.processor.queue.EventQueuePublisher;
 import com.crcl.processor.service.UserService;

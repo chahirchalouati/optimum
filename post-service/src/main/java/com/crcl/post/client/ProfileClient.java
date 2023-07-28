@@ -1,6 +1,6 @@
 package com.crcl.post.client;
 
-import com.crcl.common.dto.ProfileDto;
+import com.crcl.core.dto.ProfileDto;
 import com.crcl.post.configuration.security.FeignFormConfig;
 import com.crcl.post.configuration.security.OAuthFeignConfig;
 import com.crcl.post.fallbacks.ProfileClientFallbackFactory;

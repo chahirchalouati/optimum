@@ -1,6 +1,6 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.queue.QueuePublisher;
+import com.crcl.core.queue.QueuePublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;

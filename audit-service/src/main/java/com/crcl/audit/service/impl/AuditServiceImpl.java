@@ -3,7 +3,7 @@ package com.crcl.audit.service.impl;
 import com.crcl.audit.domain.Audit;
 import com.crcl.audit.repository.AuditRepository;
 import com.crcl.audit.service.AuditService;
-import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.core.exceptions.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

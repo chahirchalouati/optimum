@@ -1,6 +1,6 @@
 package com.crcl.comment.queue;
 
-import com.crcl.common.dto.queue.events.QEvent;
+import com.crcl.core.dto.queue.events.QEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
 package com.crcl.utilities.domain;
 
-import com.crcl.common.dto.Entity;
-import com.crcl.common.dto.UserDto;
-import com.crcl.common.dto.requests.ReactionType;
+import com.crcl.core.dto.Entity;
+import com.crcl.core.dto.UserDto;
+import com.crcl.core.dto.requests.ReactionType;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import lombok.experimental.FieldNameConstants;

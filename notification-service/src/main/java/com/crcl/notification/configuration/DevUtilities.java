@@ -1,7 +1,7 @@
 package com.crcl.notification.configuration;
 
-import com.crcl.common.utils.NotificationDefinition;
-import com.crcl.common.utils.NotificationTargets;
+import com.crcl.core.utils.NotificationDefinition;
+import com.crcl.core.utils.NotificationTargets;
 import com.crcl.notification.domain.NotificationType;
 import com.crcl.notification.domain.Template;
 import com.crcl.notification.repository.NotificationTypeRepository;

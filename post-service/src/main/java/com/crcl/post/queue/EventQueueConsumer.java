@@ -1,9 +1,9 @@
 package com.crcl.post.queue;
 
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.ProcessableVideo;
-import com.crcl.common.dto.queue.events.DefaultQEvent;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
+import com.crcl.core.utils.QueueDefinition;
 import com.crcl.post.synchronizers.ProcessableImageSynchronizer;
 import com.crcl.post.synchronizers.ProcessableVideoSynchronizer;
 import lombok.RequiredArgsConstructor;

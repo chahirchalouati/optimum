@@ -1,6 +1,6 @@
 package com.crcl.authentication.controller;
 
-import com.crcl.common.exceptions.ErrorResponse;
+import com.crcl.core.exceptions.ErrorResponse;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

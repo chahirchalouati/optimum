@@ -1,7 +1,7 @@
 package com.crcl.utilities.repository;
 
-import com.crcl.common.dto.Entity;
-import com.crcl.common.dto.requests.ReactionType;
+import com.crcl.core.dto.Entity;
+import com.crcl.core.dto.requests.ReactionType;
 import com.crcl.utilities.domain.Reaction;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;

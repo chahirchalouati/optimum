@@ -18,7 +18,7 @@ import org.springframework.web.server.ServerWebExchange;
 
 import java.util.logging.Level;
 
-import static com.crcl.common.utils.GramifyConstants.*;
+import static com.crcl.core.utils.GramifyConstants.*;
 import static org.apache.commons.lang3.StringUtils.SPACE;
 import static org.springframework.cloud.openfeign.security.OAuth2AccessTokenInterceptor.BEARER;
 

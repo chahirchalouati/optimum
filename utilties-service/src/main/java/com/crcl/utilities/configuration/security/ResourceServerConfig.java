@@ -1,8 +1,8 @@
 package com.crcl.utilities.configuration.security;
 
-import com.crcl.common.configuration.SwaggerConfiguration;
-import com.crcl.common.properties.ApiProperties;
-import com.crcl.common.utils.EndpointsUtils;
+import com.crcl.core.configuration.SwaggerConfiguration;
+import com.crcl.core.properties.ApiProperties;
+import com.crcl.core.utils.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

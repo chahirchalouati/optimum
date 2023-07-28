@@ -1,7 +1,7 @@
 package com.crcl.profile.client;
 
-import com.crcl.common.dto.RestPage;
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.RestPage;
+import com.crcl.core.dto.UserDto;
 import com.crcl.profile.configuration.SrvConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Pageable;

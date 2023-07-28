@@ -1,7 +1,7 @@
 package com.crcl.comment.queue.configuration;
 
-import com.crcl.common.helper.LocalDateTimeSerializer;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.helper.LocalDateTimeSerializer;
+import com.crcl.core.utils.QueueDefinition;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

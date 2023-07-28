@@ -1,6 +1,6 @@
 package com.crcl.profile.service.impl;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import com.crcl.profile.client.IdpClient;
 import com.crcl.profile.domain.Profile;
 import com.crcl.profile.dto.ProfileDto;
@@ -82,7 +82,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto findByUsername(String username) {
-        UserDto user;
+      UserDto user;
         try {
             user = idpClient.findByUsername(username);
         } catch (Exception e) {

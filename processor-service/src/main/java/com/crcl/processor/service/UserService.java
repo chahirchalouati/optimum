@@ -1,6 +1,6 @@
 package com.crcl.processor.service;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import reactor.core.publisher.Mono;
 
 public interface UserService {

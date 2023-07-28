@@ -1,6 +1,6 @@
 package com.crcl.processor.configuration.properties;
 
-import com.crcl.common.properties.ImageSize;
+import com.crcl.core.properties.ImageSize;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

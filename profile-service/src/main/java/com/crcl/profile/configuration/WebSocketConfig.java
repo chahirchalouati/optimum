@@ -1,6 +1,6 @@
 package com.crcl.profile.configuration;
 
-import com.crcl.common.configuration.properties.WebSocketProperties;
+import com.crcl.core.configuration.properties.WebSocketProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

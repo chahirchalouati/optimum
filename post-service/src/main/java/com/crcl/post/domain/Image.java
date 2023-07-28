@@ -1,6 +1,6 @@
 package com.crcl.post.domain;
 
-import com.crcl.common.properties.ImageSize;
+import com.crcl.core.properties.ImageSize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

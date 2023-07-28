@@ -3,7 +3,7 @@ package com.crcl.authentication.configuration.security;
 import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.domain.KeyFile;
 import com.crcl.authentication.repository.KeyFileRepository;
-import com.crcl.common.utils.FileUtils;
+import com.crcl.core.utils.FileUtils;
 import io.minio.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

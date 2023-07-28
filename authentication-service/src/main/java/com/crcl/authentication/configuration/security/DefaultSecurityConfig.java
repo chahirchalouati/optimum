@@ -2,7 +2,7 @@ package com.crcl.authentication.configuration.security;
 
 import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.configuration.web.CorsCustomizer;
-import com.crcl.common.utils.EndpointsUtils;
+import com.crcl.core.utils.EndpointsUtils;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;

@@ -1,8 +1,8 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.ProfileDto;
-import com.crcl.common.dto.responses.FileUploadResult;
-import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.core.dto.ProfileDto;
+import com.crcl.core.dto.responses.FileUploadResult;
+import com.crcl.core.exceptions.EntityNotFoundException;
 import com.crcl.post.annotations.ValidCreatePostRequest;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.client.IdpClient;

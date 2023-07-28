@@ -1,9 +1,9 @@
 package com.crcl.processor.queue;
 
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.ProcessableVideo;
-import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.core.utils.QueueDefinition;
 import com.crcl.processor.configuration.filters.JwtFilterInterceptor;
 import com.crcl.processor.service.UserService;
 import lombok.extern.slf4j.Slf4j;

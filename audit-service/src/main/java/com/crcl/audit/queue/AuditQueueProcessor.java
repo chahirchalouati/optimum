@@ -1,7 +1,7 @@
 package com.crcl.audit.queue;
 
-import com.crcl.common.dto.queue.events.QEvent;
-import com.crcl.common.dto.requests.AuditRequest;
+import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.requests.AuditRequest;
 
 public interface AuditQueueProcessor {
 

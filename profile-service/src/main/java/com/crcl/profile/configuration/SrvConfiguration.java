@@ -1,7 +1,7 @@
 package com.crcl.profile.configuration;
 
-import com.crcl.common.helper.LocalDateTimeSerializer;
-import com.crcl.common.queue.SortDeserializer;
+import com.crcl.core.helper.LocalDateTimeSerializer;
+import com.crcl.core.queue.SortDeserializer;
 import com.crcl.profile.configuration.security.Oauth2TokenInterceptorHelper;
 import com.crcl.profile.configuration.security.ServerRequestInterceptor;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

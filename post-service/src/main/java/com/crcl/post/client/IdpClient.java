@@ -1,6 +1,6 @@
 package com.crcl.post.client;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import com.crcl.post.configuration.security.OAuthFeignConfig;
 import com.crcl.post.fallbacks.IdpClientFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;

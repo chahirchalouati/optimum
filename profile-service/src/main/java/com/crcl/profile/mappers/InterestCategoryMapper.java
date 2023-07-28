@@ -1,6 +1,6 @@
 package com.crcl.profile.mappers;
 
-import com.crcl.common.utils.generic.GenericMapper;
+import com.crcl.core.utils.generic.GenericMapper;
 import com.crcl.profile.domain.InterestCategory;
 import com.crcl.profile.dto.InterestCategoryDto;
 import org.mapstruct.InjectionStrategy;

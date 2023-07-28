@@ -1,6 +1,6 @@
 package com.crcl.utilities.repository;
 
-import com.crcl.common.dto.requests.ReactionSearchRequest;
+import com.crcl.core.dto.requests.ReactionSearchRequest;
 import com.crcl.utilities.domain.Reaction;
 import com.crcl.utilities.dto.ReactionDto;
 import com.crcl.utilities.mapper.ReactionMapper;

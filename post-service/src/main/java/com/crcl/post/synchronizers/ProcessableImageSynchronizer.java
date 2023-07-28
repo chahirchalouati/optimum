@@ -1,9 +1,9 @@
 package com.crcl.post.synchronizers;
 
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.events.QEvent;
-import com.crcl.common.dto.responses.FileUploadResult;
-import com.crcl.common.properties.ImageSize;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.responses.FileUploadResult;
+import com.crcl.core.properties.ImageSize;
 import com.crcl.post.domain.Image;
 import com.crcl.post.domain.Post;
 import com.crcl.post.repository.PostRepository;

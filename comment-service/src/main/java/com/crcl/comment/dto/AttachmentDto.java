@@ -1,6 +1,6 @@
 package com.crcl.comment.dto;
 
-import com.crcl.common.domain.Orientation;
+import com.crcl.core.domain.Orientation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Data;

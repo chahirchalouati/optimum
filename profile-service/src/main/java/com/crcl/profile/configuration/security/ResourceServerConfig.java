@@ -1,9 +1,9 @@
 package com.crcl.profile.configuration.security;
 
-import com.crcl.common.configuration.SwaggerConfiguration;
-import com.crcl.common.helper.LocalDateTimeSerializer;
-import com.crcl.common.properties.ApiProperties;
-import com.crcl.common.utils.EndpointsUtils;
+import com.crcl.core.configuration.SwaggerConfiguration;
+import com.crcl.core.helper.LocalDateTimeSerializer;
+import com.crcl.core.properties.ApiProperties;
+import com.crcl.core.utils.EndpointsUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

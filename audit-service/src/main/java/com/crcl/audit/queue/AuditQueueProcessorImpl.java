@@ -2,8 +2,8 @@ package com.crcl.audit.queue;
 
 import com.crcl.audit.domain.Audit;
 import com.crcl.audit.service.AuditService;
-import com.crcl.common.dto.queue.events.QEvent;
-import com.crcl.common.dto.requests.AuditRequest;
+import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.requests.AuditRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

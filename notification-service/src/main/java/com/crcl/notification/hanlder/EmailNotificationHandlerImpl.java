@@ -1,13 +1,13 @@
 package com.crcl.notification.hanlder;
 
-import com.crcl.common.dto.UserDto;
-import com.crcl.common.dto.queue.events.DefaultQEvent;
-import com.crcl.common.dto.queue.events.QEvent;
-import com.crcl.common.dto.requests.NotificationRequest;
-import com.crcl.common.dto.responses.NotificationResponse;
-import com.crcl.common.queue.QueuePublisher;
-import com.crcl.common.utils.NotificationTargets;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.dto.UserDto;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
+import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.requests.NotificationRequest;
+import com.crcl.core.dto.responses.NotificationResponse;
+import com.crcl.core.queue.QueuePublisher;
+import com.crcl.core.utils.NotificationTargets;
+import com.crcl.core.utils.QueueDefinition;
 import com.crcl.notification.client.srvAuthentication;
 import com.crcl.notification.domain.NotificationType;
 import com.crcl.notification.service.MailService;

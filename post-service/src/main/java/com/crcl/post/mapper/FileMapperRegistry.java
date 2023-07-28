@@ -1,6 +1,6 @@
 package com.crcl.post.mapper;
 
-import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.post.domain.FileMapperType;
 import com.crcl.post.domain.GenericFile;
 import com.crcl.post.domain.Image;

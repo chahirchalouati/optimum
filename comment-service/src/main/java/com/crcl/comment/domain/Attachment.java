@@ -1,7 +1,7 @@
 package com.crcl.comment.domain;
 
 import com.crcl.comment.converters.AdditionalDataConverter;
-import com.crcl.common.domain.Orientation;
+import com.crcl.core.domain.Orientation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

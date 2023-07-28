@@ -53,7 +53,7 @@
         </dependency>
         <dependency>
             <groupId>com.crcl</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>core</artifactId>
             <version>1.0.2</version>
         </dependency>
         <dependency>

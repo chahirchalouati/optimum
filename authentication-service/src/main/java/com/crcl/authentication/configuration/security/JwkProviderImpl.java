@@ -1,6 +1,6 @@
 package com.crcl.authentication.configuration.security;
 
-import com.crcl.common.helper.FileHelper;
+import com.crcl.core.helper.FileHelper;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

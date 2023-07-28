@@ -1,6 +1,6 @@
 package com.crcl.post.fallbacks;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import com.crcl.post.client.IdpClient;
 import com.github.dockerjava.api.exception.BadRequestException;
 import lombok.extern.slf4j.Slf4j;

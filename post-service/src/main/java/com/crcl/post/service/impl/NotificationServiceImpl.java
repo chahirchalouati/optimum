@@ -1,11 +1,11 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.queue.events.DefaultQEvent;
-import com.crcl.common.dto.queue.events.QEvent;
-import com.crcl.common.dto.requests.NotificationRequest;
-import com.crcl.common.queue.QueuePublisher;
-import com.crcl.common.utils.NotificationDefinition;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
+import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.requests.NotificationRequest;
+import com.crcl.core.queue.QueuePublisher;
+import com.crcl.core.utils.NotificationDefinition;
+import com.crcl.core.utils.QueueDefinition;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.service.NotificationService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

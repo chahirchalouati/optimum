@@ -1,6 +1,6 @@
 package com.crcl.processor.service;
 
-import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.processor.domain.FileRecord;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.codec.multipart.FilePart;

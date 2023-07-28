@@ -1,6 +1,6 @@
 package com.crcl.profile.configuration;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import com.crcl.profile.client.SrvIdpClient;
 import com.crcl.profile.dto.ProfileDto;
 import com.crcl.profile.mappers.ProfileMapper;

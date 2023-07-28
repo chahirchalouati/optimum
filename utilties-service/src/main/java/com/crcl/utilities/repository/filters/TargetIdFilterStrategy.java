@@ -1,6 +1,6 @@
 package com.crcl.utilities.repository.filters;
 
-import com.crcl.common.dto.requests.ReactionSearchRequest;
+import com.crcl.core.dto.requests.ReactionSearchRequest;
 import com.crcl.utilities.domain.Reaction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;

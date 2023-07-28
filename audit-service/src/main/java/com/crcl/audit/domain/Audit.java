@@ -1,6 +1,6 @@
 package com.crcl.audit.domain;
 
-import com.crcl.common.utils.AuditAction;
+import com.crcl.core.utils.AuditAction;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;

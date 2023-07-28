@@ -1,6 +1,6 @@
 package com.crcl.comment.utils;
 
-import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.core.exceptions.EntityNotFoundException;
 
 import java.util.function.Supplier;
 

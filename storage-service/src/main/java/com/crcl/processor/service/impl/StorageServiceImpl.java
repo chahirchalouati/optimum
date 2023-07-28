@@ -1,8 +1,8 @@
 package com.crcl.processor.service.impl;
 
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.ProcessableVideo;
-import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.processor.domain.FileRecord;
 import com.crcl.processor.dto.WriteResponse;
 import com.crcl.processor.exceptions.CreateRecordException;

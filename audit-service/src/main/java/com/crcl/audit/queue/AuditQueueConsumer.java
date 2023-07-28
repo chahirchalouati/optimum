@@ -1,8 +1,8 @@
 package com.crcl.audit.queue;
 
-import com.crcl.common.dto.queue.events.DefaultQEvent;
-import com.crcl.common.dto.requests.AuditRequest;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
+import com.crcl.core.dto.requests.AuditRequest;
+import com.crcl.core.utils.QueueDefinition;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

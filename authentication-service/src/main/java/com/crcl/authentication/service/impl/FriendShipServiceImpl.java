@@ -10,7 +10,7 @@ import com.crcl.authentication.repository.FriendShipRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.service.FriendShipService;
 import com.crcl.authentication.service.UserService;
-import com.crcl.common.exceptions.BadRequestException;
+import com.crcl.core.exceptions.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

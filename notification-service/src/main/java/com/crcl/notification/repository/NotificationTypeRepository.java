@@ -1,6 +1,6 @@
 package com.crcl.notification.repository;
 
-import com.crcl.common.utils.NotificationDefinition;
+import com.crcl.core.utils.NotificationDefinition;
 import com.crcl.notification.domain.NotificationType;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;

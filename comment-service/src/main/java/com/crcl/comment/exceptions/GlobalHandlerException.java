@@ -1,6 +1,6 @@
 package com.crcl.comment.exceptions;
 
-import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.core.exceptions.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

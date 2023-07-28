@@ -1,6 +1,6 @@
 package com.crcl.utilities.service;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 
 import java.util.List;
 import java.util.Set;

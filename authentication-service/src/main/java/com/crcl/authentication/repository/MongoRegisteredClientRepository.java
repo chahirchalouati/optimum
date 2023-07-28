@@ -2,9 +2,9 @@ package com.crcl.authentication.repository;
 
 import com.crcl.authentication.domain.GramifyClient;
 import com.crcl.authentication.mappers.ClientMapper;
-import com.crcl.common.exceptions.ClientNotFoundException;
-import com.crcl.common.exceptions.EntityNotFoundException;
-import com.crcl.common.utils.generic.Enhancer;
+import com.crcl.core.exceptions.ClientNotFoundException;
+import com.crcl.core.exceptions.EntityNotFoundException;
+import com.crcl.core.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;

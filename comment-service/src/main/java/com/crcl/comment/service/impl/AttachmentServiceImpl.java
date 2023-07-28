@@ -2,9 +2,9 @@ package com.crcl.comment.service.impl;
 
 import com.crcl.comment.repository.AttachmentRepository;
 import com.crcl.comment.service.AttachmentService;
-import com.crcl.common.dto.ResizedImageDetails;
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.responses.FileUploadResult;
+import com.crcl.core.dto.ResizedImageDetails;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.responses.FileUploadResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

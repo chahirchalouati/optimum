@@ -1,6 +1,6 @@
 package com.crcl.userInfo.client;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import com.crcl.userInfo.configuration.security.OAuthServerFeignConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

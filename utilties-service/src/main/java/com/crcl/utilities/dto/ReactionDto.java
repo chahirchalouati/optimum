@@ -1,7 +1,7 @@
 package com.crcl.utilities.dto;
 
-import com.crcl.common.dto.UserDto;
-import com.crcl.common.dto.requests.ReactionType;
+import com.crcl.core.dto.UserDto;
+import com.crcl.core.dto.requests.ReactionType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

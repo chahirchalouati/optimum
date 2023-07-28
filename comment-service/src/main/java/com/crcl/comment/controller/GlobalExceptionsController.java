@@ -1,6 +1,6 @@
 package com.crcl.comment.controller;
 
-import com.crcl.common.exceptions.EntityNotFoundException;
+import com.crcl.core.exceptions.EntityNotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;

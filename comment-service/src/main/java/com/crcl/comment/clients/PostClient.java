@@ -2,7 +2,7 @@ package com.crcl.comment.clients;
 
 import com.crcl.comment.configuration.security.FeignFormConfig;
 import com.crcl.comment.configuration.security.OAuthFeignConfig;
-import com.crcl.common.dto.PostDto;
+import com.crcl.core.dto.PostDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

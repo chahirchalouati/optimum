@@ -1,6 +1,6 @@
 package com.crcl.userInfo.domain;
 
-import com.crcl.common.dto.RoleDto;
+import com.crcl.core.dto.RoleDto;
 import lombok.Data;
 
 import java.util.HashSet;

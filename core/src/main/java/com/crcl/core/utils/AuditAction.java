@@ -1,0 +1,56 @@
+package com.crcl.core.utils;
+
+public enum AuditAction {
+    //  generic crud actions
+    ACTION_CREATE,
+    ACTION_UPDATE,
+    ACTION_DELETE,
+
+    //  generic crud opt
+    OPERATION_READ,
+    OPERATION_WRITE,
+    OPERATION_DELETE,
+
+    // Actions for BUY
+    CREATE_BUY_ACTION,
+    UPDATE_BUY_ACTION,
+    DELETE_BUY_ACTION,
+    READ_BUY_ACTION,
+
+    // Actions for CALL
+    CREATE_CALL_ACTION,
+    UPDATE_CALL_ACTION,
+    DELETE_CALL_ACTION,
+    READ_CALL_ACTION,
+
+    // Actions for TAG
+    CREATE_TAG_ACTION,
+    UPDATE_TAG_ACTION,
+    DELETE_TAG_ACTION,
+    READ_TAG_ACTION,
+
+    // Actions for POST
+    CREATE_POST_ACTION,
+    UPDATE_POST_ACTION,
+    DELETE_POST_ACTION,
+    READ_POST_ACTION,
+
+    // Actions for COMMENT
+    CREATE_COMMENT_ACTION,
+    UPDATE_COMMENT_ACTION,
+    DELETE_COMMENT_ACTION,
+    READ_COMMENT_ACTION,
+
+    // Actions for LIKE
+    CREATE_LIKE_ACTION,
+    UPDATE_LIKE_ACTION,
+    DELETE_LIKE_ACTION,
+    READ_LIKE_ACTION,
+
+    // Actions for FRIEND
+    CREATE_FRIEND_ACTION,
+    UPDATE_FRIEND_ACTION,
+    DELETE_FRIEND_ACTION,
+    READ_FRIEND_ACTION,
+
+}

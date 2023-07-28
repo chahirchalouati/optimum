@@ -1,6 +1,6 @@
 package com.crcl.authentication.configuration.datasource;
 
-import com.crcl.common.helper.LocalDateTimeSerializer;
+import com.crcl.core.helper.LocalDateTimeSerializer;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

@@ -1,7 +1,7 @@
 package com.crcl.notification.domain;
 
-import com.crcl.common.utils.NotificationDefinition;
-import com.crcl.common.utils.NotificationTargets;
+import com.crcl.core.utils.NotificationDefinition;
+import com.crcl.core.utils.NotificationTargets;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import nonapi.io.github.classgraph.json.Id;

@@ -1,14 +1,14 @@
 package com.crcl.processor.service.impl;
 
 
-import com.crcl.common.domain.Orientation;
-import com.crcl.common.dto.UserDto;
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
-import com.crcl.common.dto.queue.events.DefaultQEvent;
-import com.crcl.common.dto.responses.FileUploadResult;
-import com.crcl.common.properties.ImageSize;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.domain.Orientation;
+import com.crcl.core.dto.UserDto;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
+import com.crcl.core.dto.responses.FileUploadResult;
+import com.crcl.core.properties.ImageSize;
+import com.crcl.core.utils.QueueDefinition;
 import com.crcl.processor.clients.StorageClient;
 import com.crcl.processor.configuration.properties.ImageSizesProperties;
 import com.crcl.processor.queue.EventQueuePublisher;

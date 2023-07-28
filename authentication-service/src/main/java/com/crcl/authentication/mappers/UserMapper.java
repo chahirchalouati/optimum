@@ -2,7 +2,7 @@ package com.crcl.authentication.mappers;
 
 import com.crcl.authentication.domain.GramifyUser;
 import com.crcl.authentication.dto.UserDto;
-import com.crcl.common.utils.generic.GenericMapper;
+import com.crcl.core.utils.generic.GenericMapper;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 

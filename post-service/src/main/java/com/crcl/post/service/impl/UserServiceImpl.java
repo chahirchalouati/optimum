@@ -1,6 +1,6 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.common.dto.UserDto;
+import com.crcl.core.dto.UserDto;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.service.UserService;
 import lombok.AllArgsConstructor;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import static com.crcl.common.utils.GramifyConstants.*;
+import static com.crcl.core.utils.GramifyConstants.*;
 
 @Component
 @RequiredArgsConstructor

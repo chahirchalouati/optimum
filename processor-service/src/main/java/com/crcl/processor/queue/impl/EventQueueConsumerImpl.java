@@ -1,10 +1,10 @@
 package com.crcl.processor.queue.impl;
 
-import com.crcl.common.annotation.SecurityContextInterceptor;
-import com.crcl.common.dto.queue.ProcessableImage;
-import com.crcl.common.dto.queue.ProcessableVideo;
-import com.crcl.common.dto.queue.events.AuthenticatedQEvent;
-import com.crcl.common.utils.QueueDefinition;
+import com.crcl.core.annotation.SecurityContextInterceptor;
+import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.core.utils.QueueDefinition;
 import com.crcl.processor.queue.EventQueueConsumer;
 import com.crcl.processor.service.ImageProcessor;
 import com.crcl.processor.service.VideoProcessor;

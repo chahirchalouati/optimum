@@ -2,8 +2,8 @@ package com.crcl.authentication.service.impl;
 
 import com.crcl.authentication.configuration.props.SecurityProperties;
 import com.crcl.authentication.domain.GramifyClient;
-import com.crcl.common.utils.CrclObjectUtils;
-import com.crcl.common.utils.generic.Enhancer;
+import com.crcl.core.utils.CrclObjectUtils;
+import com.crcl.core.utils.generic.Enhancer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;

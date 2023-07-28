@@ -1,8 +1,8 @@
 package com.crcl.notification.service;
 
 
-import com.crcl.common.dto.requests.NotificationRequest;
-import com.crcl.common.dto.responses.NotificationResponse;
+import com.crcl.core.dto.requests.NotificationRequest;
+import com.crcl.core.dto.responses.NotificationResponse;
 import reactor.core.publisher.Mono;
 
 public interface NotificationService {

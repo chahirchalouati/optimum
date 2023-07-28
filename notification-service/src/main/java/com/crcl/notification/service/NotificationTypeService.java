@@ -1,6 +1,6 @@
 package com.crcl.notification.service;
 
-import com.crcl.common.utils.generic.ReactiveGenericService;
+import com.crcl.core.utils.generic.ReactiveGenericService;
 import com.crcl.notification.domain.NotificationType;
 import com.crcl.notification.domain.NotificationTypeRequest;
 import org.springframework.data.domain.Page;

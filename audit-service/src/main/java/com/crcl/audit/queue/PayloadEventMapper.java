@@ -1,8 +1,8 @@
 package com.crcl.audit.queue;
 
 import com.crcl.audit.domain.Audit;
-import com.crcl.common.dto.requests.AuditRequest;
-import com.crcl.common.utils.generic.AuditMapper;
+import com.crcl.core.dto.requests.AuditRequest;
+import com.crcl.core.utils.generic.AuditMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;

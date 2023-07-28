@@ -1,5 +1,6 @@
 package com.crcl.profile.utils;
 
+import com.crcl.core.dto.UserDto;
 import com.crcl.profile.domain.*;
 import com.crcl.profile.dto.ProfileDto;
 import org.jetbrains.annotations.NotNull;
