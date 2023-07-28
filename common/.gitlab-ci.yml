@@ -20,8 +20,6 @@ variables:
     -DinstallAtEnd=true
     -DdeployAtEnd=true
 
-
-
 cache:
   paths:
     - .m2/repository
