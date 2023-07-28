@@ -1,6 +1,6 @@
 # Update n.1
 
-audit-service-build:
+common-service-build:
   variables:
     MODULE_NAME: common-service
   extends:
