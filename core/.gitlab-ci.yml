@@ -1,7 +1,30 @@
-# Update n.2
+# Module 1's .gitlab-ci.yml
 
-common-build:
+include:
+  - local: '../ci-cd-template.yml'
+
+variables:
+  MODULE_NAME: 'core'  # Set the module-specific name for this particular module
+
+maven-build:
+  extends: .build
   variables:
-    MODULE_NAME: core
-  extends:
-    - .build
+    MODULE_NAME: $MODULE_NAME
+  tags:
+    - dev
+
+dockerize:
+  extends: .docker
+  variables:
+    MODULE_NAME: $MODULE_NAME
+  tags:
+    - dev
+  when: manual
+
+deploy:
+  extends: .deploy
+  variables:
+    MODULE_NAME: $MODULE_NAME
+  tags:
+    - dev
+  when: manual
