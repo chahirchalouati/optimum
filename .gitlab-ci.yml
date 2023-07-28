@@ -87,7 +87,7 @@ include:
   - local: "audit-service/.gitlab-ci.yml"
   - local: "authentication-service/.gitlab-ci.yml"
   - local: "comment-service/.gitlab-ci.yml"
-  - local: "common/.gitlab-ci.yml"
+  - local: "core/.gitlab-ci.yml"
   - local: "configuration-service/.gitlab-ci.yml"
   - local: "notification-service/.gitlab-ci.yml"
   - local: "post-service/.gitlab-ci.yml"
