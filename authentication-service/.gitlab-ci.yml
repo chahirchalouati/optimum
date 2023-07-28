@@ -5,17 +5,20 @@ authorization-server-build:
   variables:
     MODULE_NAME: authorization-server
   extends:
+    - .changes
     - .build
 
 authorization-server-docker:
   variables:
     MODULE_NAME: authorization-server
   extends:
+    - .changes
     - .docker
 
 authorization-server-deploy:
   variables:
     MODULE_NAME: authorization-server
   extends:
+    - .changes
     - .deploy
 
