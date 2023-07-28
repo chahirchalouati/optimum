@@ -1,7 +1,7 @@
 # Module 1's .gitlab-ci.yml
 
 include:
-  - local: '../../ci-cd-template.yml'
+  - local: './../ci-cd-template.yml'
 
 variables:
   MODULE_NAME: 'core'  # Set the module-specific name for this particular module
