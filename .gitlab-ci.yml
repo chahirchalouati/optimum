@@ -33,7 +33,6 @@ cache:
   only:
     changes:
       - $MODULE_NAME/**
-      - .gitlab-ci.yml
 
 .build:
   extends: .changes
