@@ -1,6 +1,6 @@
 # Update n.1
 
-common-service-build:
+common-build:
   variables:
     MODULE_NAME: common-service
   extends:
