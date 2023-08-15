@@ -1,13 +1,19 @@
 
 authentication-service-build:
+  variables:
+    MODULE_NAME: authentication-service
   extends:
     - .build
 
 authentication-service-docker:
+  variables:
+    MODULE_NAME: authentication-service
   extends:
     - .docker
 
 authentication-service-deploy:
+  variables:
+    MODULE_NAME: authentication-service
   extends:
     - .deploy
 
