@@ -1,6 +1,4 @@
 authentication:
   trigger:
-    include:
-      - local: authentication-service/.gitlab-ci.yml
-      - template: ci-cd-template.yml
+    include: authentication-service/.gitlab-ci.yml
     strategy: depend

@@ -1,5 +1,6 @@
 # Update n.1
-
+include:
+  template: ../ci-cd-template.yml
 
 authorization-server-build:
   variables:
