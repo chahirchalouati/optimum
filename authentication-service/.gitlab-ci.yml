@@ -1,28 +1,17 @@
-.vars:
-  variables:
-    DEV_URL: "http://dev-url.com"
-    STAGING_URL: "http://staging-url.com"
+.test_template: &test_suite
+  image: ruby:2.6
 
-.setup_env:
+unit_test:
+  <<: *test_suite
   script:
-    - echo "Creating Environment"
+    - echo "Running a test here"
 
-.teardown_env:
-  after_script:
-    - echo "Deleting Environment"
-
-integration_test:
-  variables: !reference [.vars, variables, DEV_URL]
+end_to_end_test:
+  <<: *test_suite
   script:
-    - !reference [.setup_env, script]
-    - echo "Run Test"
-  after_script:
-    - !reference [.teardown_env, after_script]
+    - echo "Running a test here"
 
-performance_test:
-  variables: !reference [.vars, variables]
+smoke_test:
+  <<: *test_suite
   script:
-    - !reference [.setup_env, script]
-    - echo "Run Test"
-  after_script:
-    - !reference [.teardown_env, after_script]
+    - echo "Running a test here"
