@@ -1,99 +1,13 @@
-stages:
-  - maven
-  - docker
-  - deploy
-
-variables:
-  CACHE_DIR: docker-cache
-  MAVEN_OPTS: >-
-    -Dhttps.protocols=TLSv1.2
-    -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository
-    -Dorg.slf4j.simpleLogger.showDateTime=true
-    -Djava.awt.headless=true
-  MAVEN_CLI_OPTS: >-
-    --settings ci_settings.xml
-    --batch-mode
-    --errors
-    --fail-at-end
-    --show-version
-    --no-transfer-progress
-    -DinstallAtEnd=true
-    -DdeployAtEnd=true
-
-cache:
-  paths:
-    - .m2/repository
-    - ${CACHE_DIR}
-
-.changes:
-  only:
-    changes:
-      - $MODULE_NAME/**
-
-.build:
-  extends: .changes
-  before_script:
-    - echo "Start build $MODULE_NAME"
-  stage: maven
-  image: maven:3.9.3-eclipse-temurin-20
-  script:
-    - if [ ! -f ci_settings.xml ]; then
-      echo "CI settings missing";
-      fi
-    - mvn $MAVEN_CLI_OPTS $MAVEN_OPTS clean package -pl "$MODULE_NAME"
-  artifacts:
-    paths:
-      - $MODULE_NAME/target/*.jar
-  tags:
-    - dev
-  allow_failure: true
-
-.docker:
-  extends: .changes
-  stage: docker
-  image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [ "" ]
-  script:
-    - /kaniko/executor
-      --context "${CI_PROJECT_DIR}/$MODULE_NAME"
-      --dockerfile "Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
-      --cache=true
-      --cache-dir=$CACHE_DIR
-  tags:
-    - dev
-  allow_failure: true
-  when: manual
-
-.deploy:
-  extends: .changes
-  image: docker:latest
-  stage: deploy
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $MODULE_NAME
-  tags:
-    - dev
-  allow_failure: true
-  when: manual
 
 authentication-service-build:
-  variables:
-    MODULE_NAME: authentication-service
   extends:
     - .build
 
 authentication-service-docker:
-  variables:
-    MODULE_NAME: authentication-service
   extends:
     - .docker
 
 authentication-service-deploy:
-  variables:
-    MODULE_NAME: authentication-service
   extends:
     - .deploy
 
