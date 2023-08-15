@@ -1,7 +1,7 @@
 package com.crcl.authentication.helpers;
 
 import com.crcl.authentication.configuration.props.SecurityProperties;
-import com.crcl.authentication.configuration.props.UsersDevelopProperties;
+import com.crcl.authentication.configuration.props.DevelopProperties;
 import com.crcl.authentication.repository.MongoClientRepository;
 import com.crcl.authentication.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -17,5 +17,10 @@ public class MigrationProviderImpl implements MigrationProvider {
     private final MongoClientRepository clientRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UsersDevelopProperties usersDevelopProperties;
+    private final DevelopProperties developProperties;
+
+    @Override
+    public DevelopProperties getUsersDevelopProperties() {
+        return null;
+    }
 }

@@ -1,7 +1,7 @@
 package com.crcl.authentication.migration;
 
 import com.crcl.authentication.configuration.props.Registration;
-import com.crcl.authentication.configuration.props.UsersDevelopProperties;
+import com.crcl.authentication.configuration.props.DevelopProperties;
 import com.crcl.authentication.domain.GramifyClient;
 import com.crcl.authentication.domain.GramifyUser;
 import com.crcl.authentication.helpers.MigrationProvider;
@@ -25,7 +25,7 @@ import static org.springframework.security.oauth2.core.ClientAuthenticationMetho
 @Profile({"dev", "docker"})
 @Slf4j
 @ChangeLog
-public class DevelopmentEnvironmentMigration {
+public class DevelopmentMigration {
 
     @ChangeSet(order = "001", id = "save_default_clients", author = "@chahir_chalouati")
     public void saveClients(MigrationProvider migrationProvider) {
@@ -53,7 +53,7 @@ public class DevelopmentEnvironmentMigration {
         UserRepository userRepository = migrationProvider.getUserRepository();
         if (userRepository.count() <= 1) {
             log.info("Bootstrapping users for development environment");
-            UsersDevelopProperties properties = migrationProvider.getUsersDevelopProperties();
+            DevelopProperties properties = migrationProvider.getUsersDevelopProperties();
             PasswordEncoder passwordEncoder = migrationProvider.getPasswordEncoder();
             String encodedPassword = passwordEncoder.encode(properties.getPassword());
             List<GramifyUser> users = UserGenerator.generateRandomUsers(

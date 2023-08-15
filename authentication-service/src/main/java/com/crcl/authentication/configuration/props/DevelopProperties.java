@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "dummy")
 @Data
-public class UsersDevelopProperties {
+public class DevelopProperties {
     private int count;
     private String username;
     private String password;
