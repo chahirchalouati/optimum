@@ -1,4 +1,4 @@
 
 include:
-  - "ci-cd-template.yml"
-  - "authentication-service/.gitlab-ci.yml"
+  - "/templates/ci-cd-template.yml"
+  - "/authentication-service/.gitlab-ci.yml"
