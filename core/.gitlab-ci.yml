@@ -1,8 +1,8 @@
 
 include:
-  - project: 'gramify/ci-cd-template'
+  - project: 'chehhhir/blank'
     ref: main
-    file: '.gitlab-ci.yml'
+    file: 'ci-cd-template.yml'
 
 variables:
   MODULE_NAME: 'core'
