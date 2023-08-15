@@ -3,6 +3,4 @@ authentication:
   trigger:
     include: authentication-service/.gitlab-ci.yml
     strategy: depend
-  variables:
-    MODULE_NAME: authentication-service
 
