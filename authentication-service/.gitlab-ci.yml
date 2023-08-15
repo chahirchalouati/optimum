@@ -1,25 +1,28 @@
-# Update n.1
-include:
-  - local: ci-cd-template.yml
-
-authorization-server-build:
+.vars:
   variables:
-    MODULE_NAME: authorization-server
-  extends:
-    - .changes
-    - .build
+    DEV_URL: "http://dev-url.com"
+    STAGING_URL: "http://staging-url.com"
 
-authorization-server-docker:
-  variables:
-    MODULE_NAME: authorization-server
-  extends:
-    - .changes
-    - .docker
+.setup_env:
+  script:
+    - echo "Creating Environment"
 
-authorization-server-deploy:
-  variables:
-    MODULE_NAME: authorization-server
-  extends:
-    - .changes
-    - .deploy
+.teardown_env:
+  after_script:
+    - echo "Deleting Environment"
 
+integration_test:
+  variables: !reference [.vars, variables, DEV_URL]
+  script:
+    - !reference [.setup_env, script]
+    - echo "Run Test"
+  after_script:
+    - !reference [.teardown_env, after_script]
+
+performance_test:
+  variables: !reference [.vars, variables]
+  script:
+    - !reference [.setup_env, script]
+    - echo "Run Test"
+  after_script:
+    - !reference [.teardown_env, after_script]
