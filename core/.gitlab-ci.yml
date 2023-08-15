@@ -1,5 +1,5 @@
 include:
-  - project: 'gramify/ci-cd-template.git'
+  - project: 'gramify/ci-cd-template'
     ref: main
     file: '.gitlab-ci.yml'
 
