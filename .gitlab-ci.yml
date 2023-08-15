@@ -81,4 +81,4 @@ cache:
   when: manual
 
 include:
-  local: "authentication-service/.gitlab-ci.yml"
+  - "authentication-service/.gitlab-ci.yml"
