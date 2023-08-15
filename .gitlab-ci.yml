@@ -1,8 +1,11 @@
 stages:
   - test
+
 .test_template: &test_suite
   stage: test
   image: ruby:2.6
+  tags:
+    - dev
 
 unit_test:
   <<: *test_suite
