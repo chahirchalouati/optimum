@@ -3,7 +3,6 @@ stages:
   - docker
   - deploy
 
-
 variables:
   CACHE_DIR: docker-cache
   MAVEN_OPTS: >-

@@ -1,9 +1,20 @@
-# Update n.1
+stages:
+  - test
+.test_template: &test_suite
+  stage: test
+  image: ruby:2.6
 
-include:
-  - project: 'chehhhir/blank'
-    ref: main
-    file: 'ci-cd-template.yml'
-  - local: "core/.gitlab-ci.yml"
+unit_test:
+  <<: *test_suite
+  script:
+    - echo "Running a test here"
 
+end_to_end_test:
+  <<: *test_suite
+  script:
+    - echo "Running a test here"
 
+smoke_test:
+  <<: *test_suite
+  script:
+    - echo "Running a test here"
