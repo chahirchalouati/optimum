@@ -1,5 +1,7 @@
 .test_template: &test_suite
   image: ruby:2.6
+  tags:
+    - dev
 
 unit_test:
   <<: *test_suite
