@@ -1,11 +1,9 @@
 # Update n.1
-stages:
-  - maven
-  - docker
-  - deploy
-
 
 include:
+  - project: 'chehhhir/blank'
+    ref: main
+    file: 'ci-cd-template.yml'
   - local: "core/.gitlab-ci.yml"
 
 

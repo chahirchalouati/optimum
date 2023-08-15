@@ -1,8 +1,4 @@
 
-include:
-  - project: 'chehhhir/blank'
-    ref: main
-    file: 'ci-cd-template.yml'
 
 variables:
   MODULE_NAME: 'core'
