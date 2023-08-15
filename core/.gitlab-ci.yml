@@ -1,7 +1,7 @@
-
-
 include:
-  - local: 'ci-cd-template.yml'
+  - project: 'gramify/ci-cd-template.git'
+    ref: main
+    file: '/docker-build.gitlab-ci.yml'
 
 variables:
   MODULE_NAME: 'core'

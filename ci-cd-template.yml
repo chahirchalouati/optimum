@@ -1,3 +1,7 @@
+stages:
+  - maven
+  - docker
+  - deploy
 
 
 variables:

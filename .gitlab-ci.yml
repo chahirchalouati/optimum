@@ -1,10 +1,4 @@
-# Update n.2
-
-stages:
-  - maven
-  - docker
-  - deploy
-
+# Update n.1
 include:
   - local: "core/.gitlab-ci.yml"
 
