@@ -16,5 +16,5 @@ public interface MigrationProvider {
 
     UserRepository getUserRepository();
 
-    DevelopProperties getUsersDevelopProperties();
+    DevelopProperties getDevelopProperties();
 }
