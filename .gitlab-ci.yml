@@ -1,5 +1,5 @@
 
 include:
-  - template: "/templates/ci-cd-template.yml"
+  - template: "ci-cd-template.yml"
   - local: "/authentication-service/.gitlab-ci.yml"
 
