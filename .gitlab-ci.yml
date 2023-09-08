@@ -32,17 +32,17 @@ cache:
 
 # Define a list of microservices to loop through
 microservices:
-  - audit-service
-  - authentication-service
-  - comment-service
-  - configuration-service
-  - core
-  - notification-service
-  - post-service
-  - processor-service
-  - profile-service
-  - proxy-service
-  - storage-service
+  - 'audit-service'
+  - 'authentication-service'
+  - 'comment-service'
+  - 'configuration-service'
+  - 'core'
+  - 'notification-service'
+  - 'post-service'
+  - 'processor-service'
+  - 'profile-service'
+  - 'proxy-service'
+  - 'storage-service'
 
 # Define a reusable template for building and testing each microservice
 .build_and_test_template:
