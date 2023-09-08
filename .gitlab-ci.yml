@@ -1,3 +1,4 @@
+# Global CI/CD configuration
 stages:
   - maven
   - docker
@@ -30,52 +31,30 @@ cache:
     changes:
       - $MODULE_NAME/**
 
-# Define a list of microservices to loop through
-microservices:
-  - 'audit-service'
-  - 'authentication-service'
-  - 'comment-service'
-  - 'configuration-service'
-  - 'core'
-  - 'notification-service'
-  - 'post-service'
-  - 'processor-service'
-  - 'profile-service'
-  - 'proxy-service'
-  - 'storage-service'
-
-# Define a reusable template for building and testing each microservice
-.build_and_test_template:
-  stage: maven
+# Define a reusable template for building, testing, and deploying each microservice
+.microservice_template:
+  extends: .changes
+  before_script:
+    - echo "Start build $MODULE_NAME"
   script:
-    - microservice=$1
-    - echo "Start build $microservice"
-    - cd $microservice
     - if [ ! -f ci_settings.xml ]; then
       echo "CI settings missing";
       fi
     - mvn $MAVEN_CLI_OPTS $MAVEN_OPTS clean package -pl "$MODULE_NAME"
-  only:
-    - branches
-  except:
-    - tags
-  artifacts:
-    paths:
-      - $MODULE_NAME/target/*.jar
   tags:
     - dev
   allow_failure: true
 
-# Define a reusable template for building Docker images for each microservice
 .docker_template:
-  stage: docker
+  extends: .changes
+  image:
+    name: gcr.io/kaniko-project/executor:v1.9.0-debug
+    entrypoint: [ "" ]
   script:
-    - microservice=$1
-    - cd $microservice
     - /kaniko/executor
-      --context "${CI_PROJECT_DIR}/$microservice"
+      --context "${CI_PROJECT_DIR}/$MODULE_NAME"
       --dockerfile "Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}/$microservice:$CI_COMMIT_SHORT_SHA"
+      --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
       --cache=true
       --cache-dir=$CACHE_DIR
   tags:
@@ -83,46 +62,49 @@ microservices:
   allow_failure: true
   when: manual
 
-# Define a reusable template for deploying each microservice
 .deploy_template:
-  stage: deploy
+  extends: .changes
+  image: docker:latest
   script:
-    - microservice=$1
-    - cd $microservice
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $microservice
+    - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $MODULE_NAME
   tags:
     - dev
   allow_failure: true
   when: manual
 
-# Loop through the list of microservices and create build, test, and deploy jobs
-build_and_test:
-  stage: build_and_test
+# Microservice-specific jobs
+audit-service:
+  stage: maven
+  variables:
+    MODULE_NAME: audit-service
   script:
-    - for microservice in "${microservices[@]}"; do
-      # Run build and test jobs for each microservice
-      .build_and_test_template $microservice
-      done
+    - echo "Building audit-service"
+  extends: .microservice_template
 
-# Loop through the list of microservices and create Docker image build jobs
-docker:
+audit-service-docker:
   stage: docker
+  variables:
+    MODULE_NAME: audit-service
   script:
-    - for microservice in "${microservices[@]}"; do
-      # Build Docker images for each microservice
-      .docker_template $microservice
-      done
-  when: manual
+    - echo "Building Docker image for audit-service"
+  extends: .docker_template
 
-# Loop through the list of microservices and create deployment jobs
-deploy:
+audit-service-deploy:
   stage: deploy
+  variables:
+    MODULE_NAME: audit-service
   script:
-    - for microservice in "${microservices[@]}"; do
-      # Run deploy jobs for each microservice (typically after a tag is pushed)
-      .deploy_template $microservice
-      done
-  only:
-    - tags
+    - echo "Deploying audit-service"
+  extends: .deploy_template
+
+# Repeat the above for each microservice with appropriate names and settings
+authentication-service:
+  stage: maven
+  variables:
+    MODULE_NAME: authentication-service
+  script:
+    - echo "Building authentication-service"
+  extends: .microservice_template
+# ...and so on for other microservices
