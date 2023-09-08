@@ -1,4 +1,4 @@
-# Update number 1
+# Update number 2
 authentication-service-build:
   variables:
     MODULE_NAME: authentication-service
