@@ -1,11 +1,5 @@
 include:
-  - template: audit-service/.gitlab-ci.yml
-    variables:
-      MODULE_NAME: audit-service
-
-  - template: authentication-service/.gitlab-ci.yml
-    variables:
-      MODULE_NAME: authentication-service
+  - local: audit-service/.gitlab-ci.yml
 
 stages:
   - maven
