@@ -27,8 +27,8 @@ cache:
 
 .changes:
   only:
-    changes:
-      - $MODULE_NAME/**
+    refs:
+      - branches
 
 .build:
   extends: .changes
