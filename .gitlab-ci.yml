@@ -1,6 +1,3 @@
-include:
-  - local: audit-service/.gitlab-ci.yml
-
 stages:
   - maven
   - docker
@@ -33,17 +30,35 @@ cache:
     changes:
       - $MODULE_NAME/**
 
-.build:
-  extends: .changes
-  before_script:
-    - echo "Start build $MODULE_NAME"
+# Define a list of microservices to loop through
+microservices:
+  - audit-service
+  - authentication-service
+  - comment-service
+  - configuration-service
+  - core
+  - notification-service
+  - post-service
+  - processor-service
+  - profile-service
+  - proxy-service
+  - storage-service
+
+# Define a reusable template for building and testing each microservice
+.build_and_test_template:
   stage: maven
-  image: maven:3.9.3-eclipse-temurin-20
   script:
+    - microservice=$1
+    - echo "Start build $microservice"
+    - cd $microservice
     - if [ ! -f ci_settings.xml ]; then
       echo "CI settings missing";
       fi
     - mvn $MAVEN_CLI_OPTS $MAVEN_OPTS clean package -pl "$MODULE_NAME"
+  only:
+    - branches
+  except:
+    - tags
   artifacts:
     paths:
       - $MODULE_NAME/target/*.jar
@@ -51,17 +66,16 @@ cache:
     - dev
   allow_failure: true
 
-.docker:
-  extends: .changes
+# Define a reusable template for building Docker images for each microservice
+.docker_template:
   stage: docker
-  image:
-    name: gcr.io/kaniko-project/executor:v1.9.0-debug
-    entrypoint: [ "" ]
   script:
+    - microservice=$1
+    - cd $microservice
     - /kaniko/executor
-      --context "${CI_PROJECT_DIR}/$MODULE_NAME"
+      --context "${CI_PROJECT_DIR}/$microservice"
       --dockerfile "Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}/$MODULE_NAME:$CI_COMMIT_SHORT_SHA"
+      --destination "${CI_REGISTRY_IMAGE}/$microservice:$CI_COMMIT_SHORT_SHA"
       --cache=true
       --cache-dir=$CACHE_DIR
   tags:
@@ -69,14 +83,46 @@ cache:
   allow_failure: true
   when: manual
 
-.deploy:
-  extends: .changes
+# Define a reusable template for deploying each microservice
+.deploy_template:
   stage: deploy
   script:
+    - microservice=$1
+    - cd $microservice
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY
-    - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $MODULE_NAME
+    - docker-compose -f ./infrastructure/docker/docker-compose-services-dev.yaml up -d $microservice
   tags:
     - dev
   allow_failure: true
   when: manual
+
+# Loop through the list of microservices and create build, test, and deploy jobs
+build_and_test:
+  stage: build_and_test
+  script:
+    - for microservice in "${microservices[@]}"; do
+      # Run build and test jobs for each microservice
+      .build_and_test_template $microservice
+      done
+
+# Loop through the list of microservices and create Docker image build jobs
+docker:
+  stage: docker
+  script:
+    - for microservice in "${microservices[@]}"; do
+      # Build Docker images for each microservice
+      .docker_template $microservice
+      done
+  when: manual
+
+# Loop through the list of microservices and create deployment jobs
+deploy:
+  stage: deploy
+  script:
+    - for microservice in "${microservices[@]}"; do
+      # Run deploy jobs for each microservice (typically after a tag is pushed)
+      .deploy_template $microservice
+      done
+  only:
+    - tags
