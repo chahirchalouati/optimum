@@ -2,7 +2,7 @@ package com.crcl.authentication.service.impl;
 
 import com.crcl.authentication.clients.ProfileClient;
 import com.crcl.authentication.clients.ServerStorageClient;
-import com.crcl.authentication.domain.GramifyUser;
+import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.CreateUserRequest;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.authentication.helpers.AuthenticationHelper;
@@ -41,12 +41,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(UserDto userDto) {
         log.debug("Saving user: {}", userDto);
-        GramifyUser gramifyUser = this.userMapper.toEntity(userDto);
-        gramifyUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        gramifyUser.setRoles(RoleUtils.getDefaultUserRoles());
-        GramifyUser savedGramifyUser = userRepository.save(gramifyUser);
-        log.debug("User saved: {}", savedGramifyUser);
-        return userMapper.toDto(savedGramifyUser);
+        User user = this.userMapper.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRoles(RoleUtils.getDefaultUserRoles());
+        User savedUser = userRepository.save(user);
+        log.debug("User saved: {}", savedUser);
+        return userMapper.toDto(savedUser);
     }
 
     @Override
@@ -62,8 +62,8 @@ public class UserServiceImpl implements UserService {
     public void deleteById(String id) {
         userRepository.findById(id).ifPresent(user -> {
             user.setEnabled(false);
-            GramifyUser disabledGramifyUser = userRepository.save(user);
-            log.debug("User with id {} was disabled: {}", user.getId(), disabledGramifyUser);
+            User disabledUser = userRepository.save(user);
+            log.debug("User with id {} was disabled: {}", user.getId(), disabledUser);
         });
     }
 
@@ -97,11 +97,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(UserDto userDto, String id) {
         log.debug("Updating user with id {}: {}", id, userDto);
-        GramifyUser updatedGramifyUser = userRepository.findById(id)
+        User updatedUser = userRepository.findById(id)
                 .map(user -> userMapper.toEntity(userDto))
                 .map(userRepository::save)
                 .orElse(null);
-        UserDto updatedUserDto = userMapper.toDto(updatedGramifyUser);
+        UserDto updatedUserDto = userMapper.toDto(updatedUser);
         log.debug("User updated: {}", updatedUserDto);
         return updatedUserDto;
     }
@@ -118,11 +118,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto save(CreateUserRequest request) {
         log.debug("Creating user: {}", request);
-        final GramifyUser gramifyUser = userMapper.toEntity(request);
-        this.addUserAvatar(request, gramifyUser);
-        gramifyUser.setPassword(passwordEncoder.encode(request.getPassword()));
-        gramifyUser.setRoles(RoleUtils.getDefaultUserRoles());
-        UserDto savedUser = userMapper.toDto(this.userRepository.save(gramifyUser));
+        final User user = userMapper.toEntity(request);
+        this.addUserAvatar(request, user);
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRoles(RoleUtils.getDefaultUserRoles());
+        UserDto savedUser = userMapper.toDto(this.userRepository.save(user));
         log.debug("User created: {}", savedUser);
         return savedUser;
     }
@@ -137,20 +137,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<UserDto> findByUserNames(Set<String> userNames) {
-        List<GramifyUser> gramifyUsers = this.userRepository.findByUsernameIn(userNames);
+        List<User> users = this.userRepository.findByUsernameIn(userNames);
         this.profileClient.findByUsernames(new ArrayList<>(userNames));
-        return new HashSet<>(userMapper.mapToDto(gramifyUsers));
+        return new HashSet<>(userMapper.mapToDto(users));
     }
 
-    private void addUserAvatar(CreateUserRequest request, GramifyUser gramifyUser) {
+    private void addUserAvatar(CreateUserRequest request, User user) {
         try {
             if (nonNull(request.getAvatarFile())) {
                 var fileSaveResponse = this.serverStorageClient.save(request.getAvatarFile());
-                gramifyUser.setAvatar(fileSaveResponse.getLink());
+                user.setAvatar(fileSaveResponse.getLink());
             }
         } catch (Exception e) {
-            log.error("An error occurred while saving avatar for user: {}", gramifyUser.getUsername(), e);
-            gramifyUser.setAvatar(ProfileUtils.getAvatar(gramifyUser));
+            log.error("An error occurred while saving avatar for user: {}", user.getUsername(), e);
+            user.setAvatar(ProfileUtils.getAvatar(user));
         }
     }
 }

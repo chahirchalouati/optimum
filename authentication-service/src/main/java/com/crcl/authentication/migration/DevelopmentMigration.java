@@ -3,7 +3,7 @@ package com.crcl.authentication.migration;
 import com.crcl.authentication.configuration.props.Registration;
 import com.crcl.authentication.configuration.props.DevelopProperties;
 import com.crcl.authentication.domain.GramifyClient;
-import com.crcl.authentication.domain.GramifyUser;
+import com.crcl.authentication.domain.User;
 import com.crcl.authentication.helpers.MigrationProvider;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.GramifyClientScopes;
@@ -56,7 +56,7 @@ public class DevelopmentMigration {
             DevelopProperties properties = migrationProvider.getDevelopProperties();
             PasswordEncoder passwordEncoder = migrationProvider.getPasswordEncoder();
             String encodedPassword = passwordEncoder.encode(properties.getPassword());
-            List<GramifyUser> users = UserGenerator.generateRandomUsers(
+            List<User> users = UserGenerator.generateRandomUsers(
                             properties.getCount(),
                             properties.getUsername(),
                             encodedPassword)
@@ -69,7 +69,7 @@ public class DevelopmentMigration {
         }
     }
 
-    private GramifyUser addDefaultRoles(GramifyUser user) {
+    private User addDefaultRoles(User user) {
         return user.setRoles(RoleUtils.getDefaultUserRoles());
     }
 

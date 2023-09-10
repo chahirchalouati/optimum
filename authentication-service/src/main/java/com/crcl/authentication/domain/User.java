@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @ToString
 @EqualsAndHashCode
 @FieldNameConstants()
-public class GramifyUser implements UserDetails {
+public class User implements UserDetails {
     @Id
     private String id;
     @NotBlank
@@ -72,7 +72,7 @@ public class GramifyUser implements UserDetails {
         return this.password;
     }
 
-    public GramifyUser setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
         return this;
     }
@@ -82,7 +82,7 @@ public class GramifyUser implements UserDetails {
         return this.username;
     }
 
-    public GramifyUser setUsername(String username) {
+    public User setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -92,7 +92,7 @@ public class GramifyUser implements UserDetails {
         return this.isAccountNonExpired;
     }
 
-    public GramifyUser setAccountNonExpired(boolean accountNonExpired) {
+    public User setAccountNonExpired(boolean accountNonExpired) {
         isAccountNonExpired = accountNonExpired;
         return this;
     }
@@ -102,7 +102,7 @@ public class GramifyUser implements UserDetails {
         return this.isAccountNonLocked;
     }
 
-    public GramifyUser setAccountNonLocked(boolean accountNonLocked) {
+    public User setAccountNonLocked(boolean accountNonLocked) {
         isAccountNonLocked = accountNonLocked;
         return this;
     }
@@ -112,7 +112,7 @@ public class GramifyUser implements UserDetails {
         return this.isCredentialsNonExpired;
     }
 
-    public GramifyUser setCredentialsNonExpired(boolean credentialsNonExpired) {
+    public User setCredentialsNonExpired(boolean credentialsNonExpired) {
         isCredentialsNonExpired = credentialsNonExpired;
         return this;
     }
@@ -122,7 +122,7 @@ public class GramifyUser implements UserDetails {
         return this.isEnabled;
     }
 
-    public GramifyUser setEnabled(boolean enabled) {
+    public User setEnabled(boolean enabled) {
         isEnabled = enabled;
         return this;
     }
@@ -131,7 +131,7 @@ public class GramifyUser implements UserDetails {
         return id;
     }
 
-    public GramifyUser setId(String id) {
+    public User setId(String id) {
         this.id = id;
         return this;
     }
@@ -140,7 +140,7 @@ public class GramifyUser implements UserDetails {
         return firstName;
     }
 
-    public GramifyUser setFirstName(String firstName) {
+    public User setFirstName(String firstName) {
         this.firstName = firstName;
         return this;
     }
@@ -149,7 +149,7 @@ public class GramifyUser implements UserDetails {
         return lastName;
     }
 
-    public GramifyUser setLastName(String lastName) {
+    public User setLastName(String lastName) {
         this.lastName = lastName;
         return this;
     }
@@ -158,7 +158,7 @@ public class GramifyUser implements UserDetails {
         return email;
     }
 
-    public GramifyUser setEmail(String email) {
+    public User setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -167,7 +167,7 @@ public class GramifyUser implements UserDetails {
         return roles;
     }
 
-    public GramifyUser setRoles(Set<GramifyRole> roles) {
+    public User setRoles(Set<GramifyRole> roles) {
         this.roles = roles;
         return this;
     }
@@ -176,7 +176,7 @@ public class GramifyUser implements UserDetails {
         return avatar;
     }
 
-    public GramifyUser setAvatar(String avatar) {
+    public User setAvatar(String avatar) {
         this.avatar = avatar;
         return this;
     }
@@ -185,7 +185,7 @@ public class GramifyUser implements UserDetails {
         return gender;
     }
 
-    public GramifyUser setGender(Gender gender) {
+    public User setGender(Gender gender) {
         this.gender = gender;
         return this;
     }

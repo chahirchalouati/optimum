@@ -1,7 +1,7 @@
 package com.crcl.authentication.utils;
 
 import com.crcl.authentication.domain.Gender;
-import com.crcl.authentication.domain.GramifyUser;
+import com.crcl.authentication.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,24 +16,24 @@ public class UserGenerator {
 
     private static final Random RANDOM = new Random();
 
-    public static List<GramifyUser> generateRandomUsers(int count, String username) {
+    public static List<User> generateRandomUsers(int count, String username) {
         return generateRandomUsers(count, username, "password");
     }
 
-    public static List<GramifyUser> generateRandomUsers(int count, String username, String password) {
-        List<GramifyUser> gramifyUsers = new ArrayList<>();
+    public static List<User> generateRandomUsers(int count, String username, String password) {
+        List<User> users = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            GramifyUser gramifyUser = new GramifyUser();
-            gramifyUser.setFirstName(FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)]);
-            gramifyUser.setLastName(LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)]);
-            gramifyUser.setUsername(username + i);
-            gramifyUser.setEmail(generateEmail(gramifyUser.getFirstName(), gramifyUser.getLastName()));
-            gramifyUser.setPassword(password);
-            gramifyUser.setAvatar(AVATARS[RANDOM.nextInt(AVATARS.length)]);
-            gramifyUser.setGender(GENDERS[RANDOM.nextInt(GENDERS.length)]);
-            gramifyUsers.add(gramifyUser);
+            User user = new User();
+            user.setFirstName(FIRST_NAMES[RANDOM.nextInt(FIRST_NAMES.length)]);
+            user.setLastName(LAST_NAMES[RANDOM.nextInt(LAST_NAMES.length)]);
+            user.setUsername(username + i);
+            user.setEmail(generateEmail(user.getFirstName(), user.getLastName()));
+            user.setPassword(password);
+            user.setAvatar(AVATARS[RANDOM.nextInt(AVATARS.length)]);
+            user.setGender(GENDERS[RANDOM.nextInt(GENDERS.length)]);
+            users.add(user);
         }
-        return gramifyUsers;
+        return users;
     }
 
     public static String generateEmail(String firstName, String lastName) {

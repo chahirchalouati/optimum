@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @CompoundIndex(name = "owner_friends")
 public class FriendShip extends BaseDocument {
     @Field(value = "sender")
-    private GramifyUser sender;
+    private User sender;
     @Field(value = "recipient")
-    private GramifyUser recipient;
+    private User recipient;
     @Field(value = "state")
     private FriendShipState state;
     private LocalDateTime acceptedAt;

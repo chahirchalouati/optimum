@@ -1,0 +1,43 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+mongock:
+  change-logs-scan-package: com.crcl.authentication.migration
+client:
+  authentication:
+    url: http://localhost:9999/authentication
+    name: authentication
+  srvAuthentication:
+    url: http://localhost:9999/authentication
+    name: srvAuthentication
+  storage:
+    url: http://localhost:9999/storage
+    name: storage
+  srvStorage:
+    url: http://localhost:9999/storage
+    name: srvStorage
+  profile:
+    url: http://localhost:9999/profile
+    name: profile
+  srvProfile:
+    url: http://localhost:9999/profile
+    name: srvProfile
+  post:
+    url: http://localhost:9999/post
+    name: post
+  srvPost:
+    url: http://localhost:9999/post
+    name: srvPost
+  comment:
+    url: http://localhost:9999/comment
+    name: comment
+  srvComment:
+    url: http://localhost:9999/comment
+    name: srvComment
+  srvUserInfo:
+    url: http://localhost:9999/user-info
+    name: srvUserInfo
+  srvUtilities:
+    url: http://localhost:9999/utilities
+    name: srvUtilities

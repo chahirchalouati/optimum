@@ -3,7 +3,7 @@ package com.crcl.authentication.migration;
 import com.crcl.authentication.domain.Gender;
 import com.crcl.authentication.domain.GramifyPermission;
 import com.crcl.authentication.domain.GramifyRole;
-import com.crcl.authentication.domain.GramifyUser;
+import com.crcl.authentication.domain.User;
 import com.crcl.authentication.repository.RoleRepository;
 import com.crcl.authentication.repository.UserRepository;
 import com.crcl.authentication.utils.DefaultRoles;
@@ -30,11 +30,11 @@ public class UsersSetupChangeLog {
                 .orElseThrow(() -> new RoleNotFoundException(" unable to find role %s".formatted(DefaultRoles.ROLE_ADMIN)));
     }
 
-    private Function<GramifyRole, GramifyUser> createAdmin() {
+    private Function<GramifyRole, User> createAdmin() {
         final Set<GramifyPermission> gramifyPermissions = Set.of();
         return role -> {
             role.setPermissions(gramifyPermissions);
-            return new GramifyUser()
+            return new User()
                     .setGender(Gender.MALE)
                     .setEmail("super_admin@mail.com")
                     .setUsername("admin")

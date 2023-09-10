@@ -1,6 +1,6 @@
 package com.crcl.authentication.mappers;
 
-import com.crcl.authentication.domain.GramifyUser;
+import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.core.utils.generic.GenericMapper;
 import org.mapstruct.InjectionStrategy;
@@ -11,6 +11,6 @@ import org.mapstruct.Mapper;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         uses = {RoleMapper.class, PermissionMapper.class}
 )
-public interface UserMapper extends GenericMapper<GramifyUser, UserDto> {
+public interface UserMapper extends GenericMapper<User, UserDto> {
 
 }

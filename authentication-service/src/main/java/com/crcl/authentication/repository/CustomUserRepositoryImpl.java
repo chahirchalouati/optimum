@@ -1,6 +1,6 @@
 package com.crcl.authentication.repository;
 
-import com.crcl.authentication.domain.GramifyUser;
+import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.authentication.mappers.UserMapper;
 import com.crcl.authentication.utils.DefaultRoles;
@@ -28,13 +28,13 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
     public Page<UserDto> getAll(Pageable pageable, UserDto current) {
         Query query = getFilterByRoleCriteria(current);
         query.with(pageable);
-        List<GramifyUser> gramifyUsers = this.mongoTemplate.find(query, GramifyUser.class);
-        return new PageImpl<>(userMapper.mapToDto(gramifyUsers), pageable, gramifyUsers.size());
+        List<User> users = this.mongoTemplate.find(query, User.class);
+        return new PageImpl<>(userMapper.mapToDto(users), pageable, users.size());
     }
 
     @Override
     public List<UserDto> getAll(UserDto current) {
-        return userMapper.mapToDto(this.mongoTemplate.find(getFilterByRoleCriteria(current), GramifyUser.class));
+        return userMapper.mapToDto(this.mongoTemplate.find(getFilterByRoleCriteria(current), User.class));
     }
 
     private Query getFilterByRoleCriteria(UserDto current) {
