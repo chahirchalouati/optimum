@@ -1,8 +1,6 @@
 package com.crcl.post.domain;
 
 import com.crcl.common.domain.PublishState;
-import com.crcl.common.dto.ProfileDto;
-import com.crcl.common.dto.UserDto;
 import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.dto.UserDto;
 import lombok.Data;
