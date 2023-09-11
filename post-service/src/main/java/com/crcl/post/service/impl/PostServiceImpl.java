@@ -18,6 +18,7 @@ import com.crcl.post.repository.TagRepository;
 import com.crcl.post.service.PostQueueService;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
+import com.crcl.post.utils.PublishStateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -69,6 +70,7 @@ public class PostServiceImpl implements PostService {
         final var username = userService.getCurrentUser().getUsername();
         ProfileDto userProfile = profileClient.findByUsername(username);
         post.setCreator(userProfile);
+        PublishStateUtils.markInProgress(post);
 
         final var saved = postRepository.save(post);
         final var storedPost = mapper.toDto(saved);

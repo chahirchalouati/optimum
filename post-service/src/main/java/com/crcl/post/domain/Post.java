@@ -1,5 +1,8 @@
 package com.crcl.post.domain;
 
+import com.crcl.common.domain.PublishState;
+import com.crcl.common.dto.ProfileDto;
+import com.crcl.common.dto.UserDto;
 import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.dto.UserDto;
 import lombok.Data;
@@ -22,6 +25,7 @@ public class Post {
     private String content;
     private ProfileDto creator;
     private Access access = Access.PUBLIC;
+    private PublishState publishState = PublishState.IN_PROGRESS;
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();
     private Set<GenericFile> genericFiles = new HashSet<>();
