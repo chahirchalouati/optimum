@@ -6,9 +6,9 @@ import com.crcl.authentication.mappers.RoleMapper;
 import com.crcl.authentication.mappers.UserMapper;
 import com.crcl.authentication.mappers.UserMapperImpl;
 import com.crcl.authentication.repository.UserRepository;
-import com.crcl.authentication.utils.assertions.UserAssertion;
-import com.crcl.authentication.utils.builders.UserTestBuilder;
+import com.crcl.authentication.utils.assertions.UserDtoAssertion;
 import com.crcl.authentication.utils.builders.UserDtoTestBuilder;
+import com.crcl.authentication.utils.builders.UserTestBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -51,7 +52,7 @@ class UserServiceImplTest {
 
         UserDto savedUser = userService.save(userDto);
 
-        UserAssertion.assertThat(savedUser)
+        UserDtoAssertion.assertThat(savedUser)
                 .hasUsername("testuser")
                 .hasPassword("password");
         verify(passwordEncoder).encode("password");

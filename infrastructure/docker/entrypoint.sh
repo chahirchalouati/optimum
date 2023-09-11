@@ -6,15 +6,15 @@ payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${registration_u
 export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
 
 ./config.sh \
-    --name $(hostname) \
-    --token ${RUNNER_TOKEN} \
-    --url https://github.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY} \
-    --work ${RUNNER_WORKDIR} \
-    --unattended \
-    --replace
+  --name $(hostname) \
+  --token ${RUNNER_TOKEN} \
+  --url https://github.com/${GITHUB_OWNER}/${GITHUB_REPOSITORY} \
+  --work ${RUNNER_WORKDIR} \
+  --unattended \
+  --replace
 
 remove() {
-    ./config.sh remove --unattended --token "${RUNNER_TOKEN}"
+  ./config.sh remove --unattended --token "${RUNNER_TOKEN}"
 }
 
 trap 'remove; exit 130' INT

@@ -1,5 +1,6 @@
 package com.crcl.profile.exceptions;
 
+import com.crcl.core.exceptions.EntityNotFoundException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -46,6 +47,11 @@ public class GlobalHandlerException {
     public ResponseEntity<?> runtimeException(MissingServletRequestParameterException exception) {
         return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<?> entityNotFoundException(EntityNotFoundException exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
 }
 
 @NoArgsConstructor
@@ -55,6 +61,7 @@ class ErrorResponse {
 
     @JsonProperty(value = "message", index = 1)
     private String defaultErrorMessage = "bad request";
+
     @JsonProperty(value = "errors", index = 2)
     private Map<String, String> errors;
 

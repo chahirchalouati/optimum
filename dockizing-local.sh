@@ -4,10 +4,10 @@ for dir in "$directory"/*; do
   if [ -d "$dir" ]; then
 
     dir_name=$(basename "$dir")
-#    if [ -f "$dir_name/src/main/resources/logback-spring.xml" ]; then
-#      echo "$dir_name/src/main/resources/logback-spring.xml"
-#      rm -r "$dir_name/src/main/resources/logback-spring.xml"
-#    fi
+    #    if [ -f "$dir_name/src/main/resources/logback-spring.xml" ]; then
+    #      echo "$dir_name/src/main/resources/logback-spring.xml"
+    #      rm -r "$dir_name/src/main/resources/logback-spring.xml"
+    #    fi
     echo "$dir_name"
   fi
 done

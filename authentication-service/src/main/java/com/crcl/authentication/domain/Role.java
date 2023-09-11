@@ -11,14 +11,14 @@ import java.util.Set;
 @Document("roles")
 @Data
 @Accessors(chain = true)
-public class GramifyRole {
+public class Role {
     @Id
     private String id;
     private boolean enabled = true;
     private String name;
     private Set<GramifyPermission> permissions = new HashSet<>();
 
-    public GramifyRole(String name) {
+    public Role(String name) {
         this.name = name;
     }
 

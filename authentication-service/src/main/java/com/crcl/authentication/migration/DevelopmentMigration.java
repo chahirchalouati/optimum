@@ -1,7 +1,7 @@
 package com.crcl.authentication.migration;
 
-import com.crcl.authentication.configuration.props.Registration;
 import com.crcl.authentication.configuration.props.DevelopProperties;
+import com.crcl.authentication.configuration.props.Registration;
 import com.crcl.authentication.domain.GramifyClient;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.helpers.MigrationProvider;

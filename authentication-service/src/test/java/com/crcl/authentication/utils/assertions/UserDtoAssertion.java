@@ -1,21 +1,19 @@
 package com.crcl.authentication.utils.assertions;
 
-import com.crcl.authentication.domain.User;
+import com.crcl.authentication.dto.UserDto;
 import org.assertj.core.api.AbstractAssert;
 
-import java.util.Objects;
+public class UserDtoAssertion extends AbstractAssert<UserDtoAssertion, UserDto> {
 
-public class UserAssertion extends AbstractAssert<UserAssertion, User> {
-
-    private UserAssertion(User user) {
-        super(user, UserAssertion.class);
+    private UserDtoAssertion(UserDto userDto) {
+        super(userDto, UserDtoAssertion.class);
     }
 
-    public static UserAssertion assertThat(User user) {
-        return new UserAssertion(user);
+    public static UserDtoAssertion assertThat(UserDto userDto) {
+        return new UserDtoAssertion(userDto);
     }
 
-    public UserAssertion hasUsername(String expectedUsername) {
+    public UserDtoAssertion hasUsername(String expectedUsername) {
         isNotNull();
         String actualUsername = actual.getUsername();
         if (!actualUsername.equals(expectedUsername)) {
@@ -24,19 +22,11 @@ public class UserAssertion extends AbstractAssert<UserAssertion, User> {
         return this;
     }
 
-    public UserAssertion hasPassword(String password) {
+    public UserDtoAssertion hasPassword(String password) {
         isNotNull();
         String actualPassword = actual.getPassword();
         if (!actualPassword.equals(password)) {
             failWithMessage("Expected password to be <%s> but was <%s>", password, actualPassword);
-        }
-        return this;
-    }
-
-    public UserAssertion hasId() {
-        isNotNull();
-        if (Objects.isNull(actual.getId())) {
-            failWithMessage("User id is null");
         }
         return this;
     }

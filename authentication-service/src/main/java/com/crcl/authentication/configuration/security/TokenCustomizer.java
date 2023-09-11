@@ -1,7 +1,7 @@
 package com.crcl.authentication.configuration.security;
 
 import com.crcl.authentication.domain.GramifyPermission;
-import com.crcl.authentication.domain.GramifyRole;
+import com.crcl.authentication.domain.Role;
 import com.crcl.authentication.domain.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,15 +34,15 @@ public class TokenCustomizer implements OAuth2TokenCustomizer<JwtEncodingContext
         }
     }
 
-    public Set<String> getAuthorities(Set<GramifyRole> gramifyRoles) {
+    public Set<String> getAuthorities(Set<Role> roles) {
 
-        Stream<String> permissionsStream = gramifyRoles.stream()
-                .map(GramifyRole::getPermissions)
+        Stream<String> permissionsStream = roles.stream()
+                .map(Role::getPermissions)
                 .flatMap(Set::stream)
                 .map(GramifyPermission::getName);
 
-        Stream<String> rolesStream = gramifyRoles.stream()
-                .map(GramifyRole::getName);
+        Stream<String> rolesStream = roles.stream()
+                .map(Role::getName);
 
         return Stream.concat(permissionsStream, rolesStream)
                 .collect(toSet());

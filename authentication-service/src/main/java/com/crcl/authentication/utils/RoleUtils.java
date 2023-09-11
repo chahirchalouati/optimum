@@ -1,16 +1,16 @@
 package com.crcl.authentication.utils;
 
 import com.crcl.authentication.domain.GramifyPermission;
-import com.crcl.authentication.domain.GramifyRole;
+import com.crcl.authentication.domain.Role;
 
 import java.util.Set;
 
 import static com.crcl.authentication.utils.DefaultPermissions.*;
 
 public class RoleUtils {
-    public static Set<GramifyRole> getDefaultUserRoles() {
+    public static Set<Role> getDefaultUserRoles() {
         return Set.of(
-                new GramifyRole(DefaultRoles.ROLE_USER)
+                new Role(DefaultRoles.ROLE_USER)
                         .setPermissions(Set.of(
 
                                 new GramifyPermission(PERMISSION_BUY_READ, true),

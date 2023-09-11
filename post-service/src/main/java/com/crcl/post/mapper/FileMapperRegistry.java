@@ -17,33 +17,33 @@ public class FileMapperRegistry {
     public Function<FileUploadResult, ? extends GenericFile> getMapper(FileMapperType type) {
         AtomicInteger atomicInteger = new AtomicInteger(0);
         return switch (type) {
-            case GENERIC -> genericFileMapper(atomicInteger);
-            case IMAGE -> imageFileMapper(atomicInteger);
-            case VIDEO -> videoFileMapper(atomicInteger);
+            case GENERIC -> genericFileMapper(atomicInteger.incrementAndGet());
+            case IMAGE -> imageFileMapper(atomicInteger.incrementAndGet());
+            case VIDEO -> videoFileMapper(atomicInteger.incrementAndGet());
             default -> throw new FileMapperNotFound("Unable to fine fileMapper for type: " + type.name());
         };
     }
 
 
-    private Function<FileUploadResult, GenericFile> genericFileMapper(AtomicInteger index) {
-        return genericFile -> new GenericFile(index.getAndIncrement())
+    private Function<FileUploadResult, GenericFile> genericFileMapper(Integer index) {
+        return genericFile -> new GenericFile(index)
                 .setId(genericFile.getEtag())
                 .setUrl(genericFile.getLink())
                 .setContentType(genericFile.getContentType());
     }
 
-    private Function<FileUploadResult, GenericFile> imageFileMapper(AtomicInteger index) {
+    private Function<FileUploadResult, GenericFile> imageFileMapper(Integer index) {
         return file -> new Image()
                 .setId(file.getEtag())
-                .setIndex(index.getAndIncrement())
+                .setIndex(index)
                 .setContentType(file.getContentType())
                 .setUrl(file.getLink());
     }
 
-    private Function<FileUploadResult, GenericFile> videoFileMapper(AtomicInteger index) {
+    private Function<FileUploadResult, GenericFile> videoFileMapper(Integer index) {
         return file -> new Video()
                 .setId(file.getEtag())
-                .setIndex(index.incrementAndGet())
+                .setIndex(index)
                 .setUrl(file.getLink());
     }
 }

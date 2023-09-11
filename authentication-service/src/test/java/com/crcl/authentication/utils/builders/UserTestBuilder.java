@@ -1,7 +1,7 @@
 package com.crcl.authentication.utils.builders;
 
 import com.crcl.authentication.domain.Gender;
-import com.crcl.authentication.domain.GramifyRole;
+import com.crcl.authentication.domain.Role;
 import com.crcl.authentication.domain.User;
 import com.crcl.authentication.dto.UserDto;
 import com.crcl.authentication.mappers.RoleMapperImpl;
@@ -13,14 +13,14 @@ import java.util.Set;
 public class UserTestBuilder {
     private final RoleMapperImpl roleMapper = new RoleMapperImpl();
     private final UserMapper usermapper = new UserMapperImpl(roleMapper);
-    private User userDto;
+    private User user;
 
     private UserTestBuilder() {
-        userDto = new User();
+        user = new User();
     }
 
     private UserTestBuilder(UserDto dto) {
-        userDto= usermapper.toEntity(dto);
+        user = usermapper.toEntity(dto);
     }
 
     public static UserTestBuilder createUser() {
@@ -32,67 +32,67 @@ public class UserTestBuilder {
     }
 
     public UserTestBuilder withFirstName(String firstName) {
-        userDto.setFirstName(firstName);
+        user.setFirstName(firstName);
         return this;
     }
 
     public UserTestBuilder withLastName(String lastName) {
-        userDto.setLastName(lastName);
+        user.setLastName(lastName);
         return this;
     }
 
     public UserTestBuilder withUsername(String username) {
-        userDto.setUsername(username);
+        user.setUsername(username);
         return this;
     }
 
     public UserTestBuilder withEmail(String email) {
-        userDto.setEmail(email);
+        user.setEmail(email);
         return this;
     }
 
     public UserTestBuilder withPassword(String password) {
-        userDto.setPassword(password);
+        user.setPassword(password);
         return this;
     }
 
-    public UserTestBuilder withRoles(Set<GramifyRole> roles) {
-        userDto.setRoles(roles);
+    public UserTestBuilder withRoles(Set<Role> roles) {
+        user.setRoles(roles);
         return this;
     }
 
     public UserTestBuilder withGender(Gender gender) {
-        userDto.setGender(gender);
+        user.setGender(gender);
         return this;
     }
 
     public UserTestBuilder withAvatar(String avatar) {
-        userDto.setAvatar(avatar);
+        user.setAvatar(avatar);
         return this;
     }
 
     public UserTestBuilder withAccountNonExpired(boolean accountNonExpired) {
-        userDto.setAccountNonExpired(accountNonExpired);
+        user.setAccountNonExpired(accountNonExpired);
         return this;
     }
 
     public UserTestBuilder withEnabled(boolean enabled) {
-        userDto.setEnabled(enabled);
+        user.setEnabled(enabled);
         return this;
     }
 
     public UserTestBuilder withCredentialsNonExpired(boolean credentialsNonExpired) {
-        userDto.setCredentialsNonExpired(credentialsNonExpired);
+        user.setCredentialsNonExpired(credentialsNonExpired);
         return this;
     }
 
     public UserTestBuilder withAccountNonLocked(boolean accountNonLocked) {
-        userDto.setAccountNonLocked(accountNonLocked);
+        user.setAccountNonLocked(accountNonLocked);
         return this;
     }
 
     public User build() {
-        return userDto;
+        return user;
     }
 }
 

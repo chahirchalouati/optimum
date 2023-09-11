@@ -1,6 +1,6 @@
 package com.crcl.authentication.service.impl;
 
-import com.crcl.authentication.domain.GramifyRole;
+import com.crcl.authentication.domain.Role;
 import com.crcl.authentication.dto.RoleDto;
 import com.crcl.authentication.mappers.RoleMapper;
 import com.crcl.authentication.repository.RoleRepository;
@@ -22,8 +22,8 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDto save(RoleDto roleDto) {
-        GramifyRole gramifyRole = this.roleMapper.toEntity(roleDto);
-        return roleMapper.toDto(roleRepository.save(gramifyRole));
+        Role role = this.roleMapper.toEntity(roleDto);
+        return roleMapper.toDto(roleRepository.save(role));
     }
 
     @Override

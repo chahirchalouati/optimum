@@ -1,6 +1,6 @@
 package com.crcl.authentication.migration;
 
-import com.crcl.authentication.domain.GramifyRole;
+import com.crcl.authentication.domain.Role;
 import com.crcl.authentication.repository.RoleRepository;
 import com.crcl.authentication.utils.DefaultRoles;
 import com.crcl.authentication.utils.RoleUtils;
@@ -12,8 +12,8 @@ public class RolesSetupChangeLog {
 
     @ChangeSet(order = "001", id = "add_role_admin", author = "@chahir_chalouati")
     public void createRoleAdmin(RoleRepository roleRepository) {
-        GramifyRole gramifyRole = new GramifyRole(DefaultRoles.ROLE_ADMIN);
-        roleRepository.insert(gramifyRole);
+        Role role = new Role(DefaultRoles.ROLE_ADMIN);
+        roleRepository.insert(role);
     }
 
     @ChangeSet(order = "003", id = "add_roles_user", author = "@chahir_chalouati")

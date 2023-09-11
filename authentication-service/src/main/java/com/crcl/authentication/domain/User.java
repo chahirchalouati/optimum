@@ -45,7 +45,7 @@ public class User implements UserDetails {
     @NotBlank
     private Gender gender;
     @Getter(AccessLevel.NONE)
-    private Set<GramifyRole> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
     private boolean isAccountNonExpired = true;
     private boolean isEnabled = true;
     private boolean isCredentialsNonExpired = true;
@@ -62,7 +62,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.getRoles().stream()
-                .map(GramifyRole::getName)
+                .map(Role::getName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
@@ -163,11 +163,11 @@ public class User implements UserDetails {
         return this;
     }
 
-    public Set<GramifyRole> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public User setRoles(Set<GramifyRole> roles) {
+    public User setRoles(Set<Role> roles) {
         this.roles = roles;
         return this;
     }

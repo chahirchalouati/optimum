@@ -3,10 +3,6 @@ package com.crcl.authentication.utils.builders;
 import com.crcl.authentication.dto.RoleDto;
 import com.crcl.authentication.dto.UserDto;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import java.util.HashSet;
 import java.util.Set;
 
 public class UserDtoTestBuilder {
@@ -80,16 +76,16 @@ public class UserDtoTestBuilder {
         return this;
     }
 
-    public UserDto build() {
-        return userDto;
-    }
-
     public UserDtoTestBuilder withAccountNonExpired() {
         return this.withAccountNonExpired(true);
     }
 
     public UserDtoTestBuilder withDefaultAvatar() {
         return this.withAvatar("http://avatar-default.com/test");
+    }
+
+    public UserDto build() {
+        return userDto;
     }
 }
 

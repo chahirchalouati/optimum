@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 public interface FriendShipRepository extends MongoRepository<FriendShip, String>, CustomFriendShipRepository {
+
     @Query("""
             {$and:[
             {state: 'ACCEPTED'},

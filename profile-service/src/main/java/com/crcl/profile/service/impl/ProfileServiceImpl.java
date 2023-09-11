@@ -1,6 +1,7 @@
 package com.crcl.profile.service.impl;
 
 import com.crcl.core.dto.UserDto;
+import com.crcl.core.exceptions.EntityNotFoundException;
 import com.crcl.profile.client.IdpClient;
 import com.crcl.profile.domain.Profile;
 import com.crcl.profile.dto.ProfileDto;
@@ -82,11 +83,9 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public ProfileDto findByUsername(String username) {
-      UserDto user;
-        try {
-            user = idpClient.findByUsername(username);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        UserDto user = idpClient.findByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException("Enable to find user with username: " + username);
         }
 
         return profileRepository.findByUsername(username)
