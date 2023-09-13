@@ -1,6 +1,6 @@
 package com.crcl.post.utils;
 
-import com.crcl.common.domain.PublishState;
+import com.crcl.core.domain.PublishState;
 import com.crcl.post.domain.Post;
 
 public class PublishStateUtils {

@@ -23,19 +23,25 @@ import java.time.LocalDateTime;
                 def = """
                          {
                          "entityId" : 1,
-                         "user.username": 1
+                         "user.username": 1,
+                         "sharedWith.username": 1
                          }
                         """
         )
 )
-public class Like {
+public class Share {
     @Id
     private String id;
     @NotNull
     private String entityId;
+    private UserDto sharedWith;
     @CreatedBy
     private UserDto user;
     @CreatedDate
     private LocalDateTime createdAt;
-    private Boolean like = null;
+
+    public Share(String entityId, UserDto sharedWith) {
+        this.entityId = entityId;
+        this.sharedWith = sharedWith;
+    }
 }

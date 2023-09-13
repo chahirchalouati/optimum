@@ -1,5 +1,6 @@
 package com.crcl.post.dto;
 
+import com.crcl.post.annotations.HasPostContentOrFiles;
 import com.crcl.post.domain.Access;
 import com.crcl.post.domain.Tag;
 import lombok.AccessLevel;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Data
+@HasPostContentOrFiles
 public class CreatePostRequest {
     @Getter(AccessLevel.NONE)
     private MultipartFile[] files;

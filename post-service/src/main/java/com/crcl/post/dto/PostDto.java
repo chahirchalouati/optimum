@@ -1,6 +1,7 @@
 package com.crcl.post.dto;
 
 import com.crcl.core.domain.Editable;
+import com.crcl.core.domain.PublishState;
 import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.dto.UserDto;
 import com.crcl.post.domain.*;
@@ -27,6 +28,7 @@ public class PostDto extends Editable {
     private int disLikesCount = 0;
     private String content;
     private ProfileDto creator;
+    private PublishState publishState;
     private Access access = Access.PUBLIC;
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();

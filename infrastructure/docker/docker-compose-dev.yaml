@@ -1,14 +1,13 @@
 version: '3.3'
 services:
-  gitlab-runner:
-    build:
-      context: ../runner/.
-      dockerfile: Dockerfile
-    restart: no
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    env_file:
-      - ../runner/.env
+  #  gitlab-runner:
+  #    image: dev-gramify-runner
+  #    restart: no
+  #    volumes:
+  #      - /var/run/docker.sock:/var/run/docker.sock
+  #      - /srv/gitlab-runner/config:/etc/gitlab-runner
+  #    env_file:
+  #      - ../runner/.env
   minio:
     image: minio/minio
     container_name: minio
@@ -22,9 +21,9 @@ services:
       - "47017:9000"
       - "47018:9001"
     environment:
-      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
-      MINIO_BUCKET: ${MINIO_BUCKET}
+      MINIO_ROOT_USER: myaccesskey
+      MINIO_ROOT_PASSWORD: mysecretkey
+      MINIO_BUCKET: processor
     volumes:
       - minio:/export
     networks:
@@ -39,7 +38,7 @@ services:
       timeout: 10s
       retries: 3
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=root
     ports:
       - '3306:3306'
     volumes:
@@ -81,7 +80,7 @@ services:
       - l_net
 
   #  prometheus:
-  #    platform: linux/amd64
+  #    container_name: prometheus
   #    image: 'prom/prometheus:v2.14.0'
   #    ports:
   #      - '9090:9090'
@@ -92,7 +91,7 @@ services:
   #      - l_net
 
   #  grafana:
-  #    platform: linux/amd64
+  #    container_name: grafana
   #    image: 'grafana/grafana:6.5.0'
   #    restart: "no"
   #    volumes:
@@ -112,7 +111,6 @@ services:
       - l_net
     ports:
       - "9200:9200"
-
   logstash:
     image: docker.elastic.co/logstash/logstash:7.11.0
     volumes:
@@ -125,10 +123,10 @@ services:
       - l_net
 
   kibana:
-    platform: linux/amd64
+    container_name: kb-container
     image: docker.elastic.co/kibana/kibana:7.11.0
     environment:
-      - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}
+      - ELASTICSEARCH_HOSTS=http://es-container:9200
     networks:
       - l_net
     depends_on:
@@ -136,39 +134,10 @@ services:
     ports:
       - "5601:5601"
 
-  postgres:
-    image: docker.io/bitnami/postgresql
-    environment:
-      POSTGRESQL_USERNAME: keycloak
-      POSTGRESQL_PASSWORD: keycloak
-      POSTGRESQL_DATABASE: keycloak
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-db:/bitnami/postgresql
-    networks:
-      - l_net
-
-#  keycloak:
-#    image: docker.io/bitnami/keycloak
-#    depends_on:
-#      - postgres
-#    environment:
-#      KEYCLOAK_CREATE_ADMIN_USER: true
-#      KEYCLOAK_DATABASE_HOST: postgres
-#      KEYCLOAK_DATABASE_NAME: keycloak
-#      KEYCLOAK_DATABASE_USER: keycloak
-#      KEYCLOAK_DATABASE_PASSWORD: keycloak
-#      KEYCLOAK_ADMIN_USER: root
-#      KEYCLOAK_ADMIN_PASSWORD: root
-#    ports:
-#      - "9080:8080"
-#    networks:
-#      - l_net
 
 networks:
   l_net:
-
+    driver: bridge
 
 volumes:
   mysql-db:

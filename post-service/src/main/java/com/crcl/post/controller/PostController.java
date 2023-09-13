@@ -3,6 +3,7 @@ package com.crcl.post.controller;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +31,7 @@ public class PostController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<PostDto> save(@ModelAttribute CreatePostRequest request) {
+    public ResponseEntity<PostDto> save(@ModelAttribute @Valid CreatePostRequest request) {
         return ResponseEntity.ok(this.postService.save(request));
     }
 

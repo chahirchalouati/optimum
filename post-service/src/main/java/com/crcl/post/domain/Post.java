@@ -1,6 +1,6 @@
 package com.crcl.post.domain;
 
-import com.crcl.common.domain.PublishState;
+import com.crcl.core.domain.PublishState;
 import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.dto.UserDto;
 import lombok.Data;
@@ -27,9 +27,6 @@ public class Post {
     private Set<Video> videos = new HashSet<>();
     private Set<Image> images = new HashSet<>();
     private Set<GenericFile> genericFiles = new HashSet<>();
-    private Set<Tag> tags = new HashSet<>();
-    private Set<Like> likes = new HashSet<>();
-    private Set<UserDto> sharedWithUsers = new HashSet<>();
     private boolean deleted = false;
     @CreatedDate
     private LocalDateTime createDate;
