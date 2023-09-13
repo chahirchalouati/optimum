@@ -1,37 +1,24 @@
 package com.crcl.post.service.impl;
 
 import com.crcl.core.dto.ProfileDto;
-import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.core.exceptions.EntityNotFoundException;
 import com.crcl.post.client.CommentClient;
-import com.crcl.post.client.IdpClient;
 import com.crcl.post.client.ProfileClient;
-import com.crcl.post.client.StorageClient;
-import com.crcl.post.domain.FileMapperType;
-import com.crcl.post.domain.Image;
 import com.crcl.post.domain.Post;
-import com.crcl.post.domain.Video;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
-import com.crcl.post.mapper.FileMapperRegistry;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.service.*;
 import com.crcl.post.utils.PublishStateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static com.crcl.post.utils.CrclFileUtils.hasFiles;
-import static com.crcl.post.utils.CrclUtils.applyIf;
-import static com.crcl.post.utils.CrclUtils.applyIfNotEmpty;
 
 @Service
 @RequiredArgsConstructor
@@ -59,10 +46,10 @@ public class PostServiceImpl implements PostService {
     public PostDto save(CreatePostRequest request) {
         final var post = mapper.toEntity(request);
 
-        applyIf(hasFiles(request.getFiles()), () -> filesService.handleFiles(request, post));
-        applyIfNotEmpty(request.getSharedWithUsers(), () -> shareService.handleShares(request, post));
-        applyIfNotEmpty(request.getTags(), () -> tagService.handleTags(request, post));
-        applyIfNotEmpty(request.getTaggedUsers(), () -> tagService.handleTaggedUsers(request, post));
+        filesService.handleFiles(request.getFiles(), post);
+        shareService.handleShares(request.getSharedWithUsers(), post);
+        tagService.handleTags(request.getTags(), post);
+        tagService.handleTaggedUsers(request.getTaggedUsers(), post);
 
         final var username = userService.getCurrentUser().getUsername();
         ProfileDto userProfile = profileClient.findByUsername(username);

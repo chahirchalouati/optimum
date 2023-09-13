@@ -1,8 +1,10 @@
 package com.crcl.post.service;
 
 import com.crcl.post.domain.Post;
-import com.crcl.post.dto.CreatePostRequest;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface FilesService {
-    void handleFiles(CreatePostRequest request, Post post);
+    void handleFiles(List<MultipartFile> request, Post post);
 }

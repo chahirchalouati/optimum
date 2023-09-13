@@ -4,7 +4,6 @@ import com.crcl.core.exceptions.EntityNotFoundException;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.domain.Post;
 import com.crcl.post.domain.Share;
-import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.repository.ShareRepository;
 import com.crcl.post.service.ShareService;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +59,9 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public void handleShares(CreatePostRequest request, Post post) {
-        final var users = idpClient.findByUsername(new LinkedHashSet<>(request.getSharedWithUsers()));
+    public void handleShares(List<String> sharedWithUsers, Post post) {
+        if (sharedWithUsers.isEmpty()) return;
+        final var users = idpClient.findByUsername(new LinkedHashSet<>(sharedWithUsers));
         if (users != null) {
             users.stream()
                     .map(userDto -> new Share(post.getId(), userDto))
