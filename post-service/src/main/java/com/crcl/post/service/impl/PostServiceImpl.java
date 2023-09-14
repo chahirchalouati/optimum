@@ -45,7 +45,6 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto save(CreatePostRequest request) {
         final var post = mapper.toEntity(request);
-
         filesService.handleFiles(request.getFiles(), post);
         shareService.handleShares(request.getSharedWithUsers(), post);
         tagService.handleTags(request.getTags(), post);
@@ -114,9 +113,5 @@ public class PostServiceImpl implements PostService {
                 .map(postRepository::save)
                 .map(mapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
-    }
-
-    private void addPostTags(CreatePostRequest request, Post post) {
-
     }
 }

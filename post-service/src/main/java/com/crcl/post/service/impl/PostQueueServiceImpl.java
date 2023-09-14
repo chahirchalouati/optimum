@@ -18,6 +18,5 @@ public class PostQueueServiceImpl implements PostQueueService {
     public void publishCreatePostEvent(PostDto postDto) {
         auditService.auditPostCreated(postDto);
         notificationService.notifyCreatedPost(postDto);
-
     }
 }

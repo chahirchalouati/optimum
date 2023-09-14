@@ -44,7 +44,7 @@ public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
-    private final ProcessableQueuePublisher imageQueuePublisher;
+    private final ProcessableQueuePublisher processableQueuePublisher;
 
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {
@@ -64,8 +64,6 @@ public class StorageServiceImpl implements StorageService {
 
         return inputStreamResult.map(doUpload)
                 .flatMap(recordRepository::save)
-                .doOnNext(publishImageUploadEvent())
-                .doOnNext(publishVideoUploadEvent())
                 .map(createFileUploadResponse())
                 .switchIfEmpty(Mono.error(CreateRecordException::new));
     }
@@ -173,7 +171,7 @@ public class StorageServiceImpl implements StorageService {
                 ProcessableImage request = new ProcessableImage();
                 request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                imageQueuePublisher.publishProcessableImageEvent(request);
+                processableQueuePublisher.publishProcessableImageEvent(request);
             }
         };
     }
@@ -191,7 +189,7 @@ public class StorageServiceImpl implements StorageService {
                 ProcessableVideo request = new ProcessableVideo();
                 request.setResult(result);
                 request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                imageQueuePublisher.publishProcessableVideoEvent(request);
+                processableQueuePublisher.publishProcessableVideoEvent(request);
             }
         };
     }

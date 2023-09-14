@@ -22,6 +22,11 @@ import java.util.function.Predicate;
 public class ProcessableImageSynchronizer implements Synchronizer<ProcessableImage> {
     private final PostRepository postRepository;
 
+    @NotNull
+    private static Predicate<Image> filterImageById(String imageId) {
+        return image -> image.getId().equals(imageId);
+    }
+
     @Override
     public void synchronize(QEvent<ProcessableImage> event) {
         String imageId = event.getPayload().getId();
@@ -38,11 +43,6 @@ public class ProcessableImageSynchronizer implements Synchronizer<ProcessableIma
                                 addResizedImage(fileUploadResult, imageSize, post.get()),
                                 () -> log.info("No image found for id %s".formatted(imageId))
                         ));
-    }
-
-    @NotNull
-    private static Predicate<Image> filterImageById(String imageId) {
-        return image -> image.getId().equals(imageId);
     }
 
     @NotNull
