@@ -157,41 +157,4 @@ public class StorageServiceImpl implements StorageService {
                     .setVersion(writeResponse.versionId());
         };
     }
-
-    private Consumer<FileRecord> publishImageUploadEvent() {
-        return record -> {
-            final boolean isImage = FileExtensionUtils.isImage(record.getName());
-            if (isImage) {
-                FileUploadResult result = new FileUploadResult()
-                        .setContentType(record.getType())
-                        .setBucket(record.getBucket())
-                        .setEtag(record.getTag())
-                        .setName(record.getName())
-                        .setVersion(record.getVersion());
-                ProcessableImage request = new ProcessableImage();
-                request.setResult(result);
-                request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                processableQueuePublisher.publishProcessableImageEvent(request);
-            }
-        };
-    }
-
-    private Consumer<FileRecord> publishVideoUploadEvent() {
-        return record -> {
-            final boolean isVideo = FileExtensionUtils.isVideo(record.getName());
-            if (isVideo) {
-                FileUploadResult result = new FileUploadResult()
-                        .setContentType(record.getType())
-                        .setBucket(record.getBucket())
-                        .setEtag(record.getTag())
-                        .setName(record.getName())
-                        .setVersion(record.getVersion());
-                ProcessableVideo request = new ProcessableVideo();
-                request.setResult(result);
-                request.setLocalDateTime(LocalDateTime.now(Clock.systemDefaultZone()));
-                processableQueuePublisher.publishProcessableVideoEvent(request);
-            }
-        };
-    }
-
 }
