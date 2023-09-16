@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @AllArgsConstructor
-@Import({ApiProperties.class, SwaggerConfiguration.class})
+@Import({ApiProperties.class, SwaggerConfiguration.class}) // TODO: 16/09/23 move to main class
 @Configuration(proxyBeanMethods = false)
 public class ResourceServerConfig {
 

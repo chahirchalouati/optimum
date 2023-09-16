@@ -1,13 +1,19 @@
 package com.crcl.core.dto.queue.events;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.messaging.MessageHeaders;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
+import java.util.Map;
+
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class QEvent<T, E extends QEvent<T, E>> {
+
     protected T payload;
-    protected MessageHeaders headers;
+    protected Map<String, Object> headers;
 
     public E setPayload(T payload) {
         Assert.notNull(payload, "The given payload can't be null");
@@ -15,15 +21,14 @@ public abstract class QEvent<T, E extends QEvent<T, E>> {
         return self();
     }
 
-    public E setHeaders(MessageHeaders headers) {
-        Assert.notNull(headers, "The given payload can't be null");
+    public E setHeaders(Map<String, Object> headers) {
         this.headers = headers;
         return self();
     }
 
     public abstract E withPayload(T payload);
 
-    public abstract E withHeaders(MessageHeaders headers);
+    public abstract E withHeaders(Map<String, Object> headers);
 
     // A method to return a new instance of the same subclass
     protected abstract E self();

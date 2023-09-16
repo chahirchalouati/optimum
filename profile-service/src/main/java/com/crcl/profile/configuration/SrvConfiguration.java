@@ -1,5 +1,6 @@
 package com.crcl.profile.configuration;
 
+import com.crcl.core.helper.LocalDateTimeDeserializer;
 import com.crcl.core.helper.LocalDateTimeSerializer;
 import com.crcl.core.queue.SortDeserializer;
 import com.crcl.profile.configuration.security.Oauth2TokenInterceptorHelper;
@@ -32,7 +33,7 @@ public class SrvConfiguration {
         simpleModule.addDeserializer(Sort.class, new SortDeserializer());
         SimpleModule module = new SimpleModule();
         module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
-
+        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
         return new ObjectMapper()
                 .registerModule(module)
                 .registerModule(new PageJacksonModule())
@@ -41,7 +42,6 @@ public class SrvConfiguration {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
                 .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-
     }
 
 }

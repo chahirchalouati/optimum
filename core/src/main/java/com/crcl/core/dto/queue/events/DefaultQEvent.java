@@ -1,6 +1,6 @@
 package com.crcl.core.dto.queue.events;
 
-import org.springframework.messaging.MessageHeaders;
+import java.util.Map;
 
 public class DefaultQEvent<T> extends QEvent<T, DefaultQEvent<T>> {
 
@@ -10,7 +10,7 @@ public class DefaultQEvent<T> extends QEvent<T, DefaultQEvent<T>> {
     }
 
     @Override
-    public DefaultQEvent<T> withHeaders(MessageHeaders headers) {
+    public DefaultQEvent<T> withHeaders(Map<String, Object> headers) {
         return self().setHeaders(headers);
     }
 

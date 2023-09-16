@@ -19,13 +19,13 @@ public class EventQueueConsumerImpl implements EventQueueConsumer {
     private final VideoProcessor videoProcessor;
 
     @SecurityContextInterceptor
-    @RabbitListener(queues = QueueDefinition.PROCESSABLE_IMAGE_QUEUE, messageConverter = "jsonMessageConverter")
+    @RabbitListener(queues = QueueDefinition.PROCESSABLE_IMAGE_QUEUE)
     public void consumeProcessableImageEvent(AuthenticatedQEvent<ProcessableImage> message) {
         imageProcessor.process(message);
     }
 
     @SecurityContextInterceptor
-    @RabbitListener(queues = QueueDefinition.PROCESSABLE_VIDEO_QUEUE, messageConverter = "jsonMessageConverter")
+    @RabbitListener(queues = QueueDefinition.PROCESSABLE_VIDEO_QUEUE)
     public void consumeProcessableVideoEvent(AuthenticatedQEvent<ProcessableVideo> message) {
         videoProcessor.process(message);
     }

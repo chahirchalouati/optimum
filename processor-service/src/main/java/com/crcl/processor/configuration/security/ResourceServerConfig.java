@@ -21,7 +21,7 @@ import reactivefeign.webclient.WebReactiveOptions;
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
 @AllArgsConstructor
-@Import({ApiProperties.class, SwaggerConfiguration.class})
+@Import({ApiProperties.class, SwaggerConfiguration.class}) // TODO: 16/09/23 move to main class 
 public class ResourceServerConfig {
     private final CorsCustomizer corsCustomizer;
 
