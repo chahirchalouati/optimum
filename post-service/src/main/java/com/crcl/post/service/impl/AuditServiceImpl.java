@@ -11,7 +11,6 @@ import com.crcl.post.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -44,7 +43,7 @@ public class AuditServiceImpl extends QueuePublisher implements AuditService {
 
         final var event = new DefaultQEvent<AuditRequest>()
                 .withPayload(auditRequest)
-                .withHeaders(new MessageHeaders(headers));
+                .withHeaders(headers);
 
         this.publishMessage(event, QueueDefinition.AUDIT_MESSAGE_QUEUE);
     }

@@ -2,18 +2,18 @@ package com.crcl.core.dto.queue.events;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.util.Assert;
 
-@Getter
+import java.util.Map;
+
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class AuthenticatedQEvent<T> extends QEvent<T, AuthenticatedQEvent<T>> {
 
     private String token;
 
-    public AuthenticatedQEvent<T> setToken(String token) {
+    public AuthenticatedQEvent<T> withToken(String token) {
         Assert.notNull(token, "The given token can't be null");
         this.token = token;
         return self();
@@ -25,7 +25,7 @@ public class AuthenticatedQEvent<T> extends QEvent<T, AuthenticatedQEvent<T>> {
     }
 
     @Override
-    public AuthenticatedQEvent<T> withHeaders(MessageHeaders headers) {
+    public AuthenticatedQEvent<T> withHeaders(Map<String, Object> headers) {
         return self().setHeaders(headers);
     }
 

@@ -37,7 +37,7 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-@Import({ApiProperties.class, SwaggerConfiguration.class})
+@Import({ApiProperties.class, SwaggerConfiguration.class}) // TODO: 16/09/23 move to main class 
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class AuthorizationServerConfiguration {

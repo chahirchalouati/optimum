@@ -2,6 +2,7 @@ package com.crcl.processor.configuration.filters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -25,7 +26,7 @@ public class JwtFilterInterceptor implements WebFilter {
     private Optional<Jwt> jwt;
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    public @NotNull Mono<Void> filter(ServerWebExchange exchange, @NotNull WebFilterChain chain) {
         HttpHeaders headers = exchange.getRequest().getHeaders();
         if (!headers.containsKey(HttpHeaders.AUTHORIZATION)) return chain.filter(exchange);
         String token = headers.toSingleValueMap().get(HttpHeaders.AUTHORIZATION);
