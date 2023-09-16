@@ -1,7 +1,7 @@
 package com.crcl.post.synchronizers;
 
-import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
 
 public interface Synchronizer<T> {
-    void synchronize(QEvent<T> event);
+    void synchronize(DefaultQEvent<T> event);
 }

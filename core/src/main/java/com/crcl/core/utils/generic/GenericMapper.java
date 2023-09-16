@@ -2,6 +2,7 @@ package com.crcl.core.utils.generic;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 public interface GenericMapper<E, D> {
     E toEntity(D dto);
@@ -18,5 +19,12 @@ public interface GenericMapper<E, D> {
 
     default Optional<D> toOptionalDto(E entity) {
         return Optional.ofNullable(this.toDto(entity));
+    }
+
+    default Function<D, E> fnToEntity() {
+        return this::toEntity;
+    }
+    default Function<E, D> fnToDto() {
+        return this::toDto;
     }
 }

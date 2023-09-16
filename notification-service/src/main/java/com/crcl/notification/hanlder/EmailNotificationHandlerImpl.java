@@ -2,13 +2,12 @@ package com.crcl.notification.hanlder;
 
 import com.crcl.core.dto.UserDto;
 import com.crcl.core.dto.queue.events.DefaultQEvent;
-import com.crcl.core.dto.queue.events.QEvent;
 import com.crcl.core.dto.requests.NotificationRequest;
 import com.crcl.core.dto.responses.NotificationResponse;
 import com.crcl.core.queue.QueuePublisher;
 import com.crcl.core.utils.NotificationTargets;
 import com.crcl.core.utils.QueueDefinition;
-import com.crcl.notification.client.srvAuthentication;
+import com.crcl.notification.client.SrvAuthentication;
 import com.crcl.notification.domain.NotificationType;
 import com.crcl.notification.service.MailService;
 import com.crcl.notification.service.MailTemplateGenerator;
@@ -25,9 +24,12 @@ import java.util.Objects;
 public class EmailNotificationHandlerImpl extends NotificationHandler {
     private final MailTemplateGenerator templateGenerator;
     private final MailService mailService;
-    private final srvAuthentication srvAuthentication;
+    private final SrvAuthentication srvAuthentication;
 
-    public EmailNotificationHandlerImpl(QueuePublisher notificationQueuePublisher, MailTemplateGenerator templateGenerator, MailService mailService, srvAuthentication srvAuthentication) {
+    public EmailNotificationHandlerImpl(final QueuePublisher notificationQueuePublisher,
+                                        final MailTemplateGenerator templateGenerator,
+                                        final MailService mailService,
+                                        final SrvAuthentication srvAuthentication) {
         super(notificationQueuePublisher);
         this.templateGenerator = templateGenerator;
         this.mailService = mailService;
@@ -36,9 +38,11 @@ public class EmailNotificationHandlerImpl extends NotificationHandler {
 
     @Override
     public NotificationResponse notifySync(NotificationRequest request, NotificationType type) {
-        String mailContent = templateGenerator.generate((LinkedHashMap<String, Object>) request.getPayload(), type.getTemplateId());
+        String mailContent = templateGenerator.generate((LinkedHashMap<String, Object>) request.getPayload(),
+                type.getTemplateId());
         if (type.getNotificationTargets() == NotificationTargets.All_FRIENDS) {
-            Page<UserDto> friends = srvAuthentication.findFriends(request.getSender(), PageRequest.ofSize(100)).block();
+            Page<UserDto> friends = srvAuthentication.findFriends(request.getSender(),
+                    PageRequest.ofSize(100)).block();
             if (Objects.nonNull(friends)) {
                 do {
                     friends.forEach(userDto -> mailService.send(mailContent, new String[]{userDto.getEmail()}, null, type.getSubject()));
@@ -56,8 +60,9 @@ public class EmailNotificationHandlerImpl extends NotificationHandler {
     @Override
     public void notifyAsync(NotificationRequest request, NotificationType type) {
         if (type.isAsync()) {
-            QEvent<NotificationRequest> event = new DefaultQEvent<NotificationRequest>().setPayload(request);
-            queuePublisher.publish(event, QueueDefinition.NOTIFY_ASYNC_QUEUE);
+            var event = new DefaultQEvent<NotificationRequest>()
+                    .withPayload(request);
+            queuePublisher.publishMessage(event, QueueDefinition.NOTIFY_ASYNC_QUEUE);
         }
     }
 

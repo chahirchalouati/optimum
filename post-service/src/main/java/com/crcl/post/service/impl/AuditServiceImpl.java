@@ -1,7 +1,6 @@
 package com.crcl.post.service.impl;
 
 import com.crcl.core.dto.queue.events.DefaultQEvent;
-import com.crcl.core.dto.queue.events.QEvent;
 import com.crcl.core.dto.requests.AuditRequest;
 import com.crcl.core.queue.QueuePublisher;
 import com.crcl.core.utils.AuditAction;
@@ -36,16 +35,17 @@ public class AuditServiceImpl extends QueuePublisher implements AuditService {
     public void auditPostCreated(PostDto post) {
         HashMap<String, Object> headers = new HashMap<>(1);
         headers.put("token", userService.getToken());
-        AuditRequest auditRequest = new AuditRequest()
+
+        final var auditRequest = new AuditRequest()
                 .setAction(AuditAction.CREATE_POST_ACTION)
                 .setUsername(userService.getCurrentUser().getUsername())
                 .setIdentifier(UUID.randomUUID().toString())
                 .setDetails(objectMapper.convertValue(post, LinkedHashMap.class));
 
-        QEvent<AuditRequest> event = new DefaultQEvent<>();
-        event.setHeaders(new MessageHeaders(headers));
-        event.setPayload(auditRequest);
+        final var event = new DefaultQEvent<AuditRequest>()
+                .withPayload(auditRequest)
+                .withHeaders(new MessageHeaders(headers));
 
-        this.publish(event, QueueDefinition.AUDIT_MESSAGE_QUEUE);
+        this.publishMessage(event, QueueDefinition.AUDIT_MESSAGE_QUEUE);
     }
 }

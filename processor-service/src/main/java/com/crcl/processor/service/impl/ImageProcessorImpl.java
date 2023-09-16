@@ -64,21 +64,21 @@ public class ImageProcessorImpl implements ImageProcessor {
         return imageSize -> {
             try {
                 log.debug("Processing image with size {}", imageSize);
-                var newFileName = buildFileName(response.getName(), imageSize);
-                var inputStream = applySize(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
-                var uploadFileResponse = uploadFile(userDto.getUsername(), newFileName, inputStream);
-                var orientation = getOrientation(inputStream);
+                final var newFileName = obtainNewFileName(response.getName(), imageSize);
+                final var inputStream = resizeImage(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
+                final var uploadFileResponse = storeImage(userDto.getUsername(), newFileName, inputStream);
+                final var orientation = getOrientation(inputStream);
 
-                var uploadEvent = new ProcessableImage();
-                uploadEvent.setSize(imageSize);
-                uploadEvent.setOrientation(orientation);
-                uploadEvent.setResult(buildFileUploadResponse(uploadFileResponse));
-                uploadEvent.setId(response.getEtag());
+                final var processableImage = new ProcessableImage()
+                        .setSize(imageSize)
+                        .setOrientation(orientation)
+                        .setResult(buildFileUploadResponse(uploadFileResponse))
+                        .setId(response.getEtag());
 
-                var message = new DefaultQEvent<ProcessableImage>();
-                message.setPayload(uploadEvent);
+                final var imageDefaultQEvent = new DefaultQEvent<ProcessableImage>()
+                        .withPayload(processableImage);
 
-                eventQueuePublisher.publish(message, QueueDefinition.UPDATE_IMAGES_QUEUE);
+                eventQueuePublisher.publishMessage(imageDefaultQEvent, QueueDefinition.UPDATE_IMAGES_QUEUE);
                 log.debug("Finished processing image with size {}", imageSize);
             } catch (Exception e) {
                 log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);
@@ -118,7 +118,7 @@ public class ImageProcessorImpl implements ImageProcessor {
                 .setVersion(uploadFileResponse.versionId());
     }
 
-    private String buildFileName(String fileName, ImageSize imageSize) {
+    private String obtainNewFileName(String fileName, ImageSize imageSize) {
         String[] parts = fileName.split("\\.");
         String fileNameWithoutExtension = parts[parts.length - 2];
         String extension = getFileExtension(fileName);
@@ -133,7 +133,7 @@ public class ImageProcessorImpl implements ImageProcessor {
         return parts[parts.length - 1];
     }
 
-    private InputStream applySize(InputStream input, ImageSize size, String extension) throws IOException {
+    private InputStream resizeImage(InputStream input, ImageSize size, String extension) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         Thumbnails.of(ImageIO.read(input))
                 .outputFormat(extension)
@@ -143,7 +143,7 @@ public class ImageProcessorImpl implements ImageProcessor {
         return new ByteArrayInputStream(outputStream.toByteArray());
     }
 
-    private ObjectWriteResponse uploadFile(String userBucket, String newFileName, InputStream inputStream) throws Exception {
+    private ObjectWriteResponse storeImage(String userBucket, String newFileName, InputStream inputStream) throws Exception {
         String timestamp = Long.toString(System.currentTimeMillis());
         PutObjectArgs args = PutObjectArgs.builder()
                 .bucket(userBucket)

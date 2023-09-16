@@ -4,6 +4,7 @@ import com.crcl.core.dto.queue.ProcessableImage;
 import com.crcl.core.dto.queue.ProcessableVideo;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.queue.QueuePublisher;
 import com.crcl.core.utils.QueueDefinition;
 import com.crcl.post.service.UserService;
 import lombok.AllArgsConstructor;
@@ -12,34 +13,33 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 @Slf4j
-public class EventQueuePublisherImpl implements EventQueuePublisher {
+public class EventQueuePublisherImpl extends QueuePublisher implements PostQueuePublisher {
 
     private final RabbitTemplate rabbitTemplate;
     private final UserService userService;
 
-    @Override
-    public <T> void sendMessage(QEvent<T> QEvent, String queueName) {
-        rabbitTemplate.convertAndSend(queueName, QEvent);
+    public EventQueuePublisherImpl(RabbitTemplate rabbitTemplate, UserService userService) {
+        super(rabbitTemplate);
+        this.rabbitTemplate = rabbitTemplate;
+        this.userService = userService;
     }
 
     @Override
     public void publishProcessableImageEvent(ProcessableImage processableImage) {
-        var message = new AuthenticatedQEvent<>();
+        var message = new AuthenticatedQEvent<ProcessableImage>();
         message.setToken(userService.getToken())
                 .setPayload(processableImage);
-        this.sendMessage(message, QueueDefinition.PROCESSABLE_IMAGE_QUEUE);
+        this.publishAuthenticatedMessage(message, QueueDefinition.PROCESSABLE_IMAGE_QUEUE);
         log.debug("Resized image successfully");
 
     }
-
     @Override
     public void publishProcessableVideoEvent(ProcessableVideo processableVideo) {
-        var message = new AuthenticatedQEvent<>();
+        var message = new AuthenticatedQEvent<ProcessableVideo>();
         message.setToken(userService.getToken())
                 .setPayload(processableVideo);
-        this.sendMessage(message, QueueDefinition.PROCESSABLE_VIDEO_QUEUE);
+        this.publishAuthenticatedMessage(message, QueueDefinition.PROCESSABLE_VIDEO_QUEUE);
         log.debug("VideoUpload image successfully");
 
     }

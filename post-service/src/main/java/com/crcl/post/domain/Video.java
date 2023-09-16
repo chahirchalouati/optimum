@@ -2,11 +2,13 @@ package com.crcl.post.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Accessors(chain = true)
+@NoArgsConstructor
 public class Video extends GenericFile {
     private String title;
     private String description;
@@ -22,4 +24,7 @@ public class Video extends GenericFile {
     private int commentCount;
     private String thumbnailUrl;
 
+    public Video(Integer index) {
+        super(index);
+    }
 }

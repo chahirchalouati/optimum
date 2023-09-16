@@ -1,16 +1,12 @@
 package com.crcl.processor.service.impl;
 
-import com.crcl.core.dto.queue.ProcessableImage;
-import com.crcl.core.dto.queue.ProcessableVideo;
 import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.processor.domain.FileRecord;
 import com.crcl.processor.dto.WriteResponse;
 import com.crcl.processor.exceptions.CreateRecordException;
 import com.crcl.processor.exceptions.NotFoundException;
-import com.crcl.processor.queue.ProcessableQueuePublisher;
 import com.crcl.processor.repository.RecordRepository;
 import com.crcl.processor.service.StorageService;
-import com.crcl.processor.utils.FileExtensionUtils;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -28,11 +24,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.time.Clock;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Service
@@ -44,7 +37,6 @@ public class StorageServiceImpl implements StorageService {
     private final MinioClient minioClient;
     private final RecordRepository recordRepository;
     private final BucketsResolver bucketsResolver;
-    private final ProcessableQueuePublisher processableQueuePublisher;
 
     @Override
     public Flux<FileUploadResult> saveAll(Flux<FilePart> filePartFlux) {

@@ -31,4 +31,12 @@ public class Post {
     private LocalDateTime createDate;
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
+
+    public void addImage(Image image) {
+        this.images.add(image);
+    }
+
+    public void addVideo(Video video) {
+        this.videos.add(video);
+    }
 }

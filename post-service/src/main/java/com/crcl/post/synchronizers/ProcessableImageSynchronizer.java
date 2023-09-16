@@ -1,7 +1,7 @@
 package com.crcl.post.synchronizers;
 
 import com.crcl.core.dto.queue.ProcessableImage;
-import com.crcl.core.dto.queue.events.QEvent;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
 import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.core.properties.ImageSize;
 import com.crcl.post.domain.Image;
@@ -28,7 +28,7 @@ public class ProcessableImageSynchronizer implements Synchronizer<ProcessableIma
     }
 
     @Override
-    public void synchronize(QEvent<ProcessableImage> event) {
+    public void synchronize(DefaultQEvent<ProcessableImage> event) {
         String imageId = event.getPayload().getId();
         FileUploadResult fileUploadResult = event.getPayload().getResult();
         ImageSize imageSize = event.getPayload().getSize();
@@ -50,7 +50,7 @@ public class ProcessableImageSynchronizer implements Synchronizer<ProcessableIma
         return image -> {
             var imageToStore = new Image()
                     .setImageSize(imageSize)
-                    .setParent(fileUploadResult.getEtag())
+                    .setParent(image.getId())
                     .setContentType(fileUploadResult.getContentType())
                     .setUrl(fileUploadResult.getLink());
             image.getProcessedImages().add(imageToStore);

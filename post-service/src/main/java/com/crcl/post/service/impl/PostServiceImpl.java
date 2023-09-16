@@ -1,6 +1,5 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.exceptions.EntityNotFoundException;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.client.ProfileClient;
@@ -9,16 +8,21 @@ import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
-import com.crcl.post.service.*;
+import com.crcl.post.service.PostQueueService;
+import com.crcl.post.service.PostService;
+import com.crcl.post.service.UserService;
 import com.crcl.post.utils.PublishStateUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+
+import static com.crcl.post.utils.CrclUtils.applyIfNotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +30,11 @@ import java.util.Map;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final TagService tagService;
-    private final ShareService shareService;
     private final PostQueueService queueService;
     private final UserService userService;
     private final ProfileClient profileClient;
     private final CommentClient commentClient;
     private final PostMapper mapper;
-
-    private final FilesService filesService;
 
     @Override
     public PostDto save(PostDto postDto) {
@@ -45,27 +45,20 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto save(CreatePostRequest request) {
         final var post = mapper.toEntity(request);
-        filesService.handleFiles(request.getFiles(), post);
-        shareService.handleShares(request.getSharedWithUsers(), post);
-        tagService.handleTags(request.getTags(), post);
-        tagService.handleTaggedUsers(request.getTaggedUsers(), post);
-
-        final var username = userService.getCurrentUser().getUsername();
-        ProfileDto userProfile = profileClient.findByUsername(username);
-        post.setCreator(userProfile);
+        final var username = this.userService.getCurrentUser().getUsername();
+        final var userProfile = this.profileClient.findByUsername(username);
+        applyIfNotNull(userProfile, post::setCreator);
         PublishStateUtils.markInProgress(post);
 
-        final var saved = postRepository.save(post);
-        final var storedPost = mapper.toDto(saved);
-        queueService.publishCreatePostEvent(storedPost);
+        this.queueService.publishReceiveCreatePostRequestEvent(SecurityContextHolder.getContext(), request, post);
 
-        return storedPost;
+        return mapper.toDto(this.postRepository.save(post));
     }
 
     @Override
-    public List<PostDto> saveAll(List<PostDto> entitiesDto) {
+    public List<PostDto> saveAll(List<PostDto> postDtos) {
 
-        return entitiesDto.stream()
+        return postDtos.stream()
                 .map(this::save)
                 .toList();
     }
@@ -75,7 +68,8 @@ public class PostServiceImpl implements PostService {
         postRepository.findById(entityId)
                 .ifPresentOrElse(
                         post -> postRepository.deleteById(entityId),
-                        EntityNotFoundException::new);
+                        EntityNotFoundException::new
+                );
     }
 
     @Override
