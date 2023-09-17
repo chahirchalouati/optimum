@@ -27,15 +27,13 @@ public class CommonJackson2Configuration {
 
     @Bean
     public ObjectMapper objectMapper() {
-        SimpleModule simpleModule = new SimpleModule();
+        final SimpleModule simpleModule = new SimpleModule();
         simpleModule.addDeserializer(Sort.class, new SortDeserializer());
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
-        module.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+        simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+        simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
         return new ObjectMapper()
-                .registerModule(module)
-                .registerModule(new PageJacksonModule())
                 .registerModule(simpleModule)
+                .registerModule(new PageJacksonModule())
                 .registerModule(new JavaTimeModule())
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
