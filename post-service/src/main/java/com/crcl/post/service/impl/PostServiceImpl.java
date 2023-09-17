@@ -1,5 +1,6 @@
 package com.crcl.post.service.impl;
 
+import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.exceptions.EntityNotFoundException;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.client.ProfileClient;
@@ -30,52 +31,51 @@ import static com.crcl.post.utils.CrclUtils.applyIfNotNull;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostQueueService queueService;
+    private final PostQueueService postQueueService;
     private final UserService userService;
     private final ProfileClient profileClient;
     private final CommentClient commentClient;
-    private final PostMapper mapper;
+    private final PostMapper postMapper;
 
     @Override
-    public PostDto save(PostDto postDto) {
-        Post save = postRepository.save(mapper.toEntity(postDto));
-        return mapper.toDto(save);
+    public PostDto save(final PostDto postDto) {
+        final Post savedPost = postRepository.save(postMapper.toEntity(postDto));
+        return postMapper.toDto(savedPost);
     }
 
     @Override
-    public PostDto save(CreatePostRequest request) {
-        final var post = mapper.toEntity(request);
-        final var username = this.userService.getCurrentUser().getUsername();
-        final var userProfile = this.profileClient.findByUsername(username);
+    public PostDto save(final CreatePostRequest createPostRequest) {
+        final Post post = postMapper.toEntity(createPostRequest);
+        final String username = this.userService.getCurrentUser().getUsername();
+        final ProfileDto userProfile = this.profileClient.findByUsername(username);
         applyIfNotNull(userProfile, post::setCreator);
         PublishStateUtils.markInProgress(post);
 
-        this.queueService.publishReceiveCreatePostRequestEvent(SecurityContextHolder.getContext(), request, post);
+        this.postQueueService.publishReceiveCreatePostRequestEvent(SecurityContextHolder.getContext(), createPostRequest, post);
 
-        return mapper.toDto(this.postRepository.save(post));
+        return postMapper.toDto(this.postRepository.save(post));
     }
 
     @Override
-    public List<PostDto> saveAll(List<PostDto> postDtos) {
-
-        return postDtos.stream()
+    public List<PostDto> saveAll(final List<PostDto> postDtoList) {
+        return postDtoList.stream()
                 .map(this::save)
                 .toList();
     }
 
     @Override
-    public void deleteById(String entityId) {
-        postRepository.findById(entityId)
+    public void deleteById(final String postId) {
+        postRepository.findById(postId)
                 .ifPresentOrElse(
-                        post -> postRepository.deleteById(entityId),
+                        post -> postRepository.deleteById(postId),
                         EntityNotFoundException::new
                 );
     }
 
     @Override
-    public PostDto findById(String s) {
-        return postRepository.findById(s)
-                .map(mapper::toDto)
+    public PostDto findById(final String postId) {
+        return postRepository.findById(postId)
+                .map(postMapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 
@@ -83,29 +83,29 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> findAll() {
         return this.postRepository.findAll()
                 .stream()
-                .map(mapper::toDto)
+                .map(postMapper::toDto)
                 .toList();
     }
 
     @Override
-    public Page<PostDto> findAll(Pageable pageable) {
-        final Page<Post> posts = postRepository.findAll(pageable);
-        final List<String> ids = posts.get()
+    public Page<PostDto> findAll(final Pageable pageable) {
+        final Page<Post> postsPage = postRepository.findAll(pageable);
+        final List<String> postIds = postsPage.get()
                 .map(Post::getId)
                 .toList();
-        final Map<String, Long> countByPosts = commentClient.countByPosts(ids);
+        final Map<String, Long> countByPosts = commentClient.countByPosts(postIds);
 
-        return posts.map(mapper::toDto)
+        return postsPage.map(postMapper::toDto)
                 .map(postDto -> postDto.setCommentCount(Math.toIntExact(countByPosts.getOrDefault(postDto.getId(), 0L))));
     }
 
     @Override
-    public PostDto update(PostDto postDto, String entityId) {
+    public PostDto update(PostDto postDto, String postId) {
 
-        return postRepository.findById(entityId)
-                .map(post -> mapper.toEntity(postDto))
+        return postRepository.findById(postId)
+                .map(post -> postMapper.toEntity(postDto))
                 .map(postRepository::save)
-                .map(mapper::toDto)
+                .map(postMapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
     }
 }
