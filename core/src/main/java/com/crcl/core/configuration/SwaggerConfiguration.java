@@ -21,18 +21,18 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfiguration {
 
     @Bean
-    public OpenAPI api(ApiProperties apiProperties) {
-        log.info("Initializing OpenAPI information {}", apiProperties);
+    public OpenAPI api(final ApiProperties apiProperties) {
+        log.info("Initializing OpenAPI information: {}", apiProperties);
 
-        License license = new License()
+        final License license = new License()
                 .name(apiProperties.getLicenseName())
                 .url(apiProperties.getLicenseUrl());
 
-        Contact contact = new Contact()
+        final Contact contact = new Contact()
                 .name(apiProperties.getContactName())
                 .email(apiProperties.getContactEmail());
 
-        Info info = new Info()
+        final Info info = new Info()
                 .title(apiProperties.getTitle())
                 .description(apiProperties.getDescription())
                 .version(apiProperties.getVersion())
@@ -46,26 +46,24 @@ public class SwaggerConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty({
-            "api.authorizationUrl",
-            "api.tokenUrl"
-    })
-    public SecurityScheme securityScheme(ApiProperties apiProperties) {
-        var securityScheme = new SecurityScheme();
+    @ConditionalOnProperty({"api.authorizationUrl", "api.tokenUrl"})
+    public SecurityScheme securityScheme(final ApiProperties apiProperties) {
+        final SecurityScheme securityScheme = new SecurityScheme();
         securityScheme.setType(SecurityScheme.Type.OAUTH2);
-        var flows = new OAuthFlows();
-        var scopes = new Scopes();
+
+        final OAuthFlow clientCredentialsFlow = new OAuthFlow()
+                .authorizationUrl(apiProperties.getAuthorizationUrl())
+                .tokenUrl(apiProperties.getTokenUrl());
+
+        final Scopes scopes = new Scopes();
         scopes.addString(DefaultScopes.OPENID, DefaultScopes.OPENID);
+        clientCredentialsFlow.setScopes(scopes);
 
-        var clientCredentials = new OAuthFlow();
-        clientCredentials.setAuthorizationUrl(apiProperties.getAuthorizationUrl());
-        clientCredentials.setTokenUrl(apiProperties.getTokenUrl());
-        clientCredentials.setScopes(scopes);
-
-        flows.setClientCredentials(clientCredentials);
+        final OAuthFlows flows = new OAuthFlows().clientCredentials(clientCredentialsFlow);
         securityScheme.setFlows(flows);
         securityScheme.setName("OAuth2");
-        log.info("Initializing security schema to swagger api/ui {} {}", clientCredentials, apiProperties);
+
+        log.info("Initializing security schema for Swagger API/UI: {} {}", clientCredentialsFlow, apiProperties);
 
         return securityScheme;
     }

@@ -28,9 +28,10 @@ public class CommonJackson2Configuration {
     @Bean
     public ObjectMapper objectMapper() {
         final SimpleModule simpleModule = new SimpleModule();
-        simpleModule.addDeserializer(Sort.class, new SortDeserializer());
         simpleModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer());
+        simpleModule.addDeserializer(Sort.class, new SortDeserializer());
         simpleModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer());
+
         return new ObjectMapper()
                 .registerModule(simpleModule)
                 .registerModule(new PageJacksonModule())
