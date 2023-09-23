@@ -20,7 +20,6 @@ public class CreatePostRequest {
     private String content;
     private Access access;
     private List<String> sharedWithUsers = new ArrayList<>();
-    private List<String> taggedUsers = new ArrayList<>();
     private List<Tag> tags = new ArrayList<>();
     private String location;
 

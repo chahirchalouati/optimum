@@ -22,11 +22,11 @@ public class PostQueueServiceImpl implements PostQueueService {
 
     private final NotificationService notificationService;
     private final AuditService auditService;
-    private final PostRepository postRepository;
     private final TagService tagService;
     private final ShareService shareService;
-    private final PostMapper mapper;
     private final FilesService filesService;
+    private final PostRepository postRepository;
+    private final PostMapper postMapper;
 
     @Override
     public void publishCreatePostEvent(PostDto postDto) {
@@ -40,19 +40,26 @@ public class PostQueueServiceImpl implements PostQueueService {
     }
 
     @Override
-    public void publishReceiveCreatePostRequestEvent(final SecurityContext securityContext, final CreatePostRequest request, final Post post) {
-        final ExecutorService executorService = Executors.newFixedThreadPool(10);
-        executorService.execute(() -> {
-                    log.info("publishReceiveCreatePostRequestEvent() called with: securityContext = [" + securityContext + "], request = [" + request + "], post = [" + post + "]");
+    public void publishReceiveCreatePostRequestEvent(final SecurityContext securityContext,
+                                                     final CreatePostRequest request,
+                                                     final Post post) {
+        try (ExecutorService executorService = Executors.newFixedThreadPool(10)) {
+            executorService.execute(() -> {
+                log.debug("Received create post request. Security context: [{}], Request details: [{}], Post details: [{}]",
+                        securityContext, request, post);
+                try {
                     SecurityContextHolder.setContext(securityContext);
                     filesService.handleFiles(request.getFiles(), post);
                     shareService.handleShares(request.getSharedWithUsers(), post);
-                    tagService.handleTags(request.getTags(), post);
-                    tagService.handleTaggedUsers(request.getTaggedUsers(), post);
-
-                    final PostDto storedPost = mapper.toDto(this.postRepository.save(post));
+                    tagService.processTags(request.getTags(), post);
+                    final PostDto storedPost = postMapper.toDto(this.postRepository.save(post));
                     this.publishCreatePostEvent(storedPost);
+                } catch (Exception e) {
+                    log.error("An error occurred while processing the create post request: {}", e.getMessage(), e);
                 }
-        );
+            });
+        }
     }
+
+
 }

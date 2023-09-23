@@ -18,7 +18,7 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
 
-public class CommonJackson2Configuration {
+public class CommonRabbitMQConfiguration {
 
     @Bean
     public MessageConverter jsonMessageConverter(ObjectMapper objectMapper) {

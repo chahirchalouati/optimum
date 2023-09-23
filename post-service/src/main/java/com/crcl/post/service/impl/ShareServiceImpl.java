@@ -18,6 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+
 public class ShareServiceImpl implements ShareService {
 
     private final ShareRepository shareRepository;
@@ -34,8 +35,8 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public void deleteById(String string) {
-
+    public void deleteById(String id) {
+        shareRepository.deleteById(id);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     public List<Share> findAll() {
-        return List.of();
+        return shareRepository.findAll();
     }
 
     @Override
@@ -54,7 +55,11 @@ public class ShareServiceImpl implements ShareService {
     }
 
     @Override
-    public Share update(Share share, String string) {
+    public Share update(Share share, String id) {
+        Share existingShare = shareRepository.findById(id).orElse(null);
+        if (existingShare != null) {
+            return shareRepository.save(share);
+        }
         return null;
     }
 
@@ -63,9 +68,10 @@ public class ShareServiceImpl implements ShareService {
         if (sharedWithUsers.isEmpty()) return;
         final var users = idpClient.findByUsername(new LinkedHashSet<>(sharedWithUsers));
         if (users != null) {
-            users.stream()
+            List<Share> shares = users.stream()
                     .map(userDto -> new Share(post.getId(), userDto))
-                    .forEach(this::save);
+                    .toList();
+            shareRepository.saveAll(shares);
         }
     }
 }

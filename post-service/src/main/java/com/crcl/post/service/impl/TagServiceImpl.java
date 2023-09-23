@@ -1,21 +1,20 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.core.dto.UserDto;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.domain.Post;
 import com.crcl.post.domain.Tag;
+import com.crcl.post.handlers.TagHandler;
 import com.crcl.post.repository.TagRepository;
 import com.crcl.post.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,42 +23,12 @@ public class TagServiceImpl implements TagService {
 
     private final TagRepository tagRepository;
     private final IdpClient idpClient;
+    private final Set<TagHandler> tagHandlers;
 
     @Override
-    public void handleTags(List<Tag> tags, Post post) {
+    public void processTags(final List<Tag> tags, final @Nullable Post post) {
         if (tags.isEmpty()) return;
-        Set<String> requestTagNames = tags.stream()
-                .filter(Tag::isSystem)
-                .map(Tag::getName)
-                .collect(Collectors.toSet());
-
-        List<Tag> existingTags = tagRepository.findByNameIn(requestTagNames);
-        Set<String> existingTagNames = existingTags.stream()
-                .map(Tag::getName)
-                .collect(Collectors.toSet());
-
-        List<Tag> newTags = tags.stream()
-                .filter(tag -> !existingTagNames.contains(tag.getName()))
-                .collect(Collectors.toList());
-
-        tagRepository.saveAll(newTags);
-    }
-
-    @Override
-    public void handleTaggedUsers(List<String> taggedUsersNames, Post post) {
-        if (taggedUsersNames.isEmpty()) return;
-        List<String> existingUsernames = idpClient.findByUsername(new LinkedHashSet<>(taggedUsersNames))
-                .stream()
-                .map(UserDto::getUsername)
-                .toList();
-
-        existingUsernames.forEach(taggedUsersNames::remove);
-
-        List<Tag> userTags = taggedUsersNames.stream()
-                .map(username -> new Tag().setName(username).setKind(Tag.TagKind.USER))
-                .collect(Collectors.toList());
-
-        tagRepository.saveAll(userTags);
+        tagHandlers.forEach(tagHandler -> tagHandler.handle(tags, post));
     }
 
     @Override
@@ -74,33 +43,37 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> saveAll(List<Tag> entitiesDto) {
-        return null;
+        return tagRepository.saveAll(entitiesDto);
     }
 
     @Override
-    public void deleteById(String string) {
-
+    public void deleteById(String id) {
+        tagRepository.deleteById(id);
     }
 
     @Override
-    public Tag findById(String string) {
-        return null;
+    public Tag findById(String id) {
+        return tagRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Tag> findAll() {
-        return null;
+        return tagRepository.findAll();
     }
 
     @Override
     public Page<Tag> findAll(Pageable pageable) {
-        return null;
+        return tagRepository.findAll(pageable);
     }
 
     @Override
-    public Tag update(Tag tag, String string) {
+    public Tag update(Tag tag, String id) {
+        final Tag existingTag = tagRepository.findById(id).orElse(null);
+        if (existingTag != null) {
+            existingTag.setValue(tag.getValue());
+            existingTag.setKind(tag.getKind());
+            return tagRepository.save(existingTag);
+        }
         return null;
     }
-
-
 }

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class Tag {
     @Indexed(unique = true)
-    private String name;
+    private String value;
     private String entityId;
     private boolean system = false;
     private TagKind kind;

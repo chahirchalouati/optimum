@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import java.util.List;
 
-@Import(CommonJackson2Configuration.class)
+@Import(CommonRabbitMQConfiguration.class)
 public abstract class CommonQueueConfiguration {
 
     public abstract List<String> getQueues();
