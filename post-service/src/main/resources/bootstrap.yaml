@@ -8,3 +8,9 @@ spring:
     multipart:
       max-request-size: 1GB
       max-file-size: 100MB
+logging:
+  level:
+    com:
+      crcl:
+        core:
+          queue: debug

@@ -1,7 +1,7 @@
 package com.crcl.authentication.dto;
 
-import com.crcl.authentication.annotation.UniqueEmail;
-import com.crcl.authentication.annotation.UniqueUserName;
+import com.crcl.authentication.validation.UniqueEmail;
+import com.crcl.authentication.validation.UniqueUserName;
 import com.crcl.authentication.views.UserView;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;

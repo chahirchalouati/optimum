@@ -1,5 +1,6 @@
 package com.crcl.post.domain;
 
+import com.crcl.core.domain.TagKind;
 import com.crcl.core.dto.UserDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -24,13 +25,4 @@ public class Tag {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    public enum TagKind {
-        USER,
-        POST,
-        COMMENT,
-        REPLY,
-        PAGE,
-        GROUP,
-        STORY
-    }
 }

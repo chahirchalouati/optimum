@@ -30,6 +30,5 @@ public abstract class QEvent<T, E extends QEvent<T, E>> {
 
     public abstract E withHeaders(Map<String, Object> headers);
 
-    // A method to return a new instance of the same subclass
     protected abstract E self();
 }

@@ -8,17 +8,21 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Import(CommonRabbitMQConfiguration.class)
 public abstract class CommonQueueConfiguration {
 
+    protected List<Queue> queues = new ArrayList<>();
+
     public abstract List<String> getQueues();
 
-    @Bean
+    @Bean("queues")
     public Declarables init() {
-        final List<Queue> queues = getQueues().stream()
-                .map(Queue::new).toList();
+        queues = getQueues().stream()
+                .map(Queue::new)
+                .toList();
         return new Declarables(queues);
     }
 
@@ -29,4 +33,9 @@ public abstract class CommonQueueConfiguration {
         return rabbitTemplate;
     }
 
+    protected Queue getQueue(String queue) {
+        return queues.stream()
+                .filter(queue1 -> queue1.getName().equals(queue)).findFirst()
+                .orElse(null);
+    }
 }

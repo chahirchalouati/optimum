@@ -1,17 +1,20 @@
-package com.crcl.authentication.annotation;
+package com.crcl.authentication.validation;
 
-import com.crcl.authentication.annotation.validators.UserNameValidator;
+import com.crcl.authentication.validation.validators.UniqueEmailValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 import java.lang.annotation.*;
 
+/**
+ * @author Chahir Chalouati
+ */
 @Documented
-@Constraint(validatedBy = UserNameValidator.class)
+@Constraint(validatedBy = UniqueEmailValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueUserName {
-    String message() default "username already exists";
+public @interface UniqueEmail {
+    String message() default "email already exists";
 
     Class<?>[] groups() default {};
 

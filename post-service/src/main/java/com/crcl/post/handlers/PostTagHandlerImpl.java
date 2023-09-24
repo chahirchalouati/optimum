@@ -1,5 +1,6 @@
 package com.crcl.post.handlers;
 
+import com.crcl.core.domain.TagKind;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.domain.Post;
 import com.crcl.post.domain.Tag;
@@ -13,8 +14,8 @@ public class PostTagHandlerImpl extends TagHandler {
     }
 
     @Override
-    public Tag.TagKind getKind() {
-        return Tag.TagKind.POST;
+    public TagKind getKind() {
+        return TagKind.POST;
     }
 
     @Override

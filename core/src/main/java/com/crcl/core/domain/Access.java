@@ -1,4 +1,4 @@
-package com.crcl.post.domain;
+package com.crcl.core.domain;
 
 public enum Access {
     PUBLIC,

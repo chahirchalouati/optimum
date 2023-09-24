@@ -1,4 +1,4 @@
-package com.crcl.core.annotation;
+package com.crcl.core.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

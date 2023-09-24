@@ -36,7 +36,6 @@ public class PostQueueServiceImpl implements PostQueueService {
 
     @Override
     public void publishReceiveCreatePostRequestEvent(CreatePostRequest createPostRequest, Post request) {
-
     }
 
     @Override

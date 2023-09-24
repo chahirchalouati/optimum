@@ -3,17 +3,18 @@ package com.crcl.core.utils;
 public interface QueueDefinition {
 
     // attachments queues
-    String UPDATE_IMAGES_QUEUE = "update_attachment_images_queue";
-    String PROCESSABLE_VIDEO_QUEUE = "processable_video_queue";
-    String PROCESSABLE_IMAGE_QUEUE = "processable_image_queue";
+    String PROCESSABLE_VIDEO_QUEUE = "processable.video";
+    String PROCESSABLE_IMAGE_QUEUE = "processable.image";
 
     // audits queues
-    String AUDIT_MESSAGE_QUEUE = "audit_message_queue";
-    String POST_CREATED_QUEUE = "post_created_queue";
+    String AUDIT_MESSAGE_QUEUE = "audit.message";
+
+    // posts queues
+    String POST_CREATED_QUEUE = "post.created";
 
     // notify queues
-    String NOTIFY_POST_CREATED_QUEUE = "notify_post_created_queue";
+    String NOTIFY_POST_CREATED_QUEUE = "notify.post.created";
 
     // generic
-    String NOTIFY_ASYNC_QUEUE = "notify_async_queue";
+    String NOTIFY_ASYNC_QUEUE = "notify.async";
 }

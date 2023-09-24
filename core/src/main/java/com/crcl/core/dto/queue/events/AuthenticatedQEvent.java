@@ -12,10 +12,17 @@ import java.util.Map;
 public class AuthenticatedQEvent<T> extends QEvent<T, AuthenticatedQEvent<T>> {
 
     private String token;
+    private Object securityContext;
 
     public AuthenticatedQEvent<T> withToken(String token) {
         Assert.notNull(token, "The given token can't be null");
         this.token = token;
+        return self();
+    }
+
+    public AuthenticatedQEvent<T> withSecurityContext(Object securityContext) {
+        Assert.notNull(securityContext, "The given securityContext can't be null");
+        this.securityContext = securityContext;
         return self();
     }
 

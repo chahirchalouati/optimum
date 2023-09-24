@@ -16,12 +16,12 @@ public abstract class QueuePublisher {
     private final RabbitTemplate rabbitTemplate;
 
     private <T, E extends QEvent<T, E>> void publish(QEvent<T, E> event, String queueName) {
-        log.debug("Publishing " + event.getClass().getName() + " to queue '{}' - {}", queueName, event);
+        log.debug("Publishing " + event.getClass().getSimpleName() + " to queue '{}' - {}", queueName, event);
         rabbitTemplate.convertAndSend(queueName, event);
     }
 
     private <T, E extends QEvent<T, E>> void publish(QEvent<T, E> event, String exchange, String routingKey) {
-        log.debug("Publishing " + event.getClass().getName() + " to exchange '{}' with routing key '{}' - {}", exchange, routingKey, event);
+        log.debug("Publishing " + event.getClass().getSimpleName() + " to exchange '{}' with routing key '{}' - {}", exchange, routingKey, event);
         rabbitTemplate.convertAndSend(exchange, routingKey, event);
     }
 

@@ -1,5 +1,6 @@
 package com.crcl.post.domain;
 
+import com.crcl.core.domain.Access;
 import com.crcl.core.domain.PublishState;
 import com.crcl.core.dto.ProfileDto;
 import lombok.Data;

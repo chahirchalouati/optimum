@@ -1,5 +1,6 @@
 package com.crcl.core.dto;
 
+import com.crcl.core.domain.TagKind;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -10,14 +11,4 @@ public class TagDto {
     private boolean system = false;
     private TagKind kind;
     private UserDto userDto;
-
-    public enum TagKind {
-        USER,
-        POST,
-        COMMENT,
-        REPLY,
-        PAGE,
-        GROUP,
-        STORY
-    }
 }

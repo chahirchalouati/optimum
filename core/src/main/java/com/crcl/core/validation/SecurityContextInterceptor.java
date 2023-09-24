@@ -1,4 +1,4 @@
-package com.crcl.core.annotation;
+package com.crcl.core.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,7 +1,7 @@
 package com.crcl.authentication.domain;
 
-import com.crcl.authentication.annotation.UniqueEmail;
-import com.crcl.authentication.annotation.UniqueUserName;
+import com.crcl.authentication.validation.UniqueEmail;
+import com.crcl.authentication.validation.UniqueUserName;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

@@ -78,7 +78,7 @@ public class ImageProcessorImpl implements ImageProcessor {
                 final var imageDefaultQEvent = new DefaultQEvent<ProcessableImage>()
                         .withPayload(processableImage);
 
-                eventQueuePublisher.publishMessage(imageDefaultQEvent, QueueDefinition.UPDATE_IMAGES_QUEUE);
+                eventQueuePublisher.publishMessage(imageDefaultQEvent, QueueDefinition.PROCESSABLE_IMAGE_QUEUE);
                 log.debug("Finished processing image with size {}", imageSize);
             } catch (Exception e) {
                 log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);

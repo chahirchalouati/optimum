@@ -12,14 +12,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class EventQueuePublisherImpl extends QueuePublisher implements PostQueuePublisher {
+public class EventQueuePublisher extends QueuePublisher implements PostQueuePublisher {
 
-    private final RabbitTemplate rabbitTemplate;
     private final UserService userService;
 
-    public EventQueuePublisherImpl(RabbitTemplate rabbitTemplate, UserService userService) {
+    public EventQueuePublisher(RabbitTemplate rabbitTemplate, UserService userService) {
         super(rabbitTemplate);
-        this.rabbitTemplate = rabbitTemplate;
         this.userService = userService;
     }
 

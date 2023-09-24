@@ -16,10 +16,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 public class EventQueueConsumer {
+
     private final ProcessableImageSynchronizer synchronizer;
     private final ProcessableVideoSynchronizer videoSynchronizer;
 
-    @RabbitListener(queues = QueueDefinition.UPDATE_IMAGES_QUEUE)
+    @RabbitListener(queues = QueueDefinition.PROCESSABLE_IMAGE_QUEUE)
     public void consumeImageUploadEvent(DefaultQEvent<ProcessableImage> event) {
         this.synchronizer.synchronize(event);
     }

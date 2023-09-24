@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
-
 public class CommonRabbitMQConfiguration {
 
     @Bean
@@ -38,6 +37,7 @@ public class CommonRabbitMQConfiguration {
                 .registerModule(new JavaTimeModule())
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-                .setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+                .setVisibility(VisibilityChecker.Std.defaultInstance()
+                        .withFieldVisibility(JsonAutoDetect.Visibility.ANY));
     }
 }

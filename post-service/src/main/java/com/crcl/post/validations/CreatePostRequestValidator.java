@@ -1,4 +1,4 @@
-package com.crcl.post.annotations;
+package com.crcl.post.validations;
 
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.utils.CrclFileUtils;

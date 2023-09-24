@@ -11,7 +11,6 @@ public class QueueConfiguration extends CommonQueueConfiguration {
 
     private static final List<String> QUEUES = List.of(
             QueueDefinition.PROCESSABLE_IMAGE_QUEUE,
-            QueueDefinition.UPDATE_IMAGES_QUEUE,
             QueueDefinition.PROCESSABLE_VIDEO_QUEUE
     );
 

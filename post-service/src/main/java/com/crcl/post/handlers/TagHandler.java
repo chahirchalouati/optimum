@@ -1,5 +1,6 @@
 package com.crcl.post.handlers;
 
+import com.crcl.core.domain.TagKind;
 import com.crcl.post.client.IdpClient;
 import com.crcl.post.domain.Post;
 import com.crcl.post.domain.Tag;
@@ -22,7 +23,7 @@ public abstract class TagHandler {
                 .toList();
     }
 
-    public abstract Tag.TagKind getKind();
+    public abstract TagKind getKind();
 
     public abstract void handle(final List<Tag> tags, final Post post);
 

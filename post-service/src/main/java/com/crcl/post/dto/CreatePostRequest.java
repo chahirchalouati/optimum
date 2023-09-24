@@ -1,8 +1,8 @@
 package com.crcl.post.dto;
 
-import com.crcl.post.annotations.HasPostContentOrFiles;
-import com.crcl.post.domain.Access;
+import com.crcl.core.domain.Access;
 import com.crcl.post.domain.Tag;
+import com.crcl.post.validations.HasPostContentOrFiles;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;

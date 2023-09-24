@@ -1,5 +1,6 @@
 package com.crcl.post.dto;
 
+import com.crcl.core.domain.Access;
 import com.crcl.core.domain.Editable;
 import com.crcl.core.domain.PublishState;
 import com.crcl.core.dto.ProfileDto;

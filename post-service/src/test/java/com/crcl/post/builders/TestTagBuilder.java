@@ -1,5 +1,6 @@
 package com.crcl.post.builders;
 
+import com.crcl.core.domain.TagKind;
 import com.crcl.post.domain.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -16,12 +17,12 @@ public class TestTagBuilder {
     }
 
     public TestTagBuilder withUserKind() {
-        this.tag.setKind(Tag.TagKind.USER);
+        this.tag.setKind(TagKind.USER);
         return this;
     }
 
     public TestTagBuilder withPostKind() {
-        this.tag.setKind(Tag.TagKind.POST);
+        this.tag.setKind(TagKind.POST);
         return this;
     }
 }

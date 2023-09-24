@@ -1,6 +1,5 @@
 package com.crcl.processor.queue.aspects;
 
-import com.crcl.core.dto.queue.ProcessableImage;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,26 +24,26 @@ import java.util.Objects;
 public class SecurityContextAspect {
     private final JwtDecoder decoder;
 
-    @Around("@annotation(com.crcl.core.annotation.SecurityContextInterceptor)")
+    @Around("@annotation(com.crcl.core.validation.SecurityContextInterceptor)")
     public Object applySecurityContext(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Applying security context to message");
         Object[] args = joinPoint.getArgs();
-        AuthenticatedQEvent<ProcessableImage> payload = (AuthenticatedQEvent<ProcessableImage>) args[0];
-        try {
-            Jwt jwt = decoder.decode(payload.getToken());
-            if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {
-                String errorMsg = "The given token is expired " + jwt.getClaims().toString();
-                log.error(errorMsg);
+        if (args[0] instanceof AuthenticatedQEvent payload) {
+            try {
+                Jwt jwt = decoder.decode(payload.getToken());
+                if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {
+                    String errorMsg = "The given token is expired " + jwt.getClaims().toString();
+                    log.error(errorMsg);
+                    return joinPoint.proceed();
+                }
+                SecurityContext securityContext = SecurityContextHolder.getContext();
+                securityContext.setAuthentication(new JwtAuthenticationToken(jwt));
+                log.debug("Authentication token set in SecurityContext");
+            } catch (JwtException | IllegalArgumentException e) {
+                log.error("Error occurred while decoding token: {}", e.getMessage());
                 return joinPoint.proceed();
             }
-            SecurityContext securityContext = SecurityContextHolder.getContext();
-            securityContext.setAuthentication(new JwtAuthenticationToken(jwt));
-            log.debug("Authentication token set in SecurityContext");
-        } catch (JwtException | IllegalArgumentException e) {
-            log.error("Error occurred while decoding token: {}", e.getMessage());
-            return joinPoint.proceed();
         }
-
         Object result;
         try {
             result = joinPoint.proceed();

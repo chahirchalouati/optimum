@@ -1,7 +1,7 @@
-package com.crcl.authentication.annotation.validators;
+package com.crcl.authentication.validation.validators;
 
-import com.crcl.authentication.annotation.UniqueEmail;
 import com.crcl.authentication.repository.UserRepository;
+import com.crcl.authentication.validation.UniqueEmail;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
