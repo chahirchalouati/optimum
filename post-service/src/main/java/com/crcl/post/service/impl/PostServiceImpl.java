@@ -1,20 +1,13 @@
 package com.crcl.post.service.impl;
 
 import com.crcl.core.dto.ProfileDto;
-import com.crcl.core.dto.queue.CreatePostPayload;
-import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
-import com.crcl.core.dto.queue.events.DefaultQEvent;
-import com.crcl.core.dto.requests.AuditEventPayload;
 import com.crcl.core.exceptions.EntityNotFoundException;
-import com.crcl.core.utils.*;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.client.ProfileClient;
 import com.crcl.post.domain.Post;
 import com.crcl.post.dto.CreatePostRequest;
 import com.crcl.post.dto.PostDto;
-import com.crcl.post.mapper.EventPayloadMapper;
 import com.crcl.post.mapper.PostMapper;
-import com.crcl.post.queue.EventQueuePublisher;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.service.PostProcessor;
 import com.crcl.post.service.PostService;
@@ -29,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import static com.crcl.post.utils.CrclUtils.applyIfNotNull;
 
@@ -44,8 +36,7 @@ public class PostServiceImpl implements PostService {
     private final ProfileClient profileClient;
     private final CommentClient commentClient;
     private final PostMapper postMapper;
-    private final EventPayloadMapper eventPayloadMapper;
-    private final EventQueuePublisher queuePublisher;
+
 
     @Override
     public PostDto save(final PostDto postDto) {
@@ -60,12 +51,9 @@ public class PostServiceImpl implements PostService {
         final ProfileDto userProfile = this.profileClient.findByUsername(username);
         applyIfNotNull(userProfile, post::setCreator);
         PublishStateUtils.markInProgress(post);
-
         final var storedPost = this.postRepository.save(post);
 
         postProcessor.processPostAsync(SecurityContextHolder.getContext(), createPostRequest, storedPost);
-        this.publishPostCreatedEvent(createPostRequest);
-        this.publishAuditEvent(createPostRequest, storedPost);
 
         return postMapper.toDto(storedPost);
     }
@@ -123,29 +111,5 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    private void publishAuditEvent(final CreatePostRequest createPostRequest, final Post post) {
-        final var createPostPayload = eventPayloadMapper.toCreatePostPayload(createPostRequest);
-        final var username = this.userService.getCurrentUser().getUsername();
-        final var details = Map.of(KeyDefinition.CREATE_POST, createPostPayload, KeyDefinition.POST, post);
-        final var payload = new AuditEventPayload()
-                .setAction(AuditAction.ACTION_CREATE)
-                .setIdentifier(UUID.randomUUID().toString())
-                .setUsername(username)
-                .setDetails(details);
 
-        final var event = new DefaultQEvent<>(payload);
-        this.queuePublisher.publishMessage(event, QueueDefinition.AUDIT_MESSAGE_QUEUE);
-    }
-
-    private void publishPostCreatedEvent(final CreatePostRequest createPostRequest) {
-        final var payload = eventPayloadMapper.toCreatePostPayload(createPostRequest);
-        final var authenticatedQEvent = new AuthenticatedQEvent<CreatePostPayload>()
-                .withPayload(payload)
-                .withToken(userService.getToken());
-
-        this.queuePublisher.publishAuthenticatedMessage(
-                authenticatedQEvent,
-                ExchangeDefinition.PostExchange.CREATE,
-                RoutingKeyDefinition.EMPTY);
-    }
 }

@@ -4,7 +4,7 @@ package com.crcl.processor.service.impl;
 import com.crcl.core.domain.Orientation;
 import com.crcl.core.dto.UserDto;
 import com.crcl.core.dto.queue.CreatePostPayload;
-import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableImageEvent;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.dto.queue.events.DefaultQEvent;
 import com.crcl.core.dto.responses.FileUploadResult;
@@ -33,7 +33,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLConnection;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -53,38 +52,36 @@ public class ImageProcessorImpl implements ImageProcessor {
 
     @Override
     public void process(AuthenticatedQEvent<CreatePostPayload> event) {
-        Collection<ImageSize> sizes = imageSizesProperties.getSizes().values();
-        event.getPayload().getFiles().stream()
+        final var imageSizes = imageSizesProperties.getSizes().values();
+        final var fileUploadResultStream = event.getPayload().getFiles().stream()
                 .filter(result -> FileExtensionUtils.isImage(result.getName()))
-                .forEach(result -> {
-                    log.debug("Resized all image sizes for file record: {}", result);
+                .peek(result -> log.debug("Resized all image imageSizes for file record: {}", result));
 
-                    storageClient.getObject(result.getName(), result.getEtag())
-                            .zipWith(userService.getCurrentUser())
-                            .subscribe(zipResult -> sizes.forEach(doProcessImage(result,
-                                    zipResult.getT1(),
-                                    zipResult.getT2())));
-
-                });
+        fileUploadResultStream
+                .forEach(result -> storageClient.getObject(result.getName(), result.getEtag())
+                        .zipWith(userService.getCurrentUser())
+                        .subscribe(zipResult -> imageSizes.forEach(process(result,
+                                zipResult.getT1(),
+                                zipResult.getT2()))));
 
     }
 
-    private Consumer<ImageSize> doProcessImage(FileUploadResult response, ByteArrayResource resource, UserDto userDto) {
+    private Consumer<ImageSize> process(FileUploadResult response, ByteArrayResource resource, UserDto userDto) {
         return imageSize -> {
             try {
                 log.debug("Processing image with size {}", imageSize);
-                final var newFileName = obtainNewFileName(response.getName(), imageSize);
-                final var inputStream = resizeImage(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
-                final var uploadFileResponse = storeImage(userDto.getUsername(), newFileName, inputStream);
-                final var orientation = getOrientation(inputStream);
+                final var newFileName = this.obtainNewFileName(response.getName(), imageSize);
+                final var inputStream = this.resizeImage(resource.getInputStream(), imageSize, getFileExtension(response.getName()));
+                final var uploadFileResponse = this.storeImage(userDto.getUsername(), newFileName, inputStream);
+                final var orientation = this.getOrientation(inputStream);
 
-                final var processableImage = new ProcessableImage()
+                final var processableImage = new ProcessableImageEvent()
                         .setSize(imageSize)
                         .setOrientation(orientation)
                         .setResult(buildFileUploadResponse(uploadFileResponse))
                         .setId(response.getEtag());
 
-                final var event = new DefaultQEvent<ProcessableImage>()
+                final var event = new DefaultQEvent<ProcessableImageEvent>()
                         .withPayload(processableImage);
 
                 eventQueuePublisher.publishMessage(event, QueueDefinition.PUSH_PROCESSED_IMAGE_QUEUE);

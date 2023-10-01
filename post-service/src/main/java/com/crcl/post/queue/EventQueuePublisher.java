@@ -1,6 +1,6 @@
 package com.crcl.post.queue;
 
-import com.crcl.core.dto.queue.ProcessableImage;
+import com.crcl.core.dto.queue.ProcessableImageEvent;
 import com.crcl.core.dto.queue.ProcessableVideo;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.queue.QueuePublisher;
@@ -22,10 +22,10 @@ public class EventQueuePublisher extends QueuePublisher implements PostQueuePubl
     }
 
     @Override
-    public void publishProcessableImageEvent(ProcessableImage processableImage) {
-        var message = new AuthenticatedQEvent<ProcessableImage>();
+    public void publishProcessableImageEvent(ProcessableImageEvent processableImageEvent) {
+        var message = new AuthenticatedQEvent<ProcessableImageEvent>();
         message.withToken(userService.getToken())
-                .setPayload(processableImage);
+                .setPayload(processableImageEvent);
         this.publishAuthenticatedMessage(message, QueueDefinition.PROCESSABLE_IMAGE_QUEUE);
         log.debug("Resized image successfully");
 

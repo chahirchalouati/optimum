@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Image extends GenericFile {
     private ImageSize imageSize;
+    private UUID uuid;
 
     private List<Image> processedImages = new ArrayList<>();
 

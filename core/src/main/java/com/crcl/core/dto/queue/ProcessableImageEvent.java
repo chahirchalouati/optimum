@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-public class ProcessableImage {
+public class ProcessableImageEvent {
     private LocalDateTime localDateTime = LocalDateTime.now(Clock.systemDefaultZone());
     private FileUploadResult result;
     private ImageSize size;
