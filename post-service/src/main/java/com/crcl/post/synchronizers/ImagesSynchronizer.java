@@ -19,7 +19,7 @@ import java.util.function.Predicate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ProcessableImageSynchronizer implements Synchronizer<ProcessableImage> {
+public class ImagesSynchronizer implements Synchronizer<ProcessableImage> {
     private final PostRepository postRepository;
 
     @NotNull

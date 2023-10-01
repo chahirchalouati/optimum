@@ -15,6 +15,10 @@ public abstract class QEvent<T, E extends QEvent<T, E>> {
     protected T payload;
     protected Map<String, Object> headers;
 
+    public QEvent(T payload) {
+        this.payload = payload;
+    }
+
     public E setPayload(T payload) {
         Assert.notNull(payload, "The given payload can't be null");
         this.payload = payload;

@@ -9,5 +9,6 @@ import java.util.Set;
 
 public interface TagService extends GenericService<Tag, String> {
     void processTags(List<Tag> request, Post post);
+
     Set<Tag> findByEntityId(String id);
 }

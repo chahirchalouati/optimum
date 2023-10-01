@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.zip.ZipEntry;
@@ -27,6 +29,46 @@ public class FileUtils {
                     }
                 }
         );
+    }
+
+    public static void createDirectory(String directoryPath) {
+        Path directory = Paths.get(directoryPath);
+
+        try {
+            Files.createDirectories(directory);
+            log.info("Directory created successfully: " + directoryPath);
+        } catch (IOException e) {
+            log.error("Failed to create directory: " + directoryPath, e);
+        }
+    }
+
+    public static Path createFileInDirectory(String directoryPath, String fileName) {
+        createDirectoryIfNotExists(directoryPath);
+        Path filePath = Paths.get(directoryPath, fileName);
+
+        try {
+            Path file = Files.createFile(filePath);
+            log.info("File created successfully: " + filePath);
+            return file;
+        } catch (FileAlreadyExistsException e) {
+            log.error("File already exists: " + filePath);
+        } catch (IOException e) {
+            log.error("Failed to create file: " + filePath, e);
+        }
+        return null;
+    }
+
+    public static void createDirectoryIfNotExists(String directoryPath) {
+        Path directory = Paths.get(directoryPath);
+
+        if (!Files.exists(directory)) {
+            try {
+                Files.createDirectories(directory);
+                log.info("Directory created successfully: " + directoryPath);
+            } catch (IOException e) {
+                log.error("Failed to create directory: " + directoryPath, e);
+            }
+        }
     }
 
     public static void zip(InputStream sourceInputStream, OutputStream zipOutputStream) {

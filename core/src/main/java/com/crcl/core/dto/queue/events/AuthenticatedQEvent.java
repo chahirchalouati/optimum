@@ -20,6 +20,7 @@ public class AuthenticatedQEvent<T> extends QEvent<T, AuthenticatedQEvent<T>> {
         return self();
     }
 
+    @Deprecated(forRemoval = true, since = "1.0.2")
     public AuthenticatedQEvent<T> withSecurityContext(Object securityContext) {
         Assert.notNull(securityContext, "The given securityContext can't be null");
         this.securityContext = securityContext;
@@ -34,6 +35,10 @@ public class AuthenticatedQEvent<T> extends QEvent<T, AuthenticatedQEvent<T>> {
     @Override
     public AuthenticatedQEvent<T> withHeaders(Map<String, Object> headers) {
         return self().setHeaders(headers);
+    }
+
+    public DefaultQEvent<T> asDefaultQEvent() {
+        return new DefaultQEvent<T>().withPayload(this.payload).withHeaders(this.headers);
     }
 
     @Override

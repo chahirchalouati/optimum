@@ -1,8 +1,14 @@
 package com.crcl.core.dto.queue.events;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 
+@NoArgsConstructor
 public class DefaultQEvent<T> extends QEvent<T, DefaultQEvent<T>> {
+    public DefaultQEvent(T payload) {
+        super(payload);
+    }
 
     @Override
     public DefaultQEvent<T> withPayload(T payload) {

@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
+
 public class CommonRabbitMQConfiguration {
 
     @Bean

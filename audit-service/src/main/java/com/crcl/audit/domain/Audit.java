@@ -37,4 +37,7 @@ public class Audit {
 
     @Field(name = "createAt")
     private LocalDateTime createAt;
+
+    @Field(name = "receivedAt")
+    private LocalDateTime receivedAt;
 }

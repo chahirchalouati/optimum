@@ -28,7 +28,7 @@ public class SecurityContextAspect {
     public Object applySecurityContext(ProceedingJoinPoint joinPoint) throws Throwable {
         log.debug("Applying security context to message");
         Object[] args = joinPoint.getArgs();
-        if (args[0] instanceof AuthenticatedQEvent payload) {
+        if (args[0] instanceof AuthenticatedQEvent<?> payload) {
             try {
                 Jwt jwt = decoder.decode(payload.getToken());
                 if (Objects.requireNonNull(jwt.getExpiresAt()).isBefore(Instant.now())) {

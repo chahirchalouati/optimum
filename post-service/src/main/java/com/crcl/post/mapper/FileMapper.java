@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public interface FileMapper {
     Set<GenericFile> map(List<FileUploadResult> files, Post post);
 
-   default Predicate<FileUploadResult> filterByTypes(Set<String> types) {
-       return result -> types.contains(result.getContentType());
-   }
+    default Predicate<FileUploadResult> filterByTypes(Set<String> types) {
+        return result -> types.contains(result.getContentType());
+    }
 }

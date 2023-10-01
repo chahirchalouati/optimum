@@ -24,6 +24,7 @@ public interface GenericMapper<E, D> {
     default Function<D, E> fnToEntity() {
         return this::toEntity;
     }
+
     default Function<E, D> fnToDto() {
         return this::toDto;
     }

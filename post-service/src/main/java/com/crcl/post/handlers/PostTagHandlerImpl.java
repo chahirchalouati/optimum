@@ -9,6 +9,7 @@ import com.crcl.post.repository.TagRepository;
 import java.util.List;
 
 public class PostTagHandlerImpl extends TagHandler {
+
     public PostTagHandlerImpl(TagRepository tagRepository, IdpClient idpClient) {
         super(tagRepository, idpClient);
     }

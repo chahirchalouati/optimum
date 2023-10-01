@@ -18,10 +18,10 @@ public abstract class CommonQueueConfiguration {
 
     public abstract List<String> getQueues();
 
-    @Bean("queues")
-    public Declarables init() {
+    @Bean
+    public Declarables initDeclarables() {
         queues = getQueues().stream()
-                .map(Queue::new)
+                .map(queue -> new Queue(queue, true, false, false))
                 .toList();
         return new Declarables(queues);
     }
@@ -31,11 +31,5 @@ public abstract class CommonQueueConfiguration {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(jsonMessageConverter);
         return rabbitTemplate;
-    }
-
-    protected Queue getQueue(String queue) {
-        return queues.stream()
-                .filter(queue1 -> queue1.getName().equals(queue)).findFirst()
-                .orElse(null);
     }
 }

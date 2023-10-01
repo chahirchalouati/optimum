@@ -1,6 +1,6 @@
 package com.crcl.core.utils;
 
-public interface RoutingKeyDefinition {
+public interface KeyDefinition {
     String CREATE_POST = "create.post";
-    String EMPTY = "";
+    String POST = "post";
 }

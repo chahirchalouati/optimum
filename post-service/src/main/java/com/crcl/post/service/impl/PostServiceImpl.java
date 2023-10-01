@@ -3,9 +3,10 @@ package com.crcl.post.service.impl;
 import com.crcl.core.dto.ProfileDto;
 import com.crcl.core.dto.queue.CreatePostPayload;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
+import com.crcl.core.dto.queue.events.DefaultQEvent;
+import com.crcl.core.dto.requests.AuditEventPayload;
 import com.crcl.core.exceptions.EntityNotFoundException;
-import com.crcl.core.utils.ExchangeDefinition;
-import com.crcl.core.utils.RoutingKeyDefinition;
+import com.crcl.core.utils.*;
 import com.crcl.post.client.CommentClient;
 import com.crcl.post.client.ProfileClient;
 import com.crcl.post.domain.Post;
@@ -15,7 +16,7 @@ import com.crcl.post.mapper.EventPayloadMapper;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.queue.EventQueuePublisher;
 import com.crcl.post.repository.PostRepository;
-import com.crcl.post.service.PostQueueService;
+import com.crcl.post.service.PostProcessor;
 import com.crcl.post.service.PostService;
 import com.crcl.post.service.UserService;
 import com.crcl.post.utils.PublishStateUtils;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.crcl.post.utils.CrclUtils.applyIfNotNull;
 
@@ -37,7 +39,7 @@ import static com.crcl.post.utils.CrclUtils.applyIfNotNull;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
-    private final PostQueueService postQueueService;
+    private final PostProcessor postProcessor;
     private final UserService userService;
     private final ProfileClient profileClient;
     private final CommentClient commentClient;
@@ -59,17 +61,13 @@ public class PostServiceImpl implements PostService {
         applyIfNotNull(userProfile, post::setCreator);
         PublishStateUtils.markInProgress(post);
 
-        final var payload = eventPayloadMapper.toCreatePostPayload(createPostRequest);
-        final var authenticatedQEvent = new AuthenticatedQEvent<CreatePostPayload>()
-                .withPayload(payload)
-                .withSecurityContext(SecurityContextHolder.getContext());
+        final var storedPost = this.postRepository.save(post);
 
-        this.queuePublisher.publishAuthenticatedMessage(
-                authenticatedQEvent,
-                ExchangeDefinition.POST,
-                RoutingKeyDefinition.CREATE_POST);
+        postProcessor.processPostAsync(SecurityContextHolder.getContext(), createPostRequest, storedPost);
+        this.publishPostCreatedEvent(createPostRequest);
+        this.publishAuditEvent(createPostRequest, storedPost);
 
-        return postMapper.toDto(this.postRepository.save(post));
+        return postMapper.toDto(storedPost);
     }
 
     @Override
@@ -123,5 +121,31 @@ public class PostServiceImpl implements PostService {
                 .map(postRepository::save)
                 .map(postMapper::toDto)
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+    private void publishAuditEvent(final CreatePostRequest createPostRequest, final Post post) {
+        final var createPostPayload = eventPayloadMapper.toCreatePostPayload(createPostRequest);
+        final var username = this.userService.getCurrentUser().getUsername();
+        final var details = Map.of(KeyDefinition.CREATE_POST, createPostPayload, KeyDefinition.POST, post);
+        final var payload = new AuditEventPayload()
+                .setAction(AuditAction.ACTION_CREATE)
+                .setIdentifier(UUID.randomUUID().toString())
+                .setUsername(username)
+                .setDetails(details);
+
+        final var event = new DefaultQEvent<>(payload);
+        this.queuePublisher.publishMessage(event, QueueDefinition.AUDIT_MESSAGE_QUEUE);
+    }
+
+    private void publishPostCreatedEvent(final CreatePostRequest createPostRequest) {
+        final var payload = eventPayloadMapper.toCreatePostPayload(createPostRequest);
+        final var authenticatedQEvent = new AuthenticatedQEvent<CreatePostPayload>()
+                .withPayload(payload)
+                .withToken(userService.getToken());
+
+        this.queuePublisher.publishAuthenticatedMessage(
+                authenticatedQEvent,
+                ExchangeDefinition.PostExchange.CREATE,
+                RoutingKeyDefinition.EMPTY);
     }
 }

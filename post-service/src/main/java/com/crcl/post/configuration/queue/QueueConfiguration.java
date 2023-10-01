@@ -18,7 +18,9 @@ public class QueueConfiguration extends CommonQueueConfiguration {
     private static final List<String> QUEUES = List.of(
             QueueDefinition.POST_CREATED_QUEUE,
             QueueDefinition.PROCESSABLE_IMAGE_QUEUE,
-            QueueDefinition.PROCESSABLE_VIDEO_QUEUE
+            QueueDefinition.PROCESSABLE_VIDEO_QUEUE,
+            QueueDefinition.PUSH_PROCESSED_IMAGE_QUEUE,
+            QueueDefinition.PUSH_PROCESSED_VIDEO_QUEUE
     );
 
     @Override
@@ -28,21 +30,21 @@ public class QueueConfiguration extends CommonQueueConfiguration {
 
     @Bean
     public FanoutExchange postExchange() {
-        return new FanoutExchange(ExchangeDefinition.POST);
+        return new FanoutExchange(ExchangeDefinition.PostExchange.CREATE, true, false);
     }
 
     @Bean
-    public Declarables storageBinding(FanoutExchange storageExchange) {
+    public Declarables storageBinding(FanoutExchange postExchange) {
 
         return new Declarables(
 
                 BindingBuilder
-                        .bind(new Queue(QueueDefinition.PROCESSABLE_VIDEO_QUEUE))
-                        .to(storageExchange),
+                        .bind(new Queue(QueueDefinition.PROCESSABLE_VIDEO_QUEUE, true, false, false))
+                        .to(postExchange),
 
                 BindingBuilder
-                        .bind(new Queue(QueueDefinition.PROCESSABLE_IMAGE_QUEUE))
-                        .to(storageExchange)
+                        .bind(new Queue(QueueDefinition.PROCESSABLE_IMAGE_QUEUE, true, false, false))
+                        .to(postExchange)
         );
     }
 

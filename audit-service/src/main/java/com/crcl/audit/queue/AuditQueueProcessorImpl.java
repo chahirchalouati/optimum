@@ -3,8 +3,7 @@ package com.crcl.audit.queue;
 import com.crcl.audit.domain.Audit;
 import com.crcl.audit.service.AuditService;
 import com.crcl.core.dto.queue.events.DefaultQEvent;
-import com.crcl.core.dto.queue.events.QEvent;
-import com.crcl.core.dto.requests.AuditRequest;
+import com.crcl.core.dto.requests.AuditEventPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ public class AuditQueueProcessorImpl implements AuditQueueProcessor {
     private final PayloadEventMapper eventMapper;
 
     @Override
-    public void process(DefaultQEvent<AuditRequest> event) {
+    public void process(DefaultQEvent<AuditEventPayload> event) {
         Audit audit = eventMapper.toAudit(event.getPayload());
         auditService.save(audit);
     }

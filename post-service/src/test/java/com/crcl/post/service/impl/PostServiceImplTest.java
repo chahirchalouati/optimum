@@ -11,7 +11,7 @@ import com.crcl.post.dto.PostDto;
 import com.crcl.post.mapper.PostMapper;
 import com.crcl.post.repository.PostRepository;
 import com.crcl.post.repository.TagRepository;
-import com.crcl.post.service.PostQueueService;
+import com.crcl.post.service.PostProcessor;
 import com.crcl.post.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class PostServiceImplTest {
     @Mock
     TagRepository tagRepository;
     @Mock
-    PostQueueService queueService;
+    PostProcessor queueService;
     @Mock
     UserService userService;
     @Mock

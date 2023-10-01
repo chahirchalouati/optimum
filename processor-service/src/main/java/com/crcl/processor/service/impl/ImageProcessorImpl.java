@@ -3,6 +3,7 @@ package com.crcl.processor.service.impl;
 
 import com.crcl.core.domain.Orientation;
 import com.crcl.core.dto.UserDto;
+import com.crcl.core.dto.queue.CreatePostPayload;
 import com.crcl.core.dto.queue.ProcessableImage;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.dto.queue.events.DefaultQEvent;
@@ -14,6 +15,7 @@ import com.crcl.processor.configuration.properties.ImageSizesProperties;
 import com.crcl.processor.queue.EventQueuePublisher;
 import com.crcl.processor.service.ImageProcessor;
 import com.crcl.processor.service.UserService;
+import com.crcl.processor.utils.FileExtensionUtils;
 import io.minio.MinioClient;
 import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
@@ -40,6 +42,7 @@ import java.util.function.Consumer;
 @Slf4j
 @RequiredArgsConstructor
 public class ImageProcessorImpl implements ImageProcessor {
+
     private static final String FILE_TAG_KEY = "file_tag_key";
 
     private final UserService userService;
@@ -49,15 +52,21 @@ public class ImageProcessorImpl implements ImageProcessor {
     private final EventQueuePublisher eventQueuePublisher;
 
     @Override
-    public void process(AuthenticatedQEvent<ProcessableImage> event) {
-        FileUploadResult result = event.getPayload().getResult();
+    public void process(AuthenticatedQEvent<CreatePostPayload> event) {
         Collection<ImageSize> sizes = imageSizesProperties.getSizes().values();
+        event.getPayload().getFiles().stream()
+                .filter(result -> FileExtensionUtils.isImage(result.getName()))
+                .forEach(result -> {
+                    log.debug("Resized all image sizes for file record: {}", result);
 
-        log.debug("Resized all image sizes for file record: {}", result);
+                    storageClient.getObject(result.getName(), result.getEtag())
+                            .zipWith(userService.getCurrentUser())
+                            .subscribe(zipResult -> sizes.forEach(doProcessImage(result,
+                                    zipResult.getT1(),
+                                    zipResult.getT2())));
 
-        storageClient.getObject(result.getName(), result.getEtag())
-                .zipWith(userService.getCurrentUser())
-                .subscribe(zipResult -> sizes.forEach(doProcessImage(result, zipResult.getT1(), zipResult.getT2())));
+                });
+
     }
 
     private Consumer<ImageSize> doProcessImage(FileUploadResult response, ByteArrayResource resource, UserDto userDto) {
@@ -75,10 +84,10 @@ public class ImageProcessorImpl implements ImageProcessor {
                         .setResult(buildFileUploadResponse(uploadFileResponse))
                         .setId(response.getEtag());
 
-                final var imageDefaultQEvent = new DefaultQEvent<ProcessableImage>()
+                final var event = new DefaultQEvent<ProcessableImage>()
                         .withPayload(processableImage);
 
-                eventQueuePublisher.publishMessage(imageDefaultQEvent, QueueDefinition.PROCESSABLE_IMAGE_QUEUE);
+                eventQueuePublisher.publishMessage(event, QueueDefinition.PUSH_PROCESSED_IMAGE_QUEUE);
                 log.debug("Finished processing image with size {}", imageSize);
             } catch (Exception e) {
                 log.error("Failed to process image with size {}: {}", imageSize, e.getMessage(), e);

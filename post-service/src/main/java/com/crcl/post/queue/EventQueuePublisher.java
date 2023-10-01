@@ -30,6 +30,7 @@ public class EventQueuePublisher extends QueuePublisher implements PostQueuePubl
         log.debug("Resized image successfully");
 
     }
+
     @Override
     public void publishProcessableVideoEvent(ProcessableVideo processableVideo) {
         var message = new AuthenticatedQEvent<ProcessableVideo>();

@@ -60,7 +60,7 @@ services:
       - "61613:61613"
     volumes:
       - rabbit-conf:/var/lib/rabbitmq/
-      - rabbit-log:/var/log/rabbitmq
+      - rabbit-log:/var/log/rabbitmq/
     networks:
       - l_net
 
