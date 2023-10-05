@@ -44,7 +44,6 @@ public class ImageMapper implements FileMapper {
                     .setContentType(result.getContentType());
             post.addImage(image);
 
-
             return image;
         };
     }

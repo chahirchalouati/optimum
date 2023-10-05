@@ -15,9 +15,7 @@ import org.mapstruct.Mappings;
 )
 public abstract class EventPayloadMapper {
 
-    @Mappings(
-            @Mapping(target = "files", ignore = true)
-    )
+    @Mappings(@Mapping(target = "files", ignore = true))
     public abstract CreatePostPayload toCreatePostPayload(CreatePostRequest request);
 
 }
