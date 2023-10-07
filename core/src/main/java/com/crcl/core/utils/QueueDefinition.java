@@ -15,7 +15,7 @@ public interface QueueDefinition {
     String POST_CREATED_QUEUE = "post.created";
 
     // notify queues
-    String NOTIFY_POST_CREATED_QUEUE = "notify.post.created";
+    String NOTIFY_SYNC_QUEUE = "notify.sync";
 
     // generic
     String NOTIFY_ASYNC_QUEUE = "notify.async";

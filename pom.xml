@@ -18,17 +18,17 @@
 
     <modules>
         <module>core</module>
-        <module>authentication-service</module>
-        <module>configuration-service</module>
-        <module>proxy-service</module>
-        <module>post-service</module>
-        <module>notification-service</module>
-        <module>profile-service</module>
-        <module>storage-service</module>
-        <module>processor-service</module>
-        <module>comment-service</module>
-        <module>audit-service</module>
-        <module>user-info-service</module>
-        <module>utilties-service</module>
+        <module>authentication</module>
+        <module>configuration</module>
+        <module>gateway</module>
+        <module>post</module>
+        <module>notification</module>
+        <module>profile</module>
+        <module>storage</module>
+        <module>processor</module>
+        <module>comment</module>
+        <module>audit</module>
+        <module>user-info</module>
+        <module>utilties</module>
     </modules>
 </project>
