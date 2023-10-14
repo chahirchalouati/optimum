@@ -1,5 +1,7 @@
 infrastructure/docker/data
 infrastructure/docker/.env
+infrastructure/docker/containers
+infrastructure/docker/couchbase
 utils.sh
 HELP.md
 target/
@@ -8,7 +10,8 @@ target/
 !**/src/test/**/target/
 settings.xml
 /configurations
-
+client/node_modules
+client/.vscode
 ### STS ###
 .apt_generated
 .classpath

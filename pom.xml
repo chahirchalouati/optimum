@@ -30,5 +30,6 @@
         <module>audit</module>
         <module>user-info</module>
         <module>utilties</module>
+        <module>friend-ship</module>
     </modules>
 </project>

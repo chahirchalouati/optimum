@@ -174,6 +174,23 @@ services:
       - "traefik.admin.frontend.redirect.replacement=posteio.crcl.com/admin/"
       - "traefik.admin.port=80"
       - "traefik.admin.frontend.headers.SSLRedirect=true"
+
+  couchbase:
+    image: couchbase:latest
+    environment:
+      - COUCHBASE_ADMINISTRATOR_USERNAME=admin
+      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
+      - SERVICES=data,index,query,fts
+      - CLUSTER_RAM_SIZE=512
+      - COUCHBASE_BUCKET=default
+      - COUCHBASE_BUCKET_PASSWORD=password
+    ports:
+      - "8091-8096:8091-8096"
+      - "11210:11210"
+    volumes:
+      - ./couchbase/:/opt/couchbase/var
+
+
 networks:
   l_net:
     driver: bridge

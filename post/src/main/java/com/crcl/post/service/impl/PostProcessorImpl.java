@@ -62,8 +62,7 @@ public class PostProcessorImpl implements PostProcessor {
 
 
     private void publishPostCreatedEvent(final CreatePostRequest createPostRequest, List<FileUploadResult> files) {
-        final var payload = eventPayloadMapper.toCreatePostPayload(createPostRequest);
-        payload.setFiles(files);
+        final var payload = eventPayloadMapper.toCreatePostPayload(createPostRequest, files);
         final var authenticatedQEvent = new AuthenticatedQEvent<CreatePostPayload>()
                 .withPayload(payload)
                 .withToken(userService.getToken());
