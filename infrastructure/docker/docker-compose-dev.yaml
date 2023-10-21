@@ -102,37 +102,37 @@ services:
   #    networks:
   #      - l_net
   #
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
-    environment:
-      - xpack.security.enabled=false
-      - "discovery.type=single-node"
-    networks:
-      - l_net
-    ports:
-      - "9200:9200"
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.11.0
-    volumes:
-      - ./logstash/config:/usr/share/logstash/pipeline
-    ports:
-      - "5044:5044"
-    depends_on:
-      - elasticsearch
-    networks:
-      - l_net
-
-  kibana:
-    container_name: kb-container
-    image: docker.elastic.co/kibana/kibana:7.11.0
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es-container:9200
-    networks:
-      - l_net
-    depends_on:
-      - elasticsearch
-    ports:
-      - "5601:5601"
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+#    environment:
+#      - xpack.security.enabled=false
+#      - "discovery.type=single-node"
+#    networks:
+#      - l_net
+#    ports:
+#      - "9200:9200"
+#  logstash:
+#    image: docker.elastic.co/logstash/logstash:7.11.0
+#    volumes:
+#      - ./logstash/config:/usr/share/logstash/pipeline
+#    ports:
+#      - "5044:5044"
+#    depends_on:
+#      - elasticsearch
+#    networks:
+#      - l_net
+#
+#  kibana:
+#    container_name: kb-container
+#    image: docker.elastic.co/kibana/kibana:7.11.0
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://es-container:9200
+#    networks:
+#      - l_net
+#    depends_on:
+#      - elasticsearch
+#    ports:
+#      - "5601:5601"
 
   posteio:
     image: analogic/poste.io:latest
@@ -175,20 +175,15 @@ services:
       - "traefik.admin.port=80"
       - "traefik.admin.frontend.headers.SSLRedirect=true"
 
-  couchbase:
-    image: couchbase:latest
+  neo4j:
+    image: neo4j
     environment:
-      - COUCHBASE_ADMINISTRATOR_USERNAME=admin
-      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
-      - SERVICES=data,index,query,fts
-      - CLUSTER_RAM_SIZE=512
-      - COUCHBASE_BUCKET=default
-      - COUCHBASE_BUCKET_PASSWORD=password
+      - NEO4J_AUTH=neo4j/password
     ports:
-      - "8091-8096:8091-8096"
-      - "11210:11210"
+      - "7474:7474"
+      - "7687:7687"
     volumes:
-      - ./couchbase/:/opt/couchbase/var
+      - neo4j-db:/data
 
 
 networks:
@@ -205,3 +200,4 @@ volumes:
   rabbit-log:
   rabbit-conf:
   nodemodules:
+  neo4j-db:

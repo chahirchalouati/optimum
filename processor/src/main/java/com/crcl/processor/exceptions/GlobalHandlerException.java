@@ -1,7 +1,8 @@
-package com.crcl.friend_ship.exceptions;
+package com.crcl.processor.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.minio.errors.ErrorResponseException;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -55,6 +56,7 @@ public class GlobalHandlerException {
     }
 
     @ExceptionHandler({WebClientResponseException.InternalServerError.class,
+            ErrorResponseException.class,
             HttpServerErrorException.InternalServerError.class})
     public Mono<ResponseEntity<?>> notFoundException(Exception exception) {
         return Mono.just(new ResponseEntity<>(new ErrorResponse(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR));

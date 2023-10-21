@@ -26,7 +26,7 @@ public class FriendShipServiceImpl implements FriendShipService {
     public Mono<Friendship> save(Friendship friendship) {
         friendship.setCreatedAt(LocalDateTime.now());
         return friendShipRepository.save(friendship)
-                .doOnSuccess(savedFriendship -> log.info("Saved friendship: {}", savedFriendship));
+                .doOnSuccess(savedFriendship -> log.debug("Saved friendship: {}", savedFriendship));
     }
 
     @Override
@@ -37,13 +37,13 @@ public class FriendShipServiceImpl implements FriendShipService {
         }
 
         return friendShipRepository.saveAll(friendships)
-                .doOnNext(savedFriendship -> log.info("Saved friendship: {}", savedFriendship));
+                .doOnNext(savedFriendship -> log.debug("Saved friendship: {}", savedFriendship));
     }
 
     @Override
     public Mono<Void> deleteById(String id) {
         return friendShipRepository.deleteById(id)
-                .doOnTerminate(() -> log.info("Deleted friendship with ID: {}", id));
+                .doOnTerminate(() -> log.debug("Deleted friendship with ID: {}", id));
     }
 
     @Override
@@ -51,9 +51,9 @@ public class FriendShipServiceImpl implements FriendShipService {
         return friendShipRepository.findById(id)
                 .doOnSuccess(friendship -> {
                     if (friendship != null) {
-                        log.info("Found friendship by ID {}: {}", id, friendship);
+                        log.debug("Found friendship by ID {}: {}", id, friendship);
                     } else {
-                        log.info("Friendship with ID {} not found", id);
+                        log.debug("Friendship with ID {} not found", id);
                     }
                 });
     }
@@ -61,12 +61,12 @@ public class FriendShipServiceImpl implements FriendShipService {
     @Override
     public Flux<Friendship> findAll() {
         return friendShipRepository.findAll()
-                .doOnNext(friendship -> log.info("Found friendship: {}", friendship));
+                .doOnNext(friendship -> log.debug("Found friendship: {}", friendship));
     }
 
     @Override
     public Mono<Page<Friendship>> findAll(Pageable pageable) {
-        return Mono.empty();
+        return friendShipRepository.findAll(pageable);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class FriendShipServiceImpl implements FriendShipService {
                     existingFriendship.setAcceptedAt(LocalDateTime.now());
                     return friendShipRepository.save(existingFriendship);
                 })
-                .doOnSuccess(savedFriendship -> log.info("Updated friendship: {}", savedFriendship));
+                .doOnSuccess(savedFriendship -> log.debug("Updated friendship: {}", savedFriendship));
     }
 
     @Override

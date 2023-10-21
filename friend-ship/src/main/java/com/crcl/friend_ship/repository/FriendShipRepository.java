@@ -1,7 +1,9 @@
 package com.crcl.friend_ship.repository;
 
 import com.crcl.friend_ship.domain.Friendship;
-import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.data.neo4j.repository.ReactiveNeo4jRepository;
+import org.springframework.stereotype.Repository;
 
-public interface FriendShipRepository extends ReactiveCrudRepository<Friendship, String> {
+@Repository
+public interface FriendShipRepository extends ReactiveNeo4jRepository<Friendship, String>, CustomFriendShipRepository {
 }

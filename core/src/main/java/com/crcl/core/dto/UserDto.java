@@ -3,6 +3,7 @@ package com.crcl.core.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.Id;
 
 import java.util.HashSet;
 import java.util.Set;

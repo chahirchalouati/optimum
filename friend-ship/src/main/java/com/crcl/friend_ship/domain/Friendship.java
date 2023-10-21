@@ -3,25 +3,25 @@ package com.crcl.friend_ship.domain;
 import com.crcl.core.dto.UserDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.couchbase.core.mapping.Document;
+import org.springframework.data.neo4j.core.schema.GeneratedValue;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
 
 import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-@Document
+@Node("friendship")
 public class Friendship {
 
     @Id
+    @GeneratedValue
     private String id;
-    private UserDto user;
-    private UserDto friend;
+    private String sender;
+    private String receiver;
     private State state = State.IN_PENDING;
     private LocalDateTime createdAt;
-    private UserDto createdBy;
     private LocalDateTime deletedAt;
-    private UserDto deletedBy;
     private LocalDateTime acceptedAt;
     private LocalDateTime rejectedAt;
 
