@@ -17,10 +17,12 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepository {
+
     private final ReactiveNeo4jOperations reactiveNeo4jOperations;
 
     @Override
     public Mono<Page<Friendship>> findAll(Pageable pageable) {
+
         final ResultStatement query = Cypher.match(Cypher.node("friendship").named("f"))
                 .returning("f")
                 .skip(Cypher.literalOf(pageable.getOffset()))
