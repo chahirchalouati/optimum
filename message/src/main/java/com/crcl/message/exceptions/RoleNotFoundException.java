@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.exceptions;
+package com.crcl.message.exceptions;
 
 public class RoleNotFoundException extends RuntimeException {
     public RoleNotFoundException(String message) {

@@ -1,7 +1,7 @@
-package com.crcl.friend_ship.clients;
+package com.crcl.message.clients;
 
 import com.crcl.core.dto.UserDto;
-import com.crcl.friend_ship.configuration.security.OAuthFeignConfig;
+import com.crcl.message.configuration.security.OAuthFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration.security;
+package com.crcl.message.configuration.security;
 
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.stereotype.Component;

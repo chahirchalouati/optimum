@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.exceptions;
+package com.crcl.message.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

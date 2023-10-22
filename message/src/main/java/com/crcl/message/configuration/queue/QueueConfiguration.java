@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration.queue;
+package com.crcl.message.configuration.queue;
 
 import com.crcl.core.configuration.CommonQueueConfiguration;
 import org.springframework.context.annotation.Configuration;

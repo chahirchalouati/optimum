@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration.security;
+package com.crcl.message.configuration.security;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

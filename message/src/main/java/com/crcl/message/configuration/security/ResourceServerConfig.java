@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration.security;
+package com.crcl.message.configuration.security;
 
 import com.crcl.core.configuration.SwaggerConfiguration;
 import com.crcl.core.properties.ApiProperties;

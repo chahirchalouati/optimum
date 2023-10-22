@@ -2,12 +2,12 @@ package com.crcl.friend_ship.repository;
 
 import com.crcl.friend_ship.domain.Friendship;
 import lombok.RequiredArgsConstructor;
-import org.neo4j.cypherdsl.core.*;
+import org.neo4j.cypherdsl.core.Cypher;
+import org.neo4j.cypherdsl.core.ResultStatement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.neo4j.core.ReactiveNeo4jOperations;
-import org.springframework.data.neo4j.core.ReactiveNeo4jTemplate;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -38,5 +38,10 @@ public class CustomFriendShipRepositoryImpl implements CustomFriendShipRepositor
                     List<Friendship> friendshipList = tuple.getT2();
                     return new PageImpl<>(friendshipList, pageable, totalFriends);
                 });
+    }
+
+    @Override
+    public Mono<Page<Friendship>> findNonFriend(String username, Pageable pageable) {
+        return null;
     }
 }

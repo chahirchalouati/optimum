@@ -10,10 +10,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.crcl</groupId>
-    <artifactId>friend-ship</artifactId>
+    <artifactId>message</artifactId>
     <version>1.0.1</version>
-    <name>friend-ship-service</name>
-    <description>friend-ship-service</description>
+    <name>message-service</name>
+    <description>message-service</description>
     <properties>
         <java.version>20</java.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>

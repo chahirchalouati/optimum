@@ -1,6 +1,6 @@
 spring:
   application:
-    name: friend-ship-service
+    name: message-service
   cloud:
     config:
       uri: http://localhost:8888

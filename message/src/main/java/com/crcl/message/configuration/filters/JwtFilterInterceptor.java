@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration.filters;
+package com.crcl.message.configuration.filters;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,5 @@
 package com.crcl.friend_ship.domain;
 
-import com.crcl.core.dto.UserDto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;

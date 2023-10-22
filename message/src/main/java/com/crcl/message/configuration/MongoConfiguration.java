@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration;
+package com.crcl.message.configuration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;

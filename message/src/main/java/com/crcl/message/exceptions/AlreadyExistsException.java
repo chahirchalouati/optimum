@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.exceptions;
+package com.crcl.message.exceptions;
 
 public class AlreadyExistsException extends RuntimeException {
     public AlreadyExistsException(String message) {

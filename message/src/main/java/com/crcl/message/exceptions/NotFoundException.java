@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.exceptions;
+package com.crcl.message.exceptions;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException() {

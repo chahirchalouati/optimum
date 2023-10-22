@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.configuration;
+package com.crcl.message.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolver;

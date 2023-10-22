@@ -1,4 +1,4 @@
-package com.crcl.friend_ship.exceptions;
+package com.crcl.message.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
