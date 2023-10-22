@@ -17,4 +17,6 @@ public class VolunteerExperience {
     @PastOrPresent
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+
+    private Location location;
 }

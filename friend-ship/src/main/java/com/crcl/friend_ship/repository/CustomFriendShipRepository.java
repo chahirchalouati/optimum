@@ -8,4 +8,5 @@ import reactor.core.publisher.Mono;
 public interface CustomFriendShipRepository {
 
     Mono<Page<Friendship>> findAll(Pageable pageable);
+    Mono<Page<Friendship>> findNonFriend(String username, Pageable pageable);
 }

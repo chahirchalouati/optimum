@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class Education {
+public class Education extends Location {
     private String university;
     private String highSchool;
 }
