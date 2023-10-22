@@ -1,0 +1,21 @@
+# Update n.0
+
+
+storage-service-build:
+  variables:
+    MODULE_NAME: storage-service
+  extends:
+    - .build
+
+storage-service-docker:
+  variables:
+    MODULE_NAME: storage-service
+  extends:
+    - .docker
+
+storage-service-deploy:
+  variables:
+    MODULE_NAME: storage-service
+  extends:
+    - .deploy
+
