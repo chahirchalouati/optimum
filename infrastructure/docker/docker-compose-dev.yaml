@@ -31,7 +31,6 @@ services:
 
   mysql-db:
     image: mysql:8
-    container_name: mysql-container
     healthcheck:
       test: [ "CMD-SHELL", "mysqladmin ping -h mysql --silent" ]
       interval: 30s
@@ -48,7 +47,6 @@ services:
 
   rabbitmq:
     build: rabbitMQ/.
-    container_name: rabbitmq-container
     healthcheck:
       test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
       interval: 30s
@@ -156,7 +154,7 @@ services:
       - LETSENCRYPT_HOST=crcl.com
       - VIRTUAL_HOST=mail.crcl.com
     volumes:
-      - './containers/poste.io/data:/data'
+      - post-io:/data
       - '/etc/localtime:/etc/localtime:ro'
     labels:
       - "traefik.leposte.backend=leposte"
@@ -191,6 +189,7 @@ networks:
     driver: bridge
 
 volumes:
+  post-io:
   mysql-db:
   postgres-db:
   cassandra-db:
