@@ -17,6 +17,6 @@ import reactor.core.publisher.Mono;
 public interface IdpClient {
 
     @GetMapping("/users/username/{username}")
-    Mono<UserDto> findByUsername(@PathVariable String username);
+    Mono<UserDto> findByUsername(@PathVariable("username") String username);
 
 }

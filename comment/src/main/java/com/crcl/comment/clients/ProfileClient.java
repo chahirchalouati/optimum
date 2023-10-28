@@ -22,7 +22,7 @@ import java.util.Set;
 public interface ProfileClient {
 
     @GetMapping("/searches/username")
-    ProfileDto findByUsername(@RequestParam String username);
+    ProfileDto findByUsername(@RequestParam("username") String username);
 
     @GetMapping("/searches/usernames")
     List<ProfileDto> findByUsernames(@RequestParam("usernames") Set<String> userNames);

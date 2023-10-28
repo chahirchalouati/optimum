@@ -16,7 +16,7 @@ import java.util.List;
 public interface IdpClient {
 
     @GetMapping("/users/username/{username}")
-    UserDto findByUsername(@PathVariable String username);
+    UserDto findByUsername(@PathVariable("username") String username);
 
     @GetMapping("/users/all")
     List<UserDto> findAll();

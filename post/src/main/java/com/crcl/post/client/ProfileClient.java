@@ -31,5 +31,5 @@ public interface ProfileClient {
     List<ProfileDto> findByUsernames(@RequestParam("usernames") List<String> userNames);
 
     @GetMapping("/profiles/notifications/{username}/target")
-    NotificationTargets getNotificationTarget(@PathVariable String username, @RequestParam NotificationDefinition notificationDefinition);
+    NotificationTargets getNotificationTarget(@PathVariable("username") String username, @RequestParam("notificationDefinition") NotificationDefinition notificationDefinition);
 }

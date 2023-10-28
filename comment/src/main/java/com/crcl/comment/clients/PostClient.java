@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Optional;
 
-@FeignClient(name = "${client.post.name}", url = "${client.post.url}",
+@FeignClient(name = "${client.post.name}",
+        url = "${client.post.url}",
         fallbackFactory = PostClientFallBackFactory.class,
         configuration = {
                 OAuthFeignConfig.class,
@@ -18,5 +19,5 @@ import java.util.Optional;
 public interface PostClient {
 
     @GetMapping("/posts/{id}")
-    Optional<PostDto> getPostById(@PathVariable String id);
+    Optional<PostDto> getPostById(@PathVariable("id") String id);
 }

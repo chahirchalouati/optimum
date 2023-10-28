@@ -18,7 +18,7 @@ import java.util.Map;
 public interface CommentClient {
 
     @GetMapping("/comments/{postId}/count")
-    int countByPost(@PathVariable String postId);
+    int countByPost(@PathVariable("postId") String postId);
 
     @GetMapping("/comments/posts/count")
     Map<String, Long> countByPosts(@RequestParam("postIds") List<String> postIds);

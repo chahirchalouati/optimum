@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface SrvIdpClient {
 
     @GetMapping("/users/username/{username}")
-    UserDto findByUsername(@PathVariable String username);
+    UserDto findByUsername(@PathVariable("username") String username);
 
     @GetMapping("/users")
     RestPage<UserDto> findAll(Pageable pageable);

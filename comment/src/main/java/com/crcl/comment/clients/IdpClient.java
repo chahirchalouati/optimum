@@ -16,7 +16,7 @@ import java.util.Set;
         configuration = OAuthFeignConfig.class)
 public interface IdpClient {
     @GetMapping("/users/username/{username}")
-    UserDto findByUsername(@PathVariable String username);
+    UserDto findByUsername(@PathVariable("username") String username);
 
     @GetMapping("/users/usernames")
     List<UserDto> findByUsername(@RequestParam("usernames") Set<String> usernames);

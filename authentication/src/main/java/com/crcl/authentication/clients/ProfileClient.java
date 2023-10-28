@@ -20,7 +20,7 @@ import java.util.List;
         })
 public interface ProfileClient {
     @GetMapping("/searches/username/{username}")
-    ProfileDto findByUsername(@PathVariable String username);
+    ProfileDto findByUsername(@PathVariable("username") String username);
 
     @GetMapping("/searches/profile/usernames")
     List<ProfileDto> findByUsernames(@RequestParam("usernames") List<String> userNames);
