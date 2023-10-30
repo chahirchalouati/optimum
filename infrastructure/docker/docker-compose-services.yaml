@@ -1,155 +1,197 @@
 version: '3.3'
+
 services:
-  configuration-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/configuration-service
+  audit-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/audit:1.0.1
     environment:
       SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7003:7003'
+    networks:
+      - l_net
+  authentication-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/authentication:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '9000:9000'
+    networks:
+      - l_net
+  comment-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/comment:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7001:7001'
+    networks:
+      - l_net
+  configuration-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/configuration:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
         "spring.profiles.active":"docker"
       }'
     ports:
       - '8888:8888'
     networks:
       - l_net
-
-  audit-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/audit-service
+  friendship-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/friendship:1.0.1
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
         "spring.profiles.active":"docker"
       }'
     depends_on:
-      - mongo
       - configuration-service
-      - authentication-service
     ports:
-      - '7003:7003'
+      - '7006:7006'
     networks:
       - l_net
-
-  authentication-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/authorization-server
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.cloud.config.uri": "http://configuration-service:8888",
-        "spring.profiles.active":"docker",
-        "minio.url":"http://minio:9000"
-      }'
-    depends_on:
-      - configuration-service
-      - mongo
-      - minio
-    ports:
-      - '9000:9000'
-    networks:
-      - l_net
-
-  post-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/post-service
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.cloud.config.uri": "http://configuration-service:8888",
-         "spring.profiles.active":"docker"
-      }'
-    depends_on:
-      - mysql-db
-      - configuration-service
-      - authentication-service
-    ports:
-      - '7005:7005'
-    networks:
-      - l_net
-
   proxy-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/proxy-service
+    image: registry.gitlab.com/chehhhir/gramify-ms/gateway:1.0.1
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
-         "spring.profiles.active":"docker"
+        "spring.profiles.active":"docker"
       }'
     depends_on:
       - configuration-service
-      - authentication-service
     ports:
       - '9999:9999'
     networks:
       - l_net
-
-  storage-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/storage-service
+  message-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/message:1.0.1
     environment:
       SPRING_APPLICATION_JSON: '{
         "spring.cloud.config.uri": "http://configuration-service:8888",
-         "spring.profiles.active":"docker"
-      }'
-    depends_on:
-      - configuration-service
-      - authentication-service
-      - minio
-    ports:
-      - '7010:7010'
-    networks:
-      - l_net
-
-  profile-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/profile-service
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.cloud.config.uri": "http://configuration-service:8888",
-         "spring.profiles.active":"docker"
-      }'
-    depends_on:
-      - configuration-service
-      - authentication-service
-      - minio
-    ports:
-      - '7009:7009'
-    networks:
-      - l_net
-
-  processor-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/processor-service
-    environment:
-      SPRING_APPLICATION_JSON: '{
-       "spring.cloud.config.uri": "http://configuration-service:8888",
         "spring.profiles.active":"docker"
-     }'
+      }'
     depends_on:
       - configuration-service
-      - authentication-service
-      - minio
+    ports:
+      - '7007:7007'
+    networks:
+      - l_net
+  notification-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/notification:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7008:7008'
+    networks:
+      - l_net
+  post-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/post:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7005:7005'
+    networks:
+      - l_net
+  processor-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/processor:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
     ports:
       - '7012:7012'
     networks:
       - l_net
-  #
-  #  comment-service:
-  #    image: registry.gitlab.com/chehhhir/gramify-ms/comment-service
-  #    environment:
-  #      SPRING_APPLICATION_JSON: '{
-  #       "spring.cloud.config.uri": "http://configuration-service:8888",
-  #        "spring.profiles.active":"docker"
-  #     }'
-  #    depends_on:
-  #      - configuration-service
-  #      - authentication-service
-  #      - minio
-  #    ports:
-  #      - '7012:7012'
-  #    networks:
-  #      - l_net
-  #
-  social-service:
-    image: registry.gitlab.com/chehhhir/gramify-ms/client
+  profile-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/profile:1.0.1
     environment:
-      - OAUTH_CALLBACK_URL=http://social-service:4200/authorized
-      - OAUTH_AUTHORIZE_URL=http://authentication-service:9000/oauth2/authorize
-      - PROXY_URL=http://proxy-service:9999
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
     ports:
-      - "4200:80"
-    #    volumes:
-    #      - ../../clients/social:/app
-    #      - nodemodules:/app/node_modules
+      - '7009:7009'
+    networks:
+      - l_net
+  storage-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/storage:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7010:7010'
+    networks:
+      - l_net
+  story-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/story:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7002:7002'
+    networks:
+      - l_net
+  user-info-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/user-info:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7011:7011'
+    networks:
+      - l_net
+  utilties-service:
+    image: registry.gitlab.com/chehhhir/gramify-ms/utilties:1.0.1
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.cloud.config.uri": "http://configuration-service:8888",
+        "spring.profiles.active":"docker"
+      }'
+    depends_on:
+      - configuration-service
+    ports:
+      - '7004:7004'
     networks:
       - l_net
 
@@ -192,7 +234,7 @@ services:
       - l_net
 
   rabbitmq:
-    build: rabbitMQ/.
+    build: infrastructure/docker/rabbitMQ/.
     container_name: rabbitmq-container
     healthcheck:
       test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]

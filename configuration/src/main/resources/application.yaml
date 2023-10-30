@@ -29,6 +29,8 @@ spring:
           default-label: main
           force-pull: true
           refresh-rate: 5
+          username: CONFIG_READER
+          password: glpat-_bv3TEWb2cPsFzD36_Cx
 
 ---
 spring:

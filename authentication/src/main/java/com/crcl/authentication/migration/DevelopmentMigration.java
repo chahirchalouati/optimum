@@ -53,10 +53,10 @@ public class DevelopmentMigration {
         UserRepository userRepository = migrationProvider.getUserRepository();
         if (userRepository.count() <= 1) {
             log.info("Bootstrapping users for development environment");
-            DevelopProperties properties = migrationProvider.getDevelopProperties();
-            PasswordEncoder passwordEncoder = migrationProvider.getPasswordEncoder();
-            String encodedPassword = passwordEncoder.encode(properties.getPassword());
-            List<User> users = UserGenerator.generateRandomUsers(
+            final DevelopProperties properties = migrationProvider.getDevelopProperties();
+            final PasswordEncoder passwordEncoder = migrationProvider.getPasswordEncoder();
+            final String encodedPassword = passwordEncoder.encode(properties.getPassword());
+            final List<User> users = UserGenerator.generateRandomUsers(
                             properties.getCount(),
                             properties.getUsername(),
                             encodedPassword)

@@ -4,11 +4,13 @@ for dir in "$directory"/*; do
   if [ -d "$dir" ]; then
 
     dir_name=$(basename "$dir")
-    #    if [ -f "$dir_name/src/main/resources/logback-spring.xml" ]; then
-    #      echo "$dir_name/src/main/resources/logback-spring.xml"
-    #      rm -r "$dir_name/src/main/resources/logback-spring.xml"
-    #    fi
-    echo "$dir_name"
+
+    if [ -f "$dir_name/Dockerfile" ]; then
+    echo "Start building docker image for $dir<_name"
+     # shellcheck disable=SC2164
+     cd $dir_name
+     docker build  . -t registry.gitlab.com/chehhhir/gramify-ms/$dir_name:1.0.1
+      cd ..
+    fi
   fi
 done
-# docker build -f authorization-server/Dockerfile -t registry.gitlab.com/chehhhir/gramify-ms/authorization-server ./authorization-server

@@ -32,5 +32,6 @@
         <module>utilties</module>
         <module>friendship</module>
         <module>message</module>
+        <module>story</module>
     </modules>
 </project>
