@@ -31,19 +31,15 @@ public class UsersSetupChangeLog {
     }
 
     private Function<Role, User> createAdmin() {
-        final Set<GramifyPermission> permissions = Set.of();
-        return role -> {
-            role.setPermissions(permissions);
-            return new User()
-                    .setGender(Gender.MALE)
-                    .setEmail("super_admin@mail.com")
-                    .setUsername("admin")
-                    .setFirstName("admin")
-                    .setLastName("admin")
-                    .setAvatar(ProfileUtils.DEFAULT_MALE_AVATAR)
-                    .setRoles(Set.of(role))
-                    .setPassword(passwordEncoder.encode("admin"));
-        };
+        return role -> new User()
+                .setGender(Gender.MALE)
+                .setEmail("super_admin@mail.com")
+                .setUsername("admin")
+                .setFirstName("admin")
+                .setLastName("admin")
+                .setAvatar(ProfileUtils.DEFAULT_MALE_AVATAR)
+                .setRoles(Set.of(role.setPermissions(Set.of())))
+                .setPassword(passwordEncoder.encode("admin"));
     }
 
 }
