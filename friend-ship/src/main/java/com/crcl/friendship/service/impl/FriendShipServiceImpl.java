@@ -1,5 +1,5 @@
 package com.crcl.friendship.service.impl;
-
+import com.crcl.core.dto.UserDto;
 import com.crcl.friendship.domain.Friendship;
 import com.crcl.friendship.domain.State;
 import com.crcl.friendship.repository.FriendShipRepository;
@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
+import com.crcl.friendship.service.UserService;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +21,7 @@ import java.util.List;
 public class FriendShipServiceImpl implements FriendShipService {
 
     private final FriendShipRepository friendShipRepository;
+    private final UserService userService;
 
     @Override
     public Mono<Friendship> save(Friendship friendship) {
@@ -96,5 +97,12 @@ public class FriendShipServiceImpl implements FriendShipService {
                         return Mono.error(new RuntimeException("Invalid state transition: " + e.getMessage()));
                     }
                 });
+    }
+
+    @Override
+    public Mono<Page<Friendship>> getNewFriends(Pageable pageable) {
+        final UserDto currentUser = this.userService.getCurrentUser();
+
+        return this.friendShipRepository.findNonFriend(currentUser.getUsername(), pageable);
     }
 }

@@ -2,6 +2,7 @@ package com.crcl.friendship.domain;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -10,8 +11,11 @@ import java.time.LocalDateTime;
 
 @Data
 @Accessors(chain = true)
-@Node("friendship")
+@Node(Friendship.NODE)
+@FieldNameConstants
 public class Friendship {
+    public static final String NODE = "friendship";
+    public static final String ALIAS = "f";
 
     @Id
     @GeneratedValue
