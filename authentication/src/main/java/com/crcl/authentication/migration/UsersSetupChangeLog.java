@@ -31,9 +31,9 @@ public class UsersSetupChangeLog {
     }
 
     private Function<Role, User> createAdmin() {
-        final Set<GramifyPermission> gramifyPermissions = Set.of();
+        final Set<GramifyPermission> permissions = Set.of();
         return role -> {
-            role.setPermissions(gramifyPermissions);
+            role.setPermissions(permissions);
             return new User()
                     .setGender(Gender.MALE)
                     .setEmail("super_admin@mail.com")
