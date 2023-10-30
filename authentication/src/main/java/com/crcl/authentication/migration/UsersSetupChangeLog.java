@@ -27,7 +27,7 @@ public class UsersSetupChangeLog {
         roleRepository.findByName(DefaultRoles.ROLE_ADMIN)
                 .map(createAdmin())
                 .map(userRepository::save)
-                .orElseThrow(() -> new RoleNotFoundException(" unable to find role %s".formatted(DefaultRoles.ROLE_ADMIN)));
+                .orElseThrow(() -> new RoleNotFoundException("Unable to find role %s".formatted(DefaultRoles.ROLE_ADMIN)));
     }
 
     private Function<Role, User> createAdmin() {
