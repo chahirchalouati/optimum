@@ -7,7 +7,7 @@ import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Data
-public class ProcessableVideo {
+public class ProcessableVideoEvent {
     protected LocalDateTime localDateTime = LocalDateTime.now(Clock.systemDefaultZone());
     private FileUploadResult result;
     private String id;

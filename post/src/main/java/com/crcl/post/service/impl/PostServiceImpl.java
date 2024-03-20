@@ -29,51 +29,39 @@ import static com.crcl.post.utils.CrclUtils.applyIfNotNull;
 @RequiredArgsConstructor
 @Slf4j
 public class PostServiceImpl implements PostService {
-
     private final PostRepository postRepository;
     private final PostProcessor postProcessor;
     private final UserService userService;
     private final ProfileClient profileClient;
     private final CommentClient commentClient;
     private final PostMapper postMapper;
-
-
     @Override
     public PostDto save(final PostDto postDto) {
         final Post savedPost = postRepository.save(postMapper.toEntity(postDto));
         return postMapper.toDto(savedPost);
     }
-
     @Override
     public PostDto save(final CreatePostRequest createPostRequest) {
+
         final Post post = postMapper.toEntity(createPostRequest);
         final String username = this.userService.getCurrentUser().getUsername();
         final ProfileDto userProfile = this.profileClient.findByUsername(username);
         applyIfNotNull(userProfile, post::setCreator);
         PublishStateUtils.markInProgress(post);
         final var storedPost = this.postRepository.save(post);
-
-        postProcessor.processPostAsync(SecurityContextHolder.getContext(), createPostRequest, storedPost);
-
+        postProcessor.processPostAsync(createPostRequest, storedPost);
         return postMapper.toDto(storedPost);
     }
-
     @Override
     public List<PostDto> saveAll(final List<PostDto> postDtoList) {
-        return postDtoList.stream()
-                .map(this::save)
-                .toList();
+        return postDtoList.stream().map(this::save).toList();
     }
 
     @Override
     public void deleteById(final String postId) {
         postRepository.findById(postId)
-                .ifPresentOrElse(
-                        post -> postRepository.deleteById(postId),
-                        EntityNotFoundException::new
-                );
+                .ifPresentOrElse(post -> postRepository.deleteById(postId), EntityNotFoundException::new);
     }
-
     @Override
     public PostDto findById(final String postId) {
         return postRepository.findById(postId)

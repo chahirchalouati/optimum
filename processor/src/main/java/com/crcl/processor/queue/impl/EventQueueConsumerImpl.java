@@ -1,6 +1,6 @@
 package com.crcl.processor.queue.impl;
 
-import com.crcl.core.dto.queue.CreatePostPayload;
+import com.crcl.core.dto.queue.payloads.CreatePostPayload;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.utils.ExchangeDefinition;
 import com.crcl.core.utils.QueueDefinition;

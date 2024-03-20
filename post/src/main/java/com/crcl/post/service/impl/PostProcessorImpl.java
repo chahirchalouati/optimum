@@ -1,6 +1,6 @@
 package com.crcl.post.service.impl;
 
-import com.crcl.core.dto.queue.CreatePostPayload;
+import com.crcl.core.dto.queue.payloads.CreatePostPayload;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.core.utils.ExchangeDefinition;
@@ -37,14 +37,15 @@ public class PostProcessorImpl implements PostProcessor {
     private final EventQueuePublisher queuePublisher;
 
     @Override
-    public void processPostAsync(SecurityContext securityContext, CreatePostRequest request, Post post) {
+    public void processPostAsync(CreatePostRequest request, Post post) {
+        final SecurityContext securityContext = SecurityContextHolder.getContext();
         try (ExecutorService executorService = Executors.newSingleThreadExecutor()) {
             executorService.execute(() -> {
                 log.debug("Received create post request. Security context: [{}], Request details: [{}], Post details: [{}]",
                         securityContext, request, post);
                 try {
                     SecurityContextHolder.setContext(securityContext);
-                    var fileUploadResults = filesService.handleFiles(request.getFiles(), post);
+                   final var fileUploadResults = filesService.handleFiles(request.getFiles(), post);
                     shareService.handleShares(request.getSharedWithUsers(), post);
                     tagService.processTags(request.getTags(), post);
                     final var storedPost = this.postRepository.save(post);

@@ -1,6 +1,6 @@
 package com.crcl.post.mapper;
 
-import com.crcl.core.dto.queue.CreatePostPayload;
+import com.crcl.core.dto.queue.payloads.CreatePostPayload;
 import com.crcl.core.dto.responses.FileUploadResult;
 import com.crcl.core.utils.FileUtils;
 import com.crcl.post.dto.CreatePostRequest;

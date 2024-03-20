@@ -1,7 +1,7 @@
 package com.crcl.post.queue;
 
 import com.crcl.core.dto.queue.ProcessableImageEvent;
-import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.ProcessableVideoEvent;
 import com.crcl.core.dto.queue.events.DefaultQEvent;
 import com.crcl.core.utils.QueueDefinition;
 import com.crcl.post.synchronizers.ImagesSynchronizer;
@@ -26,7 +26,7 @@ public class EventQueueConsumer {
     }
 
     @RabbitListener(queues = QueueDefinition.PUSH_PROCESSED_VIDEO_QUEUE)
-    public void consumeVideoUploadEvent(DefaultQEvent<ProcessableVideo> event) {
+    public void consumeVideoUploadEvent(DefaultQEvent<ProcessableVideoEvent> event) {
         this.videoSynchronizer.synchronize(event);
     }
 }

@@ -3,7 +3,7 @@ package com.crcl.processor.service.impl;
 
 import com.crcl.core.domain.Orientation;
 import com.crcl.core.dto.UserDto;
-import com.crcl.core.dto.queue.CreatePostPayload;
+import com.crcl.core.dto.queue.payloads.CreatePostPayload;
 import com.crcl.core.dto.queue.ProcessableImageEvent;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.dto.queue.events.DefaultQEvent;

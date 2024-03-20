@@ -1,7 +1,7 @@
 package com.crcl.post.queue;
 
 import com.crcl.core.dto.queue.ProcessableImageEvent;
-import com.crcl.core.dto.queue.ProcessableVideo;
+import com.crcl.core.dto.queue.ProcessableVideoEvent;
 import com.crcl.core.dto.queue.events.AuthenticatedQEvent;
 import com.crcl.core.queue.QueuePublisher;
 import com.crcl.core.utils.QueueDefinition;
@@ -32,10 +32,10 @@ public class EventQueuePublisher extends QueuePublisher implements PostQueuePubl
     }
 
     @Override
-    public void publishProcessableVideoEvent(ProcessableVideo processableVideo) {
-        var message = new AuthenticatedQEvent<ProcessableVideo>();
+    public void publishProcessableVideoEvent(ProcessableVideoEvent processableVideoEvent) {
+        var message = new AuthenticatedQEvent<ProcessableVideoEvent>();
         message.withToken(userService.getToken())
-                .setPayload(processableVideo);
+                .setPayload(processableVideoEvent);
         this.publishAuthenticatedMessage(message, QueueDefinition.PROCESSABLE_VIDEO_QUEUE);
         log.debug("VideoUpload image successfully");
 

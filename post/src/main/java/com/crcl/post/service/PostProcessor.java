@@ -6,5 +6,5 @@ import org.springframework.security.core.context.SecurityContext;
 
 public interface PostProcessor {
 
-    void processPostAsync(SecurityContext securityContext, CreatePostRequest request, Post post);
+    void processPostAsync(CreatePostRequest request, Post post);
 }

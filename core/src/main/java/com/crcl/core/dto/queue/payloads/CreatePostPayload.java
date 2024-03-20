@@ -1,4 +1,4 @@
-package com.crcl.core.dto.queue;
+package com.crcl.core.dto.queue.payloads;
 
 import com.crcl.core.dto.AccessDto;
 import com.crcl.core.dto.TagDto;
